@@ -1,14 +1,10 @@
 build/obj/chsys.o: ../../../ChibiOS/os/kernel/src/chsys.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \
- c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/include/stddef.h \
- c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/include/stdint.h \
- c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/stdint.h \
- c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/_ansi.h \
- c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/newlib.h \
- c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/sys/config.h \
- c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/machine/ieeefp.h \
- c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/sys/features.h \
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h \
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdint.h \
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdint.h \
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdbool.h \
  ../../../ChibiOS/os/kernel/include/chlists.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chcore.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/STM32F4xx/cmparams.h \
@@ -42,21 +38,13 @@ os/chconf.h:
 
 ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h:
 
-c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/include/stddef.h:
+c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h:
 
-c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/include/stdint.h:
+c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdint.h:
 
-c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/stdint.h:
+c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdint.h:
 
-c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/_ansi.h:
-
-c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/newlib.h:
-
-c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/sys/config.h:
-
-c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/machine/ieeefp.h:
-
-c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/sys/features.h:
+c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdbool.h:
 
 ../../../ChibiOS/os/kernel/include/chlists.h:
 
