@@ -19,6 +19,8 @@
 #include "speed.h"
 #include "meas.h"
 #include "cruise.h"
+#include "dsp.h"
+#include "uart_comm.h"
 
 
 /*===========================================================================*/
@@ -73,6 +75,8 @@ static msg_t task20ms(void *arg) {
     speedCalc();
     measCalc();
     cruiseCalc();
+    dspCalc();
+
 
     chThdSleepUntil(time);
   }
@@ -117,6 +121,10 @@ int main(void) {
    * CAN bus initialization.
    */
   can_commInit();
+  /*
+     * uart initialization.
+     */
+  uart_commInit();
 
   /*
    * Light control initialization.
@@ -132,6 +140,11 @@ int main(void) {
    * Analog measurement initialization.
    */
   measInit();
+  /*
+   * Initializes Display module.
+   */
+  dspInit();
+
 
   /*
    * Cruise control initialization.

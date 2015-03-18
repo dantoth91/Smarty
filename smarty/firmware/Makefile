@@ -103,7 +103,10 @@ CSRC = $(PORTSRC) \
        src/light.c \
        src/speed.c \
        src/meas.c \
-       src/cruise.c
+       src/cruise.c \
+       src/dsp.c \
+       scr/gfx.c \
+       scr/uart_comm.c 
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

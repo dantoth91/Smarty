@@ -96,7 +96,8 @@ build/obj/main.o: src/main.c \
  ../../../ChibiOS/os/various/chprintf.h include/can_comm.h \
  include/light.h \
  c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/math.h \
- include/speed.h include/meas.h include/cruise.h
+ include/speed.h include/meas.h include/cruise.h include/dsp.h \
+ include/uart_comm.h
 
 c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.7\ 2014q2\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/stdio.h:
 
@@ -311,3 +312,7 @@ include/speed.h:
 include/meas.h:
 
 include/cruise.h:
+
+include/dsp.h:
+
+include/uart_comm.h:

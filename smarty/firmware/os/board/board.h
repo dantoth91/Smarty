@@ -289,6 +289,8 @@
                                      PIN_MODE_ALTERNATE(GPIOD_CAN_TX)    | \
                                      PIN_MODE_INPUT(GPIOD_SD_CARD_IN)    | \
                                      PIN_MODE_ALTERNATE(GPIOD_SD_CMD)    | \
+                                     PIN_MODE_ALTERNATE(GPIOD_TXD2)      | \
+                                     PIN_MODE_ALTERNATE(GPIOD_RXD2)      | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO5)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO6)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO7)       | \
@@ -299,7 +301,10 @@
 #define VAL_GPIOD_ODR               0xFFFFFFFF
 #define VAL_GPIOD_AFRL              (PIN_AFIO_AF(GPIOD_CAN_RX, 9)     | \
                                      PIN_AFIO_AF(GPIOD_CAN_TX, 9)     | \
-                                     PIN_AFIO_AF(GPIOD_SD_CMD, 12))
+                                     PIN_AFIO_AF(GPIOD_SD_CMD, 12)    | \
+                                     PIN_AFIO_AF(GPIOD_TXD2, 7)       | \
+                                     PIN_AFIO_AF(GPIOD_RXD2,7 ))
+
 #define VAL_GPIOD_AFRH              (PIN_AFIO_AF(GPIOD_PO5, 2)        | \
                                      PIN_AFIO_AF(GPIOD_PO6, 2)        | \
                                      PIN_AFIO_AF(GPIOD_PO7, 2)        | \
