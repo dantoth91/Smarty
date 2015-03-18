@@ -3,6 +3,7 @@
     GAMF MegaLux Team              
 */
 
+#include <string.h>
 #include <stdlib.h>
 #include "ch.h"
 #include "hal.h"
@@ -70,8 +71,6 @@ static const CANConfig cancfg = {
   CAN_MCR_ABOM,
   CAN_BTR_SJW(0) | CAN_BTR_TS2(1) |
   CAN_BTR_TS1(8) | CAN_BTR_BRP(6),
-  0,
-  NULL
 };
 
 static int seged;
@@ -93,7 +92,7 @@ static msg_t can_rx(void *p) {
   while(!chThdShouldTerminate()) {
     if (chEvtWaitAnyTimeout(ALL_EVENTS, MS2ST(100)) == 0)
       continue;
-    while (canReceive(&CAND1, &rxmsg, TIME_IMMEDIATE) == RDY_OK) {
+    while (canReceive(&CAND1, CAN_ANY_MAILBOX, &rxmsg, TIME_IMMEDIATE) == RDY_OK) {
 
       id = rxmsg.EID >> 8;
       messages = (uint8_t)rxmsg.EID;
@@ -184,10 +183,10 @@ static msg_t can_tx(void * p) {
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x00FF00FF;
 
-  //canTransmit(&CAND1, &txmsg, MS2ST(100));
+  //canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
 
   while (!chThdShouldTerminate()) {
-    canTransmit(&CAND1, &txmsg, MS2ST(100));
+    canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
     chThdSleepMilliseconds(100);
   }
   return 0;
@@ -195,7 +194,7 @@ static msg_t can_tx(void * p) {
 
 /*uint8_t canTransmitData(CANTxFrame txmsg){
 
-  canTransmit(&CAND1, &txmsg, MS2ST(100));
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
   return 0;
 }
 

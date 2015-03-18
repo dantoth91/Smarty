@@ -23,6 +23,16 @@ ifeq ($(USE_LINK_GC),)
   USE_LINK_GC = yes
 endif
 
+# Linker extra options here.
+ifeq ($(USE_LDOPT),)
+  USE_LDOPT = 
+endif
+
+# Enable this if you want link time optimizations (LTO)
+ifeq ($(USE_LTO),)
+  USE_LTO = no
+endif
+
 # If enabled, this option allows to compile the application in THUMB mode.
 ifeq ($(USE_THUMB),)
   USE_THUMB = yes
@@ -162,6 +172,7 @@ LD   = $(TRGT)gcc
 CP   = $(TRGT)objcopy
 AS   = $(TRGT)gcc -x assembler-with-cpp
 OD   = $(TRGT)objdump
+SZ   = $(TRGT)size
 HEX  = $(CP) -O ihex
 BIN  = $(CP) -O binary
 

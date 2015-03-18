@@ -26,7 +26,8 @@ static ICUConfig icucfg = {
   speedWheelPeriodNumber,
   speedWheelPeriodCb,
   NULL,
-  ICU_CHANNEL_1
+  ICU_CHANNEL_1,
+  0
 };
 
 static uint32_t speed_last_period;

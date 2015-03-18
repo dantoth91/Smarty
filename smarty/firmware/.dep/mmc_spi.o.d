@@ -17,6 +17,7 @@ build/obj/mmc_spi.o: ../../../ChibiOS/os/hal/src/mmc_spi.c \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdint.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdint.h \
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdbool.h \
  ../../../ChibiOS/os/kernel/include/chlists.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chcore.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/STM32F4xx/cmparams.h \
@@ -69,18 +70,19 @@ build/obj/mmc_spi.o: ../../../ChibiOS/os/hal/src/mmc_spi.c \
  ../../../ChibiOS/os/hal/include/i2c.h \
  ../../../ChibiOS/os/hal/platforms/STM32/I2Cv1/i2c_lld.h \
  ../../../ChibiOS/os/hal/include/icu.h \
- ../../../ChibiOS/os/hal/platforms/STM32/icu_lld.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/icu_lld.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h \
  ../../../ChibiOS/os/hal/include/mac.h \
  ../../../ChibiOS/os/hal/include/pwm.h \
- ../../../ChibiOS/os/hal/platforms/STM32/pwm_lld.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/pwm_lld.h \
  ../../../ChibiOS/os/hal/include/rtc.h \
  ../../../ChibiOS/os/hal/platforms/STM32/RTCv2/rtc_lld.h \
  ../../../ChibiOS/os/hal/include/serial.h \
- ../../../ChibiOS/os/hal/platforms/STM32/serial_lld.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/USARTv1/serial_lld.h \
  ../../../ChibiOS/os/hal/include/sdc.h \
  ../../../ChibiOS/os/hal/platforms/STM32/sdc_lld.h \
  ../../../ChibiOS/os/hal/include/spi.h \
- ../../../ChibiOS/os/hal/platforms/STM32/spi_lld.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/SPIv1/spi_lld.h \
  ../../../ChibiOS/os/hal/include/uart.h \
  ../../../ChibiOS/os/hal/include/usb.h \
  ../../../ChibiOS/os/hal/platforms/STM32/OTGv1/usb_lld.h \
@@ -125,6 +127,8 @@ os/chconf.h:
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdint.h:
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdint.h:
+
+c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdbool.h:
 
 ../../../ChibiOS/os/kernel/include/chlists.h:
 
@@ -236,13 +240,15 @@ os/mcuconf.h:
 
 ../../../ChibiOS/os/hal/include/icu.h:
 
-../../../ChibiOS/os/hal/platforms/STM32/icu_lld.h:
+../../../ChibiOS/os/hal/platforms/STM32/TIMv1/icu_lld.h:
+
+../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h:
 
 ../../../ChibiOS/os/hal/include/mac.h:
 
 ../../../ChibiOS/os/hal/include/pwm.h:
 
-../../../ChibiOS/os/hal/platforms/STM32/pwm_lld.h:
+../../../ChibiOS/os/hal/platforms/STM32/TIMv1/pwm_lld.h:
 
 ../../../ChibiOS/os/hal/include/rtc.h:
 
@@ -250,7 +256,7 @@ os/mcuconf.h:
 
 ../../../ChibiOS/os/hal/include/serial.h:
 
-../../../ChibiOS/os/hal/platforms/STM32/serial_lld.h:
+../../../ChibiOS/os/hal/platforms/STM32/USARTv1/serial_lld.h:
 
 ../../../ChibiOS/os/hal/include/sdc.h:
 
@@ -258,7 +264,7 @@ os/mcuconf.h:
 
 ../../../ChibiOS/os/hal/include/spi.h:
 
-../../../ChibiOS/os/hal/platforms/STM32/spi_lld.h:
+../../../ChibiOS/os/hal/platforms/STM32/SPIv1/spi_lld.h:
 
 ../../../ChibiOS/os/hal/include/uart.h:
 
