@@ -41,6 +41,7 @@ static PWMConfig cruise_pwmcfg = {
    {PWM_OUTPUT_DISABLED , NULL}
   },
   0,
+  0
 };
 
 void cruiseInit(void){
