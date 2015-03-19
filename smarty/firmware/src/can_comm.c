@@ -69,9 +69,7 @@ static CANRxFrame rxmsg;
 static const CANConfig cancfg = {
   CAN_MCR_ABOM,
   CAN_BTR_SJW(0) | CAN_BTR_TS2(1) |
-  CAN_BTR_TS1(8) | CAN_BTR_BRP(6),
-  0,
-  NULL
+  CAN_BTR_TS1(8) | CAN_BTR_BRP(6)
 };
 
 static int seged;
@@ -93,7 +91,7 @@ static msg_t can_rx(void *p) {
   while(!chThdShouldTerminate()) {
     if (chEvtWaitAnyTimeout(ALL_EVENTS, MS2ST(100)) == 0)
       continue;
-    while (canReceive(&CAND1, &rxmsg, TIME_IMMEDIATE) == RDY_OK) {
+    while (canReceive(&CAND1, CAN_ANY_MAILBOX, &rxmsg, TIME_IMMEDIATE) == RDY_OK) {
 
       id = rxmsg.EID >> 8;
       messages = (uint8_t)rxmsg.EID;
@@ -187,7 +185,7 @@ static msg_t can_tx(void * p) {
   //canTransmit(&CAND1, &txmsg, MS2ST(100));
 
   while (!chThdShouldTerminate()) {
-    canTransmit(&CAND1, &txmsg, MS2ST(100));
+    canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
     chThdSleepMilliseconds(100);
   }
   return 0;
@@ -195,13 +193,13 @@ static msg_t can_tx(void * p) {
 
 /*uint8_t canTransmitData(CANTxFrame txmsg){
 
-  canTransmit(&CAND1, &txmsg, MS2ST(100));
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
   return 0;
 }
 
 uint8_t canReceiveData(CANRxFrame *rxmsg){
   
-  canReceive(&CAND1, &rxmsg, TIME_IMMEDIATE)
+  canReceive(&CAND1, CAN_ANY_MAILBOX, &rxmsg, TIME_IMMEDIATE)
   return 0;
 
 }*/

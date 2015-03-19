@@ -23,6 +23,7 @@ static PWMConfig pwmcfg = {
    {PWM_OUTPUT_ACTIVE_HIGH, NULL}
   },
   0,
+  0
 };
 
 /*
@@ -42,7 +43,7 @@ static msg_t light_blink(void * p) {
   txmsg.data32[1] = 0x00FF00FF;
 
   while (!chThdShouldTerminate()) {
-    canTransmit(&CAND1, &txmsg, MS2ST(100));
+    canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
     pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000)); //100%
     chThdSleepMilliseconds(400);
 

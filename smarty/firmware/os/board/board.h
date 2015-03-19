@@ -1,28 +1,17 @@
 /*
-    ChibiOS/RT - Copyright (C) 2006,2007,2008,2009,2010,
-                 2011,2012 Giovanni Di Sirio.
+    ChibiOS/RT - Copyright (C) 2006-2013 Giovanni Di Sirio
 
-    This file is part of ChibiOS/RT.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-    ChibiOS/RT is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
+        http://www.apache.org/licenses/LICENSE-2.0
 
-    ChibiOS/RT is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-                                      ---
-
-    A special exception to the GPL can be applied should you wish to distribute
-    a combined work that includes ChibiOS/RT, without being obliged to provide
-    the source code for any proprietary components. See the file exception.txt
-    for full details of how and when the exception can be applied.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 */
 
 #ifndef _BOARD_H_
@@ -48,7 +37,7 @@
 /*
  * MCU type as defined in the ST header file stm32f4xx.h.
  */
-#define STM32F4XX
+#define STM32F40_41xxx
 
 /*
  * IO pins assignments.
@@ -160,19 +149,21 @@
  * in the initialization code.
  * Please refer to the STM32 Reference Manual for details.
  */
-#define PIN_MODE_INPUT(n)           (0 << ((n) * 2))
-#define PIN_MODE_OUTPUT(n)          (1 << ((n) * 2))
-#define PIN_MODE_ALTERNATE(n)       (2 << ((n) * 2))
-#define PIN_MODE_ANALOG(n)          (3 << ((n) * 2))
-#define PIN_OTYPE_PUSHPULL(n)       (0 << (n))
-#define PIN_OTYPE_OPENDRAIN(n)      (1 << (n))
-#define PIN_OSPEED_2M(n)            (0 << ((n) * 2))
-#define PIN_OSPEED_25M(n)           (1 << ((n) * 2))
-#define PIN_OSPEED_50M(n)           (2 << ((n) * 2))
-#define PIN_OSPEED_100M(n)          (3 << ((n) * 2))
-#define PIN_PUDR_FLOATING(n)        (0 << ((n) * 2))
-#define PIN_PUDR_PULLUP(n)          (1 << ((n) * 2))
-#define PIN_PUDR_PULLDOWN(n)        (2 << ((n) * 2))
+#define PIN_MODE_INPUT(n)           (0U << ((n) * 2))
+#define PIN_MODE_OUTPUT(n)          (1U << ((n) * 2))
+#define PIN_MODE_ALTERNATE(n)       (2U << ((n) * 2))
+#define PIN_MODE_ANALOG(n)          (3U << ((n) * 2))
+#define PIN_ODR_LOW(n)              (0U << (n))
+#define PIN_ODR_HIGH(n)             (1U << (n))
+#define PIN_OTYPE_PUSHPULL(n)       (0U << (n))
+#define PIN_OTYPE_OPENDRAIN(n)      (1U << (n))
+#define PIN_OSPEED_2M(n)            (0U << ((n) * 2))
+#define PIN_OSPEED_25M(n)           (1U << ((n) * 2))
+#define PIN_OSPEED_50M(n)           (2U << ((n) * 2))
+#define PIN_OSPEED_100M(n)          (3U << ((n) * 2))
+#define PIN_PUPDR_FLOATING(n)       (0U << ((n) * 2))
+#define PIN_PUPDR_PULLUP(n)         (1U << ((n) * 2))
+#define PIN_PUPDR_PULLDOWN(n)       (2U << ((n) * 2))
 #define PIN_AFIO_AF(n, v)           ((v##U) << ((n % 8) * 4))
 
 /*
@@ -189,10 +180,10 @@
                                      PIN_MODE_ALTERNATE(GPIOA_J_TDI))
 #define VAL_GPIOA_OTYPER            0x00000000
 #define VAL_GPIOA_OSPEEDR           0xFFFFFFFF
-#define VAL_GPIOA_PUPDR             (~(PIN_PUDR_FLOATING(GPIOA_TXD4)   | \
-                                       PIN_PUDR_FLOATING(GPIOA_J_TMS)  | \
-                                       PIN_PUDR_FLOATING(GPIOA_J_TCK)  | \
-                                       PIN_PUDR_FLOATING(GPIOA_J_TDI)))
+#define VAL_GPIOA_PUPDR             (~(PIN_PUPDR_FLOATING(GPIOA_TXD4)   | \
+                                       PIN_PUPDR_FLOATING(GPIOA_J_TMS)  | \
+                                       PIN_PUPDR_FLOATING(GPIOA_J_TCK)  | \
+                                       PIN_PUPDR_FLOATING(GPIOA_J_TDI)))
 #define VAL_GPIOA_ODR               0xFFFFFFFF
 #define VAL_GPIOA_AFRL              0x00000000
 #define VAL_GPIOA_AFRH              (PIN_AFIO_AF(GPIOA_J_TMS, 0)       | \
@@ -219,8 +210,8 @@
 #define VAL_GPIOB_OTYPER            (PIN_OTYPE_OPENDRAIN(GPIOB_I2C1_C)  | \
                                      PIN_OTYPE_OPENDRAIN(GPIOB_I2C1_D))
 #define VAL_GPIOB_OSPEEDR           0xFFFFFFFF
-#define VAL_GPIOB_PUPDR             (~(PIN_PUDR_FLOATING(GPIOB_J_TDO)             | \
-                                       PIN_PUDR_FLOATING(GPIOB_J_RST)))
+#define VAL_GPIOB_PUPDR             (~(PIN_PUPDR_FLOATING(GPIOB_J_TDO)             | \
+                                       PIN_PUPDR_FLOATING(GPIOB_J_RST)))
 #define VAL_GPIOB_ODR               0xFFFFFFFF
 #define VAL_GPIOB_AFRL              (PIN_AFIO_AF(GPIOB_J_TDO, 0)        | \
                                      PIN_AFIO_AF(GPIOB_J_RST, 0)        | \
@@ -262,8 +253,8 @@
                                      PIN_OSPEED_25M(GPIOC_SD_D2)    | \
                                      PIN_OSPEED_25M(GPIOC_SD_D3)    | \
                                      PIN_OSPEED_25M(GPIOC_SD_CLK))
-#define VAL_GPIOC_PUPDR             (~(PIN_PUDR_FLOATING(14)  | \
-                                       PIN_PUDR_FLOATING(15)))
+#define VAL_GPIOC_PUPDR             (~(PIN_PUPDR_FLOATING(14)  | \
+                                       PIN_PUPDR_FLOATING(15)))
 #define VAL_GPIOC_ODR               0xFFFFFFFF
 #define VAL_GPIOC_AFRL              0x00000000
 #define VAL_GPIOC_AFRH              (PIN_AFIO_AF(GPIOC_SD_D0, 12)     | \
@@ -359,8 +350,8 @@
 #define VAL_GPIOH_MODER             (PIN_MODE_ALTERNATE(GPIOH_LS_4))
 #define VAL_GPIOH_OTYPER            0x00000000
 #define VAL_GPIOH_OSPEEDR           0xFFFFFFFF
-#define VAL_GPIOH_PUPDR             (~(PIN_PUDR_FLOATING(0)  | \
-                                       PIN_PUDR_FLOATING(1)))
+#define VAL_GPIOH_PUPDR             (~(PIN_PUPDR_FLOATING(0)  | \
+                                       PIN_PUPDR_FLOATING(1)))
 #define VAL_GPIOH_ODR               0xFFFFFFFF
 #define VAL_GPIOH_AFRL              0x00000000
 #define VAL_GPIOH_AFRH              (PIN_AFIO_AF(GPIOH_LS_4, 2))
