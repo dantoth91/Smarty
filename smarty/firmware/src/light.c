@@ -10,7 +10,15 @@
 #include "chprintf.h"
 #include "can_comm.h"
 
-static CANTxFrame txmsg;
+#define LIGHTS_PERIOD   30
+
+static struct lightChanels 
+{
+  bool lights_disabled;
+  bool right;
+  bool left;
+  bool warning;
+} lightchanels;
 
 static PWMConfig pwmcfg = {
   1000000,	/* 1MHz PWM clock frequency */
@@ -26,59 +34,60 @@ static PWMConfig pwmcfg = {
   0
 };
 
-/*
- * Blinking thread.
- */
-static WORKING_AREA(light_blink_wa, 256);
-static msg_t light_blink(void * p) {
-
-  (void)p;
-  chRegSetThreadName("light_blink");
-
-  txmsg.IDE = CAN_IDE_EXT;
-  txmsg.EID = 0x01234567;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
-  txmsg.data32[0] = 0x55AA55AA;
-  txmsg.data32[1] = 0x00FF00FF;
-
-  while (!chThdShouldTerminate()) {
-    canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
-    pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000)); //100%
-    chThdSleepMilliseconds(400);
-
-    pwmDisableChannel(&PWMD4, 1); //1%
-    chThdSleepMilliseconds(400);
-  }
-  return 0;
-}
-
-static uint32_t ido;
+static int period;
 
 void lightInit(void){
-    pwmStart(&PWMD4, &pwmcfg);
-
-    /*
-    * Creates the 20ms Task.
-    */
-    //chThdCreateStatic(light_blink_wa, sizeof(light_blink_wa), NORMALPRIO, light_blink, NULL);
+  period = 0;
+  pwmStart(&PWMD4, &pwmcfg);
 }
 
 void lightCalc(void){
-
-  ido = RTT2US(chTimeNow());
   
-  // Horn
-	pwmEnableChannel(&PWMD4, 0, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000)); //100%
-	
-  //Right front light
-  //pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 7500));  //75%
-	
-  //Left front light
-  pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 5000));  //50%
-	
-  //Front light
-  pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 1000));  //10%
+
+  /* Horn */
+	//pwmEnableChannel(&PWMD4, 0, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000)); //100%
+
+  if(lightchanels.right)
+  {
+    period++;
+
+    if (period > LIGHTS_PERIOD)
+    {
+      can_lightRight();
+      period = 0;
+    }
+  }
+
+  if (lightchanels.left)
+  {
+    period++;
+
+    if (period > LIGHTS_PERIOD)
+    {
+      can_lightLeft();
+      period = 0;
+    }
+  }
+    
+  if (lightchanels.warning)
+  {
+    period++;
+
+    if (period > LIGHTS_PERIOD)
+    {
+      can_lightWarning();
+      period = 0;
+    }
+  }
+}
+
+void lightFlashing (int chanel) {
+  lightchanels.lights_disabled = (chanel == 0 ? TRUE : FALSE);
+  lightchanels.right = (chanel == 1 ? TRUE : FALSE);
+  lightchanels.left = (chanel == 2 ? TRUE : FALSE);
+  lightchanels.warning = (chanel == 3 ? TRUE : FALSE);
+
+  period = 0;
 }
 
 void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
@@ -91,7 +100,56 @@ void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp, "\x1B[%d;%dH", 0, 0);
 
     chprintf(chp, "---- PWM START ----");
-    chprintf(chp, "ido : %x \r\n", ido);
     chThdSleepMilliseconds(1000);
   }
+}
+
+void cmd_lightblink(BaseSequentialStream *chp, int argc, char *argv[]) {
+
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    chprintf(chp, "\x1B[%d;%dH", 0, 0);
+    if ((argc == 2) && (strcmp(argv[0], "start") == 0)){
+      if ((argc == 2) && (strcmp(argv[1], "right") == 0)){
+
+        chprintf(chp,"-------------- Blinking right enabled --------------\r\n");
+        lightFlashing(1);
+        return;
+      }
+
+      if ((argc == 2) && (strcmp(argv[1], "left") == 0)){
+
+        chprintf(chp,"-------------- Blinking left enabled --------------\r\n");
+        lightFlashing(2);
+        return;
+      }
+
+      if ((argc == 2) && (strcmp(argv[1], "warning") == 0)){
+
+        chprintf(chp,"-------------- Blinking warning enabled --------------\r\n");
+        lightFlashing(3);
+        return;
+      }
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "stop") == 0)){
+      chprintf(chp,"-------------- All blinking disabled --------------\r\n");
+      lightFlashing(0);
+      return;
+    }
+
+    else{
+      goto ERROR;
+    }
+  }
+
+ERROR:
+  chprintf(chp, "Usage: start right\r\n");
+  chprintf(chp, "       start left\r\n");
+  chprintf(chp, "       start warning\r\n");
+  chprintf(chp, "       stop\r\n");
+  return;
 }

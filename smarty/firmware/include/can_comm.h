@@ -16,4 +16,8 @@ void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_candata(BaseSequentialStream *chp, int argc, char *argv[]);
 
+void can_lightRight(void);
+void can_lightLeft(void);
+void can_lightWarning(void);
+
 #endif
