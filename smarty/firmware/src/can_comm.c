@@ -41,10 +41,16 @@ enum canState
   CAN_NUM_CH
 }canstate;
 
+enum canMessage
+{
+  CAN_MESSAGE_LIGHT_R,
+  CAN_MESSAGE_LIGHT_L,
+  CAN_MESSAGE_LIGHT_W,
+  CAN_MESSAGE_FREE
+}canmessage;
+
 static CANTxFrame txmsg;
 static CANRxFrame rxmsg;
-
-//uint32_t canRxEID;
 
 /*--------------------------------------------------*/
 /* CAN_MCR_ABOM   ->  Automatic Bus-Off Management  */
@@ -72,7 +78,6 @@ static const CANConfig cancfg = {
   CAN_BTR_TS1(8) | CAN_BTR_BRP(6)
 };
 
-static int seged;
 static uint16_t id;
 static uint16_t messages;
 
@@ -82,7 +87,6 @@ static uint16_t messages;
 static WORKING_AREA(can_rx_wa, 256);
 static msg_t can_rx(void *p) {
   EventListener el;
-  seged = 0;
   int i;
 
   (void)p;
@@ -113,17 +117,14 @@ static msg_t can_rx(void *p) {
 
       switch(canstate){
           case CAN_SM:
-            seged = 1;
             canstate = CAN_WAIT;
             break;
 
           case CAN_ML:
-            seged = 5;
             canstate = CAN_WAIT;
             break;
 
           case CAN_RPY:
-            seged = 3;
             canstate = CAN_WAIT;
             break;
 
@@ -151,7 +152,6 @@ static msg_t can_rx(void *p) {
                 }
               }
             }
-            seged = 8;
             canstate = CAN_WAIT;
             break;
 
@@ -175,34 +175,74 @@ static msg_t can_tx(void * p) {
 
   (void)p;
   chRegSetThreadName("transmitter");
+
   txmsg.IDE = CAN_IDE_EXT;
-  txmsg.EID = 0x01234567;
+  txmsg.EID = 0x00001000;
   txmsg.RTR = CAN_RTR_DATA;
   txmsg.DLC = 8;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x00FF00FF;
 
-  //canTransmit(&CAND1, &txmsg, MS2ST(100));
-
   while (!chThdShouldTerminate()) {
-    canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+    switch(canmessage){
+      case CAN_MESSAGE_LIGHT_R:
+        txmsg.EID = 0x00001001;
+        txmsg.RTR = CAN_RTR_DATA;
+        txmsg.DLC = 8;
+        txmsg.data32[0] = 0x55AA55AA;
+        txmsg.data32[1] = 0x55AA55AA;
+        canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+        canmessage=CAN_MESSAGE_FREE;
+        break;
+
+      case CAN_MESSAGE_LIGHT_L:
+        txmsg.EID = 0x00001002;
+        txmsg.RTR = CAN_RTR_DATA;
+        txmsg.DLC = 8;
+        txmsg.data32[0] = 0x55AA55AA;
+        txmsg.data32[1] = 0x55AA55AA;
+        canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+        canmessage=CAN_MESSAGE_FREE;
+        break;
+
+      case CAN_MESSAGE_LIGHT_W:
+        txmsg.EID = 0x00001003;
+        txmsg.RTR = CAN_RTR_DATA;
+        txmsg.DLC = 8;
+        txmsg.data32[0] = 0x55AA55AA;
+        txmsg.data32[1] = 0x55AA55AA;
+        canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+        canmessage=CAN_MESSAGE_FREE;
+        break;
+
+      case CAN_MESSAGE_FREE:
+        break;
+
+      default:
+        break;
+    }
     chThdSleepMilliseconds(100);
   }
   return 0;
 }
 
-/*uint8_t canTransmitData(CANTxFrame txmsg){
-
-  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
-  return 0;
+void can_lightRight(void){
+if(canmessage == CAN_MESSAGE_FREE){
+  canmessage = CAN_MESSAGE_LIGHT_R;
+}
 }
 
-uint8_t canReceiveData(CANRxFrame *rxmsg){
-  
-  canReceive(&CAND1, CAN_ANY_MAILBOX, &rxmsg, TIME_IMMEDIATE)
-  return 0;
+void can_lightLeft(void){
+if(canmessage == CAN_MESSAGE_FREE){
+  canmessage = CAN_MESSAGE_LIGHT_L;
+}
+}
 
-}*/
+void can_lightWarning(void){
+if(canmessage == CAN_MESSAGE_FREE){
+  canmessage = CAN_MESSAGE_LIGHT_W;
+}
+}
 
 void can_commInit(void){
   canStart(&CAND1, &cancfg);
@@ -218,9 +258,11 @@ void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "\x1B[2J");
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
     chprintf(chp, "\x1B[%d;%dH", 0, 0);
-    chprintf(chp,"RX.EID : %x \r\n",txmsg.EID);
-    chprintf(chp,"RX.DATA1 : %x \r\n",txmsg.data32[0]);
-    chprintf(chp,"RX.DATA2 : %x \r\n",txmsg.data32[1]);
+    chprintf(chp,"RX.EID : %x \r\n",rxmsg.EID);
+    chprintf(chp,"RX.DATA1 : %d \r\n",rxmsg.data16[0]);
+    chprintf(chp,"RX.DATA2 : %d \r\n",rxmsg.data16[1]);
+    chprintf(chp,"RX.DATA3 : %d \r\n",rxmsg.data16[2]);
+    chprintf(chp,"RX.DATA4 : %d \r\n",rxmsg.data16[3]);
 
     chThdSleepMilliseconds(1000);
   }
@@ -252,7 +294,6 @@ void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp,"RX.DATA8_5 (VIN)    : %15d \r\n",rxmsg.data16[2]);
     chprintf(chp,"RX.DATA8_5 (VOUT)   : %15d \r\n",rxmsg.data16[3]);
     chprintf(chp,"\r\n");
-    chprintf(chp,"seged               : %15d \r\n",seged);
     chprintf(chp,"id                  : %15x \r\n",id);
     chprintf(chp,"messages            : %15x \r\n",messages);
 
