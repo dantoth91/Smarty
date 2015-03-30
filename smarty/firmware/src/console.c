@@ -23,6 +23,7 @@
 #include "speed.h"
 #include "meas.h"
 #include "cruise.h"
+#include "dsp.h"
 
 
 /* libc stub */
@@ -83,6 +84,9 @@ static const ShellCommand commands[] = {
   {"measvalues", cmd_measvalues},
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},
+  {"dbshow", cmdfrappans_dspmessages},
+
+
   {NULL, NULL}
 };
 

@@ -23,3 +23,4 @@ void uart_commInit(void){
   /* Second diag thread uses SD3 to communicate with dashboard (Dsp) */
   sdStart(&SD2, &diag_ser_SD2_cfg);
 }
+
