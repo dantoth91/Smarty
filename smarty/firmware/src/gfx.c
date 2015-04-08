@@ -18,6 +18,7 @@
 #define MEDIA_VIDEO               (0xFF95)
 #define MEDIA_VIDEOFRAME          (0xFF94)
 #define PUTSTR                    (0x0018)
+#define DRAW_LINE                 (0xFFC8)
 
 
 
@@ -73,6 +74,21 @@ void media_VideoFrame(int  X, int  Y, int  Framenumber)
   sdPut(&SD2, Y);
   sdPut(&SD2, Framenumber >> 8);
   sdPut(&SD2, Framenumber);
+}
+void draw_line(int  X1, int  Y1,int  X2, int  Y2, int  Color)
+{
+  sdPut(&SD2, DRAW_LINE >> 8);
+  sdPut(&SD2, DRAW_LINE);
+  sdPut(&SD2, X1 >> 8);
+  sdPut(&SD2, X1);
+  sdPut(&SD2, Y1 >> 8);
+  sdPut(&SD2, Y1);
+  sdPut(&SD2, X2 >> 8);
+  sdPut(&SD2, X2);
+  sdPut(&SD2, Y2 >> 8);
+  sdPut(&SD2, Y2);
+  sdPut(&SD2, Color >> 8);
+  sdPut(&SD2, Color);
 }
 
 void gfx_BGcolour(int Color)
