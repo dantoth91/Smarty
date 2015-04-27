@@ -1,0 +1,4432 @@
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"adc.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 C6030000 		.text
+  20      02008802 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.section	.text.adcInit,"ax",%progbits
+  24              		.align	2
+  25              		.p2align 4,,15
+  26              		.global	adcInit
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	adcInit, %function
+  30              	adcInit:
+  31              	.LFB118:
+  32              		.file 1 "../../../ChibiOS/os/hal/src/adc.c"
+  33              		.loc 1 68 0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		@ link register save eliminated.
+  38              		.loc 1 71 0
+  39              		.loc 1 70 0
+  40 0000 FFF7FEBF 		b	adc_lld_init
+  41              		.cfi_endproc
+  42              	.LFE118:
+  43              		.size	adcInit, .-adcInit
+  44 0004 AFF30080 		.section	.text.adcObjectInit,"ax",%progbits
+  44      AFF30080 
+  44      AFF30080 
+  45              		.align	2
+  46              		.p2align 4,,15
+  47              		.global	adcObjectInit
+  48              		.thumb
+  49              		.thumb_func
+  50              		.type	adcObjectInit, %function
+  51              	adcObjectInit:
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 2
+
+
+  52              	.LFB119:
+  53              		.loc 1 80 0
+  54              		.cfi_startproc
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57              		@ link register save eliminated.
+  58              	.LVL0:
+  59              		.loc 1 83 0
+  60 0000 0023     		movs	r3, #0
+  61              		.loc 1 82 0
+  62 0002 0122     		movs	r2, #1
+  63 0004 0270     		strb	r2, [r0, #0]
+  64              		.loc 1 83 0
+  65 0006 4360     		str	r3, [r0, #4]
+  66              		.loc 1 84 0
+  67 0008 8360     		str	r3, [r0, #8]
+  68              		.loc 1 85 0
+  69 000a C360     		str	r3, [r0, #12]
+  70              		.loc 1 86 0
+  71 000c 0361     		str	r3, [r0, #16]
+  72              		.loc 1 88 0
+  73 000e 4361     		str	r3, [r0, #20]
+  74              		.loc 1 92 0
+  75 0010 1830     		adds	r0, r0, #24
+  76              	.LVL1:
+  77              		.loc 1 100 0
+  78              		.loc 1 92 0
+  79 0012 FFF7FEBF 		b	chMtxInit
+  80              		.cfi_endproc
+  81              	.LFE119:
+  82              		.size	adcObjectInit, .-adcObjectInit
+  83 0016 00BFAFF3 		.section	.text.adcStart,"ax",%progbits
+  83      0080AFF3 
+  83      0080
+  84              		.align	2
+  85              		.p2align 4,,15
+  86              		.global	adcStart
+  87              		.thumb
+  88              		.thumb_func
+  89              		.type	adcStart, %function
+  90              	adcStart:
+  91              	.LFB120:
+  92              		.loc 1 111 0
+  93              		.cfi_startproc
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96              	.LVL2:
+  97 0000 10B5     		push	{r4, lr}
+  98              	.LCFI0:
+  99              		.cfi_def_cfa_offset 8
+ 100              	.LBB10:
+ 101              		.loc 1 115 0
+ 102 0002 2023     		movs	r3, #32
+ 103              	.LVL3:
+ 104              	.LBE10:
+ 105              		.loc 1 111 0
+ 106 0004 0446     		mov	r4, r0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 3
+
+
+ 107              		.cfi_offset 14, -4
+ 108              		.cfi_offset 4, -8
+ 109              	.LBB11:
+ 110              		.loc 1 115 0
+ 111              	@ 115 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 112 0006 83F31188 		msr     BASEPRI, r3
+ 113              	@ 0 "" 2
+ 114              	.LVL4:
+ 115              		.thumb
+ 116              	.LBE11:
+ 117              		.loc 1 118 0
+ 118 000a 4160     		str	r1, [r0, #4]
+ 119              		.loc 1 119 0
+ 120 000c FFF7FEFF 		bl	adc_lld_start
+ 121              	.LVL5:
+ 122              		.loc 1 120 0
+ 123 0010 0223     		movs	r3, #2
+ 124 0012 2370     		strb	r3, [r4, #0]
+ 125              	.LBB12:
+ 126              		.loc 1 121 0
+ 127 0014 0023     		movs	r3, #0
+ 128              	.LVL6:
+ 129              	@ 121 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 130 0016 83F31188 		msr     BASEPRI, r3
+ 131              	@ 0 "" 2
+ 132              	.LVL7:
+ 133              		.thumb
+ 134              	.LBE12:
+ 135              		.loc 1 122 0
+ 136 001a 10BD     		pop	{r4, pc}
+ 137              		.cfi_endproc
+ 138              	.LFE120:
+ 139              		.size	adcStart, .-adcStart
+ 140 001c AFF30080 		.section	.text.adcStop,"ax",%progbits
+ 141              		.align	2
+ 142              		.p2align 4,,15
+ 143              		.global	adcStop
+ 144              		.thumb
+ 145              		.thumb_func
+ 146              		.type	adcStop, %function
+ 147              	adcStop:
+ 148              	.LFB121:
+ 149              		.loc 1 131 0
+ 150              		.cfi_startproc
+ 151              		@ args = 0, pretend = 0, frame = 0
+ 152              		@ frame_needed = 0, uses_anonymous_args = 0
+ 153              	.LVL8:
+ 154 0000 10B5     		push	{r4, lr}
+ 155              	.LCFI1:
+ 156              		.cfi_def_cfa_offset 8
+ 157              	.LBB13:
+ 158              		.loc 1 135 0
+ 159 0002 2023     		movs	r3, #32
+ 160              	.LVL9:
+ 161              	.LBE13:
+ 162              		.loc 1 131 0
+ 163 0004 0446     		mov	r4, r0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 4
+
+
+ 164              		.cfi_offset 14, -4
+ 165              		.cfi_offset 4, -8
+ 166              	.LBB14:
+ 167              		.loc 1 135 0
+ 168              	@ 135 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 169 0006 83F31188 		msr     BASEPRI, r3
+ 170              	@ 0 "" 2
+ 171              	.LVL10:
+ 172              		.thumb
+ 173              	.LBE14:
+ 174              		.loc 1 138 0
+ 175 000a FFF7FEFF 		bl	adc_lld_stop
+ 176              	.LVL11:
+ 177              		.loc 1 139 0
+ 178 000e 0123     		movs	r3, #1
+ 179 0010 2370     		strb	r3, [r4, #0]
+ 180              	.LBB15:
+ 181              		.loc 1 140 0
+ 182 0012 0023     		movs	r3, #0
+ 183              	.LVL12:
+ 184              	@ 140 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 185 0014 83F31188 		msr     BASEPRI, r3
+ 186              	@ 0 "" 2
+ 187              	.LVL13:
+ 188              		.thumb
+ 189              	.LBE15:
+ 190              		.loc 1 141 0
+ 191 0018 10BD     		pop	{r4, pc}
+ 192              		.cfi_endproc
+ 193              	.LFE121:
+ 194              		.size	adcStop, .-adcStop
+ 195 001a 00BFAFF3 		.section	.text.adcStartConversion,"ax",%progbits
+ 195      0080
+ 196              		.align	2
+ 197              		.p2align 4,,15
+ 198              		.global	adcStartConversion
+ 199              		.thumb
+ 200              		.thumb_func
+ 201              		.type	adcStartConversion, %function
+ 202              	adcStartConversion:
+ 203              	.LFB122:
+ 204              		.loc 1 162 0
+ 205              		.cfi_startproc
+ 206              		@ args = 0, pretend = 0, frame = 0
+ 207              		@ frame_needed = 0, uses_anonymous_args = 0
+ 208              	.LVL14:
+ 209 0000 38B5     		push	{r3, r4, r5, lr}
+ 210              	.LCFI2:
+ 211              		.cfi_def_cfa_offset 16
+ 212              		.loc 1 162 0
+ 213 0002 1D46     		mov	r5, r3
+ 214              		.cfi_offset 14, -4
+ 215              		.cfi_offset 5, -8
+ 216              		.cfi_offset 4, -12
+ 217              		.cfi_offset 3, -16
+ 218              	.LBB16:
+ 219              		.loc 1 164 0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 5
+
+
+ 220 0004 2023     		movs	r3, #32
+ 221              	.LVL15:
+ 222              	@ 164 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 223 0006 83F31188 		msr     BASEPRI, r3
+ 224              	@ 0 "" 2
+ 225              	.LVL16:
+ 226              		.thumb
+ 227              	.LBE16:
+ 228              	.LBB17:
+ 229              	.LBB18:
+ 230              		.loc 1 204 0
+ 231 000a 0323     		movs	r3, #3
+ 232              	.LVL17:
+ 233 000c 0370     		strb	r3, [r0, #0]
+ 234              		.loc 1 201 0
+ 235 000e 8260     		str	r2, [r0, #8]
+ 236              		.loc 1 202 0
+ 237 0010 C560     		str	r5, [r0, #12]
+ 238              		.loc 1 203 0
+ 239 0012 0161     		str	r1, [r0, #16]
+ 240              		.loc 1 205 0
+ 241 0014 FFF7FEFF 		bl	adc_lld_start_conversion
+ 242              	.LVL18:
+ 243              	.LBE18:
+ 244              	.LBE17:
+ 245              	.LBB19:
+ 246              		.loc 1 166 0
+ 247 0018 0023     		movs	r3, #0
+ 248              	.LVL19:
+ 249              	@ 166 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 250 001a 83F31188 		msr     BASEPRI, r3
+ 251              	@ 0 "" 2
+ 252              	.LVL20:
+ 253              		.thumb
+ 254              	.LBE19:
+ 255              		.loc 1 167 0
+ 256 001e 38BD     		pop	{r3, r4, r5, pc}
+ 257              		.cfi_endproc
+ 258              	.LFE122:
+ 259              		.size	adcStartConversion, .-adcStartConversion
+ 260              		.section	.text.adcStartConversionI,"ax",%progbits
+ 261              		.align	2
+ 262              		.p2align 4,,15
+ 263              		.global	adcStartConversionI
+ 264              		.thumb
+ 265              		.thumb_func
+ 266              		.type	adcStartConversionI, %function
+ 267              	adcStartConversionI:
+ 268              	.LFB123:
+ 269              		.loc 1 190 0
+ 270              		.cfi_startproc
+ 271              		@ args = 0, pretend = 0, frame = 0
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 273              		@ link register save eliminated.
+ 274              	.LVL21:
+ 275 0000 10B4     		push	{r4}
+ 276              	.LCFI3:
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 6
+
+
+ 277              		.cfi_def_cfa_offset 4
+ 278              		.loc 1 202 0
+ 279 0002 C360     		str	r3, [r0, #12]
+ 280              		.loc 1 204 0
+ 281 0004 0323     		movs	r3, #3
+ 282              	.LVL22:
+ 283              		.loc 1 201 0
+ 284 0006 8260     		str	r2, [r0, #8]
+ 285              		.loc 1 203 0
+ 286 0008 0161     		str	r1, [r0, #16]
+ 287              		.loc 1 204 0
+ 288 000a 0370     		strb	r3, [r0, #0]
+ 289              		.loc 1 206 0
+ 290 000c 10BC     		pop	{r4}
+ 291              		.loc 1 205 0
+ 292              		.cfi_offset 4, -4
+ 293 000e FFF7FEBF 		b	adc_lld_start_conversion
+ 294              		.cfi_endproc
+ 295              	.LFE123:
+ 296              		.size	adcStartConversionI, .-adcStartConversionI
+ 297 0012 00BFAFF3 		.section	.text.adcStopConversion,"ax",%progbits
+ 297      0080AFF3 
+ 297      0080AFF3 
+ 297      0080
+ 298              		.align	2
+ 299              		.p2align 4,,15
+ 300              		.global	adcStopConversion
+ 301              		.thumb
+ 302              		.thumb_func
+ 303              		.type	adcStopConversion, %function
+ 304              	adcStopConversion:
+ 305              	.LFB124:
+ 306              		.loc 1 218 0
+ 307              		.cfi_startproc
+ 308              		@ args = 0, pretend = 0, frame = 0
+ 309              		@ frame_needed = 0, uses_anonymous_args = 0
+ 310              	.LVL23:
+ 311 0000 10B5     		push	{r4, lr}
+ 312              	.LCFI4:
+ 313              		.cfi_def_cfa_offset 8
+ 314              	.LBB20:
+ 315              		.loc 1 222 0
+ 316 0002 2023     		movs	r3, #32
+ 317              	.LVL24:
+ 318              	.LBE20:
+ 319              		.loc 1 218 0
+ 320 0004 0446     		mov	r4, r0
+ 321              		.cfi_offset 14, -4
+ 322              		.cfi_offset 4, -8
+ 323              	.LBB21:
+ 324              		.loc 1 222 0
+ 325              	@ 222 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 326 0006 83F31188 		msr     BASEPRI, r3
+ 327              	@ 0 "" 2
+ 328              	.LVL25:
+ 329              		.thumb
+ 330              	.LBE21:
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 7
+
+
+ 331              		.loc 1 226 0
+ 332 000a 0378     		ldrb	r3, [r0, #0]	@ zero_extendqisi2
+ 333              	.LVL26:
+ 334 000c 022B     		cmp	r3, #2
+ 335 000e 0CD0     		beq	.L8
+ 336              		.loc 1 227 0
+ 337 0010 FFF7FEFF 		bl	adc_lld_stop_conversion
+ 338              	.LVL27:
+ 339              		.loc 1 230 0
+ 340 0014 6069     		ldr	r0, [r4, #20]
+ 341              		.loc 1 228 0
+ 342 0016 0023     		movs	r3, #0
+ 343              		.loc 1 229 0
+ 344 0018 0222     		movs	r2, #2
+ 345              		.loc 1 228 0
+ 346 001a 2361     		str	r3, [r4, #16]
+ 347              		.loc 1 229 0
+ 348 001c 2270     		strb	r2, [r4, #0]
+ 349              		.loc 1 230 0
+ 350 001e 20B1     		cbz	r0, .L8
+ 351              	.LVL28:
+ 352              	.LBB22:
+ 353              		.loc 1 230 0 is_stmt 0 discriminator 1
+ 354 0020 6361     		str	r3, [r4, #20]
+ 355 0022 6FF00101 		mvn	r1, #1
+ 356 0026 FFF7FEFF 		bl	chSchWakeupS
+ 357              	.LVL29:
+ 358              	.L8:
+ 359              	.LBE22:
+ 360              	.LBB23:
+ 361              		.loc 1 232 0 is_stmt 1
+ 362 002a 0023     		movs	r3, #0
+ 363              	.LVL30:
+ 364              	@ 232 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 365 002c 83F31188 		msr     BASEPRI, r3
+ 366              	@ 0 "" 2
+ 367              	.LVL31:
+ 368              		.thumb
+ 369              	.LBE23:
+ 370              		.loc 1 233 0
+ 371 0030 10BD     		pop	{r4, pc}
+ 372              		.cfi_endproc
+ 373              	.LFE124:
+ 374              		.size	adcStopConversion, .-adcStopConversion
+ 375 0032 00BFAFF3 		.section	.text.adcStopConversionI,"ax",%progbits
+ 375      0080AFF3 
+ 375      0080AFF3 
+ 375      0080
+ 376              		.align	2
+ 377              		.p2align 4,,15
+ 378              		.global	adcStopConversionI
+ 379              		.thumb
+ 380              		.thumb_func
+ 381              		.type	adcStopConversionI, %function
+ 382              	adcStopConversionI:
+ 383              	.LFB125:
+ 384              		.loc 1 245 0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 8
+
+
+ 385              		.cfi_startproc
+ 386              		@ args = 0, pretend = 0, frame = 0
+ 387              		@ frame_needed = 0, uses_anonymous_args = 0
+ 388              	.LVL32:
+ 389              		.loc 1 254 0
+ 390 0000 0378     		ldrb	r3, [r0, #0]	@ zero_extendqisi2
+ 391 0002 022B     		cmp	r3, #2
+ 392              		.loc 1 245 0
+ 393 0004 10B5     		push	{r4, lr}
+ 394              	.LCFI5:
+ 395              		.cfi_def_cfa_offset 8
+ 396              		.loc 1 245 0
+ 397 0006 0446     		mov	r4, r0
+ 398              		.cfi_offset 14, -4
+ 399              		.cfi_offset 4, -8
+ 400              		.loc 1 254 0
+ 401 0008 10D0     		beq	.L10
+ 402              		.loc 1 255 0
+ 403 000a FFF7FEFF 		bl	adc_lld_stop_conversion
+ 404              	.LVL33:
+ 405              		.loc 1 258 0
+ 406 000e 6369     		ldr	r3, [r4, #20]
+ 407              		.loc 1 256 0
+ 408 0010 0022     		movs	r2, #0
+ 409              		.loc 1 257 0
+ 410 0012 0221     		movs	r1, #2
+ 411              		.loc 1 256 0
+ 412 0014 2261     		str	r2, [r4, #16]
+ 413              		.loc 1 257 0
+ 414 0016 2170     		strb	r1, [r4, #0]
+ 415              		.loc 1 258 0
+ 416 0018 43B1     		cbz	r3, .L10
+ 417              	.LVL34:
+ 418              	.LBB24:
+ 419              		.loc 1 258 0 is_stmt 0 discriminator 1
+ 420 001a 6261     		str	r2, [r4, #20]
+ 421 001c 1846     		mov	r0, r3
+ 422 001e 6FF00102 		mvn	r2, #1
+ 423 0022 5A62     		str	r2, [r3, #36]
+ 424              	.LBE24:
+ 425              		.loc 1 260 0 is_stmt 1 discriminator 1
+ 426 0024 BDE81040 		pop	{r4, lr}
+ 427              	.LBB25:
+ 428              		.loc 1 258 0 discriminator 1
+ 429 0028 FFF7FEBF 		b	chSchReadyI
+ 430              	.LVL35:
+ 431              	.L10:
+ 432 002c 10BD     		pop	{r4, pc}
+ 433              	.LBE25:
+ 434              		.cfi_endproc
+ 435              	.LFE125:
+ 436              		.size	adcStopConversionI, .-adcStopConversionI
+ 437 002e 00BF     		.section	.text.adcConvert,"ax",%progbits
+ 438              		.align	2
+ 439              		.p2align 4,,15
+ 440              		.global	adcConvert
+ 441              		.thumb
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 9
+
+
+ 442              		.thumb_func
+ 443              		.type	adcConvert, %function
+ 444              	adcConvert:
+ 445              	.LFB126:
+ 446              		.loc 1 289 0
+ 447              		.cfi_startproc
+ 448              		@ args = 0, pretend = 0, frame = 0
+ 449              		@ frame_needed = 0, uses_anonymous_args = 0
+ 450              	.LVL36:
+ 451 0000 70B5     		push	{r4, r5, r6, lr}
+ 452              	.LCFI6:
+ 453              		.cfi_def_cfa_offset 16
+ 454              		.loc 1 289 0
+ 455 0002 1D46     		mov	r5, r3
+ 456              		.cfi_offset 14, -4
+ 457              		.cfi_offset 6, -8
+ 458              		.cfi_offset 5, -12
+ 459              		.cfi_offset 4, -16
+ 460 0004 0446     		mov	r4, r0
+ 461              	.LBB26:
+ 462              		.loc 1 292 0
+ 463 0006 2023     		movs	r3, #32
+ 464              	.LVL37:
+ 465              	@ 292 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 466 0008 83F31188 		msr     BASEPRI, r3
+ 467              	@ 0 "" 2
+ 468              	.LVL38:
+ 469              		.thumb
+ 470              	.LBE26:
+ 471              		.loc 1 295 0
+ 472 000c 094E     		ldr	r6, .L13
+ 473              	.LBB27:
+ 474              	.LBB28:
+ 475              		.loc 1 203 0
+ 476 000e 0161     		str	r1, [r0, #16]
+ 477              		.loc 1 204 0
+ 478 0010 0321     		movs	r1, #3
+ 479              	.LVL39:
+ 480              		.loc 1 201 0
+ 481 0012 8260     		str	r2, [r0, #8]
+ 482              		.loc 1 204 0
+ 483 0014 0170     		strb	r1, [r0, #0]
+ 484              		.loc 1 202 0
+ 485 0016 C560     		str	r5, [r0, #12]
+ 486              		.loc 1 205 0
+ 487 0018 FFF7FEFF 		bl	adc_lld_start_conversion
+ 488              	.LVL40:
+ 489              	.LBE28:
+ 490              	.LBE27:
+ 491              		.loc 1 295 0
+ 492 001c B369     		ldr	r3, [r6, #24]
+ 493              		.loc 1 296 0
+ 494 001e 0220     		movs	r0, #2
+ 495              		.loc 1 295 0
+ 496 0020 6361     		str	r3, [r4, #20]
+ 497              		.loc 1 296 0
+ 498 0022 FFF7FEFF 		bl	chSchGoSleepS
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 10
+
+
+ 499              		.loc 1 297 0
+ 500 0026 B269     		ldr	r2, [r6, #24]
+ 501              	.LBB29:
+ 502              		.loc 1 298 0
+ 503 0028 0023     		movs	r3, #0
+ 504              	.LVL41:
+ 505              	.LBE29:
+ 506              		.loc 1 297 0
+ 507 002a 506A     		ldr	r0, [r2, #36]
+ 508              	.LVL42:
+ 509              	.LBB30:
+ 510              		.loc 1 298 0
+ 511              	@ 298 "../../../ChibiOS/os/hal/src/adc.c" 1
+ 512 002c 83F31188 		msr     BASEPRI, r3
+ 513              	@ 0 "" 2
+ 514              	.LVL43:
+ 515              		.thumb
+ 516              	.LBE30:
+ 517              		.loc 1 300 0
+ 518 0030 70BD     		pop	{r4, r5, r6, pc}
+ 519              	.L14:
+ 520 0032 00BF     		.align	2
+ 521              	.L13:
+ 522 0034 00000000 		.word	rlist
+ 523              		.cfi_endproc
+ 524              	.LFE126:
+ 525              		.size	adcConvert, .-adcConvert
+ 526              		.section	.text.adcAcquireBus,"ax",%progbits
+ 527              		.align	2
+ 528              		.p2align 4,,15
+ 529              		.global	adcAcquireBus
+ 530              		.thumb
+ 531              		.thumb_func
+ 532              		.type	adcAcquireBus, %function
+ 533              	adcAcquireBus:
+ 534              	.LFB127:
+ 535              		.loc 1 315 0
+ 536              		.cfi_startproc
+ 537              		@ args = 0, pretend = 0, frame = 0
+ 538              		@ frame_needed = 0, uses_anonymous_args = 0
+ 539              		@ link register save eliminated.
+ 540              	.LVL44:
+ 541              		.loc 1 320 0
+ 542 0000 1830     		adds	r0, r0, #24
+ 543              	.LVL45:
+ 544              		.loc 1 324 0
+ 545              		.loc 1 320 0
+ 546 0002 FFF7FEBF 		b	chMtxLock
+ 547              		.cfi_endproc
+ 548              	.LFE127:
+ 549              		.size	adcAcquireBus, .-adcAcquireBus
+ 550 0006 00BFAFF3 		.section	.text.adcReleaseBus,"ax",%progbits
+ 550      0080AFF3 
+ 550      0080
+ 551              		.align	2
+ 552              		.p2align 4,,15
+ 553              		.global	adcReleaseBus
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 11
+
+
+ 554              		.thumb
+ 555              		.thumb_func
+ 556              		.type	adcReleaseBus, %function
+ 557              	adcReleaseBus:
+ 558              	.LFB128:
+ 559              		.loc 1 335 0
+ 560              		.cfi_startproc
+ 561              		@ args = 0, pretend = 0, frame = 0
+ 562              		@ frame_needed = 0, uses_anonymous_args = 0
+ 563              		@ link register save eliminated.
+ 564              	.LVL46:
+ 565              		.loc 1 345 0
+ 566              		.loc 1 341 0
+ 567 0000 FFF7FEBF 		b	chMtxUnlock
+ 568              		.cfi_endproc
+ 569              	.LFE128:
+ 570              		.size	adcReleaseBus, .-adcReleaseBus
+ 571 0004 AFF30080 		.text
+ 571      AFF30080 
+ 571      AFF30080 
+ 572              	.Letext0:
+ 573              		.section	.debug_loc,"",%progbits
+ 574              	.Ldebug_loc0:
+ 575              	.LLST0:
+ 576 0000 00000000 		.4byte	.LVL0
+ 577 0004 12000000 		.4byte	.LVL1
+ 578 0008 0100     		.2byte	0x1
+ 579 000a 50       		.byte	0x50
+ 580 000b 12000000 		.4byte	.LVL1
+ 581 000f 16000000 		.4byte	.LFE119
+ 582 0013 0300     		.2byte	0x3
+ 583 0015 70       		.byte	0x70
+ 584 0016 68       		.sleb128 -24
+ 585 0017 9F       		.byte	0x9f
+ 586 0018 00000000 		.4byte	0x0
+ 587 001c 00000000 		.4byte	0x0
+ 588              	.LLST1:
+ 589 0020 00000000 		.4byte	.LFB120
+ 590 0024 02000000 		.4byte	.LCFI0
+ 591 0028 0200     		.2byte	0x2
+ 592 002a 7D       		.byte	0x7d
+ 593 002b 00       		.sleb128 0
+ 594 002c 02000000 		.4byte	.LCFI0
+ 595 0030 1C000000 		.4byte	.LFE120
+ 596 0034 0200     		.2byte	0x2
+ 597 0036 7D       		.byte	0x7d
+ 598 0037 08       		.sleb128 8
+ 599 0038 00000000 		.4byte	0x0
+ 600 003c 00000000 		.4byte	0x0
+ 601              	.LLST2:
+ 602 0040 00000000 		.4byte	.LVL2
+ 603 0044 0F000000 		.4byte	.LVL5-1
+ 604 0048 0100     		.2byte	0x1
+ 605 004a 50       		.byte	0x50
+ 606 004b 0F000000 		.4byte	.LVL5-1
+ 607 004f 1C000000 		.4byte	.LFE120
+ 608 0053 0100     		.2byte	0x1
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 12
+
+
+ 609 0055 54       		.byte	0x54
+ 610 0056 00000000 		.4byte	0x0
+ 611 005a 00000000 		.4byte	0x0
+ 612              	.LLST3:
+ 613 005e 00000000 		.4byte	.LVL2
+ 614 0062 0F000000 		.4byte	.LVL5-1
+ 615 0066 0100     		.2byte	0x1
+ 616 0068 51       		.byte	0x51
+ 617 0069 00000000 		.4byte	0x0
+ 618 006d 00000000 		.4byte	0x0
+ 619              	.LLST4:
+ 620 0071 0A000000 		.4byte	.LVL4
+ 621 0075 0F000000 		.4byte	.LVL5-1
+ 622 0079 0100     		.2byte	0x1
+ 623 007b 53       		.byte	0x53
+ 624 007c 00000000 		.4byte	0x0
+ 625 0080 00000000 		.4byte	0x0
+ 626              	.LLST5:
+ 627 0084 1A000000 		.4byte	.LVL7
+ 628 0088 1C000000 		.4byte	.LFE120
+ 629 008c 0100     		.2byte	0x1
+ 630 008e 53       		.byte	0x53
+ 631 008f 00000000 		.4byte	0x0
+ 632 0093 00000000 		.4byte	0x0
+ 633              	.LLST6:
+ 634 0097 00000000 		.4byte	.LFB121
+ 635 009b 02000000 		.4byte	.LCFI1
+ 636 009f 0200     		.2byte	0x2
+ 637 00a1 7D       		.byte	0x7d
+ 638 00a2 00       		.sleb128 0
+ 639 00a3 02000000 		.4byte	.LCFI1
+ 640 00a7 1A000000 		.4byte	.LFE121
+ 641 00ab 0200     		.2byte	0x2
+ 642 00ad 7D       		.byte	0x7d
+ 643 00ae 08       		.sleb128 8
+ 644 00af 00000000 		.4byte	0x0
+ 645 00b3 00000000 		.4byte	0x0
+ 646              	.LLST7:
+ 647 00b7 00000000 		.4byte	.LVL8
+ 648 00bb 0D000000 		.4byte	.LVL11-1
+ 649 00bf 0100     		.2byte	0x1
+ 650 00c1 50       		.byte	0x50
+ 651 00c2 0D000000 		.4byte	.LVL11-1
+ 652 00c6 1A000000 		.4byte	.LFE121
+ 653 00ca 0100     		.2byte	0x1
+ 654 00cc 54       		.byte	0x54
+ 655 00cd 00000000 		.4byte	0x0
+ 656 00d1 00000000 		.4byte	0x0
+ 657              	.LLST8:
+ 658 00d5 0A000000 		.4byte	.LVL10
+ 659 00d9 0D000000 		.4byte	.LVL11-1
+ 660 00dd 0100     		.2byte	0x1
+ 661 00df 53       		.byte	0x53
+ 662 00e0 00000000 		.4byte	0x0
+ 663 00e4 00000000 		.4byte	0x0
+ 664              	.LLST9:
+ 665 00e8 18000000 		.4byte	.LVL13
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 13
+
+
+ 666 00ec 1A000000 		.4byte	.LFE121
+ 667 00f0 0100     		.2byte	0x1
+ 668 00f2 53       		.byte	0x53
+ 669 00f3 00000000 		.4byte	0x0
+ 670 00f7 00000000 		.4byte	0x0
+ 671              	.LLST10:
+ 672 00fb 00000000 		.4byte	.LFB122
+ 673 00ff 02000000 		.4byte	.LCFI2
+ 674 0103 0200     		.2byte	0x2
+ 675 0105 7D       		.byte	0x7d
+ 676 0106 00       		.sleb128 0
+ 677 0107 02000000 		.4byte	.LCFI2
+ 678 010b 20000000 		.4byte	.LFE122
+ 679 010f 0200     		.2byte	0x2
+ 680 0111 7D       		.byte	0x7d
+ 681 0112 10       		.sleb128 16
+ 682 0113 00000000 		.4byte	0x0
+ 683 0117 00000000 		.4byte	0x0
+ 684              	.LLST11:
+ 685 011b 00000000 		.4byte	.LVL14
+ 686 011f 17000000 		.4byte	.LVL18-1
+ 687 0123 0100     		.2byte	0x1
+ 688 0125 50       		.byte	0x50
+ 689 0126 00000000 		.4byte	0x0
+ 690 012a 00000000 		.4byte	0x0
+ 691              	.LLST12:
+ 692 012e 00000000 		.4byte	.LVL14
+ 693 0132 17000000 		.4byte	.LVL18-1
+ 694 0136 0100     		.2byte	0x1
+ 695 0138 51       		.byte	0x51
+ 696 0139 00000000 		.4byte	0x0
+ 697 013d 00000000 		.4byte	0x0
+ 698              	.LLST13:
+ 699 0141 00000000 		.4byte	.LVL14
+ 700 0145 17000000 		.4byte	.LVL18-1
+ 701 0149 0100     		.2byte	0x1
+ 702 014b 52       		.byte	0x52
+ 703 014c 00000000 		.4byte	0x0
+ 704 0150 00000000 		.4byte	0x0
+ 705              	.LLST14:
+ 706 0154 00000000 		.4byte	.LVL14
+ 707 0158 06000000 		.4byte	.LVL15
+ 708 015c 0100     		.2byte	0x1
+ 709 015e 53       		.byte	0x53
+ 710 015f 06000000 		.4byte	.LVL15
+ 711 0163 20000000 		.4byte	.LFE122
+ 712 0167 0100     		.2byte	0x1
+ 713 0169 55       		.byte	0x55
+ 714 016a 00000000 		.4byte	0x0
+ 715 016e 00000000 		.4byte	0x0
+ 716              	.LLST15:
+ 717 0172 0A000000 		.4byte	.LVL16
+ 718 0176 0C000000 		.4byte	.LVL17
+ 719 017a 0100     		.2byte	0x1
+ 720 017c 53       		.byte	0x53
+ 721 017d 00000000 		.4byte	0x0
+ 722 0181 00000000 		.4byte	0x0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 14
+
+
+ 723              	.LLST16:
+ 724 0185 0A000000 		.4byte	.LVL16
+ 725 0189 17000000 		.4byte	.LVL18-1
+ 726 018d 0100     		.2byte	0x1
+ 727 018f 52       		.byte	0x52
+ 728 0190 00000000 		.4byte	0x0
+ 729 0194 00000000 		.4byte	0x0
+ 730              	.LLST17:
+ 731 0198 0A000000 		.4byte	.LVL16
+ 732 019c 17000000 		.4byte	.LVL18-1
+ 733 01a0 0100     		.2byte	0x1
+ 734 01a2 51       		.byte	0x51
+ 735 01a3 00000000 		.4byte	0x0
+ 736 01a7 00000000 		.4byte	0x0
+ 737              	.LLST18:
+ 738 01ab 1E000000 		.4byte	.LVL20
+ 739 01af 20000000 		.4byte	.LFE122
+ 740 01b3 0100     		.2byte	0x1
+ 741 01b5 53       		.byte	0x53
+ 742 01b6 00000000 		.4byte	0x0
+ 743 01ba 00000000 		.4byte	0x0
+ 744              	.LLST19:
+ 745 01be 00000000 		.4byte	.LFB123
+ 746 01c2 02000000 		.4byte	.LCFI3
+ 747 01c6 0200     		.2byte	0x2
+ 748 01c8 7D       		.byte	0x7d
+ 749 01c9 00       		.sleb128 0
+ 750 01ca 02000000 		.4byte	.LCFI3
+ 751 01ce 12000000 		.4byte	.LFE123
+ 752 01d2 0200     		.2byte	0x2
+ 753 01d4 7D       		.byte	0x7d
+ 754 01d5 04       		.sleb128 4
+ 755 01d6 00000000 		.4byte	0x0
+ 756 01da 00000000 		.4byte	0x0
+ 757              	.LLST20:
+ 758 01de 00000000 		.4byte	.LVL21
+ 759 01e2 06000000 		.4byte	.LVL22
+ 760 01e6 0100     		.2byte	0x1
+ 761 01e8 53       		.byte	0x53
+ 762 01e9 06000000 		.4byte	.LVL22
+ 763 01ed 12000000 		.4byte	.LFE123
+ 764 01f1 0200     		.2byte	0x2
+ 765 01f3 70       		.byte	0x70
+ 766 01f4 0C       		.sleb128 12
+ 767 01f5 00000000 		.4byte	0x0
+ 768 01f9 00000000 		.4byte	0x0
+ 769              	.LLST21:
+ 770 01fd 00000000 		.4byte	.LFB124
+ 771 0201 02000000 		.4byte	.LCFI4
+ 772 0205 0200     		.2byte	0x2
+ 773 0207 7D       		.byte	0x7d
+ 774 0208 00       		.sleb128 0
+ 775 0209 02000000 		.4byte	.LCFI4
+ 776 020d 32000000 		.4byte	.LFE124
+ 777 0211 0200     		.2byte	0x2
+ 778 0213 7D       		.byte	0x7d
+ 779 0214 08       		.sleb128 8
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 15
+
+
+ 780 0215 00000000 		.4byte	0x0
+ 781 0219 00000000 		.4byte	0x0
+ 782              	.LLST22:
+ 783 021d 00000000 		.4byte	.LVL23
+ 784 0221 13000000 		.4byte	.LVL27-1
+ 785 0225 0100     		.2byte	0x1
+ 786 0227 50       		.byte	0x50
+ 787 0228 13000000 		.4byte	.LVL27-1
+ 788 022c 32000000 		.4byte	.LFE124
+ 789 0230 0100     		.2byte	0x1
+ 790 0232 54       		.byte	0x54
+ 791 0233 00000000 		.4byte	0x0
+ 792 0237 00000000 		.4byte	0x0
+ 793              	.LLST23:
+ 794 023b 0A000000 		.4byte	.LVL25
+ 795 023f 0C000000 		.4byte	.LVL26
+ 796 0243 0100     		.2byte	0x1
+ 797 0245 53       		.byte	0x53
+ 798 0246 00000000 		.4byte	0x0
+ 799 024a 00000000 		.4byte	0x0
+ 800              	.LLST24:
+ 801 024e 20000000 		.4byte	.LVL28
+ 802 0252 29000000 		.4byte	.LVL29-1
+ 803 0256 0200     		.2byte	0x2
+ 804 0258 74       		.byte	0x74
+ 805 0259 14       		.sleb128 20
+ 806 025a 00000000 		.4byte	0x0
+ 807 025e 00000000 		.4byte	0x0
+ 808              	.LLST25:
+ 809 0262 30000000 		.4byte	.LVL31
+ 810 0266 32000000 		.4byte	.LFE124
+ 811 026a 0100     		.2byte	0x1
+ 812 026c 53       		.byte	0x53
+ 813 026d 00000000 		.4byte	0x0
+ 814 0271 00000000 		.4byte	0x0
+ 815              	.LLST26:
+ 816 0275 00000000 		.4byte	.LFB125
+ 817 0279 06000000 		.4byte	.LCFI5
+ 818 027d 0200     		.2byte	0x2
+ 819 027f 7D       		.byte	0x7d
+ 820 0280 00       		.sleb128 0
+ 821 0281 06000000 		.4byte	.LCFI5
+ 822 0285 2E000000 		.4byte	.LFE125
+ 823 0289 0200     		.2byte	0x2
+ 824 028b 7D       		.byte	0x7d
+ 825 028c 08       		.sleb128 8
+ 826 028d 00000000 		.4byte	0x0
+ 827 0291 00000000 		.4byte	0x0
+ 828              	.LLST27:
+ 829 0295 00000000 		.4byte	.LVL32
+ 830 0299 0D000000 		.4byte	.LVL33-1
+ 831 029d 0100     		.2byte	0x1
+ 832 029f 50       		.byte	0x50
+ 833 02a0 0D000000 		.4byte	.LVL33-1
+ 834 02a4 2E000000 		.4byte	.LFE125
+ 835 02a8 0100     		.2byte	0x1
+ 836 02aa 54       		.byte	0x54
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 16
+
+
+ 837 02ab 00000000 		.4byte	0x0
+ 838 02af 00000000 		.4byte	0x0
+ 839              	.LLST28:
+ 840 02b3 1A000000 		.4byte	.LVL34
+ 841 02b7 2B000000 		.4byte	.LVL35-1
+ 842 02bb 0200     		.2byte	0x2
+ 843 02bd 74       		.byte	0x74
+ 844 02be 14       		.sleb128 20
+ 845 02bf 00000000 		.4byte	0x0
+ 846 02c3 00000000 		.4byte	0x0
+ 847              	.LLST29:
+ 848 02c7 00000000 		.4byte	.LFB126
+ 849 02cb 02000000 		.4byte	.LCFI6
+ 850 02cf 0200     		.2byte	0x2
+ 851 02d1 7D       		.byte	0x7d
+ 852 02d2 00       		.sleb128 0
+ 853 02d3 02000000 		.4byte	.LCFI6
+ 854 02d7 38000000 		.4byte	.LFE126
+ 855 02db 0200     		.2byte	0x2
+ 856 02dd 7D       		.byte	0x7d
+ 857 02de 10       		.sleb128 16
+ 858 02df 00000000 		.4byte	0x0
+ 859 02e3 00000000 		.4byte	0x0
+ 860              	.LLST30:
+ 861 02e7 00000000 		.4byte	.LVL36
+ 862 02eb 1B000000 		.4byte	.LVL40-1
+ 863 02ef 0100     		.2byte	0x1
+ 864 02f1 50       		.byte	0x50
+ 865 02f2 1B000000 		.4byte	.LVL40-1
+ 866 02f6 38000000 		.4byte	.LFE126
+ 867 02fa 0100     		.2byte	0x1
+ 868 02fc 54       		.byte	0x54
+ 869 02fd 00000000 		.4byte	0x0
+ 870 0301 00000000 		.4byte	0x0
+ 871              	.LLST31:
+ 872 0305 00000000 		.4byte	.LVL36
+ 873 0309 12000000 		.4byte	.LVL39
+ 874 030d 0100     		.2byte	0x1
+ 875 030f 51       		.byte	0x51
+ 876 0310 00000000 		.4byte	0x0
+ 877 0314 00000000 		.4byte	0x0
+ 878              	.LLST32:
+ 879 0318 00000000 		.4byte	.LVL36
+ 880 031c 1B000000 		.4byte	.LVL40-1
+ 881 0320 0100     		.2byte	0x1
+ 882 0322 52       		.byte	0x52
+ 883 0323 00000000 		.4byte	0x0
+ 884 0327 00000000 		.4byte	0x0
+ 885              	.LLST33:
+ 886 032b 00000000 		.4byte	.LVL36
+ 887 032f 08000000 		.4byte	.LVL37
+ 888 0333 0100     		.2byte	0x1
+ 889 0335 53       		.byte	0x53
+ 890 0336 08000000 		.4byte	.LVL37
+ 891 033a 38000000 		.4byte	.LFE126
+ 892 033e 0100     		.2byte	0x1
+ 893 0340 55       		.byte	0x55
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 17
+
+
+ 894 0341 00000000 		.4byte	0x0
+ 895 0345 00000000 		.4byte	0x0
+ 896              	.LLST34:
+ 897 0349 0C000000 		.4byte	.LVL38
+ 898 034d 1B000000 		.4byte	.LVL40-1
+ 899 0351 0100     		.2byte	0x1
+ 900 0353 53       		.byte	0x53
+ 901 0354 00000000 		.4byte	0x0
+ 902 0358 00000000 		.4byte	0x0
+ 903              	.LLST35:
+ 904 035c 0C000000 		.4byte	.LVL38
+ 905 0360 1B000000 		.4byte	.LVL40-1
+ 906 0364 0100     		.2byte	0x1
+ 907 0366 52       		.byte	0x52
+ 908 0367 00000000 		.4byte	0x0
+ 909 036b 00000000 		.4byte	0x0
+ 910              	.LLST36:
+ 911 036f 0C000000 		.4byte	.LVL38
+ 912 0373 12000000 		.4byte	.LVL39
+ 913 0377 0100     		.2byte	0x1
+ 914 0379 51       		.byte	0x51
+ 915 037a 12000000 		.4byte	.LVL39
+ 916 037e 1B000000 		.4byte	.LVL40-1
+ 917 0382 0200     		.2byte	0x2
+ 918 0384 70       		.byte	0x70
+ 919 0385 10       		.sleb128 16
+ 920 0386 00000000 		.4byte	0x0
+ 921 038a 00000000 		.4byte	0x0
+ 922              	.LLST37:
+ 923 038e 0C000000 		.4byte	.LVL38
+ 924 0392 1B000000 		.4byte	.LVL40-1
+ 925 0396 0100     		.2byte	0x1
+ 926 0398 50       		.byte	0x50
+ 927 0399 1B000000 		.4byte	.LVL40-1
+ 928 039d 38000000 		.4byte	.LFE126
+ 929 03a1 0100     		.2byte	0x1
+ 930 03a3 54       		.byte	0x54
+ 931 03a4 00000000 		.4byte	0x0
+ 932 03a8 00000000 		.4byte	0x0
+ 933              	.LLST38:
+ 934 03ac 30000000 		.4byte	.LVL43
+ 935 03b0 38000000 		.4byte	.LFE126
+ 936 03b4 0100     		.2byte	0x1
+ 937 03b6 53       		.byte	0x53
+ 938 03b7 00000000 		.4byte	0x0
+ 939 03bb 00000000 		.4byte	0x0
+ 940              	.LLST39:
+ 941 03bf 00000000 		.4byte	.LVL44
+ 942 03c3 02000000 		.4byte	.LVL45
+ 943 03c7 0100     		.2byte	0x1
+ 944 03c9 50       		.byte	0x50
+ 945 03ca 02000000 		.4byte	.LVL45
+ 946 03ce 06000000 		.4byte	.LFE127
+ 947 03d2 0300     		.2byte	0x3
+ 948 03d4 70       		.byte	0x70
+ 949 03d5 68       		.sleb128 -24
+ 950 03d6 9F       		.byte	0x9f
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 18
+
+
+ 951 03d7 00000000 		.4byte	0x0
+ 952 03db 00000000 		.4byte	0x0
+ 953              		.file 2 "c:\\program files (x86)\\codesourcery\\sourcery g++ lite\\bin\\../lib/gcc/arm-none-eabi/4
+ 954              		.file 3 "c:\\program files (x86)\\codesourcery\\sourcery g++ lite\\bin\\../lib/gcc/arm-none-eabi/4
+ 955              		.file 4 "../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h"
+ 956              		.file 5 "../../../ChibiOS/os/kernel/include/chlists.h"
+ 957              		.file 6 "../../../ChibiOS/os/kernel/include/chthreads.h"
+ 958              		.file 7 "../../../ChibiOS/os/ports/GCC/ARMCMx/chcore_v7m.h"
+ 959              		.file 8 "../../../ChibiOS/os/kernel/include/chschd.h"
+ 960              		.file 9 "../../../ChibiOS/os/kernel/include/chmtx.h"
+ 961              		.file 10 "../../../ChibiOS/os/hal/platforms/STM32F4xx/stm32f4xx.h"
+ 962              		.file 11 "../../../ChibiOS/os/hal/platforms/STM32F4xx/stm32_dma.h"
+ 963              		.file 12 "../../../ChibiOS/os/hal/include/adc.h"
+ 964              		.file 13 "../../../ChibiOS/os/hal/platforms/STM32F4xx/adc_lld.h"
+ 965              		.file 14 "../../../ChibiOS/os/ports/common/ARMCMx/CMSIS/include/core_cm4.h"
+ 966              		.section	.debug_info
+ 967 0000 3D0D0000 		.4byte	0xd3d
+ 968 0004 0200     		.2byte	0x2
+ 969 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 970 000a 04       		.byte	0x4
+ 971 000b 01       		.uleb128 0x1
+ 972 000c 24020000 		.4byte	.LASF137
+ 973 0010 01       		.byte	0x1
+ 974 0011 66010000 		.4byte	.LASF138
+ 975 0015 50030000 		.4byte	.LASF139
+ 976 0019 00000000 		.4byte	0x0
+ 977 001d 00000000 		.4byte	0x0
+ 978 0021 78000000 		.4byte	.Ldebug_ranges0+0x78
+ 979 0025 00000000 		.4byte	.Ldebug_line0
+ 980 0029 02       		.uleb128 0x2
+ 981 002a 04       		.byte	0x4
+ 982 002b 05       		.byte	0x5
+ 983 002c 696E7400 		.ascii	"int\000"
+ 984 0030 03       		.uleb128 0x3
+ 985 0031 05000000 		.4byte	.LASF2
+ 986 0035 02       		.byte	0x2
+ 987 0036 D3       		.byte	0xd3
+ 988 0037 3B000000 		.4byte	0x3b
+ 989 003b 04       		.uleb128 0x4
+ 990 003c 04       		.byte	0x4
+ 991 003d 07       		.byte	0x7
+ 992 003e B5010000 		.4byte	.LASF0
+ 993 0042 04       		.uleb128 0x4
+ 994 0043 01       		.byte	0x1
+ 995 0044 06       		.byte	0x6
+ 996 0045 83000000 		.4byte	.LASF1
+ 997 0049 03       		.uleb128 0x3
+ 998 004a BE040000 		.4byte	.LASF3
+ 999 004e 03       		.byte	0x3
+ 1000 004f 2A       		.byte	0x2a
+ 1001 0050 54000000 		.4byte	0x54
+ 1002 0054 04       		.uleb128 0x4
+ 1003 0055 01       		.byte	0x1
+ 1004 0056 08       		.byte	0x8
+ 1005 0057 42030000 		.4byte	.LASF4
+ 1006 005b 04       		.uleb128 0x4
+ 1007 005c 02       		.byte	0x2
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 19
+
+
+ 1008 005d 05       		.byte	0x5
+ 1009 005e 8D030000 		.4byte	.LASF5
+ 1010 0062 03       		.uleb128 0x3
+ 1011 0063 06010000 		.4byte	.LASF6
+ 1012 0067 03       		.byte	0x3
+ 1013 0068 36       		.byte	0x36
+ 1014 0069 6D000000 		.4byte	0x6d
+ 1015 006d 04       		.uleb128 0x4
+ 1016 006e 02       		.byte	0x2
+ 1017 006f 07       		.byte	0x7
+ 1018 0070 F1010000 		.4byte	.LASF7
+ 1019 0074 03       		.uleb128 0x3
+ 1020 0075 3A030000 		.4byte	.LASF8
+ 1021 0079 03       		.byte	0x3
+ 1022 007a 4F       		.byte	0x4f
+ 1023 007b 7F000000 		.4byte	0x7f
+ 1024 007f 04       		.uleb128 0x4
+ 1025 0080 04       		.byte	0x4
+ 1026 0081 05       		.byte	0x5
+ 1027 0082 C7000000 		.4byte	.LASF9
+ 1028 0086 03       		.uleb128 0x3
+ 1029 0087 EC030000 		.4byte	.LASF10
+ 1030 008b 03       		.byte	0x3
+ 1031 008c 50       		.byte	0x50
+ 1032 008d 91000000 		.4byte	0x91
+ 1033 0091 04       		.uleb128 0x4
+ 1034 0092 04       		.byte	0x4
+ 1035 0093 07       		.byte	0x7
+ 1036 0094 07040000 		.4byte	.LASF11
+ 1037 0098 04       		.uleb128 0x4
+ 1038 0099 08       		.byte	0x8
+ 1039 009a 05       		.byte	0x5
+ 1040 009b 75000000 		.4byte	.LASF12
+ 1041 009f 04       		.uleb128 0x4
+ 1042 00a0 08       		.byte	0x8
+ 1043 00a1 07       		.byte	0x7
+ 1044 00a2 35000000 		.4byte	.LASF13
+ 1045 00a6 03       		.uleb128 0x3
+ 1046 00a7 97000000 		.4byte	.LASF14
+ 1047 00ab 04       		.byte	0x4
+ 1048 00ac 2B       		.byte	0x2b
+ 1049 00ad B1000000 		.4byte	0xb1
+ 1050 00b1 04       		.uleb128 0x4
+ 1051 00b2 01       		.byte	0x1
+ 1052 00b3 02       		.byte	0x2
+ 1053 00b4 34030000 		.4byte	.LASF15
+ 1054 00b8 03       		.uleb128 0x3
+ 1055 00b9 30020000 		.4byte	.LASF16
+ 1056 00bd 04       		.byte	0x4
+ 1057 00be 2C       		.byte	0x2c
+ 1058 00bf 49000000 		.4byte	0x49
+ 1059 00c3 03       		.uleb128 0x3
+ 1060 00c4 F6000000 		.4byte	.LASF17
+ 1061 00c8 04       		.byte	0x4
+ 1062 00c9 2D       		.byte	0x2d
+ 1063 00ca 49000000 		.4byte	0x49
+ 1064 00ce 03       		.uleb128 0x3
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 20
+
+
+ 1065 00cf 04030000 		.4byte	.LASF18
+ 1066 00d3 04       		.byte	0x4
+ 1067 00d4 2E       		.byte	0x2e
+ 1068 00d5 49000000 		.4byte	0x49
+ 1069 00d9 03       		.uleb128 0x3
+ 1070 00da FD030000 		.4byte	.LASF19
+ 1071 00de 04       		.byte	0x4
+ 1072 00df 2F       		.byte	0x2f
+ 1073 00e0 49000000 		.4byte	0x49
+ 1074 00e4 03       		.uleb128 0x3
+ 1075 00e5 26030000 		.4byte	.LASF20
+ 1076 00e9 04       		.byte	0x4
+ 1077 00ea 30       		.byte	0x30
+ 1078 00eb 86000000 		.4byte	0x86
+ 1079 00ef 03       		.uleb128 0x3
+ 1080 00f0 14020000 		.4byte	.LASF21
+ 1081 00f4 04       		.byte	0x4
+ 1082 00f5 31       		.byte	0x31
+ 1083 00f6 74000000 		.4byte	0x74
+ 1084 00fa 03       		.uleb128 0x3
+ 1085 00fb 51020000 		.4byte	.LASF22
+ 1086 00ff 04       		.byte	0x4
+ 1087 0100 33       		.byte	0x33
+ 1088 0101 86000000 		.4byte	0x86
+ 1089 0105 03       		.uleb128 0x3
+ 1090 0106 34040000 		.4byte	.LASF23
+ 1091 010a 04       		.byte	0x4
+ 1092 010b 35       		.byte	0x35
+ 1093 010c 86000000 		.4byte	0x86
+ 1094 0110 03       		.uleb128 0x3
+ 1095 0111 D5030000 		.4byte	.LASF24
+ 1096 0115 05       		.byte	0x5
+ 1097 0116 2A       		.byte	0x2a
+ 1098 0117 1B010000 		.4byte	0x11b
+ 1099 011b 05       		.uleb128 0x5
+ 1100 011c D5030000 		.4byte	.LASF24
+ 1101 0120 48       		.byte	0x48
+ 1102 0121 06       		.byte	0x6
+ 1103 0122 5E       		.byte	0x5e
+ 1104 0123 40020000 		.4byte	0x240
+ 1105 0127 06       		.uleb128 0x6
+ 1106 0128 C0030000 		.4byte	.LASF25
+ 1107 012c 06       		.byte	0x6
+ 1108 012d 5F       		.byte	0x5f
+ 1109 012e 65020000 		.4byte	0x265
+ 1110 0132 02       		.byte	0x2
+ 1111 0133 23       		.byte	0x23
+ 1112 0134 00       		.uleb128 0x0
+ 1113 0135 06       		.uleb128 0x6
+ 1114 0136 0C030000 		.4byte	.LASF26
+ 1115 013a 06       		.byte	0x6
+ 1116 013b 61       		.byte	0x61
+ 1117 013c 65020000 		.4byte	0x265
+ 1118 0140 02       		.byte	0x2
+ 1119 0141 23       		.byte	0x23
+ 1120 0142 04       		.uleb128 0x4
+ 1121 0143 06       		.uleb128 0x6
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 21
+
+
+ 1122 0144 69000000 		.4byte	.LASF27
+ 1123 0148 06       		.byte	0x6
+ 1124 0149 63       		.byte	0x63
+ 1125 014a E4000000 		.4byte	0xe4
+ 1126 014e 02       		.byte	0x2
+ 1127 014f 23       		.byte	0x23
+ 1128 0150 08       		.uleb128 0x8
+ 1129 0151 06       		.uleb128 0x6
+ 1130 0152 67050000 		.4byte	.LASF28
+ 1131 0156 06       		.byte	0x6
+ 1132 0157 64       		.byte	0x64
+ 1133 0158 33030000 		.4byte	0x333
+ 1134 015c 02       		.byte	0x2
+ 1135 015d 23       		.byte	0x23
+ 1136 015e 0C       		.uleb128 0xc
+ 1137 015f 06       		.uleb128 0x6
+ 1138 0160 22010000 		.4byte	.LASF29
+ 1139 0164 06       		.byte	0x6
+ 1140 0165 66       		.byte	0x66
+ 1141 0166 65020000 		.4byte	0x265
+ 1142 016a 02       		.byte	0x2
+ 1143 016b 23       		.byte	0x23
+ 1144 016c 10       		.uleb128 0x10
+ 1145 016d 06       		.uleb128 0x6
+ 1146 016e A1020000 		.4byte	.LASF30
+ 1147 0172 06       		.byte	0x6
+ 1148 0173 67       		.byte	0x67
+ 1149 0174 65020000 		.4byte	0x265
+ 1150 0178 02       		.byte	0x2
+ 1151 0179 23       		.byte	0x23
+ 1152 017a 14       		.uleb128 0x14
+ 1153 017b 06       		.uleb128 0x6
+ 1154 017c 14050000 		.4byte	.LASF31
+ 1155 0180 06       		.byte	0x6
+ 1156 0181 6E       		.byte	0x6e
+ 1157 0182 45040000 		.4byte	0x445
+ 1158 0186 02       		.byte	0x2
+ 1159 0187 23       		.byte	0x23
+ 1160 0188 18       		.uleb128 0x18
+ 1161 0189 06       		.uleb128 0x6
+ 1162 018a 97030000 		.4byte	.LASF32
+ 1163 018e 06       		.byte	0x6
+ 1164 018f 79       		.byte	0x79
+ 1165 0190 C3000000 		.4byte	0xc3
+ 1166 0194 02       		.byte	0x2
+ 1167 0195 23       		.byte	0x23
+ 1168 0196 1C       		.uleb128 0x1c
+ 1169 0197 06       		.uleb128 0x6
+ 1170 0198 C7030000 		.4byte	.LASF33
+ 1171 019c 06       		.byte	0x6
+ 1172 019d 7D       		.byte	0x7d
+ 1173 019e B8000000 		.4byte	0xb8
+ 1174 01a2 02       		.byte	0x2
+ 1175 01a3 23       		.byte	0x23
+ 1176 01a4 1D       		.uleb128 0x1d
+ 1177 01a5 06       		.uleb128 0x6
+ 1178 01a6 9B040000 		.4byte	.LASF34
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 22
+
+
+ 1179 01aa 06       		.byte	0x6
+ 1180 01ab 82       		.byte	0x82
+ 1181 01ac CE000000 		.4byte	0xce
+ 1182 01b0 02       		.byte	0x2
+ 1183 01b1 23       		.byte	0x23
+ 1184 01b2 1E       		.uleb128 0x1e
+ 1185 01b3 06       		.uleb128 0x6
+ 1186 01b4 9F030000 		.4byte	.LASF35
+ 1187 01b8 06       		.byte	0x6
+ 1188 01b9 88       		.byte	0x88
+ 1189 01ba D9000000 		.4byte	0xd9
+ 1190 01be 02       		.byte	0x2
+ 1191 01bf 23       		.byte	0x23
+ 1192 01c0 1F       		.uleb128 0x1f
+ 1193 01c1 06       		.uleb128 0x6
+ 1194 01c2 0F010000 		.4byte	.LASF36
+ 1195 01c6 06       		.byte	0x6
+ 1196 01c7 8F       		.byte	0x8f
+ 1197 01c8 5B030000 		.4byte	0x35b
+ 1198 01cc 02       		.byte	0x2
+ 1199 01cd 23       		.byte	0x23
+ 1200 01ce 20       		.uleb128 0x20
+ 1201 01cf 07       		.uleb128 0x7
+ 1202 01d0 705F7500 		.ascii	"p_u\000"
+ 1203 01d4 06       		.byte	0x6
+ 1204 01d5 B4       		.byte	0xb4
+ 1205 01d6 10040000 		.4byte	0x410
+ 1206 01da 02       		.byte	0x2
+ 1207 01db 23       		.byte	0x23
+ 1208 01dc 24       		.uleb128 0x24
+ 1209 01dd 06       		.uleb128 0x6
+ 1210 01de 6D050000 		.4byte	.LASF37
+ 1211 01e2 06       		.byte	0x6
+ 1212 01e3 B9       		.byte	0xb9
+ 1213 01e4 8D020000 		.4byte	0x28d
+ 1214 01e8 02       		.byte	0x2
+ 1215 01e9 23       		.byte	0x23
+ 1216 01ea 28       		.uleb128 0x28
+ 1217 01eb 06       		.uleb128 0x6
+ 1218 01ec D0010000 		.4byte	.LASF38
+ 1219 01f0 06       		.byte	0x6
+ 1220 01f1 BF       		.byte	0xbf
+ 1221 01f2 6B020000 		.4byte	0x26b
+ 1222 01f6 02       		.byte	0x2
+ 1223 01f7 23       		.byte	0x23
+ 1224 01f8 2C       		.uleb128 0x2c
+ 1225 01f9 06       		.uleb128 0x6
+ 1226 01fa 2E050000 		.4byte	.LASF39
+ 1227 01fe 06       		.byte	0x6
+ 1228 01ff C3       		.byte	0xc3
+ 1229 0200 EF000000 		.4byte	0xef
+ 1230 0204 02       		.byte	0x2
+ 1231 0205 23       		.byte	0x23
+ 1232 0206 34       		.uleb128 0x34
+ 1233 0207 06       		.uleb128 0x6
+ 1234 0208 DC030000 		.4byte	.LASF40
+ 1235 020c 06       		.byte	0x6
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 23
+
+
+ 1236 020d C9       		.byte	0xc9
+ 1237 020e FA000000 		.4byte	0xfa
+ 1238 0212 02       		.byte	0x2
+ 1239 0213 23       		.byte	0x23
+ 1240 0214 38       		.uleb128 0x38
+ 1241 0215 06       		.uleb128 0x6
+ 1242 0216 83030000 		.4byte	.LASF41
+ 1243 021a 06       		.byte	0x6
+ 1244 021b D0       		.byte	0xd0
+ 1245 021c 57040000 		.4byte	0x457
+ 1246 0220 02       		.byte	0x2
+ 1247 0221 23       		.byte	0x23
+ 1248 0222 3C       		.uleb128 0x3c
+ 1249 0223 06       		.uleb128 0x6
+ 1250 0224 3E040000 		.4byte	.LASF42
+ 1251 0228 06       		.byte	0x6
+ 1252 0229 D4       		.byte	0xd4
+ 1253 022a E4000000 		.4byte	0xe4
+ 1254 022e 02       		.byte	0x2
+ 1255 022f 23       		.byte	0x23
+ 1256 0230 40       		.uleb128 0x40
+ 1257 0231 06       		.uleb128 0x6
+ 1258 0232 8F000000 		.4byte	.LASF43
+ 1259 0236 06       		.byte	0x6
+ 1260 0237 DA       		.byte	0xda
+ 1261 0238 A3020000 		.4byte	0x2a3
+ 1262 023c 02       		.byte	0x2
+ 1263 023d 23       		.byte	0x23
+ 1264 023e 44       		.uleb128 0x44
+ 1265 023f 00       		.byte	0x0
+ 1266 0240 08       		.uleb128 0x8
+ 1267 0241 08       		.byte	0x8
+ 1268 0242 05       		.byte	0x5
+ 1269 0243 61       		.byte	0x61
+ 1270 0244 65020000 		.4byte	0x265
+ 1271 0248 06       		.uleb128 0x6
+ 1272 0249 C0030000 		.4byte	.LASF25
+ 1273 024d 05       		.byte	0x5
+ 1274 024e 62       		.byte	0x62
+ 1275 024f 65020000 		.4byte	0x265
+ 1276 0253 02       		.byte	0x2
+ 1277 0254 23       		.byte	0x23
+ 1278 0255 00       		.uleb128 0x0
+ 1279 0256 06       		.uleb128 0x6
+ 1280 0257 0C030000 		.4byte	.LASF26
+ 1281 025b 05       		.byte	0x5
+ 1282 025c 64       		.byte	0x64
+ 1283 025d 65020000 		.4byte	0x265
+ 1284 0261 02       		.byte	0x2
+ 1285 0262 23       		.byte	0x23
+ 1286 0263 04       		.uleb128 0x4
+ 1287 0264 00       		.byte	0x0
+ 1288 0265 09       		.uleb128 0x9
+ 1289 0266 04       		.byte	0x4
+ 1290 0267 10010000 		.4byte	0x110
+ 1291 026b 03       		.uleb128 0x3
+ 1292 026c AF020000 		.4byte	.LASF44
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 24
+
+
+ 1293 0270 05       		.byte	0x5
+ 1294 0271 66       		.byte	0x66
+ 1295 0272 40020000 		.4byte	0x240
+ 1296 0276 08       		.uleb128 0x8
+ 1297 0277 04       		.byte	0x4
+ 1298 0278 05       		.byte	0x5
+ 1299 0279 6B       		.byte	0x6b
+ 1300 027a 8D020000 		.4byte	0x28d
+ 1301 027e 06       		.uleb128 0x6
+ 1302 027f C0030000 		.4byte	.LASF25
+ 1303 0283 05       		.byte	0x5
+ 1304 0284 6D       		.byte	0x6d
+ 1305 0285 65020000 		.4byte	0x265
+ 1306 0289 02       		.byte	0x2
+ 1307 028a 23       		.byte	0x23
+ 1308 028b 00       		.uleb128 0x0
+ 1309 028c 00       		.byte	0x0
+ 1310 028d 03       		.uleb128 0x3
+ 1311 028e 45020000 		.4byte	.LASF45
+ 1312 0292 05       		.byte	0x5
+ 1313 0293 70       		.byte	0x70
+ 1314 0294 76020000 		.4byte	0x276
+ 1315 0298 03       		.uleb128 0x3
+ 1316 0299 5D010000 		.4byte	.LASF46
+ 1317 029d 07       		.byte	0x7
+ 1318 029e E5       		.byte	0xe5
+ 1319 029f A3020000 		.4byte	0x2a3
+ 1320 02a3 0A       		.uleb128 0xa
+ 1321 02a4 04       		.byte	0x4
+ 1322 02a5 0B       		.uleb128 0xb
+ 1323 02a6 7C040000 		.4byte	.LASF47
+ 1324 02aa 24       		.byte	0x24
+ 1325 02ab 07       		.byte	0x7
+ 1326 02ac 0C01     		.2byte	0x10c
+ 1327 02ae 33030000 		.4byte	0x333
+ 1328 02b2 0C       		.uleb128 0xc
+ 1329 02b3 723400   		.ascii	"r4\000"
+ 1330 02b6 07       		.byte	0x7
+ 1331 02b7 1F01     		.2byte	0x11f
+ 1332 02b9 98020000 		.4byte	0x298
+ 1333 02bd 02       		.byte	0x2
+ 1334 02be 23       		.byte	0x23
+ 1335 02bf 00       		.uleb128 0x0
+ 1336 02c0 0C       		.uleb128 0xc
+ 1337 02c1 723500   		.ascii	"r5\000"
+ 1338 02c4 07       		.byte	0x7
+ 1339 02c5 2001     		.2byte	0x120
+ 1340 02c7 98020000 		.4byte	0x298
+ 1341 02cb 02       		.byte	0x2
+ 1342 02cc 23       		.byte	0x23
+ 1343 02cd 04       		.uleb128 0x4
+ 1344 02ce 0C       		.uleb128 0xc
+ 1345 02cf 723600   		.ascii	"r6\000"
+ 1346 02d2 07       		.byte	0x7
+ 1347 02d3 2101     		.2byte	0x121
+ 1348 02d5 98020000 		.4byte	0x298
+ 1349 02d9 02       		.byte	0x2
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 25
+
+
+ 1350 02da 23       		.byte	0x23
+ 1351 02db 08       		.uleb128 0x8
+ 1352 02dc 0C       		.uleb128 0xc
+ 1353 02dd 723700   		.ascii	"r7\000"
+ 1354 02e0 07       		.byte	0x7
+ 1355 02e1 2201     		.2byte	0x122
+ 1356 02e3 98020000 		.4byte	0x298
+ 1357 02e7 02       		.byte	0x2
+ 1358 02e8 23       		.byte	0x23
+ 1359 02e9 0C       		.uleb128 0xc
+ 1360 02ea 0C       		.uleb128 0xc
+ 1361 02eb 723800   		.ascii	"r8\000"
+ 1362 02ee 07       		.byte	0x7
+ 1363 02ef 2301     		.2byte	0x123
+ 1364 02f1 98020000 		.4byte	0x298
+ 1365 02f5 02       		.byte	0x2
+ 1366 02f6 23       		.byte	0x23
+ 1367 02f7 10       		.uleb128 0x10
+ 1368 02f8 0C       		.uleb128 0xc
+ 1369 02f9 723900   		.ascii	"r9\000"
+ 1370 02fc 07       		.byte	0x7
+ 1371 02fd 2401     		.2byte	0x124
+ 1372 02ff 98020000 		.4byte	0x298
+ 1373 0303 02       		.byte	0x2
+ 1374 0304 23       		.byte	0x23
+ 1375 0305 14       		.uleb128 0x14
+ 1376 0306 0C       		.uleb128 0xc
+ 1377 0307 72313000 		.ascii	"r10\000"
+ 1378 030b 07       		.byte	0x7
+ 1379 030c 2501     		.2byte	0x125
+ 1380 030e 98020000 		.4byte	0x298
+ 1381 0312 02       		.byte	0x2
+ 1382 0313 23       		.byte	0x23
+ 1383 0314 18       		.uleb128 0x18
+ 1384 0315 0C       		.uleb128 0xc
+ 1385 0316 72313100 		.ascii	"r11\000"
+ 1386 031a 07       		.byte	0x7
+ 1387 031b 2601     		.2byte	0x126
+ 1388 031d 98020000 		.4byte	0x298
+ 1389 0321 02       		.byte	0x2
+ 1390 0322 23       		.byte	0x23
+ 1391 0323 1C       		.uleb128 0x1c
+ 1392 0324 0C       		.uleb128 0xc
+ 1393 0325 6C7200   		.ascii	"lr\000"
+ 1394 0328 07       		.byte	0x7
+ 1395 0329 2701     		.2byte	0x127
+ 1396 032b 98020000 		.4byte	0x298
+ 1397 032f 02       		.byte	0x2
+ 1398 0330 23       		.byte	0x23
+ 1399 0331 20       		.uleb128 0x20
+ 1400 0332 00       		.byte	0x0
+ 1401 0333 0B       		.uleb128 0xb
+ 1402 0334 61040000 		.4byte	.LASF48
+ 1403 0338 04       		.byte	0x4
+ 1404 0339 07       		.byte	0x7
+ 1405 033a 3101     		.2byte	0x131
+ 1406 033c 50030000 		.4byte	0x350
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 26
+
+
+ 1407 0340 0C       		.uleb128 0xc
+ 1408 0341 72313300 		.ascii	"r13\000"
+ 1409 0345 07       		.byte	0x7
+ 1410 0346 3201     		.2byte	0x132
+ 1411 0348 50030000 		.4byte	0x350
+ 1412 034c 02       		.byte	0x2
+ 1413 034d 23       		.byte	0x23
+ 1414 034e 00       		.uleb128 0x0
+ 1415 034f 00       		.byte	0x0
+ 1416 0350 09       		.uleb128 0x9
+ 1417 0351 04       		.byte	0x4
+ 1418 0352 A5020000 		.4byte	0x2a5
+ 1419 0356 0D       		.uleb128 0xd
+ 1420 0357 86000000 		.4byte	0x86
+ 1421 035b 0D       		.uleb128 0xd
+ 1422 035c 05010000 		.4byte	0x105
+ 1423 0360 08       		.uleb128 0x8
+ 1424 0361 1C       		.byte	0x1c
+ 1425 0362 08       		.byte	0x8
+ 1426 0363 5E       		.byte	0x5e
+ 1427 0364 BD030000 		.4byte	0x3bd
+ 1428 0368 06       		.uleb128 0x6
+ 1429 0369 F5030000 		.4byte	.LASF49
+ 1430 036d 08       		.byte	0x8
+ 1431 036e 5F       		.byte	0x5f
+ 1432 036f 6B020000 		.4byte	0x26b
+ 1433 0373 02       		.byte	0x2
+ 1434 0374 23       		.byte	0x23
+ 1435 0375 00       		.uleb128 0x0
+ 1436 0376 06       		.uleb128 0x6
+ 1437 0377 B2030000 		.4byte	.LASF50
+ 1438 037b 08       		.byte	0x8
+ 1439 037c 60       		.byte	0x60
+ 1440 037d E4000000 		.4byte	0xe4
+ 1441 0381 02       		.byte	0x2
+ 1442 0382 23       		.byte	0x23
+ 1443 0383 08       		.uleb128 0x8
+ 1444 0384 06       		.uleb128 0x6
+ 1445 0385 A9020000 		.4byte	.LASF51
+ 1446 0389 08       		.byte	0x8
+ 1447 038a 62       		.byte	0x62
+ 1448 038b 33030000 		.4byte	0x333
+ 1449 038f 02       		.byte	0x2
+ 1450 0390 23       		.byte	0x23
+ 1451 0391 0C       		.uleb128 0xc
+ 1452 0392 06       		.uleb128 0x6
+ 1453 0393 4B010000 		.4byte	.LASF52
+ 1454 0397 08       		.byte	0x8
+ 1455 0398 65       		.byte	0x65
+ 1456 0399 65020000 		.4byte	0x265
+ 1457 039d 02       		.byte	0x2
+ 1458 039e 23       		.byte	0x23
+ 1459 039f 10       		.uleb128 0x10
+ 1460 03a0 06       		.uleb128 0x6
+ 1461 03a1 D9020000 		.4byte	.LASF53
+ 1462 03a5 08       		.byte	0x8
+ 1463 03a6 66       		.byte	0x66
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 27
+
+
+ 1464 03a7 65020000 		.4byte	0x265
+ 1465 03ab 02       		.byte	0x2
+ 1466 03ac 23       		.byte	0x23
+ 1467 03ad 14       		.uleb128 0x14
+ 1468 03ae 06       		.uleb128 0x6
+ 1469 03af CF020000 		.4byte	.LASF54
+ 1470 03b3 08       		.byte	0x8
+ 1471 03b4 69       		.byte	0x69
+ 1472 03b5 65020000 		.4byte	0x265
+ 1473 03b9 02       		.byte	0x2
+ 1474 03ba 23       		.byte	0x23
+ 1475 03bb 18       		.uleb128 0x18
+ 1476 03bc 00       		.byte	0x0
+ 1477 03bd 03       		.uleb128 0x3
+ 1478 03be A2040000 		.4byte	.LASF55
+ 1479 03c2 08       		.byte	0x8
+ 1480 03c3 6B       		.byte	0x6b
+ 1481 03c4 60030000 		.4byte	0x360
+ 1482 03c8 05       		.uleb128 0x5
+ 1483 03c9 92020000 		.4byte	.LASF56
+ 1484 03cd 10       		.byte	0x10
+ 1485 03ce 09       		.byte	0x9
+ 1486 03cf 2C       		.byte	0x2c
+ 1487 03d0 FF030000 		.4byte	0x3ff
+ 1488 03d4 06       		.uleb128 0x6
+ 1489 03d5 9E000000 		.4byte	.LASF57
+ 1490 03d9 09       		.byte	0x9
+ 1491 03da 2D       		.byte	0x2d
+ 1492 03db 6B020000 		.4byte	0x26b
+ 1493 03df 02       		.byte	0x2
+ 1494 03e0 23       		.byte	0x23
+ 1495 03e1 00       		.uleb128 0x0
+ 1496 03e2 06       		.uleb128 0x6
+ 1497 03e3 51050000 		.4byte	.LASF58
+ 1498 03e7 09       		.byte	0x9
+ 1499 03e8 2F       		.byte	0x2f
+ 1500 03e9 65020000 		.4byte	0x265
+ 1501 03ed 02       		.byte	0x2
+ 1502 03ee 23       		.byte	0x23
+ 1503 03ef 08       		.uleb128 0x8
+ 1504 03f0 06       		.uleb128 0x6
+ 1505 03f1 C8020000 		.4byte	.LASF59
+ 1506 03f5 09       		.byte	0x9
+ 1507 03f6 31       		.byte	0x31
+ 1508 03f7 FF030000 		.4byte	0x3ff
+ 1509 03fb 02       		.byte	0x2
+ 1510 03fc 23       		.byte	0x23
+ 1511 03fd 0C       		.uleb128 0xc
+ 1512 03fe 00       		.byte	0x0
+ 1513 03ff 09       		.uleb128 0x9
+ 1514 0400 04       		.byte	0x4
+ 1515 0401 C8030000 		.4byte	0x3c8
+ 1516 0405 03       		.uleb128 0x3
+ 1517 0406 92020000 		.4byte	.LASF56
+ 1518 040a 09       		.byte	0x9
+ 1519 040b 33       		.byte	0x33
+ 1520 040c C8030000 		.4byte	0x3c8
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 28
+
+
+ 1521 0410 0E       		.uleb128 0xe
+ 1522 0411 04       		.byte	0x4
+ 1523 0412 06       		.byte	0x6
+ 1524 0413 96       		.byte	0x96
+ 1525 0414 45040000 		.4byte	0x445
+ 1526 0418 0F       		.uleb128 0xf
+ 1527 0419 0C000000 		.4byte	.LASF60
+ 1528 041d 06       		.byte	0x6
+ 1529 041e 9D       		.byte	0x9d
+ 1530 041f EF000000 		.4byte	0xef
+ 1531 0423 0F       		.uleb128 0xf
+ 1532 0424 4C000000 		.4byte	.LASF61
+ 1533 0428 06       		.byte	0x6
+ 1534 0429 A4       		.byte	0xa4
+ 1535 042a EF000000 		.4byte	0xef
+ 1536 042e 0F       		.uleb128 0xf
+ 1537 042f 00050000 		.4byte	.LASF62
+ 1538 0433 06       		.byte	0x6
+ 1539 0434 AB       		.byte	0xab
+ 1540 0435 A3020000 		.4byte	0x2a3
+ 1541 0439 0F       		.uleb128 0xf
+ 1542 043a B9030000 		.4byte	.LASF63
+ 1543 043e 06       		.byte	0x6
+ 1544 043f B2       		.byte	0xb2
+ 1545 0440 FA000000 		.4byte	0xfa
+ 1546 0444 00       		.byte	0x0
+ 1547 0445 09       		.uleb128 0x9
+ 1548 0446 04       		.byte	0x4
+ 1549 0447 4B040000 		.4byte	0x44b
+ 1550 044b 10       		.uleb128 0x10
+ 1551 044c 50040000 		.4byte	0x450
+ 1552 0450 04       		.uleb128 0x4
+ 1553 0451 01       		.byte	0x1
+ 1554 0452 08       		.byte	0x8
+ 1555 0453 19040000 		.4byte	.LASF64
+ 1556 0457 09       		.uleb128 0x9
+ 1557 0458 04       		.byte	0x4
+ 1558 0459 05040000 		.4byte	0x405
+ 1559 045d 0D       		.uleb128 0xd
+ 1560 045e 74000000 		.4byte	0x74
+ 1561 0462 11       		.uleb128 0x11
+ 1562 0463 50       		.byte	0x50
+ 1563 0464 0A       		.byte	0xa
+ 1564 0465 0A02     		.2byte	0x20a
+ 1565 0467 96050000 		.4byte	0x596
+ 1566 046b 0C       		.uleb128 0xc
+ 1567 046c 535200   		.ascii	"SR\000"
+ 1568 046f 0A       		.byte	0xa
+ 1569 0470 0C02     		.2byte	0x20c
+ 1570 0472 56030000 		.4byte	0x356
+ 1571 0476 02       		.byte	0x2
+ 1572 0477 23       		.byte	0x23
+ 1573 0478 00       		.uleb128 0x0
+ 1574 0479 0C       		.uleb128 0xc
+ 1575 047a 43523100 		.ascii	"CR1\000"
+ 1576 047e 0A       		.byte	0xa
+ 1577 047f 0D02     		.2byte	0x20d
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 29
+
+
+ 1578 0481 56030000 		.4byte	0x356
+ 1579 0485 02       		.byte	0x2
+ 1580 0486 23       		.byte	0x23
+ 1581 0487 04       		.uleb128 0x4
+ 1582 0488 0C       		.uleb128 0xc
+ 1583 0489 43523200 		.ascii	"CR2\000"
+ 1584 048d 0A       		.byte	0xa
+ 1585 048e 0E02     		.2byte	0x20e
+ 1586 0490 56030000 		.4byte	0x356
+ 1587 0494 02       		.byte	0x2
+ 1588 0495 23       		.byte	0x23
+ 1589 0496 08       		.uleb128 0x8
+ 1590 0497 12       		.uleb128 0x12
+ 1591 0498 BC020000 		.4byte	.LASF65
+ 1592 049c 0A       		.byte	0xa
+ 1593 049d 0F02     		.2byte	0x20f
+ 1594 049f 56030000 		.4byte	0x356
+ 1595 04a3 02       		.byte	0x2
+ 1596 04a4 23       		.byte	0x23
+ 1597 04a5 0C       		.uleb128 0xc
+ 1598 04a6 12       		.uleb128 0x12
+ 1599 04a7 C2020000 		.4byte	.LASF66
+ 1600 04ab 0A       		.byte	0xa
+ 1601 04ac 1002     		.2byte	0x210
+ 1602 04ae 56030000 		.4byte	0x356
+ 1603 04b2 02       		.byte	0x2
+ 1604 04b3 23       		.byte	0x23
+ 1605 04b4 10       		.uleb128 0x10
+ 1606 04b5 12       		.uleb128 0x12
+ 1607 04b6 78020000 		.4byte	.LASF67
+ 1608 04ba 0A       		.byte	0xa
+ 1609 04bb 1102     		.2byte	0x211
+ 1610 04bd 56030000 		.4byte	0x356
+ 1611 04c1 02       		.byte	0x2
+ 1612 04c2 23       		.byte	0x23
+ 1613 04c3 14       		.uleb128 0x14
+ 1614 04c4 12       		.uleb128 0x12
+ 1615 04c5 7E020000 		.4byte	.LASF68
+ 1616 04c9 0A       		.byte	0xa
+ 1617 04ca 1202     		.2byte	0x212
+ 1618 04cc 56030000 		.4byte	0x356
+ 1619 04d0 02       		.byte	0x2
+ 1620 04d1 23       		.byte	0x23
+ 1621 04d2 18       		.uleb128 0x18
+ 1622 04d3 12       		.uleb128 0x12
+ 1623 04d4 84020000 		.4byte	.LASF69
+ 1624 04d8 0A       		.byte	0xa
+ 1625 04d9 1302     		.2byte	0x213
+ 1626 04db 56030000 		.4byte	0x356
+ 1627 04df 02       		.byte	0x2
+ 1628 04e0 23       		.byte	0x23
+ 1629 04e1 1C       		.uleb128 0x1c
+ 1630 04e2 12       		.uleb128 0x12
+ 1631 04e3 CF030000 		.4byte	.LASF70
+ 1632 04e7 0A       		.byte	0xa
+ 1633 04e8 1402     		.2byte	0x214
+ 1634 04ea 56030000 		.4byte	0x356
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 30
+
+
+ 1635 04ee 02       		.byte	0x2
+ 1636 04ef 23       		.byte	0x23
+ 1637 04f0 20       		.uleb128 0x20
+ 1638 04f1 0C       		.uleb128 0xc
+ 1639 04f2 48545200 		.ascii	"HTR\000"
+ 1640 04f6 0A       		.byte	0xa
+ 1641 04f7 1502     		.2byte	0x215
+ 1642 04f9 56030000 		.4byte	0x356
+ 1643 04fd 02       		.byte	0x2
+ 1644 04fe 23       		.byte	0x23
+ 1645 04ff 24       		.uleb128 0x24
+ 1646 0500 0C       		.uleb128 0xc
+ 1647 0501 4C545200 		.ascii	"LTR\000"
+ 1648 0505 0A       		.byte	0xa
+ 1649 0506 1602     		.2byte	0x216
+ 1650 0508 56030000 		.4byte	0x356
+ 1651 050c 02       		.byte	0x2
+ 1652 050d 23       		.byte	0x23
+ 1653 050e 28       		.uleb128 0x28
+ 1654 050f 12       		.uleb128 0x12
+ 1655 0510 E1020000 		.4byte	.LASF71
+ 1656 0514 0A       		.byte	0xa
+ 1657 0515 1702     		.2byte	0x217
+ 1658 0517 56030000 		.4byte	0x356
+ 1659 051b 02       		.byte	0x2
+ 1660 051c 23       		.byte	0x23
+ 1661 051d 2C       		.uleb128 0x2c
+ 1662 051e 12       		.uleb128 0x12
+ 1663 051f E6020000 		.4byte	.LASF72
+ 1664 0523 0A       		.byte	0xa
+ 1665 0524 1802     		.2byte	0x218
+ 1666 0526 56030000 		.4byte	0x356
+ 1667 052a 02       		.byte	0x2
+ 1668 052b 23       		.byte	0x23
+ 1669 052c 30       		.uleb128 0x30
+ 1670 052d 12       		.uleb128 0x12
+ 1671 052e EB020000 		.4byte	.LASF73
+ 1672 0532 0A       		.byte	0xa
+ 1673 0533 1902     		.2byte	0x219
+ 1674 0535 56030000 		.4byte	0x356
+ 1675 0539 02       		.byte	0x2
+ 1676 053a 23       		.byte	0x23
+ 1677 053b 34       		.uleb128 0x34
+ 1678 053c 12       		.uleb128 0x12
+ 1679 053d 70000000 		.4byte	.LASF74
+ 1680 0541 0A       		.byte	0xa
+ 1681 0542 1A02     		.2byte	0x21a
+ 1682 0544 56030000 		.4byte	0x356
+ 1683 0548 02       		.byte	0x2
+ 1684 0549 23       		.byte	0x23
+ 1685 054a 38       		.uleb128 0x38
+ 1686 054b 12       		.uleb128 0x12
+ 1687 054c EC040000 		.4byte	.LASF75
+ 1688 0550 0A       		.byte	0xa
+ 1689 0551 1B02     		.2byte	0x21b
+ 1690 0553 56030000 		.4byte	0x356
+ 1691 0557 02       		.byte	0x2
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 31
+
+
+ 1692 0558 23       		.byte	0x23
+ 1693 0559 3C       		.uleb128 0x3c
+ 1694 055a 12       		.uleb128 0x12
+ 1695 055b F1040000 		.4byte	.LASF76
+ 1696 055f 0A       		.byte	0xa
+ 1697 0560 1C02     		.2byte	0x21c
+ 1698 0562 56030000 		.4byte	0x356
+ 1699 0566 02       		.byte	0x2
+ 1700 0567 23       		.byte	0x23
+ 1701 0568 40       		.uleb128 0x40
+ 1702 0569 12       		.uleb128 0x12
+ 1703 056a F6040000 		.4byte	.LASF77
+ 1704 056e 0A       		.byte	0xa
+ 1705 056f 1D02     		.2byte	0x21d
+ 1706 0571 56030000 		.4byte	0x356
+ 1707 0575 02       		.byte	0x2
+ 1708 0576 23       		.byte	0x23
+ 1709 0577 44       		.uleb128 0x44
+ 1710 0578 12       		.uleb128 0x12
+ 1711 0579 FB040000 		.4byte	.LASF78
+ 1712 057d 0A       		.byte	0xa
+ 1713 057e 1E02     		.2byte	0x21e
+ 1714 0580 56030000 		.4byte	0x356
+ 1715 0584 02       		.byte	0x2
+ 1716 0585 23       		.byte	0x23
+ 1717 0586 48       		.uleb128 0x48
+ 1718 0587 0C       		.uleb128 0xc
+ 1719 0588 445200   		.ascii	"DR\000"
+ 1720 058b 0A       		.byte	0xa
+ 1721 058c 1F02     		.2byte	0x21f
+ 1722 058e 56030000 		.4byte	0x356
+ 1723 0592 02       		.byte	0x2
+ 1724 0593 23       		.byte	0x23
+ 1725 0594 4C       		.uleb128 0x4c
+ 1726 0595 00       		.byte	0x0
+ 1727 0596 13       		.uleb128 0x13
+ 1728 0597 16010000 		.4byte	.LASF79
+ 1729 059b 0A       		.byte	0xa
+ 1730 059c 2002     		.2byte	0x220
+ 1731 059e 62040000 		.4byte	0x462
+ 1732 05a2 11       		.uleb128 0x11
+ 1733 05a3 18       		.byte	0x18
+ 1734 05a4 0A       		.byte	0xa
+ 1735 05a5 B102     		.2byte	0x2b1
+ 1736 05a7 05060000 		.4byte	0x605
+ 1737 05ab 0C       		.uleb128 0xc
+ 1738 05ac 435200   		.ascii	"CR\000"
+ 1739 05af 0A       		.byte	0xa
+ 1740 05b0 B302     		.2byte	0x2b3
+ 1741 05b2 56030000 		.4byte	0x356
+ 1742 05b6 02       		.byte	0x2
+ 1743 05b7 23       		.byte	0x23
+ 1744 05b8 00       		.uleb128 0x0
+ 1745 05b9 12       		.uleb128 0x12
+ 1746 05ba 49040000 		.4byte	.LASF80
+ 1747 05be 0A       		.byte	0xa
+ 1748 05bf B402     		.2byte	0x2b4
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 32
+
+
+ 1749 05c1 56030000 		.4byte	0x356
+ 1750 05c5 02       		.byte	0x2
+ 1751 05c6 23       		.byte	0x23
+ 1752 05c7 04       		.uleb128 0x4
+ 1753 05c8 0C       		.uleb128 0xc
+ 1754 05c9 50415200 		.ascii	"PAR\000"
+ 1755 05cd 0A       		.byte	0xa
+ 1756 05ce B502     		.2byte	0x2b5
+ 1757 05d0 56030000 		.4byte	0x356
+ 1758 05d4 02       		.byte	0x2
+ 1759 05d5 23       		.byte	0x23
+ 1760 05d6 08       		.uleb128 0x8
+ 1761 05d7 12       		.uleb128 0x12
+ 1762 05d8 00000000 		.4byte	.LASF81
+ 1763 05dc 0A       		.byte	0xa
+ 1764 05dd B602     		.2byte	0x2b6
+ 1765 05df 56030000 		.4byte	0x356
+ 1766 05e3 02       		.byte	0x2
+ 1767 05e4 23       		.byte	0x23
+ 1768 05e5 0C       		.uleb128 0xc
+ 1769 05e6 12       		.uleb128 0x12
+ 1770 05e7 83040000 		.4byte	.LASF82
+ 1771 05eb 0A       		.byte	0xa
+ 1772 05ec B702     		.2byte	0x2b7
+ 1773 05ee 56030000 		.4byte	0x356
+ 1774 05f2 02       		.byte	0x2
+ 1775 05f3 23       		.byte	0x23
+ 1776 05f4 10       		.uleb128 0x10
+ 1777 05f5 0C       		.uleb128 0xc
+ 1778 05f6 46435200 		.ascii	"FCR\000"
+ 1779 05fa 0A       		.byte	0xa
+ 1780 05fb B802     		.2byte	0x2b8
+ 1781 05fd 56030000 		.4byte	0x356
+ 1782 0601 02       		.byte	0x2
+ 1783 0602 23       		.byte	0x23
+ 1784 0603 14       		.uleb128 0x14
+ 1785 0604 00       		.byte	0x0
+ 1786 0605 13       		.uleb128 0x13
+ 1787 0606 4E040000 		.4byte	.LASF83
+ 1788 060a 0A       		.byte	0xa
+ 1789 060b B902     		.2byte	0x2b9
+ 1790 060d A2050000 		.4byte	0x5a2
+ 1791 0611 08       		.uleb128 0x8
+ 1792 0612 0C       		.byte	0xc
+ 1793 0613 0B       		.byte	0xb
+ 1794 0614 DA       		.byte	0xda
+ 1795 0615 60060000 		.4byte	0x660
+ 1796 0619 06       		.uleb128 0x6
+ 1797 061a 2E000000 		.4byte	.LASF84
+ 1798 061e 0B       		.byte	0xb
+ 1799 061f DB       		.byte	0xdb
+ 1800 0620 60060000 		.4byte	0x660
+ 1801 0624 02       		.byte	0x2
+ 1802 0625 23       		.byte	0x23
+ 1803 0626 00       		.uleb128 0x0
+ 1804 0627 06       		.uleb128 0x6
+ 1805 0628 E7030000 		.4byte	.LASF85
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 33
+
+
+ 1806 062c 0B       		.byte	0xb
+ 1807 062d DC       		.byte	0xdc
+ 1808 062e 66060000 		.4byte	0x666
+ 1809 0632 02       		.byte	0x2
+ 1810 0633 23       		.byte	0x23
+ 1811 0634 04       		.uleb128 0x4
+ 1812 0635 06       		.uleb128 0x6
+ 1813 0636 EA010000 		.4byte	.LASF86
+ 1814 063a 0B       		.byte	0xb
+ 1815 063b DD       		.byte	0xdd
+ 1816 063c 49000000 		.4byte	0x49
+ 1817 0640 02       		.byte	0x2
+ 1818 0641 23       		.byte	0x23
+ 1819 0642 08       		.uleb128 0x8
+ 1820 0643 06       		.uleb128 0x6
+ 1821 0644 1A020000 		.4byte	.LASF87
+ 1822 0648 0B       		.byte	0xb
+ 1823 0649 DF       		.byte	0xdf
+ 1824 064a 49000000 		.4byte	0x49
+ 1825 064e 02       		.byte	0x2
+ 1826 064f 23       		.byte	0x23
+ 1827 0650 09       		.uleb128 0x9
+ 1828 0651 06       		.uleb128 0x6
+ 1829 0652 55000000 		.4byte	.LASF88
+ 1830 0656 0B       		.byte	0xb
+ 1831 0657 E0       		.byte	0xe0
+ 1832 0658 49000000 		.4byte	0x49
+ 1833 065c 02       		.byte	0x2
+ 1834 065d 23       		.byte	0x23
+ 1835 065e 0A       		.uleb128 0xa
+ 1836 065f 00       		.byte	0x0
+ 1837 0660 09       		.uleb128 0x9
+ 1838 0661 04       		.byte	0x4
+ 1839 0662 05060000 		.4byte	0x605
+ 1840 0666 09       		.uleb128 0x9
+ 1841 0667 04       		.byte	0x4
+ 1842 0668 56030000 		.4byte	0x356
+ 1843 066c 03       		.uleb128 0x3
+ 1844 066d 13030000 		.4byte	.LASF89
+ 1845 0671 0B       		.byte	0xb
+ 1846 0672 E1       		.byte	0xe1
+ 1847 0673 11060000 		.4byte	0x611
+ 1848 0677 14       		.uleb128 0x14
+ 1849 0678 01       		.byte	0x1
+ 1850 0679 0C       		.byte	0xc
+ 1851 067a 55       		.byte	0x55
+ 1852 067b A4060000 		.4byte	0x6a4
+ 1853 067f 15       		.uleb128 0x15
+ 1854 0680 8E010000 		.4byte	.LASF90
+ 1855 0684 00       		.sleb128 0
+ 1856 0685 15       		.uleb128 0x15
+ 1857 0686 98020000 		.4byte	.LASF91
+ 1858 068a 01       		.sleb128 1
+ 1859 068b 15       		.uleb128 0x15
+ 1860 068c 04020000 		.4byte	.LASF92
+ 1861 0690 02       		.sleb128 2
+ 1862 0691 15       		.uleb128 0x15
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 34
+
+
+ 1863 0692 AA010000 		.4byte	.LASF93
+ 1864 0696 03       		.sleb128 3
+ 1865 0697 15       		.uleb128 0x15
+ 1866 0698 07050000 		.4byte	.LASF94
+ 1867 069c 04       		.sleb128 4
+ 1868 069d 15       		.uleb128 0x15
+ 1869 069e 88040000 		.4byte	.LASF95
+ 1870 06a2 05       		.sleb128 5
+ 1871 06a3 00       		.byte	0x0
+ 1872 06a4 03       		.uleb128 0x3
+ 1873 06a5 1B000000 		.4byte	.LASF96
+ 1874 06a9 0C       		.byte	0xc
+ 1875 06aa 5C       		.byte	0x5c
+ 1876 06ab 77060000 		.4byte	0x677
+ 1877 06af 13       		.uleb128 0x13
+ 1878 06b0 3F010000 		.4byte	.LASF97
+ 1879 06b4 0D       		.byte	0xd
+ 1880 06b5 2701     		.2byte	0x127
+ 1881 06b7 62000000 		.4byte	0x62
+ 1882 06bb 13       		.uleb128 0x13
+ 1883 06bc 1B050000 		.4byte	.LASF98
+ 1884 06c0 0D       		.byte	0xd
+ 1885 06c1 2C01     		.2byte	0x12c
+ 1886 06c3 62000000 		.4byte	0x62
+ 1887 06c7 16       		.uleb128 0x16
+ 1888 06c8 01       		.byte	0x1
+ 1889 06c9 0D       		.byte	0xd
+ 1890 06ca 3301     		.2byte	0x133
+ 1891 06cc DD060000 		.4byte	0x6dd
+ 1892 06d0 15       		.uleb128 0x15
+ 1893 06d1 D0000000 		.4byte	.LASF99
+ 1894 06d5 00       		.sleb128 0
+ 1895 06d6 15       		.uleb128 0x15
+ 1896 06d7 99010000 		.4byte	.LASF100
+ 1897 06db 01       		.sleb128 1
+ 1898 06dc 00       		.byte	0x0
+ 1899 06dd 13       		.uleb128 0x13
+ 1900 06de A6000000 		.4byte	.LASF101
+ 1901 06e2 0D       		.byte	0xd
+ 1902 06e3 3601     		.2byte	0x136
+ 1903 06e5 C7060000 		.4byte	0x6c7
+ 1904 06e9 13       		.uleb128 0x13
+ 1905 06ea DB010000 		.4byte	.LASF102
+ 1906 06ee 0D       		.byte	0xd
+ 1907 06ef 3B01     		.2byte	0x13b
+ 1908 06f1 F5060000 		.4byte	0x6f5
+ 1909 06f5 0B       		.uleb128 0xb
+ 1910 06f6 DB010000 		.4byte	.LASF102
+ 1911 06fa 34       		.byte	0x34
+ 1912 06fb 0D       		.byte	0xd
+ 1913 06fc 9F01     		.2byte	0x19f
+ 1914 06fe 99070000 		.4byte	0x799
+ 1915 0702 12       		.uleb128 0x12
+ 1916 0703 B8000000 		.4byte	.LASF103
+ 1917 0707 0D       		.byte	0xd
+ 1918 0708 A301     		.2byte	0x1a3
+ 1919 070a A4060000 		.4byte	0x6a4
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 35
+
+
+ 1920 070e 02       		.byte	0x2
+ 1921 070f 23       		.byte	0x23
+ 1922 0710 00       		.uleb128 0x0
+ 1923 0711 12       		.uleb128 0x12
+ 1924 0712 1E040000 		.4byte	.LASF104
+ 1925 0716 0D       		.byte	0xd
+ 1926 0717 A701     		.2byte	0x1a7
+ 1927 0719 D0080000 		.4byte	0x8d0
+ 1928 071d 02       		.byte	0x2
+ 1929 071e 23       		.byte	0x23
+ 1930 071f 04       		.uleb128 0x4
+ 1931 0720 12       		.uleb128 0x12
+ 1932 0721 8A020000 		.4byte	.LASF105
+ 1933 0725 0D       		.byte	0xd
+ 1934 0726 AB01     		.2byte	0x1ab
+ 1935 0728 C7070000 		.4byte	0x7c7
+ 1936 072c 02       		.byte	0x2
+ 1937 072d 23       		.byte	0x23
+ 1938 072e 08       		.uleb128 0x8
+ 1939 072f 12       		.uleb128 0x12
+ 1940 0730 0E020000 		.4byte	.LASF106
+ 1941 0734 0D       		.byte	0xd
+ 1942 0735 AF01     		.2byte	0x1af
+ 1943 0737 30000000 		.4byte	0x30
+ 1944 073b 02       		.byte	0x2
+ 1945 073c 23       		.byte	0x23
+ 1946 073d 0C       		.uleb128 0xc
+ 1947 073e 12       		.uleb128 0x12
+ 1948 073f 73020000 		.4byte	.LASF107
+ 1949 0743 0D       		.byte	0xd
+ 1950 0744 B301     		.2byte	0x1b3
+ 1951 0746 DB080000 		.4byte	0x8db
+ 1952 074a 02       		.byte	0x2
+ 1953 074b 23       		.byte	0x23
+ 1954 074c 10       		.uleb128 0x10
+ 1955 074d 12       		.uleb128 0x12
+ 1956 074e FF000000 		.4byte	.LASF108
+ 1957 0752 0D       		.byte	0xd
+ 1958 0753 B801     		.2byte	0x1b8
+ 1959 0755 65020000 		.4byte	0x265
+ 1960 0759 02       		.byte	0x2
+ 1961 075a 23       		.byte	0x23
+ 1962 075b 14       		.uleb128 0x14
+ 1963 075c 12       		.uleb128 0x12
+ 1964 075d 2E030000 		.4byte	.LASF109
+ 1965 0761 0D       		.byte	0xd
+ 1966 0762 BF01     		.2byte	0x1bf
+ 1967 0764 05040000 		.4byte	0x405
+ 1968 0768 02       		.byte	0x2
+ 1969 0769 23       		.byte	0x23
+ 1970 076a 18       		.uleb128 0x18
+ 1971 076b 0C       		.uleb128 0xc
+ 1972 076c 61646300 		.ascii	"adc\000"
+ 1973 0770 0D       		.byte	0xd
+ 1974 0771 CB01     		.2byte	0x1cb
+ 1975 0773 E6080000 		.4byte	0x8e6
+ 1976 0777 02       		.byte	0x2
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 36
+
+
+ 1977 0778 23       		.byte	0x23
+ 1978 0779 28       		.uleb128 0x28
+ 1979 077a 12       		.uleb128 0x12
+ 1980 077b B1000000 		.4byte	.LASF110
+ 1981 077f 0D       		.byte	0xd
+ 1982 0780 CF01     		.2byte	0x1cf
+ 1983 0782 EC080000 		.4byte	0x8ec
+ 1984 0786 02       		.byte	0x2
+ 1985 0787 23       		.byte	0x23
+ 1986 0788 2C       		.uleb128 0x2c
+ 1987 0789 12       		.uleb128 0x12
+ 1988 078a 13000000 		.4byte	.LASF111
+ 1989 078e 0D       		.byte	0xd
+ 1990 078f D301     		.2byte	0x1d3
+ 1991 0791 86000000 		.4byte	0x86
+ 1992 0795 02       		.byte	0x2
+ 1993 0796 23       		.byte	0x23
+ 1994 0797 30       		.uleb128 0x30
+ 1995 0798 00       		.byte	0x0
+ 1996 0799 13       		.uleb128 0x13
+ 1997 079a 31010000 		.4byte	.LASF112
+ 1998 079e 0D       		.byte	0xd
+ 1999 079f 4501     		.2byte	0x145
+ 2000 07a1 A5070000 		.4byte	0x7a5
+ 2001 07a5 09       		.uleb128 0x9
+ 2002 07a6 04       		.byte	0x4
+ 2003 07a7 AB070000 		.4byte	0x7ab
+ 2004 07ab 17       		.uleb128 0x17
+ 2005 07ac 01       		.byte	0x1
+ 2006 07ad C1070000 		.4byte	0x7c1
+ 2007 07b1 18       		.uleb128 0x18
+ 2008 07b2 C1070000 		.4byte	0x7c1
+ 2009 07b6 18       		.uleb128 0x18
+ 2010 07b7 C7070000 		.4byte	0x7c7
+ 2011 07bb 18       		.uleb128 0x18
+ 2012 07bc 30000000 		.4byte	0x30
+ 2013 07c0 00       		.byte	0x0
+ 2014 07c1 09       		.uleb128 0x9
+ 2015 07c2 04       		.byte	0x4
+ 2016 07c3 E9060000 		.4byte	0x6e9
+ 2017 07c7 09       		.uleb128 0x9
+ 2018 07c8 04       		.byte	0x4
+ 2019 07c9 AF060000 		.4byte	0x6af
+ 2020 07cd 13       		.uleb128 0x13
+ 2021 07ce E3000000 		.4byte	.LASF113
+ 2022 07d2 0D       		.byte	0xd
+ 2023 07d3 4E01     		.2byte	0x14e
+ 2024 07d5 D9070000 		.4byte	0x7d9
+ 2025 07d9 09       		.uleb128 0x9
+ 2026 07da 04       		.byte	0x4
+ 2027 07db DF070000 		.4byte	0x7df
+ 2028 07df 17       		.uleb128 0x17
+ 2029 07e0 01       		.byte	0x1
+ 2030 07e1 F0070000 		.4byte	0x7f0
+ 2031 07e5 18       		.uleb128 0x18
+ 2032 07e6 C1070000 		.4byte	0x7c1
+ 2033 07ea 18       		.uleb128 0x18
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 37
+
+
+ 2034 07eb DD060000 		.4byte	0x6dd
+ 2035 07ef 00       		.byte	0x0
+ 2036 07f0 11       		.uleb128 0x11
+ 2037 07f1 28       		.byte	0x28
+ 2038 07f2 0D       		.byte	0xd
+ 2039 07f3 5801     		.2byte	0x158
+ 2040 07f5 9F080000 		.4byte	0x89f
+ 2041 07f9 12       		.uleb128 0x12
+ 2042 07fa BE000000 		.4byte	.LASF114
+ 2043 07fe 0D       		.byte	0xd
+ 2044 07ff 5C01     		.2byte	0x15c
+ 2045 0801 A6000000 		.4byte	0xa6
+ 2046 0805 02       		.byte	0x2
+ 2047 0806 23       		.byte	0x23
+ 2048 0807 00       		.uleb128 0x0
+ 2049 0808 12       		.uleb128 0x12
+ 2050 0809 38020000 		.4byte	.LASF115
+ 2051 080d 0D       		.byte	0xd
+ 2052 080e 6001     		.2byte	0x160
+ 2053 0810 BB060000 		.4byte	0x6bb
+ 2054 0814 02       		.byte	0x2
+ 2055 0815 23       		.byte	0x23
+ 2056 0816 02       		.uleb128 0x2
+ 2057 0817 12       		.uleb128 0x12
+ 2058 0818 2A010000 		.4byte	.LASF116
+ 2059 081c 0D       		.byte	0xd
+ 2060 081d 6401     		.2byte	0x164
+ 2061 081f 99070000 		.4byte	0x799
+ 2062 0823 02       		.byte	0x2
+ 2063 0824 23       		.byte	0x23
+ 2064 0825 04       		.uleb128 0x4
+ 2065 0826 12       		.uleb128 0x12
+ 2066 0827 A9030000 		.4byte	.LASF117
+ 2067 082b 0D       		.byte	0xd
+ 2068 082c 6801     		.2byte	0x168
+ 2069 082e CD070000 		.4byte	0x7cd
+ 2070 0832 02       		.byte	0x2
+ 2071 0833 23       		.byte	0x23
+ 2072 0834 08       		.uleb128 0x8
+ 2073 0835 0C       		.uleb128 0xc
+ 2074 0836 63723100 		.ascii	"cr1\000"
+ 2075 083a 0D       		.byte	0xd
+ 2076 083b 6F01     		.2byte	0x16f
+ 2077 083d 86000000 		.4byte	0x86
+ 2078 0841 02       		.byte	0x2
+ 2079 0842 23       		.byte	0x23
+ 2080 0843 0C       		.uleb128 0xc
+ 2081 0844 0C       		.uleb128 0xc
+ 2082 0845 63723200 		.ascii	"cr2\000"
+ 2083 0849 0D       		.byte	0xd
+ 2084 084a 7601     		.2byte	0x176
+ 2085 084c 86000000 		.4byte	0x86
+ 2086 0850 02       		.byte	0x2
+ 2087 0851 23       		.byte	0x23
+ 2088 0852 10       		.uleb128 0x10
+ 2089 0853 12       		.uleb128 0x12
+ 2090 0854 AC040000 		.4byte	.LASF118
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 38
+
+
+ 2091 0858 0D       		.byte	0xd
+ 2092 0859 7C01     		.2byte	0x17c
+ 2093 085b 86000000 		.4byte	0x86
+ 2094 085f 02       		.byte	0x2
+ 2095 0860 23       		.byte	0x23
+ 2096 0861 14       		.uleb128 0x14
+ 2097 0862 12       		.uleb128 0x12
+ 2098 0863 B2040000 		.4byte	.LASF119
+ 2099 0867 0D       		.byte	0xd
+ 2100 0868 8201     		.2byte	0x182
+ 2101 086a 86000000 		.4byte	0x86
+ 2102 086e 02       		.byte	0x2
+ 2103 086f 23       		.byte	0x23
+ 2104 0870 18       		.uleb128 0x18
+ 2105 0871 12       		.uleb128 0x12
+ 2106 0872 25040000 		.4byte	.LASF120
+ 2107 0876 0D       		.byte	0xd
+ 2108 0877 8701     		.2byte	0x187
+ 2109 0879 86000000 		.4byte	0x86
+ 2110 087d 02       		.byte	0x2
+ 2111 087e 23       		.byte	0x23
+ 2112 087f 1C       		.uleb128 0x1c
+ 2113 0880 12       		.uleb128 0x12
+ 2114 0881 2A040000 		.4byte	.LASF121
+ 2115 0885 0D       		.byte	0xd
+ 2116 0886 8C01     		.2byte	0x18c
+ 2117 0888 86000000 		.4byte	0x86
+ 2118 088c 02       		.byte	0x2
+ 2119 088d 23       		.byte	0x23
+ 2120 088e 20       		.uleb128 0x20
+ 2121 088f 12       		.uleb128 0x12
+ 2122 0890 2F040000 		.4byte	.LASF122
+ 2123 0894 0D       		.byte	0xd
+ 2124 0895 9101     		.2byte	0x191
+ 2125 0897 86000000 		.4byte	0x86
+ 2126 089b 02       		.byte	0x2
+ 2127 089c 23       		.byte	0x23
+ 2128 089d 24       		.uleb128 0x24
+ 2129 089e 00       		.byte	0x0
+ 2130 089f 13       		.uleb128 0x13
+ 2131 08a0 D9040000 		.4byte	.LASF123
+ 2132 08a4 0D       		.byte	0xd
+ 2133 08a5 9201     		.2byte	0x192
+ 2134 08a7 F0070000 		.4byte	0x7f0
+ 2135 08ab 11       		.uleb128 0x11
+ 2136 08ac 04       		.byte	0x4
+ 2137 08ad 0D       		.byte	0xd
+ 2138 08ae 9801     		.2byte	0x198
+ 2139 08b0 C4080000 		.4byte	0x8c4
+ 2140 08b4 12       		.uleb128 0x12
+ 2141 08b5 88010000 		.4byte	.LASF124
+ 2142 08b9 0D       		.byte	0xd
+ 2143 08ba 9901     		.2byte	0x199
+ 2144 08bc 86000000 		.4byte	0x86
+ 2145 08c0 02       		.byte	0x2
+ 2146 08c1 23       		.byte	0x23
+ 2147 08c2 00       		.uleb128 0x0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 39
+
+
+ 2148 08c3 00       		.byte	0x0
+ 2149 08c4 13       		.uleb128 0x13
+ 2150 08c5 53010000 		.4byte	.LASF125
+ 2151 08c9 0D       		.byte	0xd
+ 2152 08ca 9A01     		.2byte	0x19a
+ 2153 08cc AB080000 		.4byte	0x8ab
+ 2154 08d0 09       		.uleb128 0x9
+ 2155 08d1 04       		.byte	0x4
+ 2156 08d2 D6080000 		.4byte	0x8d6
+ 2157 08d6 10       		.uleb128 0x10
+ 2158 08d7 C4080000 		.4byte	0x8c4
+ 2159 08db 09       		.uleb128 0x9
+ 2160 08dc 04       		.byte	0x4
+ 2161 08dd E1080000 		.4byte	0x8e1
+ 2162 08e1 10       		.uleb128 0x10
+ 2163 08e2 9F080000 		.4byte	0x89f
+ 2164 08e6 09       		.uleb128 0x9
+ 2165 08e7 04       		.byte	0x4
+ 2166 08e8 96050000 		.4byte	0x596
+ 2167 08ec 09       		.uleb128 0x9
+ 2168 08ed 04       		.byte	0x4
+ 2169 08ee F2080000 		.4byte	0x8f2
+ 2170 08f2 10       		.uleb128 0x10
+ 2171 08f3 6C060000 		.4byte	0x66c
+ 2172 08f7 19       		.uleb128 0x19
+ 2173 08f8 01       		.byte	0x1
+ 2174 08f9 F0020000 		.4byte	.LASF140
+ 2175 08fd 01       		.byte	0x1
+ 2176 08fe BB       		.byte	0xbb
+ 2177 08ff 01       		.byte	0x1
+ 2178 0900 01       		.byte	0x1
+ 2179 0901 32090000 		.4byte	0x932
+ 2180 0905 1A       		.uleb128 0x1a
+ 2181 0906 E5010000 		.4byte	.LASF126
+ 2182 090a 01       		.byte	0x1
+ 2183 090b BB       		.byte	0xbb
+ 2184 090c C1070000 		.4byte	0x7c1
+ 2185 0910 1A       		.uleb128 0x1a
+ 2186 0911 73020000 		.4byte	.LASF107
+ 2187 0915 01       		.byte	0x1
+ 2188 0916 BC       		.byte	0xbc
+ 2189 0917 DB080000 		.4byte	0x8db
+ 2190 091b 1A       		.uleb128 0x1a
+ 2191 091c 8A020000 		.4byte	.LASF105
+ 2192 0920 01       		.byte	0x1
+ 2193 0921 BD       		.byte	0xbd
+ 2194 0922 C7070000 		.4byte	0x7c7
+ 2195 0926 1A       		.uleb128 0x1a
+ 2196 0927 0E020000 		.4byte	.LASF106
+ 2197 092b 01       		.byte	0x1
+ 2198 092c BE       		.byte	0xbe
+ 2199 092d 30000000 		.4byte	0x30
+ 2200 0931 00       		.byte	0x0
+ 2201 0932 1B       		.uleb128 0x1b
+ 2202 0933 01       		.byte	0x1
+ 2203 0934 5D020000 		.4byte	.LASF141
+ 2204 0938 01       		.byte	0x1
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 40
+
+
+ 2205 0939 44       		.byte	0x44
+ 2206 093a 01       		.byte	0x1
+ 2207 093b 00000000 		.4byte	.LFB118
+ 2208 093f 04000000 		.4byte	.LFE118
+ 2209 0943 02       		.byte	0x2
+ 2210 0944 7D       		.byte	0x7d
+ 2211 0945 00       		.sleb128 0
+ 2212 0946 1C       		.uleb128 0x1c
+ 2213 0947 01       		.byte	0x1
+ 2214 0948 C2010000 		.4byte	.LASF127
+ 2215 094c 01       		.byte	0x1
+ 2216 094d 50       		.byte	0x50
+ 2217 094e 01       		.byte	0x1
+ 2218 094f 00000000 		.4byte	.LFB119
+ 2219 0953 16000000 		.4byte	.LFE119
+ 2220 0957 02       		.byte	0x2
+ 2221 0958 7D       		.byte	0x7d
+ 2222 0959 00       		.sleb128 0
+ 2223 095a 6E090000 		.4byte	0x96e
+ 2224 095e 1D       		.uleb128 0x1d
+ 2225 095f E5010000 		.4byte	.LASF126
+ 2226 0963 01       		.byte	0x1
+ 2227 0964 50       		.byte	0x50
+ 2228 0965 C1070000 		.4byte	0x7c1
+ 2229 0969 00000000 		.4byte	.LLST0
+ 2230 096d 00       		.byte	0x0
+ 2231 096e 1E       		.uleb128 0x1e
+ 2232 096f 01       		.byte	0x1
+ 2233 0970 92040000 		.4byte	.LASF128
+ 2234 0974 01       		.byte	0x1
+ 2235 0975 6F       		.byte	0x6f
+ 2236 0976 01       		.byte	0x1
+ 2237 0977 00000000 		.4byte	.LFB120
+ 2238 097b 1C000000 		.4byte	.LFE120
+ 2239 097f 20000000 		.4byte	.LLST1
+ 2240 0983 D8090000 		.4byte	0x9d8
+ 2241 0987 1D       		.uleb128 0x1d
+ 2242 0988 E5010000 		.4byte	.LASF126
+ 2243 098c 01       		.byte	0x1
+ 2244 098d 6F       		.byte	0x6f
+ 2245 098e C1070000 		.4byte	0x7c1
+ 2246 0992 40000000 		.4byte	.LLST2
+ 2247 0996 1D       		.uleb128 0x1d
+ 2248 0997 1E040000 		.4byte	.LASF104
+ 2249 099b 01       		.byte	0x1
+ 2250 099c 6F       		.byte	0x6f
+ 2251 099d D0080000 		.4byte	0x8d0
+ 2252 09a1 5E000000 		.4byte	.LLST3
+ 2253 09a5 1F       		.uleb128 0x1f
+ 2254 09a6 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 2255 09aa BE090000 		.4byte	0x9be
+ 2256 09ae 20       		.uleb128 0x20
+ 2257 09af 746D7000 		.ascii	"tmp\000"
+ 2258 09b3 01       		.byte	0x1
+ 2259 09b4 73       		.byte	0x73
+ 2260 09b5 86000000 		.4byte	0x86
+ 2261 09b9 71000000 		.4byte	.LLST4
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 41
+
+
+ 2262 09bd 00       		.byte	0x0
+ 2263 09be 21       		.uleb128 0x21
+ 2264 09bf 14000000 		.4byte	.LBB12
+ 2265 09c3 1A000000 		.4byte	.LBE12
+ 2266 09c7 20       		.uleb128 0x20
+ 2267 09c8 746D7000 		.ascii	"tmp\000"
+ 2268 09cc 01       		.byte	0x1
+ 2269 09cd 79       		.byte	0x79
+ 2270 09ce 86000000 		.4byte	0x86
+ 2271 09d2 84000000 		.4byte	.LLST5
+ 2272 09d6 00       		.byte	0x0
+ 2273 09d7 00       		.byte	0x0
+ 2274 09d8 1E       		.uleb128 0x1e
+ 2275 09d9 01       		.byte	0x1
+ 2276 09da 26000000 		.4byte	.LASF129
+ 2277 09de 01       		.byte	0x1
+ 2278 09df 83       		.byte	0x83
+ 2279 09e0 01       		.byte	0x1
+ 2280 09e1 00000000 		.4byte	.LFB121
+ 2281 09e5 1A000000 		.4byte	.LFE121
+ 2282 09e9 97000000 		.4byte	.LLST6
+ 2283 09ed 330A0000 		.4byte	0xa33
+ 2284 09f1 1D       		.uleb128 0x1d
+ 2285 09f2 E5010000 		.4byte	.LASF126
+ 2286 09f6 01       		.byte	0x1
+ 2287 09f7 83       		.byte	0x83
+ 2288 09f8 C1070000 		.4byte	0x7c1
+ 2289 09fc B7000000 		.4byte	.LLST7
+ 2290 0a00 1F       		.uleb128 0x1f
+ 2291 0a01 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 2292 0a05 190A0000 		.4byte	0xa19
+ 2293 0a09 20       		.uleb128 0x20
+ 2294 0a0a 746D7000 		.ascii	"tmp\000"
+ 2295 0a0e 01       		.byte	0x1
+ 2296 0a0f 87       		.byte	0x87
+ 2297 0a10 86000000 		.4byte	0x86
+ 2298 0a14 D5000000 		.4byte	.LLST8
+ 2299 0a18 00       		.byte	0x0
+ 2300 0a19 21       		.uleb128 0x21
+ 2301 0a1a 12000000 		.4byte	.LBB15
+ 2302 0a1e 18000000 		.4byte	.LBE15
+ 2303 0a22 20       		.uleb128 0x20
+ 2304 0a23 746D7000 		.ascii	"tmp\000"
+ 2305 0a27 01       		.byte	0x1
+ 2306 0a28 8C       		.byte	0x8c
+ 2307 0a29 86000000 		.4byte	0x86
+ 2308 0a2d E8000000 		.4byte	.LLST9
+ 2309 0a31 00       		.byte	0x0
+ 2310 0a32 00       		.byte	0x0
+ 2311 0a33 1E       		.uleb128 0x1e
+ 2312 0a34 01       		.byte	0x1
+ 2313 0a35 69040000 		.4byte	.LASF130
+ 2314 0a39 01       		.byte	0x1
+ 2315 0a3a 9F       		.byte	0x9f
+ 2316 0a3b 01       		.byte	0x1
+ 2317 0a3c 00000000 		.4byte	.LFB122
+ 2318 0a40 20000000 		.4byte	.LFE122
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 42
+
+
+ 2319 0a44 FB000000 		.4byte	.LLST10
+ 2320 0a48 F30A0000 		.4byte	0xaf3
+ 2321 0a4c 1D       		.uleb128 0x1d
+ 2322 0a4d E5010000 		.4byte	.LASF126
+ 2323 0a51 01       		.byte	0x1
+ 2324 0a52 9F       		.byte	0x9f
+ 2325 0a53 C1070000 		.4byte	0x7c1
+ 2326 0a57 1B010000 		.4byte	.LLST11
+ 2327 0a5b 1D       		.uleb128 0x1d
+ 2328 0a5c 73020000 		.4byte	.LASF107
+ 2329 0a60 01       		.byte	0x1
+ 2330 0a61 A0       		.byte	0xa0
+ 2331 0a62 DB080000 		.4byte	0x8db
+ 2332 0a66 2E010000 		.4byte	.LLST12
+ 2333 0a6a 1D       		.uleb128 0x1d
+ 2334 0a6b 8A020000 		.4byte	.LASF105
+ 2335 0a6f 01       		.byte	0x1
+ 2336 0a70 A1       		.byte	0xa1
+ 2337 0a71 C7070000 		.4byte	0x7c7
+ 2338 0a75 41010000 		.4byte	.LLST13
+ 2339 0a79 1D       		.uleb128 0x1d
+ 2340 0a7a 0E020000 		.4byte	.LASF106
+ 2341 0a7e 01       		.byte	0x1
+ 2342 0a7f A2       		.byte	0xa2
+ 2343 0a80 30000000 		.4byte	0x30
+ 2344 0a84 54010000 		.4byte	.LLST14
+ 2345 0a88 22       		.uleb128 0x22
+ 2346 0a89 04000000 		.4byte	.LBB16
+ 2347 0a8d 0A000000 		.4byte	.LBE16
+ 2348 0a91 A50A0000 		.4byte	0xaa5
+ 2349 0a95 20       		.uleb128 0x20
+ 2350 0a96 746D7000 		.ascii	"tmp\000"
+ 2351 0a9a 01       		.byte	0x1
+ 2352 0a9b A4       		.byte	0xa4
+ 2353 0a9c 86000000 		.4byte	0x86
+ 2354 0aa0 72010000 		.4byte	.LLST15
+ 2355 0aa4 00       		.byte	0x0
+ 2356 0aa5 23       		.uleb128 0x23
+ 2357 0aa6 F7080000 		.4byte	0x8f7
+ 2358 0aaa 0A000000 		.4byte	.LBB17
+ 2359 0aae 18000000 		.4byte	.LBE17
+ 2360 0ab2 01       		.byte	0x1
+ 2361 0ab3 A5       		.byte	0xa5
+ 2362 0ab4 D90A0000 		.4byte	0xad9
+ 2363 0ab8 24       		.uleb128 0x24
+ 2364 0ab9 26090000 		.4byte	0x926
+ 2365 0abd 01       		.byte	0x1
+ 2366 0abe 55       		.byte	0x55
+ 2367 0abf 25       		.uleb128 0x25
+ 2368 0ac0 1B090000 		.4byte	0x91b
+ 2369 0ac4 85010000 		.4byte	.LLST16
+ 2370 0ac8 25       		.uleb128 0x25
+ 2371 0ac9 10090000 		.4byte	0x910
+ 2372 0acd 98010000 		.4byte	.LLST17
+ 2373 0ad1 24       		.uleb128 0x24
+ 2374 0ad2 05090000 		.4byte	0x905
+ 2375 0ad6 01       		.byte	0x1
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 43
+
+
+ 2376 0ad7 54       		.byte	0x54
+ 2377 0ad8 00       		.byte	0x0
+ 2378 0ad9 21       		.uleb128 0x21
+ 2379 0ada 18000000 		.4byte	.LBB19
+ 2380 0ade 1E000000 		.4byte	.LBE19
+ 2381 0ae2 20       		.uleb128 0x20
+ 2382 0ae3 746D7000 		.ascii	"tmp\000"
+ 2383 0ae7 01       		.byte	0x1
+ 2384 0ae8 A6       		.byte	0xa6
+ 2385 0ae9 86000000 		.4byte	0x86
+ 2386 0aed AB010000 		.4byte	.LLST18
+ 2387 0af1 00       		.byte	0x0
+ 2388 0af2 00       		.byte	0x0
+ 2389 0af3 26       		.uleb128 0x26
+ 2390 0af4 F7080000 		.4byte	0x8f7
+ 2391 0af8 00000000 		.4byte	.LFB123
+ 2392 0afc 12000000 		.4byte	.LFE123
+ 2393 0b00 BE010000 		.4byte	.LLST19
+ 2394 0b04 270B0000 		.4byte	0xb27
+ 2395 0b08 24       		.uleb128 0x24
+ 2396 0b09 05090000 		.4byte	0x905
+ 2397 0b0d 01       		.byte	0x1
+ 2398 0b0e 50       		.byte	0x50
+ 2399 0b0f 24       		.uleb128 0x24
+ 2400 0b10 10090000 		.4byte	0x910
+ 2401 0b14 01       		.byte	0x1
+ 2402 0b15 51       		.byte	0x51
+ 2403 0b16 24       		.uleb128 0x24
+ 2404 0b17 1B090000 		.4byte	0x91b
+ 2405 0b1b 01       		.byte	0x1
+ 2406 0b1c 52       		.byte	0x52
+ 2407 0b1d 25       		.uleb128 0x25
+ 2408 0b1e 26090000 		.4byte	0x926
+ 2409 0b22 DE010000 		.4byte	.LLST20
+ 2410 0b26 00       		.byte	0x0
+ 2411 0b27 1E       		.uleb128 0x1e
+ 2412 0b28 01       		.byte	0x1
+ 2413 0b29 3F050000 		.4byte	.LASF131
+ 2414 0b2d 01       		.byte	0x1
+ 2415 0b2e DA       		.byte	0xda
+ 2416 0b2f 01       		.byte	0x1
+ 2417 0b30 00000000 		.4byte	.LFB124
+ 2418 0b34 32000000 		.4byte	.LFE124
+ 2419 0b38 FD010000 		.4byte	.LLST21
+ 2420 0b3c 9E0B0000 		.4byte	0xb9e
+ 2421 0b40 1D       		.uleb128 0x1d
+ 2422 0b41 E5010000 		.4byte	.LASF126
+ 2423 0b45 01       		.byte	0x1
+ 2424 0b46 DA       		.byte	0xda
+ 2425 0b47 C1070000 		.4byte	0x7c1
+ 2426 0b4b 1D020000 		.4byte	.LLST22
+ 2427 0b4f 1F       		.uleb128 0x1f
+ 2428 0b50 30000000 		.4byte	.Ldebug_ranges0+0x30
+ 2429 0b54 680B0000 		.4byte	0xb68
+ 2430 0b58 20       		.uleb128 0x20
+ 2431 0b59 746D7000 		.ascii	"tmp\000"
+ 2432 0b5d 01       		.byte	0x1
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 44
+
+
+ 2433 0b5e DE       		.byte	0xde
+ 2434 0b5f 86000000 		.4byte	0x86
+ 2435 0b63 3B020000 		.4byte	.LLST23
+ 2436 0b67 00       		.byte	0x0
+ 2437 0b68 22       		.uleb128 0x22
+ 2438 0b69 20000000 		.4byte	.LBB22
+ 2439 0b6d 2A000000 		.4byte	.LBE22
+ 2440 0b71 840B0000 		.4byte	0xb84
+ 2441 0b75 20       		.uleb128 0x20
+ 2442 0b76 747000   		.ascii	"tp\000"
+ 2443 0b79 01       		.byte	0x1
+ 2444 0b7a E6       		.byte	0xe6
+ 2445 0b7b 65020000 		.4byte	0x265
+ 2446 0b7f 4E020000 		.4byte	.LLST24
+ 2447 0b83 00       		.byte	0x0
+ 2448 0b84 21       		.uleb128 0x21
+ 2449 0b85 2A000000 		.4byte	.LBB23
+ 2450 0b89 30000000 		.4byte	.LBE23
+ 2451 0b8d 20       		.uleb128 0x20
+ 2452 0b8e 746D7000 		.ascii	"tmp\000"
+ 2453 0b92 01       		.byte	0x1
+ 2454 0b93 E8       		.byte	0xe8
+ 2455 0b94 86000000 		.4byte	0x86
+ 2456 0b98 62020000 		.4byte	.LLST25
+ 2457 0b9c 00       		.byte	0x0
+ 2458 0b9d 00       		.byte	0x0
+ 2459 0b9e 1E       		.uleb128 0x1e
+ 2460 0b9f 01       		.byte	0x1
+ 2461 0ba0 C6040000 		.4byte	.LASF132
+ 2462 0ba4 01       		.byte	0x1
+ 2463 0ba5 F5       		.byte	0xf5
+ 2464 0ba6 01       		.byte	0x1
+ 2465 0ba7 00000000 		.4byte	.LFB125
+ 2466 0bab 2E000000 		.4byte	.LFE125
+ 2467 0baf 75020000 		.4byte	.LLST26
+ 2468 0bb3 DC0B0000 		.4byte	0xbdc
+ 2469 0bb7 1D       		.uleb128 0x1d
+ 2470 0bb8 E5010000 		.4byte	.LASF126
+ 2471 0bbc 01       		.byte	0x1
+ 2472 0bbd F5       		.byte	0xf5
+ 2473 0bbe C1070000 		.4byte	0x7c1
+ 2474 0bc2 95020000 		.4byte	.LLST27
+ 2475 0bc6 27       		.uleb128 0x27
+ 2476 0bc7 48000000 		.4byte	.Ldebug_ranges0+0x48
+ 2477 0bcb 28       		.uleb128 0x28
+ 2478 0bcc 747000   		.ascii	"tp\000"
+ 2479 0bcf 01       		.byte	0x1
+ 2480 0bd0 0201     		.2byte	0x102
+ 2481 0bd2 65020000 		.4byte	0x265
+ 2482 0bd6 B3020000 		.4byte	.LLST28
+ 2483 0bda 00       		.byte	0x0
+ 2484 0bdb 00       		.byte	0x0
+ 2485 0bdc 29       		.uleb128 0x29
+ 2486 0bdd 01       		.byte	0x1
+ 2487 0bde 34050000 		.4byte	.LASF142
+ 2488 0be2 01       		.byte	0x1
+ 2489 0be3 1E01     		.2byte	0x11e
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 45
+
+
+ 2490 0be5 01       		.byte	0x1
+ 2491 0be6 EF000000 		.4byte	0xef
+ 2492 0bea 00000000 		.4byte	.LFB126
+ 2493 0bee 38000000 		.4byte	.LFE126
+ 2494 0bf2 C7020000 		.4byte	.LLST29
+ 2495 0bf6 B80C0000 		.4byte	0xcb8
+ 2496 0bfa 2A       		.uleb128 0x2a
+ 2497 0bfb E5010000 		.4byte	.LASF126
+ 2498 0bff 01       		.byte	0x1
+ 2499 0c00 1E01     		.2byte	0x11e
+ 2500 0c02 C1070000 		.4byte	0x7c1
+ 2501 0c06 E7020000 		.4byte	.LLST30
+ 2502 0c0a 2A       		.uleb128 0x2a
+ 2503 0c0b 73020000 		.4byte	.LASF107
+ 2504 0c0f 01       		.byte	0x1
+ 2505 0c10 1F01     		.2byte	0x11f
+ 2506 0c12 DB080000 		.4byte	0x8db
+ 2507 0c16 05030000 		.4byte	.LLST31
+ 2508 0c1a 2A       		.uleb128 0x2a
+ 2509 0c1b 8A020000 		.4byte	.LASF105
+ 2510 0c1f 01       		.byte	0x1
+ 2511 0c20 2001     		.2byte	0x120
+ 2512 0c22 C7070000 		.4byte	0x7c7
+ 2513 0c26 18030000 		.4byte	.LLST32
+ 2514 0c2a 2A       		.uleb128 0x2a
+ 2515 0c2b 0E020000 		.4byte	.LASF106
+ 2516 0c2f 01       		.byte	0x1
+ 2517 0c30 2101     		.2byte	0x121
+ 2518 0c32 30000000 		.4byte	0x30
+ 2519 0c36 2B030000 		.4byte	.LLST33
+ 2520 0c3a 2B       		.uleb128 0x2b
+ 2521 0c3b 6D736700 		.ascii	"msg\000"
+ 2522 0c3f 01       		.byte	0x1
+ 2523 0c40 2201     		.2byte	0x122
+ 2524 0c42 EF000000 		.4byte	0xef
+ 2525 0c46 05       		.byte	0x5
+ 2526 0c47 76       		.byte	0x76
+ 2527 0c48 18       		.sleb128 24
+ 2528 0c49 06       		.byte	0x6
+ 2529 0c4a 23       		.byte	0x23
+ 2530 0c4b 24       		.uleb128 0x24
+ 2531 0c4c 22       		.uleb128 0x22
+ 2532 0c4d 06000000 		.4byte	.LBB26
+ 2533 0c51 0C000000 		.4byte	.LBE26
+ 2534 0c55 6A0C0000 		.4byte	0xc6a
+ 2535 0c59 28       		.uleb128 0x28
+ 2536 0c5a 746D7000 		.ascii	"tmp\000"
+ 2537 0c5e 01       		.byte	0x1
+ 2538 0c5f 2401     		.2byte	0x124
+ 2539 0c61 86000000 		.4byte	0x86
+ 2540 0c65 49030000 		.4byte	.LLST34
+ 2541 0c69 00       		.byte	0x0
+ 2542 0c6a 2C       		.uleb128 0x2c
+ 2543 0c6b F7080000 		.4byte	0x8f7
+ 2544 0c6f 0E000000 		.4byte	.LBB27
+ 2545 0c73 1C000000 		.4byte	.LBE27
+ 2546 0c77 01       		.byte	0x1
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 46
+
+
+ 2547 0c78 2601     		.2byte	0x126
+ 2548 0c7a A10C0000 		.4byte	0xca1
+ 2549 0c7e 24       		.uleb128 0x24
+ 2550 0c7f 26090000 		.4byte	0x926
+ 2551 0c83 01       		.byte	0x1
+ 2552 0c84 55       		.byte	0x55
+ 2553 0c85 25       		.uleb128 0x25
+ 2554 0c86 1B090000 		.4byte	0x91b
+ 2555 0c8a 5C030000 		.4byte	.LLST35
+ 2556 0c8e 25       		.uleb128 0x25
+ 2557 0c8f 10090000 		.4byte	0x910
+ 2558 0c93 6F030000 		.4byte	.LLST36
+ 2559 0c97 25       		.uleb128 0x25
+ 2560 0c98 05090000 		.4byte	0x905
+ 2561 0c9c 8E030000 		.4byte	.LLST37
+ 2562 0ca0 00       		.byte	0x0
+ 2563 0ca1 27       		.uleb128 0x27
+ 2564 0ca2 60000000 		.4byte	.Ldebug_ranges0+0x60
+ 2565 0ca6 28       		.uleb128 0x28
+ 2566 0ca7 746D7000 		.ascii	"tmp\000"
+ 2567 0cab 01       		.byte	0x1
+ 2568 0cac 2A01     		.2byte	0x12a
+ 2569 0cae 86000000 		.4byte	0x86
+ 2570 0cb2 AC030000 		.4byte	.LLST38
+ 2571 0cb6 00       		.byte	0x0
+ 2572 0cb7 00       		.byte	0x0
+ 2573 0cb8 2D       		.uleb128 0x2d
+ 2574 0cb9 01       		.byte	0x1
+ 2575 0cba 59050000 		.4byte	.LASF133
+ 2576 0cbe 01       		.byte	0x1
+ 2577 0cbf 3B01     		.2byte	0x13b
+ 2578 0cc1 01       		.byte	0x1
+ 2579 0cc2 00000000 		.4byte	.LFB127
+ 2580 0cc6 06000000 		.4byte	.LFE127
+ 2581 0cca 02       		.byte	0x2
+ 2582 0ccb 7D       		.byte	0x7d
+ 2583 0ccc 00       		.sleb128 0
+ 2584 0ccd E20C0000 		.4byte	0xce2
+ 2585 0cd1 2A       		.uleb128 0x2a
+ 2586 0cd2 E5010000 		.4byte	.LASF126
+ 2587 0cd6 01       		.byte	0x1
+ 2588 0cd7 3B01     		.2byte	0x13b
+ 2589 0cd9 C1070000 		.4byte	0x7c1
+ 2590 0cdd BF030000 		.4byte	.LLST39
+ 2591 0ce1 00       		.byte	0x0
+ 2592 0ce2 2D       		.uleb128 0x2d
+ 2593 0ce3 01       		.byte	0x1
+ 2594 0ce4 65020000 		.4byte	.LASF134
+ 2595 0ce8 01       		.byte	0x1
+ 2596 0ce9 4F01     		.2byte	0x14f
+ 2597 0ceb 01       		.byte	0x1
+ 2598 0cec 00000000 		.4byte	.LFB128
+ 2599 0cf0 04000000 		.4byte	.LFE128
+ 2600 0cf4 02       		.byte	0x2
+ 2601 0cf5 7D       		.byte	0x7d
+ 2602 0cf6 00       		.sleb128 0
+ 2603 0cf7 0A0D0000 		.4byte	0xd0a
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 47
+
+
+ 2604 0cfb 2E       		.uleb128 0x2e
+ 2605 0cfc E5010000 		.4byte	.LASF126
+ 2606 0d00 01       		.byte	0x1
+ 2607 0d01 4F01     		.2byte	0x14f
+ 2608 0d03 C1070000 		.4byte	0x7c1
+ 2609 0d07 01       		.byte	0x1
+ 2610 0d08 50       		.byte	0x50
+ 2611 0d09 00       		.byte	0x0
+ 2612 0d0a 2F       		.uleb128 0x2f
+ 2613 0d0b B8040000 		.4byte	.LASF135
+ 2614 0d0f 08       		.byte	0x8
+ 2615 0d10 6F       		.byte	0x6f
+ 2616 0d11 BD030000 		.4byte	0x3bd
+ 2617 0d15 01       		.byte	0x1
+ 2618 0d16 01       		.byte	0x1
+ 2619 0d17 30       		.uleb128 0x30
+ 2620 0d18 5C000000 		.4byte	.LASF136
+ 2621 0d1c 0E       		.byte	0xe
+ 2622 0d1d 9806     		.2byte	0x698
+ 2623 0d1f 5D040000 		.4byte	0x45d
+ 2624 0d23 01       		.byte	0x1
+ 2625 0d24 01       		.byte	0x1
+ 2626 0d25 2F       		.uleb128 0x2f
+ 2627 0d26 B8040000 		.4byte	.LASF135
+ 2628 0d2a 08       		.byte	0x8
+ 2629 0d2b 6F       		.byte	0x6f
+ 2630 0d2c BD030000 		.4byte	0x3bd
+ 2631 0d30 01       		.byte	0x1
+ 2632 0d31 01       		.byte	0x1
+ 2633 0d32 30       		.uleb128 0x30
+ 2634 0d33 5C000000 		.4byte	.LASF136
+ 2635 0d37 0E       		.byte	0xe
+ 2636 0d38 9806     		.2byte	0x698
+ 2637 0d3a 5D040000 		.4byte	0x45d
+ 2638 0d3e 01       		.byte	0x1
+ 2639 0d3f 01       		.byte	0x1
+ 2640 0d40 00       		.byte	0x0
+ 2641              		.section	.debug_abbrev
+ 2642 0000 01       		.uleb128 0x1
+ 2643 0001 11       		.uleb128 0x11
+ 2644 0002 01       		.byte	0x1
+ 2645 0003 25       		.uleb128 0x25
+ 2646 0004 0E       		.uleb128 0xe
+ 2647 0005 13       		.uleb128 0x13
+ 2648 0006 0B       		.uleb128 0xb
+ 2649 0007 03       		.uleb128 0x3
+ 2650 0008 0E       		.uleb128 0xe
+ 2651 0009 1B       		.uleb128 0x1b
+ 2652 000a 0E       		.uleb128 0xe
+ 2653 000b 11       		.uleb128 0x11
+ 2654 000c 01       		.uleb128 0x1
+ 2655 000d 52       		.uleb128 0x52
+ 2656 000e 01       		.uleb128 0x1
+ 2657 000f 55       		.uleb128 0x55
+ 2658 0010 06       		.uleb128 0x6
+ 2659 0011 10       		.uleb128 0x10
+ 2660 0012 06       		.uleb128 0x6
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 48
+
+
+ 2661 0013 00       		.byte	0x0
+ 2662 0014 00       		.byte	0x0
+ 2663 0015 02       		.uleb128 0x2
+ 2664 0016 24       		.uleb128 0x24
+ 2665 0017 00       		.byte	0x0
+ 2666 0018 0B       		.uleb128 0xb
+ 2667 0019 0B       		.uleb128 0xb
+ 2668 001a 3E       		.uleb128 0x3e
+ 2669 001b 0B       		.uleb128 0xb
+ 2670 001c 03       		.uleb128 0x3
+ 2671 001d 08       		.uleb128 0x8
+ 2672 001e 00       		.byte	0x0
+ 2673 001f 00       		.byte	0x0
+ 2674 0020 03       		.uleb128 0x3
+ 2675 0021 16       		.uleb128 0x16
+ 2676 0022 00       		.byte	0x0
+ 2677 0023 03       		.uleb128 0x3
+ 2678 0024 0E       		.uleb128 0xe
+ 2679 0025 3A       		.uleb128 0x3a
+ 2680 0026 0B       		.uleb128 0xb
+ 2681 0027 3B       		.uleb128 0x3b
+ 2682 0028 0B       		.uleb128 0xb
+ 2683 0029 49       		.uleb128 0x49
+ 2684 002a 13       		.uleb128 0x13
+ 2685 002b 00       		.byte	0x0
+ 2686 002c 00       		.byte	0x0
+ 2687 002d 04       		.uleb128 0x4
+ 2688 002e 24       		.uleb128 0x24
+ 2689 002f 00       		.byte	0x0
+ 2690 0030 0B       		.uleb128 0xb
+ 2691 0031 0B       		.uleb128 0xb
+ 2692 0032 3E       		.uleb128 0x3e
+ 2693 0033 0B       		.uleb128 0xb
+ 2694 0034 03       		.uleb128 0x3
+ 2695 0035 0E       		.uleb128 0xe
+ 2696 0036 00       		.byte	0x0
+ 2697 0037 00       		.byte	0x0
+ 2698 0038 05       		.uleb128 0x5
+ 2699 0039 13       		.uleb128 0x13
+ 2700 003a 01       		.byte	0x1
+ 2701 003b 03       		.uleb128 0x3
+ 2702 003c 0E       		.uleb128 0xe
+ 2703 003d 0B       		.uleb128 0xb
+ 2704 003e 0B       		.uleb128 0xb
+ 2705 003f 3A       		.uleb128 0x3a
+ 2706 0040 0B       		.uleb128 0xb
+ 2707 0041 3B       		.uleb128 0x3b
+ 2708 0042 0B       		.uleb128 0xb
+ 2709 0043 01       		.uleb128 0x1
+ 2710 0044 13       		.uleb128 0x13
+ 2711 0045 00       		.byte	0x0
+ 2712 0046 00       		.byte	0x0
+ 2713 0047 06       		.uleb128 0x6
+ 2714 0048 0D       		.uleb128 0xd
+ 2715 0049 00       		.byte	0x0
+ 2716 004a 03       		.uleb128 0x3
+ 2717 004b 0E       		.uleb128 0xe
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 49
+
+
+ 2718 004c 3A       		.uleb128 0x3a
+ 2719 004d 0B       		.uleb128 0xb
+ 2720 004e 3B       		.uleb128 0x3b
+ 2721 004f 0B       		.uleb128 0xb
+ 2722 0050 49       		.uleb128 0x49
+ 2723 0051 13       		.uleb128 0x13
+ 2724 0052 38       		.uleb128 0x38
+ 2725 0053 0A       		.uleb128 0xa
+ 2726 0054 00       		.byte	0x0
+ 2727 0055 00       		.byte	0x0
+ 2728 0056 07       		.uleb128 0x7
+ 2729 0057 0D       		.uleb128 0xd
+ 2730 0058 00       		.byte	0x0
+ 2731 0059 03       		.uleb128 0x3
+ 2732 005a 08       		.uleb128 0x8
+ 2733 005b 3A       		.uleb128 0x3a
+ 2734 005c 0B       		.uleb128 0xb
+ 2735 005d 3B       		.uleb128 0x3b
+ 2736 005e 0B       		.uleb128 0xb
+ 2737 005f 49       		.uleb128 0x49
+ 2738 0060 13       		.uleb128 0x13
+ 2739 0061 38       		.uleb128 0x38
+ 2740 0062 0A       		.uleb128 0xa
+ 2741 0063 00       		.byte	0x0
+ 2742 0064 00       		.byte	0x0
+ 2743 0065 08       		.uleb128 0x8
+ 2744 0066 13       		.uleb128 0x13
+ 2745 0067 01       		.byte	0x1
+ 2746 0068 0B       		.uleb128 0xb
+ 2747 0069 0B       		.uleb128 0xb
+ 2748 006a 3A       		.uleb128 0x3a
+ 2749 006b 0B       		.uleb128 0xb
+ 2750 006c 3B       		.uleb128 0x3b
+ 2751 006d 0B       		.uleb128 0xb
+ 2752 006e 01       		.uleb128 0x1
+ 2753 006f 13       		.uleb128 0x13
+ 2754 0070 00       		.byte	0x0
+ 2755 0071 00       		.byte	0x0
+ 2756 0072 09       		.uleb128 0x9
+ 2757 0073 0F       		.uleb128 0xf
+ 2758 0074 00       		.byte	0x0
+ 2759 0075 0B       		.uleb128 0xb
+ 2760 0076 0B       		.uleb128 0xb
+ 2761 0077 49       		.uleb128 0x49
+ 2762 0078 13       		.uleb128 0x13
+ 2763 0079 00       		.byte	0x0
+ 2764 007a 00       		.byte	0x0
+ 2765 007b 0A       		.uleb128 0xa
+ 2766 007c 0F       		.uleb128 0xf
+ 2767 007d 00       		.byte	0x0
+ 2768 007e 0B       		.uleb128 0xb
+ 2769 007f 0B       		.uleb128 0xb
+ 2770 0080 00       		.byte	0x0
+ 2771 0081 00       		.byte	0x0
+ 2772 0082 0B       		.uleb128 0xb
+ 2773 0083 13       		.uleb128 0x13
+ 2774 0084 01       		.byte	0x1
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 50
+
+
+ 2775 0085 03       		.uleb128 0x3
+ 2776 0086 0E       		.uleb128 0xe
+ 2777 0087 0B       		.uleb128 0xb
+ 2778 0088 0B       		.uleb128 0xb
+ 2779 0089 3A       		.uleb128 0x3a
+ 2780 008a 0B       		.uleb128 0xb
+ 2781 008b 3B       		.uleb128 0x3b
+ 2782 008c 05       		.uleb128 0x5
+ 2783 008d 01       		.uleb128 0x1
+ 2784 008e 13       		.uleb128 0x13
+ 2785 008f 00       		.byte	0x0
+ 2786 0090 00       		.byte	0x0
+ 2787 0091 0C       		.uleb128 0xc
+ 2788 0092 0D       		.uleb128 0xd
+ 2789 0093 00       		.byte	0x0
+ 2790 0094 03       		.uleb128 0x3
+ 2791 0095 08       		.uleb128 0x8
+ 2792 0096 3A       		.uleb128 0x3a
+ 2793 0097 0B       		.uleb128 0xb
+ 2794 0098 3B       		.uleb128 0x3b
+ 2795 0099 05       		.uleb128 0x5
+ 2796 009a 49       		.uleb128 0x49
+ 2797 009b 13       		.uleb128 0x13
+ 2798 009c 38       		.uleb128 0x38
+ 2799 009d 0A       		.uleb128 0xa
+ 2800 009e 00       		.byte	0x0
+ 2801 009f 00       		.byte	0x0
+ 2802 00a0 0D       		.uleb128 0xd
+ 2803 00a1 35       		.uleb128 0x35
+ 2804 00a2 00       		.byte	0x0
+ 2805 00a3 49       		.uleb128 0x49
+ 2806 00a4 13       		.uleb128 0x13
+ 2807 00a5 00       		.byte	0x0
+ 2808 00a6 00       		.byte	0x0
+ 2809 00a7 0E       		.uleb128 0xe
+ 2810 00a8 17       		.uleb128 0x17
+ 2811 00a9 01       		.byte	0x1
+ 2812 00aa 0B       		.uleb128 0xb
+ 2813 00ab 0B       		.uleb128 0xb
+ 2814 00ac 3A       		.uleb128 0x3a
+ 2815 00ad 0B       		.uleb128 0xb
+ 2816 00ae 3B       		.uleb128 0x3b
+ 2817 00af 0B       		.uleb128 0xb
+ 2818 00b0 01       		.uleb128 0x1
+ 2819 00b1 13       		.uleb128 0x13
+ 2820 00b2 00       		.byte	0x0
+ 2821 00b3 00       		.byte	0x0
+ 2822 00b4 0F       		.uleb128 0xf
+ 2823 00b5 0D       		.uleb128 0xd
+ 2824 00b6 00       		.byte	0x0
+ 2825 00b7 03       		.uleb128 0x3
+ 2826 00b8 0E       		.uleb128 0xe
+ 2827 00b9 3A       		.uleb128 0x3a
+ 2828 00ba 0B       		.uleb128 0xb
+ 2829 00bb 3B       		.uleb128 0x3b
+ 2830 00bc 0B       		.uleb128 0xb
+ 2831 00bd 49       		.uleb128 0x49
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 51
+
+
+ 2832 00be 13       		.uleb128 0x13
+ 2833 00bf 00       		.byte	0x0
+ 2834 00c0 00       		.byte	0x0
+ 2835 00c1 10       		.uleb128 0x10
+ 2836 00c2 26       		.uleb128 0x26
+ 2837 00c3 00       		.byte	0x0
+ 2838 00c4 49       		.uleb128 0x49
+ 2839 00c5 13       		.uleb128 0x13
+ 2840 00c6 00       		.byte	0x0
+ 2841 00c7 00       		.byte	0x0
+ 2842 00c8 11       		.uleb128 0x11
+ 2843 00c9 13       		.uleb128 0x13
+ 2844 00ca 01       		.byte	0x1
+ 2845 00cb 0B       		.uleb128 0xb
+ 2846 00cc 0B       		.uleb128 0xb
+ 2847 00cd 3A       		.uleb128 0x3a
+ 2848 00ce 0B       		.uleb128 0xb
+ 2849 00cf 3B       		.uleb128 0x3b
+ 2850 00d0 05       		.uleb128 0x5
+ 2851 00d1 01       		.uleb128 0x1
+ 2852 00d2 13       		.uleb128 0x13
+ 2853 00d3 00       		.byte	0x0
+ 2854 00d4 00       		.byte	0x0
+ 2855 00d5 12       		.uleb128 0x12
+ 2856 00d6 0D       		.uleb128 0xd
+ 2857 00d7 00       		.byte	0x0
+ 2858 00d8 03       		.uleb128 0x3
+ 2859 00d9 0E       		.uleb128 0xe
+ 2860 00da 3A       		.uleb128 0x3a
+ 2861 00db 0B       		.uleb128 0xb
+ 2862 00dc 3B       		.uleb128 0x3b
+ 2863 00dd 05       		.uleb128 0x5
+ 2864 00de 49       		.uleb128 0x49
+ 2865 00df 13       		.uleb128 0x13
+ 2866 00e0 38       		.uleb128 0x38
+ 2867 00e1 0A       		.uleb128 0xa
+ 2868 00e2 00       		.byte	0x0
+ 2869 00e3 00       		.byte	0x0
+ 2870 00e4 13       		.uleb128 0x13
+ 2871 00e5 16       		.uleb128 0x16
+ 2872 00e6 00       		.byte	0x0
+ 2873 00e7 03       		.uleb128 0x3
+ 2874 00e8 0E       		.uleb128 0xe
+ 2875 00e9 3A       		.uleb128 0x3a
+ 2876 00ea 0B       		.uleb128 0xb
+ 2877 00eb 3B       		.uleb128 0x3b
+ 2878 00ec 05       		.uleb128 0x5
+ 2879 00ed 49       		.uleb128 0x49
+ 2880 00ee 13       		.uleb128 0x13
+ 2881 00ef 00       		.byte	0x0
+ 2882 00f0 00       		.byte	0x0
+ 2883 00f1 14       		.uleb128 0x14
+ 2884 00f2 04       		.uleb128 0x4
+ 2885 00f3 01       		.byte	0x1
+ 2886 00f4 0B       		.uleb128 0xb
+ 2887 00f5 0B       		.uleb128 0xb
+ 2888 00f6 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 52
+
+
+ 2889 00f7 0B       		.uleb128 0xb
+ 2890 00f8 3B       		.uleb128 0x3b
+ 2891 00f9 0B       		.uleb128 0xb
+ 2892 00fa 01       		.uleb128 0x1
+ 2893 00fb 13       		.uleb128 0x13
+ 2894 00fc 00       		.byte	0x0
+ 2895 00fd 00       		.byte	0x0
+ 2896 00fe 15       		.uleb128 0x15
+ 2897 00ff 28       		.uleb128 0x28
+ 2898 0100 00       		.byte	0x0
+ 2899 0101 03       		.uleb128 0x3
+ 2900 0102 0E       		.uleb128 0xe
+ 2901 0103 1C       		.uleb128 0x1c
+ 2902 0104 0D       		.uleb128 0xd
+ 2903 0105 00       		.byte	0x0
+ 2904 0106 00       		.byte	0x0
+ 2905 0107 16       		.uleb128 0x16
+ 2906 0108 04       		.uleb128 0x4
+ 2907 0109 01       		.byte	0x1
+ 2908 010a 0B       		.uleb128 0xb
+ 2909 010b 0B       		.uleb128 0xb
+ 2910 010c 3A       		.uleb128 0x3a
+ 2911 010d 0B       		.uleb128 0xb
+ 2912 010e 3B       		.uleb128 0x3b
+ 2913 010f 05       		.uleb128 0x5
+ 2914 0110 01       		.uleb128 0x1
+ 2915 0111 13       		.uleb128 0x13
+ 2916 0112 00       		.byte	0x0
+ 2917 0113 00       		.byte	0x0
+ 2918 0114 17       		.uleb128 0x17
+ 2919 0115 15       		.uleb128 0x15
+ 2920 0116 01       		.byte	0x1
+ 2921 0117 27       		.uleb128 0x27
+ 2922 0118 0C       		.uleb128 0xc
+ 2923 0119 01       		.uleb128 0x1
+ 2924 011a 13       		.uleb128 0x13
+ 2925 011b 00       		.byte	0x0
+ 2926 011c 00       		.byte	0x0
+ 2927 011d 18       		.uleb128 0x18
+ 2928 011e 05       		.uleb128 0x5
+ 2929 011f 00       		.byte	0x0
+ 2930 0120 49       		.uleb128 0x49
+ 2931 0121 13       		.uleb128 0x13
+ 2932 0122 00       		.byte	0x0
+ 2933 0123 00       		.byte	0x0
+ 2934 0124 19       		.uleb128 0x19
+ 2935 0125 2E       		.uleb128 0x2e
+ 2936 0126 01       		.byte	0x1
+ 2937 0127 3F       		.uleb128 0x3f
+ 2938 0128 0C       		.uleb128 0xc
+ 2939 0129 03       		.uleb128 0x3
+ 2940 012a 0E       		.uleb128 0xe
+ 2941 012b 3A       		.uleb128 0x3a
+ 2942 012c 0B       		.uleb128 0xb
+ 2943 012d 3B       		.uleb128 0x3b
+ 2944 012e 0B       		.uleb128 0xb
+ 2945 012f 27       		.uleb128 0x27
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 53
+
+
+ 2946 0130 0C       		.uleb128 0xc
+ 2947 0131 20       		.uleb128 0x20
+ 2948 0132 0B       		.uleb128 0xb
+ 2949 0133 01       		.uleb128 0x1
+ 2950 0134 13       		.uleb128 0x13
+ 2951 0135 00       		.byte	0x0
+ 2952 0136 00       		.byte	0x0
+ 2953 0137 1A       		.uleb128 0x1a
+ 2954 0138 05       		.uleb128 0x5
+ 2955 0139 00       		.byte	0x0
+ 2956 013a 03       		.uleb128 0x3
+ 2957 013b 0E       		.uleb128 0xe
+ 2958 013c 3A       		.uleb128 0x3a
+ 2959 013d 0B       		.uleb128 0xb
+ 2960 013e 3B       		.uleb128 0x3b
+ 2961 013f 0B       		.uleb128 0xb
+ 2962 0140 49       		.uleb128 0x49
+ 2963 0141 13       		.uleb128 0x13
+ 2964 0142 00       		.byte	0x0
+ 2965 0143 00       		.byte	0x0
+ 2966 0144 1B       		.uleb128 0x1b
+ 2967 0145 2E       		.uleb128 0x2e
+ 2968 0146 00       		.byte	0x0
+ 2969 0147 3F       		.uleb128 0x3f
+ 2970 0148 0C       		.uleb128 0xc
+ 2971 0149 03       		.uleb128 0x3
+ 2972 014a 0E       		.uleb128 0xe
+ 2973 014b 3A       		.uleb128 0x3a
+ 2974 014c 0B       		.uleb128 0xb
+ 2975 014d 3B       		.uleb128 0x3b
+ 2976 014e 0B       		.uleb128 0xb
+ 2977 014f 27       		.uleb128 0x27
+ 2978 0150 0C       		.uleb128 0xc
+ 2979 0151 11       		.uleb128 0x11
+ 2980 0152 01       		.uleb128 0x1
+ 2981 0153 12       		.uleb128 0x12
+ 2982 0154 01       		.uleb128 0x1
+ 2983 0155 40       		.uleb128 0x40
+ 2984 0156 0A       		.uleb128 0xa
+ 2985 0157 00       		.byte	0x0
+ 2986 0158 00       		.byte	0x0
+ 2987 0159 1C       		.uleb128 0x1c
+ 2988 015a 2E       		.uleb128 0x2e
+ 2989 015b 01       		.byte	0x1
+ 2990 015c 3F       		.uleb128 0x3f
+ 2991 015d 0C       		.uleb128 0xc
+ 2992 015e 03       		.uleb128 0x3
+ 2993 015f 0E       		.uleb128 0xe
+ 2994 0160 3A       		.uleb128 0x3a
+ 2995 0161 0B       		.uleb128 0xb
+ 2996 0162 3B       		.uleb128 0x3b
+ 2997 0163 0B       		.uleb128 0xb
+ 2998 0164 27       		.uleb128 0x27
+ 2999 0165 0C       		.uleb128 0xc
+ 3000 0166 11       		.uleb128 0x11
+ 3001 0167 01       		.uleb128 0x1
+ 3002 0168 12       		.uleb128 0x12
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 54
+
+
+ 3003 0169 01       		.uleb128 0x1
+ 3004 016a 40       		.uleb128 0x40
+ 3005 016b 0A       		.uleb128 0xa
+ 3006 016c 01       		.uleb128 0x1
+ 3007 016d 13       		.uleb128 0x13
+ 3008 016e 00       		.byte	0x0
+ 3009 016f 00       		.byte	0x0
+ 3010 0170 1D       		.uleb128 0x1d
+ 3011 0171 05       		.uleb128 0x5
+ 3012 0172 00       		.byte	0x0
+ 3013 0173 03       		.uleb128 0x3
+ 3014 0174 0E       		.uleb128 0xe
+ 3015 0175 3A       		.uleb128 0x3a
+ 3016 0176 0B       		.uleb128 0xb
+ 3017 0177 3B       		.uleb128 0x3b
+ 3018 0178 0B       		.uleb128 0xb
+ 3019 0179 49       		.uleb128 0x49
+ 3020 017a 13       		.uleb128 0x13
+ 3021 017b 02       		.uleb128 0x2
+ 3022 017c 06       		.uleb128 0x6
+ 3023 017d 00       		.byte	0x0
+ 3024 017e 00       		.byte	0x0
+ 3025 017f 1E       		.uleb128 0x1e
+ 3026 0180 2E       		.uleb128 0x2e
+ 3027 0181 01       		.byte	0x1
+ 3028 0182 3F       		.uleb128 0x3f
+ 3029 0183 0C       		.uleb128 0xc
+ 3030 0184 03       		.uleb128 0x3
+ 3031 0185 0E       		.uleb128 0xe
+ 3032 0186 3A       		.uleb128 0x3a
+ 3033 0187 0B       		.uleb128 0xb
+ 3034 0188 3B       		.uleb128 0x3b
+ 3035 0189 0B       		.uleb128 0xb
+ 3036 018a 27       		.uleb128 0x27
+ 3037 018b 0C       		.uleb128 0xc
+ 3038 018c 11       		.uleb128 0x11
+ 3039 018d 01       		.uleb128 0x1
+ 3040 018e 12       		.uleb128 0x12
+ 3041 018f 01       		.uleb128 0x1
+ 3042 0190 40       		.uleb128 0x40
+ 3043 0191 06       		.uleb128 0x6
+ 3044 0192 01       		.uleb128 0x1
+ 3045 0193 13       		.uleb128 0x13
+ 3046 0194 00       		.byte	0x0
+ 3047 0195 00       		.byte	0x0
+ 3048 0196 1F       		.uleb128 0x1f
+ 3049 0197 0B       		.uleb128 0xb
+ 3050 0198 01       		.byte	0x1
+ 3051 0199 55       		.uleb128 0x55
+ 3052 019a 06       		.uleb128 0x6
+ 3053 019b 01       		.uleb128 0x1
+ 3054 019c 13       		.uleb128 0x13
+ 3055 019d 00       		.byte	0x0
+ 3056 019e 00       		.byte	0x0
+ 3057 019f 20       		.uleb128 0x20
+ 3058 01a0 34       		.uleb128 0x34
+ 3059 01a1 00       		.byte	0x0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 55
+
+
+ 3060 01a2 03       		.uleb128 0x3
+ 3061 01a3 08       		.uleb128 0x8
+ 3062 01a4 3A       		.uleb128 0x3a
+ 3063 01a5 0B       		.uleb128 0xb
+ 3064 01a6 3B       		.uleb128 0x3b
+ 3065 01a7 0B       		.uleb128 0xb
+ 3066 01a8 49       		.uleb128 0x49
+ 3067 01a9 13       		.uleb128 0x13
+ 3068 01aa 02       		.uleb128 0x2
+ 3069 01ab 06       		.uleb128 0x6
+ 3070 01ac 00       		.byte	0x0
+ 3071 01ad 00       		.byte	0x0
+ 3072 01ae 21       		.uleb128 0x21
+ 3073 01af 0B       		.uleb128 0xb
+ 3074 01b0 01       		.byte	0x1
+ 3075 01b1 11       		.uleb128 0x11
+ 3076 01b2 01       		.uleb128 0x1
+ 3077 01b3 12       		.uleb128 0x12
+ 3078 01b4 01       		.uleb128 0x1
+ 3079 01b5 00       		.byte	0x0
+ 3080 01b6 00       		.byte	0x0
+ 3081 01b7 22       		.uleb128 0x22
+ 3082 01b8 0B       		.uleb128 0xb
+ 3083 01b9 01       		.byte	0x1
+ 3084 01ba 11       		.uleb128 0x11
+ 3085 01bb 01       		.uleb128 0x1
+ 3086 01bc 12       		.uleb128 0x12
+ 3087 01bd 01       		.uleb128 0x1
+ 3088 01be 01       		.uleb128 0x1
+ 3089 01bf 13       		.uleb128 0x13
+ 3090 01c0 00       		.byte	0x0
+ 3091 01c1 00       		.byte	0x0
+ 3092 01c2 23       		.uleb128 0x23
+ 3093 01c3 1D       		.uleb128 0x1d
+ 3094 01c4 01       		.byte	0x1
+ 3095 01c5 31       		.uleb128 0x31
+ 3096 01c6 13       		.uleb128 0x13
+ 3097 01c7 11       		.uleb128 0x11
+ 3098 01c8 01       		.uleb128 0x1
+ 3099 01c9 12       		.uleb128 0x12
+ 3100 01ca 01       		.uleb128 0x1
+ 3101 01cb 58       		.uleb128 0x58
+ 3102 01cc 0B       		.uleb128 0xb
+ 3103 01cd 59       		.uleb128 0x59
+ 3104 01ce 0B       		.uleb128 0xb
+ 3105 01cf 01       		.uleb128 0x1
+ 3106 01d0 13       		.uleb128 0x13
+ 3107 01d1 00       		.byte	0x0
+ 3108 01d2 00       		.byte	0x0
+ 3109 01d3 24       		.uleb128 0x24
+ 3110 01d4 05       		.uleb128 0x5
+ 3111 01d5 00       		.byte	0x0
+ 3112 01d6 31       		.uleb128 0x31
+ 3113 01d7 13       		.uleb128 0x13
+ 3114 01d8 02       		.uleb128 0x2
+ 3115 01d9 0A       		.uleb128 0xa
+ 3116 01da 00       		.byte	0x0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 56
+
+
+ 3117 01db 00       		.byte	0x0
+ 3118 01dc 25       		.uleb128 0x25
+ 3119 01dd 05       		.uleb128 0x5
+ 3120 01de 00       		.byte	0x0
+ 3121 01df 31       		.uleb128 0x31
+ 3122 01e0 13       		.uleb128 0x13
+ 3123 01e1 02       		.uleb128 0x2
+ 3124 01e2 06       		.uleb128 0x6
+ 3125 01e3 00       		.byte	0x0
+ 3126 01e4 00       		.byte	0x0
+ 3127 01e5 26       		.uleb128 0x26
+ 3128 01e6 2E       		.uleb128 0x2e
+ 3129 01e7 01       		.byte	0x1
+ 3130 01e8 31       		.uleb128 0x31
+ 3131 01e9 13       		.uleb128 0x13
+ 3132 01ea 11       		.uleb128 0x11
+ 3133 01eb 01       		.uleb128 0x1
+ 3134 01ec 12       		.uleb128 0x12
+ 3135 01ed 01       		.uleb128 0x1
+ 3136 01ee 40       		.uleb128 0x40
+ 3137 01ef 06       		.uleb128 0x6
+ 3138 01f0 01       		.uleb128 0x1
+ 3139 01f1 13       		.uleb128 0x13
+ 3140 01f2 00       		.byte	0x0
+ 3141 01f3 00       		.byte	0x0
+ 3142 01f4 27       		.uleb128 0x27
+ 3143 01f5 0B       		.uleb128 0xb
+ 3144 01f6 01       		.byte	0x1
+ 3145 01f7 55       		.uleb128 0x55
+ 3146 01f8 06       		.uleb128 0x6
+ 3147 01f9 00       		.byte	0x0
+ 3148 01fa 00       		.byte	0x0
+ 3149 01fb 28       		.uleb128 0x28
+ 3150 01fc 34       		.uleb128 0x34
+ 3151 01fd 00       		.byte	0x0
+ 3152 01fe 03       		.uleb128 0x3
+ 3153 01ff 08       		.uleb128 0x8
+ 3154 0200 3A       		.uleb128 0x3a
+ 3155 0201 0B       		.uleb128 0xb
+ 3156 0202 3B       		.uleb128 0x3b
+ 3157 0203 05       		.uleb128 0x5
+ 3158 0204 49       		.uleb128 0x49
+ 3159 0205 13       		.uleb128 0x13
+ 3160 0206 02       		.uleb128 0x2
+ 3161 0207 06       		.uleb128 0x6
+ 3162 0208 00       		.byte	0x0
+ 3163 0209 00       		.byte	0x0
+ 3164 020a 29       		.uleb128 0x29
+ 3165 020b 2E       		.uleb128 0x2e
+ 3166 020c 01       		.byte	0x1
+ 3167 020d 3F       		.uleb128 0x3f
+ 3168 020e 0C       		.uleb128 0xc
+ 3169 020f 03       		.uleb128 0x3
+ 3170 0210 0E       		.uleb128 0xe
+ 3171 0211 3A       		.uleb128 0x3a
+ 3172 0212 0B       		.uleb128 0xb
+ 3173 0213 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 57
+
+
+ 3174 0214 05       		.uleb128 0x5
+ 3175 0215 27       		.uleb128 0x27
+ 3176 0216 0C       		.uleb128 0xc
+ 3177 0217 49       		.uleb128 0x49
+ 3178 0218 13       		.uleb128 0x13
+ 3179 0219 11       		.uleb128 0x11
+ 3180 021a 01       		.uleb128 0x1
+ 3181 021b 12       		.uleb128 0x12
+ 3182 021c 01       		.uleb128 0x1
+ 3183 021d 40       		.uleb128 0x40
+ 3184 021e 06       		.uleb128 0x6
+ 3185 021f 01       		.uleb128 0x1
+ 3186 0220 13       		.uleb128 0x13
+ 3187 0221 00       		.byte	0x0
+ 3188 0222 00       		.byte	0x0
+ 3189 0223 2A       		.uleb128 0x2a
+ 3190 0224 05       		.uleb128 0x5
+ 3191 0225 00       		.byte	0x0
+ 3192 0226 03       		.uleb128 0x3
+ 3193 0227 0E       		.uleb128 0xe
+ 3194 0228 3A       		.uleb128 0x3a
+ 3195 0229 0B       		.uleb128 0xb
+ 3196 022a 3B       		.uleb128 0x3b
+ 3197 022b 05       		.uleb128 0x5
+ 3198 022c 49       		.uleb128 0x49
+ 3199 022d 13       		.uleb128 0x13
+ 3200 022e 02       		.uleb128 0x2
+ 3201 022f 06       		.uleb128 0x6
+ 3202 0230 00       		.byte	0x0
+ 3203 0231 00       		.byte	0x0
+ 3204 0232 2B       		.uleb128 0x2b
+ 3205 0233 34       		.uleb128 0x34
+ 3206 0234 00       		.byte	0x0
+ 3207 0235 03       		.uleb128 0x3
+ 3208 0236 08       		.uleb128 0x8
+ 3209 0237 3A       		.uleb128 0x3a
+ 3210 0238 0B       		.uleb128 0xb
+ 3211 0239 3B       		.uleb128 0x3b
+ 3212 023a 05       		.uleb128 0x5
+ 3213 023b 49       		.uleb128 0x49
+ 3214 023c 13       		.uleb128 0x13
+ 3215 023d 02       		.uleb128 0x2
+ 3216 023e 0A       		.uleb128 0xa
+ 3217 023f 00       		.byte	0x0
+ 3218 0240 00       		.byte	0x0
+ 3219 0241 2C       		.uleb128 0x2c
+ 3220 0242 1D       		.uleb128 0x1d
+ 3221 0243 01       		.byte	0x1
+ 3222 0244 31       		.uleb128 0x31
+ 3223 0245 13       		.uleb128 0x13
+ 3224 0246 11       		.uleb128 0x11
+ 3225 0247 01       		.uleb128 0x1
+ 3226 0248 12       		.uleb128 0x12
+ 3227 0249 01       		.uleb128 0x1
+ 3228 024a 58       		.uleb128 0x58
+ 3229 024b 0B       		.uleb128 0xb
+ 3230 024c 59       		.uleb128 0x59
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 58
+
+
+ 3231 024d 05       		.uleb128 0x5
+ 3232 024e 01       		.uleb128 0x1
+ 3233 024f 13       		.uleb128 0x13
+ 3234 0250 00       		.byte	0x0
+ 3235 0251 00       		.byte	0x0
+ 3236 0252 2D       		.uleb128 0x2d
+ 3237 0253 2E       		.uleb128 0x2e
+ 3238 0254 01       		.byte	0x1
+ 3239 0255 3F       		.uleb128 0x3f
+ 3240 0256 0C       		.uleb128 0xc
+ 3241 0257 03       		.uleb128 0x3
+ 3242 0258 0E       		.uleb128 0xe
+ 3243 0259 3A       		.uleb128 0x3a
+ 3244 025a 0B       		.uleb128 0xb
+ 3245 025b 3B       		.uleb128 0x3b
+ 3246 025c 05       		.uleb128 0x5
+ 3247 025d 27       		.uleb128 0x27
+ 3248 025e 0C       		.uleb128 0xc
+ 3249 025f 11       		.uleb128 0x11
+ 3250 0260 01       		.uleb128 0x1
+ 3251 0261 12       		.uleb128 0x12
+ 3252 0262 01       		.uleb128 0x1
+ 3253 0263 40       		.uleb128 0x40
+ 3254 0264 0A       		.uleb128 0xa
+ 3255 0265 01       		.uleb128 0x1
+ 3256 0266 13       		.uleb128 0x13
+ 3257 0267 00       		.byte	0x0
+ 3258 0268 00       		.byte	0x0
+ 3259 0269 2E       		.uleb128 0x2e
+ 3260 026a 05       		.uleb128 0x5
+ 3261 026b 00       		.byte	0x0
+ 3262 026c 03       		.uleb128 0x3
+ 3263 026d 0E       		.uleb128 0xe
+ 3264 026e 3A       		.uleb128 0x3a
+ 3265 026f 0B       		.uleb128 0xb
+ 3266 0270 3B       		.uleb128 0x3b
+ 3267 0271 05       		.uleb128 0x5
+ 3268 0272 49       		.uleb128 0x49
+ 3269 0273 13       		.uleb128 0x13
+ 3270 0274 02       		.uleb128 0x2
+ 3271 0275 0A       		.uleb128 0xa
+ 3272 0276 00       		.byte	0x0
+ 3273 0277 00       		.byte	0x0
+ 3274 0278 2F       		.uleb128 0x2f
+ 3275 0279 34       		.uleb128 0x34
+ 3276 027a 00       		.byte	0x0
+ 3277 027b 03       		.uleb128 0x3
+ 3278 027c 0E       		.uleb128 0xe
+ 3279 027d 3A       		.uleb128 0x3a
+ 3280 027e 0B       		.uleb128 0xb
+ 3281 027f 3B       		.uleb128 0x3b
+ 3282 0280 0B       		.uleb128 0xb
+ 3283 0281 49       		.uleb128 0x49
+ 3284 0282 13       		.uleb128 0x13
+ 3285 0283 3F       		.uleb128 0x3f
+ 3286 0284 0C       		.uleb128 0xc
+ 3287 0285 3C       		.uleb128 0x3c
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 59
+
+
+ 3288 0286 0C       		.uleb128 0xc
+ 3289 0287 00       		.byte	0x0
+ 3290 0288 00       		.byte	0x0
+ 3291 0289 30       		.uleb128 0x30
+ 3292 028a 34       		.uleb128 0x34
+ 3293 028b 00       		.byte	0x0
+ 3294 028c 03       		.uleb128 0x3
+ 3295 028d 0E       		.uleb128 0xe
+ 3296 028e 3A       		.uleb128 0x3a
+ 3297 028f 0B       		.uleb128 0xb
+ 3298 0290 3B       		.uleb128 0x3b
+ 3299 0291 05       		.uleb128 0x5
+ 3300 0292 49       		.uleb128 0x49
+ 3301 0293 13       		.uleb128 0x13
+ 3302 0294 3F       		.uleb128 0x3f
+ 3303 0295 0C       		.uleb128 0xc
+ 3304 0296 3C       		.uleb128 0x3c
+ 3305 0297 0C       		.uleb128 0xc
+ 3306 0298 00       		.byte	0x0
+ 3307 0299 00       		.byte	0x0
+ 3308 029a 00       		.byte	0x0
+ 3309              		.section	.debug_pubnames,"",%progbits
+ 3310 0000 D4000000 		.4byte	0xd4
+ 3311 0004 0200     		.2byte	0x2
+ 3312 0006 00000000 		.4byte	.Ldebug_info0
+ 3313 000a 410D0000 		.4byte	0xd41
+ 3314 000e 32090000 		.4byte	0x932
+ 3315 0012 61646349 		.ascii	"adcInit\000"
+ 3315      6E697400 
+ 3316 001a 46090000 		.4byte	0x946
+ 3317 001e 6164634F 		.ascii	"adcObjectInit\000"
+ 3317      626A6563 
+ 3317      74496E69 
+ 3317      7400
+ 3318 002c 6E090000 		.4byte	0x96e
+ 3319 0030 61646353 		.ascii	"adcStart\000"
+ 3319      74617274 
+ 3319      00
+ 3320 0039 D8090000 		.4byte	0x9d8
+ 3321 003d 61646353 		.ascii	"adcStop\000"
+ 3321      746F7000 
+ 3322 0045 330A0000 		.4byte	0xa33
+ 3323 0049 61646353 		.ascii	"adcStartConversion\000"
+ 3323      74617274 
+ 3323      436F6E76 
+ 3323      65727369 
+ 3323      6F6E00
+ 3324 005c F30A0000 		.4byte	0xaf3
+ 3325 0060 61646353 		.ascii	"adcStartConversionI\000"
+ 3325      74617274 
+ 3325      436F6E76 
+ 3325      65727369 
+ 3325      6F6E4900 
+ 3326 0074 270B0000 		.4byte	0xb27
+ 3327 0078 61646353 		.ascii	"adcStopConversion\000"
+ 3327      746F7043 
+ 3327      6F6E7665 
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 60
+
+
+ 3327      7273696F 
+ 3327      6E00
+ 3328 008a 9E0B0000 		.4byte	0xb9e
+ 3329 008e 61646353 		.ascii	"adcStopConversionI\000"
+ 3329      746F7043 
+ 3329      6F6E7665 
+ 3329      7273696F 
+ 3329      6E4900
+ 3330 00a1 DC0B0000 		.4byte	0xbdc
+ 3331 00a5 61646343 		.ascii	"adcConvert\000"
+ 3331      6F6E7665 
+ 3331      727400
+ 3332 00b0 B80C0000 		.4byte	0xcb8
+ 3333 00b4 61646341 		.ascii	"adcAcquireBus\000"
+ 3333      63717569 
+ 3333      72654275 
+ 3333      7300
+ 3334 00c2 E20C0000 		.4byte	0xce2
+ 3335 00c6 61646352 		.ascii	"adcReleaseBus\000"
+ 3335      656C6561 
+ 3335      73654275 
+ 3335      7300
+ 3336 00d4 00000000 		.4byte	0x0
+ 3337              		.section	.debug_pubtypes,"",%progbits
+ 3338 0000 27020000 		.4byte	0x227
+ 3339 0004 0200     		.2byte	0x2
+ 3340 0006 00000000 		.4byte	.Ldebug_info0
+ 3341 000a 410D0000 		.4byte	0xd41
+ 3342 000e 30000000 		.4byte	0x30
+ 3343 0012 73697A65 		.ascii	"size_t\000"
+ 3343      5F7400
+ 3344 0019 49000000 		.4byte	0x49
+ 3345 001d 75696E74 		.ascii	"uint8_t\000"
+ 3345      385F7400 
+ 3346 0025 62000000 		.4byte	0x62
+ 3347 0029 75696E74 		.ascii	"uint16_t\000"
+ 3347      31365F74 
+ 3347      00
+ 3348 0032 74000000 		.4byte	0x74
+ 3349 0036 696E7433 		.ascii	"int32_t\000"
+ 3349      325F7400 
+ 3350 003e 86000000 		.4byte	0x86
+ 3351 0042 75696E74 		.ascii	"uint32_t\000"
+ 3351      33325F74 
+ 3351      00
+ 3352 004b A6000000 		.4byte	0xa6
+ 3353 004f 626F6F6C 		.ascii	"bool_t\000"
+ 3353      5F7400
+ 3354 0056 B8000000 		.4byte	0xb8
+ 3355 005a 746D6F64 		.ascii	"tmode_t\000"
+ 3355      655F7400 
+ 3356 0062 C3000000 		.4byte	0xc3
+ 3357 0066 74737461 		.ascii	"tstate_t\000"
+ 3357      74655F74 
+ 3357      00
+ 3358 006f CE000000 		.4byte	0xce
+ 3359 0073 74726566 		.ascii	"trefs_t\000"
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 61
+
+
+ 3359      735F7400 
+ 3360 007b D9000000 		.4byte	0xd9
+ 3361 007f 74736C69 		.ascii	"tslices_t\000"
+ 3361      6365735F 
+ 3361      7400
+ 3362 0089 E4000000 		.4byte	0xe4
+ 3363 008d 74707269 		.ascii	"tprio_t\000"
+ 3363      6F5F7400 
+ 3364 0095 EF000000 		.4byte	0xef
+ 3365 0099 6D73675F 		.ascii	"msg_t\000"
+ 3365      7400
+ 3366 009f FA000000 		.4byte	0xfa
+ 3367 00a3 6576656E 		.ascii	"eventmask_t\000"
+ 3367      746D6173 
+ 3367      6B5F7400 
+ 3368 00af 05010000 		.4byte	0x105
+ 3369 00b3 73797374 		.ascii	"systime_t\000"
+ 3369      696D655F 
+ 3369      7400
+ 3370 00bd 10010000 		.4byte	0x110
+ 3371 00c1 54687265 		.ascii	"Thread\000"
+ 3371      616400
+ 3372 00c8 6B020000 		.4byte	0x26b
+ 3373 00cc 54687265 		.ascii	"ThreadsQueue\000"
+ 3373      61647351 
+ 3373      75657565 
+ 3373      00
+ 3374 00d9 8D020000 		.4byte	0x28d
+ 3375 00dd 54687265 		.ascii	"ThreadsList\000"
+ 3375      6164734C 
+ 3375      69737400 
+ 3376 00e9 98020000 		.4byte	0x298
+ 3377 00ed 72656761 		.ascii	"regarm_t\000"
+ 3377      726D5F74 
+ 3377      00
+ 3378 00f6 A5020000 		.4byte	0x2a5
+ 3379 00fa 696E7463 		.ascii	"intctx\000"
+ 3379      747800
+ 3380 0101 33030000 		.4byte	0x333
+ 3381 0105 636F6E74 		.ascii	"context\000"
+ 3381      65787400 
+ 3382 010d BD030000 		.4byte	0x3bd
+ 3383 0111 52656164 		.ascii	"ReadyList\000"
+ 3383      794C6973 
+ 3383      7400
+ 3384 011b C8030000 		.4byte	0x3c8
+ 3385 011f 4D757465 		.ascii	"Mutex\000"
+ 3385      7800
+ 3386 0125 05040000 		.4byte	0x405
+ 3387 0129 4D757465 		.ascii	"Mutex\000"
+ 3387      7800
+ 3388 012f 1B010000 		.4byte	0x11b
+ 3389 0133 54687265 		.ascii	"Thread\000"
+ 3389      616400
+ 3390 013a 96050000 		.4byte	0x596
+ 3391 013e 4144435F 		.ascii	"ADC_TypeDef\000"
+ 3391      54797065 
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 62
+
+
+ 3391      44656600 
+ 3392 014a 05060000 		.4byte	0x605
+ 3393 014e 444D415F 		.ascii	"DMA_Stream_TypeDef\000"
+ 3393      53747265 
+ 3393      616D5F54 
+ 3393      79706544 
+ 3393      656600
+ 3394 0161 6C060000 		.4byte	0x66c
+ 3395 0165 73746D33 		.ascii	"stm32_dma_stream_t\000"
+ 3395      325F646D 
+ 3395      615F7374 
+ 3395      7265616D 
+ 3395      5F7400
+ 3396 0178 A4060000 		.4byte	0x6a4
+ 3397 017c 61646373 		.ascii	"adcstate_t\000"
+ 3397      74617465 
+ 3397      5F7400
+ 3398 0187 AF060000 		.4byte	0x6af
+ 3399 018b 61646373 		.ascii	"adcsample_t\000"
+ 3399      616D706C 
+ 3399      655F7400 
+ 3400 0197 BB060000 		.4byte	0x6bb
+ 3401 019b 6164635F 		.ascii	"adc_channels_num_t\000"
+ 3401      6368616E 
+ 3401      6E656C73 
+ 3401      5F6E756D 
+ 3401      5F7400
+ 3402 01ae DD060000 		.4byte	0x6dd
+ 3403 01b2 61646365 		.ascii	"adcerror_t\000"
+ 3403      72726F72 
+ 3403      5F7400
+ 3404 01bd E9060000 		.4byte	0x6e9
+ 3405 01c1 41444344 		.ascii	"ADCDriver\000"
+ 3405      72697665 
+ 3405      7200
+ 3406 01cb 99070000 		.4byte	0x799
+ 3407 01cf 61646363 		.ascii	"adccallback_t\000"
+ 3407      616C6C62 
+ 3407      61636B5F 
+ 3407      7400
+ 3408 01dd CD070000 		.4byte	0x7cd
+ 3409 01e1 61646365 		.ascii	"adcerrorcallback_t\000"
+ 3409      72726F72 
+ 3409      63616C6C 
+ 3409      6261636B 
+ 3409      5F7400
+ 3410 01f4 9F080000 		.4byte	0x89f
+ 3411 01f8 41444343 		.ascii	"ADCConversionGroup\000"
+ 3411      6F6E7665 
+ 3411      7273696F 
+ 3411      6E47726F 
+ 3411      757000
+ 3412 020b C4080000 		.4byte	0x8c4
+ 3413 020f 41444343 		.ascii	"ADCConfig\000"
+ 3413      6F6E6669 
+ 3413      6700
+ 3414 0219 F5060000 		.4byte	0x6f5
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 63
+
+
+ 3415 021d 41444344 		.ascii	"ADCDriver\000"
+ 3415      72697665 
+ 3415      7200
+ 3416 0227 00000000 		.4byte	0x0
+ 3417              		.section	.debug_aranges,"",%progbits
+ 3418 0000 6C000000 		.4byte	0x6c
+ 3419 0004 0200     		.2byte	0x2
+ 3420 0006 00000000 		.4byte	.Ldebug_info0
+ 3421 000a 04       		.byte	0x4
+ 3422 000b 00       		.byte	0x0
+ 3423 000c 0000     		.2byte	0x0
+ 3424 000e 0000     		.2byte	0x0
+ 3425 0010 00000000 		.4byte	.LFB118
+ 3426 0014 04000000 		.4byte	.LFE118-.LFB118
+ 3427 0018 00000000 		.4byte	.LFB119
+ 3428 001c 16000000 		.4byte	.LFE119-.LFB119
+ 3429 0020 00000000 		.4byte	.LFB120
+ 3430 0024 1C000000 		.4byte	.LFE120-.LFB120
+ 3431 0028 00000000 		.4byte	.LFB121
+ 3432 002c 1A000000 		.4byte	.LFE121-.LFB121
+ 3433 0030 00000000 		.4byte	.LFB122
+ 3434 0034 20000000 		.4byte	.LFE122-.LFB122
+ 3435 0038 00000000 		.4byte	.LFB123
+ 3436 003c 12000000 		.4byte	.LFE123-.LFB123
+ 3437 0040 00000000 		.4byte	.LFB124
+ 3438 0044 32000000 		.4byte	.LFE124-.LFB124
+ 3439 0048 00000000 		.4byte	.LFB125
+ 3440 004c 2E000000 		.4byte	.LFE125-.LFB125
+ 3441 0050 00000000 		.4byte	.LFB126
+ 3442 0054 38000000 		.4byte	.LFE126-.LFB126
+ 3443 0058 00000000 		.4byte	.LFB127
+ 3444 005c 06000000 		.4byte	.LFE127-.LFB127
+ 3445 0060 00000000 		.4byte	.LFB128
+ 3446 0064 04000000 		.4byte	.LFE128-.LFB128
+ 3447 0068 00000000 		.4byte	0x0
+ 3448 006c 00000000 		.4byte	0x0
+ 3449              		.section	.debug_ranges,"",%progbits
+ 3450              	.Ldebug_ranges0:
+ 3451 0000 02000000 		.4byte	.LBB10
+ 3452 0004 04000000 		.4byte	.LBE10
+ 3453 0008 06000000 		.4byte	.LBB11
+ 3454 000c 0A000000 		.4byte	.LBE11
+ 3455 0010 00000000 		.4byte	0x0
+ 3456 0014 00000000 		.4byte	0x0
+ 3457 0018 02000000 		.4byte	.LBB13
+ 3458 001c 04000000 		.4byte	.LBE13
+ 3459 0020 06000000 		.4byte	.LBB14
+ 3460 0024 0A000000 		.4byte	.LBE14
+ 3461 0028 00000000 		.4byte	0x0
+ 3462 002c 00000000 		.4byte	0x0
+ 3463 0030 02000000 		.4byte	.LBB20
+ 3464 0034 04000000 		.4byte	.LBE20
+ 3465 0038 06000000 		.4byte	.LBB21
+ 3466 003c 0A000000 		.4byte	.LBE21
+ 3467 0040 00000000 		.4byte	0x0
+ 3468 0044 00000000 		.4byte	0x0
+ 3469 0048 1A000000 		.4byte	.LBB24
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 64
+
+
+ 3470 004c 24000000 		.4byte	.LBE24
+ 3471 0050 28000000 		.4byte	.LBB25
+ 3472 0054 2E000000 		.4byte	.LBE25
+ 3473 0058 00000000 		.4byte	0x0
+ 3474 005c 00000000 		.4byte	0x0
+ 3475 0060 28000000 		.4byte	.LBB29
+ 3476 0064 2A000000 		.4byte	.LBE29
+ 3477 0068 2C000000 		.4byte	.LBB30
+ 3478 006c 30000000 		.4byte	.LBE30
+ 3479 0070 00000000 		.4byte	0x0
+ 3480 0074 00000000 		.4byte	0x0
+ 3481 0078 00000000 		.4byte	.LFB118
+ 3482 007c 04000000 		.4byte	.LFE118
+ 3483 0080 00000000 		.4byte	.LFB119
+ 3484 0084 16000000 		.4byte	.LFE119
+ 3485 0088 00000000 		.4byte	.LFB120
+ 3486 008c 1C000000 		.4byte	.LFE120
+ 3487 0090 00000000 		.4byte	.LFB121
+ 3488 0094 1A000000 		.4byte	.LFE121
+ 3489 0098 00000000 		.4byte	.LFB122
+ 3490 009c 20000000 		.4byte	.LFE122
+ 3491 00a0 00000000 		.4byte	.LFB123
+ 3492 00a4 12000000 		.4byte	.LFE123
+ 3493 00a8 00000000 		.4byte	.LFB124
+ 3494 00ac 32000000 		.4byte	.LFE124
+ 3495 00b0 00000000 		.4byte	.LFB125
+ 3496 00b4 2E000000 		.4byte	.LFE125
+ 3497 00b8 00000000 		.4byte	.LFB126
+ 3498 00bc 38000000 		.4byte	.LFE126
+ 3499 00c0 00000000 		.4byte	.LFB127
+ 3500 00c4 06000000 		.4byte	.LFE127
+ 3501 00c8 00000000 		.4byte	.LFB128
+ 3502 00cc 04000000 		.4byte	.LFE128
+ 3503 00d0 00000000 		.4byte	0x0
+ 3504 00d4 00000000 		.4byte	0x0
+ 3505              		.section	.debug_str,"MS",%progbits,1
+ 3506              	.LASF81:
+ 3507 0000 4D304152 		.ascii	"M0AR\000"
+ 3507      00
+ 3508              	.LASF2:
+ 3509 0005 73697A65 		.ascii	"size_t\000"
+ 3509      5F7400
+ 3510              	.LASF60:
+ 3511 000c 7264796D 		.ascii	"rdymsg\000"
+ 3511      736700
+ 3512              	.LASF111:
+ 3513 0013 646D616D 		.ascii	"dmamode\000"
+ 3513      6F646500 
+ 3514              	.LASF96:
+ 3515 001b 61646373 		.ascii	"adcstate_t\000"
+ 3515      74617465 
+ 3515      5F7400
+ 3516              	.LASF129:
+ 3517 0026 61646353 		.ascii	"adcStop\000"
+ 3517      746F7000 
+ 3518              	.LASF84:
+ 3519 002e 73747265 		.ascii	"stream\000"
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 65
+
+
+ 3519      616D00
+ 3520              	.LASF13:
+ 3521 0035 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3521      206C6F6E 
+ 3521      6720756E 
+ 3521      7369676E 
+ 3521      65642069 
+ 3522              	.LASF61:
+ 3523 004c 65786974 		.ascii	"exitcode\000"
+ 3523      636F6465 
+ 3523      00
+ 3524              	.LASF88:
+ 3525 0055 76656374 		.ascii	"vector\000"
+ 3525      6F7200
+ 3526              	.LASF136:
+ 3527 005c 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3527      52784275 
+ 3527      66666572 
+ 3527      00
+ 3528              	.LASF27:
+ 3529 0069 705F7072 		.ascii	"p_prio\000"
+ 3529      696F00
+ 3530              	.LASF74:
+ 3531 0070 4A535152 		.ascii	"JSQR\000"
+ 3531      00
+ 3532              	.LASF12:
+ 3533 0075 6C6F6E67 		.ascii	"long long int\000"
+ 3533      206C6F6E 
+ 3533      6720696E 
+ 3533      7400
+ 3534              	.LASF1:
+ 3535 0083 7369676E 		.ascii	"signed char\000"
+ 3535      65642063 
+ 3535      68617200 
+ 3536              	.LASF43:
+ 3537 008f 705F6D70 		.ascii	"p_mpool\000"
+ 3537      6F6F6C00 
+ 3538              	.LASF14:
+ 3539 0097 626F6F6C 		.ascii	"bool_t\000"
+ 3539      5F7400
+ 3540              	.LASF57:
+ 3541 009e 6D5F7175 		.ascii	"m_queue\000"
+ 3541      65756500 
+ 3542              	.LASF101:
+ 3543 00a6 61646365 		.ascii	"adcerror_t\000"
+ 3543      72726F72 
+ 3543      5F7400
+ 3544              	.LASF110:
+ 3545 00b1 646D6173 		.ascii	"dmastp\000"
+ 3545      747000
+ 3546              	.LASF103:
+ 3547 00b8 73746174 		.ascii	"state\000"
+ 3547      6500
+ 3548              	.LASF114:
+ 3549 00be 63697263 		.ascii	"circular\000"
+ 3549      756C6172 
+ 3549      00
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 66
+
+
+ 3550              	.LASF9:
+ 3551 00c7 6C6F6E67 		.ascii	"long int\000"
+ 3551      20696E74 
+ 3551      00
+ 3552              	.LASF99:
+ 3553 00d0 4144435F 		.ascii	"ADC_ERR_DMAFAILURE\000"
+ 3553      4552525F 
+ 3553      444D4146 
+ 3553      41494C55 
+ 3553      524500
+ 3554              	.LASF113:
+ 3555 00e3 61646365 		.ascii	"adcerrorcallback_t\000"
+ 3555      72726F72 
+ 3555      63616C6C 
+ 3555      6261636B 
+ 3555      5F7400
+ 3556              	.LASF17:
+ 3557 00f6 74737461 		.ascii	"tstate_t\000"
+ 3557      74655F74 
+ 3557      00
+ 3558              	.LASF108:
+ 3559 00ff 74687265 		.ascii	"thread\000"
+ 3559      616400
+ 3560              	.LASF6:
+ 3561 0106 75696E74 		.ascii	"uint16_t\000"
+ 3561      31365F74 
+ 3561      00
+ 3562              	.LASF36:
+ 3563 010f 705F7469 		.ascii	"p_time\000"
+ 3563      6D6500
+ 3564              	.LASF79:
+ 3565 0116 4144435F 		.ascii	"ADC_TypeDef\000"
+ 3565      54797065 
+ 3565      44656600 
+ 3566              	.LASF29:
+ 3567 0122 705F6E65 		.ascii	"p_newer\000"
+ 3567      77657200 
+ 3568              	.LASF116:
+ 3569 012a 656E645F 		.ascii	"end_cb\000"
+ 3569      636200
+ 3570              	.LASF112:
+ 3571 0131 61646363 		.ascii	"adccallback_t\000"
+ 3571      616C6C62 
+ 3571      61636B5F 
+ 3571      7400
+ 3572              	.LASF97:
+ 3573 013f 61646373 		.ascii	"adcsample_t\000"
+ 3573      616D706C 
+ 3573      655F7400 
+ 3574              	.LASF52:
+ 3575 014b 725F6E65 		.ascii	"r_newer\000"
+ 3575      77657200 
+ 3576              	.LASF125:
+ 3577 0153 41444343 		.ascii	"ADCConfig\000"
+ 3577      6F6E6669 
+ 3577      6700
+ 3578              	.LASF46:
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 67
+
+
+ 3579 015d 72656761 		.ascii	"regarm_t\000"
+ 3579      726D5F74 
+ 3579      00
+ 3580              	.LASF138:
+ 3581 0166 2E2E2F2E 		.ascii	"../../../ChibiOS/os/hal/src/adc.c\000"
+ 3581      2E2F2E2E 
+ 3581      2F436869 
+ 3581      62694F53 
+ 3581      2F6F732F 
+ 3582              	.LASF124:
+ 3583 0188 64756D6D 		.ascii	"dummy\000"
+ 3583      7900
+ 3584              	.LASF90:
+ 3585 018e 4144435F 		.ascii	"ADC_UNINIT\000"
+ 3585      554E494E 
+ 3585      495400
+ 3586              	.LASF100:
+ 3587 0199 4144435F 		.ascii	"ADC_ERR_OVERFLOW\000"
+ 3587      4552525F 
+ 3587      4F564552 
+ 3587      464C4F57 
+ 3587      00
+ 3588              	.LASF93:
+ 3589 01aa 4144435F 		.ascii	"ADC_ACTIVE\000"
+ 3589      41435449 
+ 3589      564500
+ 3590              	.LASF0:
+ 3591 01b5 756E7369 		.ascii	"unsigned int\000"
+ 3591      676E6564 
+ 3591      20696E74 
+ 3591      00
+ 3592              	.LASF127:
+ 3593 01c2 6164634F 		.ascii	"adcObjectInit\000"
+ 3593      626A6563 
+ 3593      74496E69 
+ 3593      7400
+ 3594              	.LASF38:
+ 3595 01d0 705F6D73 		.ascii	"p_msgqueue\000"
+ 3595      67717565 
+ 3595      756500
+ 3596              	.LASF102:
+ 3597 01db 41444344 		.ascii	"ADCDriver\000"
+ 3597      72697665 
+ 3597      7200
+ 3598              	.LASF126:
+ 3599 01e5 61646370 		.ascii	"adcp\000"
+ 3599      00
+ 3600              	.LASF86:
+ 3601 01ea 69736869 		.ascii	"ishift\000"
+ 3601      667400
+ 3602              	.LASF7:
+ 3603 01f1 73686F72 		.ascii	"short unsigned int\000"
+ 3603      7420756E 
+ 3603      7369676E 
+ 3603      65642069 
+ 3603      6E7400
+ 3604              	.LASF92:
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 68
+
+
+ 3605 0204 4144435F 		.ascii	"ADC_READY\000"
+ 3605      52454144 
+ 3605      5900
+ 3606              	.LASF106:
+ 3607 020e 64657074 		.ascii	"depth\000"
+ 3607      6800
+ 3608              	.LASF21:
+ 3609 0214 6D73675F 		.ascii	"msg_t\000"
+ 3609      7400
+ 3610              	.LASF87:
+ 3611 021a 73656C66 		.ascii	"selfindex\000"
+ 3611      696E6465 
+ 3611      7800
+ 3612              	.LASF137:
+ 3613 0224 474E5520 		.ascii	"GNU C 4.5.2\000"
+ 3613      4320342E 
+ 3613      352E3200 
+ 3614              	.LASF16:
+ 3615 0230 746D6F64 		.ascii	"tmode_t\000"
+ 3615      655F7400 
+ 3616              	.LASF115:
+ 3617 0238 6E756D5F 		.ascii	"num_channels\000"
+ 3617      6368616E 
+ 3617      6E656C73 
+ 3617      00
+ 3618              	.LASF45:
+ 3619 0245 54687265 		.ascii	"ThreadsList\000"
+ 3619      6164734C 
+ 3619      69737400 
+ 3620              	.LASF22:
+ 3621 0251 6576656E 		.ascii	"eventmask_t\000"
+ 3621      746D6173 
+ 3621      6B5F7400 
+ 3622              	.LASF141:
+ 3623 025d 61646349 		.ascii	"adcInit\000"
+ 3623      6E697400 
+ 3624              	.LASF134:
+ 3625 0265 61646352 		.ascii	"adcReleaseBus\000"
+ 3625      656C6561 
+ 3625      73654275 
+ 3625      7300
+ 3626              	.LASF107:
+ 3627 0273 67727070 		.ascii	"grpp\000"
+ 3627      00
+ 3628              	.LASF67:
+ 3629 0278 4A4F4652 		.ascii	"JOFR1\000"
+ 3629      3100
+ 3630              	.LASF68:
+ 3631 027e 4A4F4652 		.ascii	"JOFR2\000"
+ 3631      3200
+ 3632              	.LASF69:
+ 3633 0284 4A4F4652 		.ascii	"JOFR3\000"
+ 3633      3300
+ 3634              	.LASF105:
+ 3635 028a 73616D70 		.ascii	"samples\000"
+ 3635      6C657300 
+ 3636              	.LASF56:
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 69
+
+
+ 3637 0292 4D757465 		.ascii	"Mutex\000"
+ 3637      7800
+ 3638              	.LASF91:
+ 3639 0298 4144435F 		.ascii	"ADC_STOP\000"
+ 3639      53544F50 
+ 3639      00
+ 3640              	.LASF30:
+ 3641 02a1 705F6F6C 		.ascii	"p_older\000"
+ 3641      64657200 
+ 3642              	.LASF51:
+ 3643 02a9 725F6374 		.ascii	"r_ctx\000"
+ 3643      7800
+ 3644              	.LASF44:
+ 3645 02af 54687265 		.ascii	"ThreadsQueue\000"
+ 3645      61647351 
+ 3645      75657565 
+ 3645      00
+ 3646              	.LASF65:
+ 3647 02bc 534D5052 		.ascii	"SMPR1\000"
+ 3647      3100
+ 3648              	.LASF66:
+ 3649 02c2 534D5052 		.ascii	"SMPR2\000"
+ 3649      3200
+ 3650              	.LASF59:
+ 3651 02c8 6D5F6E65 		.ascii	"m_next\000"
+ 3651      787400
+ 3652              	.LASF54:
+ 3653 02cf 725F6375 		.ascii	"r_current\000"
+ 3653      7272656E 
+ 3653      7400
+ 3654              	.LASF53:
+ 3655 02d9 725F6F6C 		.ascii	"r_older\000"
+ 3655      64657200 
+ 3656              	.LASF71:
+ 3657 02e1 53515231 		.ascii	"SQR1\000"
+ 3657      00
+ 3658              	.LASF72:
+ 3659 02e6 53515232 		.ascii	"SQR2\000"
+ 3659      00
+ 3660              	.LASF73:
+ 3661 02eb 53515233 		.ascii	"SQR3\000"
+ 3661      00
+ 3662              	.LASF140:
+ 3663 02f0 61646353 		.ascii	"adcStartConversionI\000"
+ 3663      74617274 
+ 3663      436F6E76 
+ 3663      65727369 
+ 3663      6F6E4900 
+ 3664              	.LASF18:
+ 3665 0304 74726566 		.ascii	"trefs_t\000"
+ 3665      735F7400 
+ 3666              	.LASF26:
+ 3667 030c 705F7072 		.ascii	"p_prev\000"
+ 3667      657600
+ 3668              	.LASF89:
+ 3669 0313 73746D33 		.ascii	"stm32_dma_stream_t\000"
+ 3669      325F646D 
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 70
+
+
+ 3669      615F7374 
+ 3669      7265616D 
+ 3669      5F7400
+ 3670              	.LASF20:
+ 3671 0326 74707269 		.ascii	"tprio_t\000"
+ 3671      6F5F7400 
+ 3672              	.LASF109:
+ 3673 032e 6D757465 		.ascii	"mutex\000"
+ 3673      7800
+ 3674              	.LASF15:
+ 3675 0334 5F426F6F 		.ascii	"_Bool\000"
+ 3675      6C00
+ 3676              	.LASF8:
+ 3677 033a 696E7433 		.ascii	"int32_t\000"
+ 3677      325F7400 
+ 3678              	.LASF4:
+ 3679 0342 756E7369 		.ascii	"unsigned char\000"
+ 3679      676E6564 
+ 3679      20636861 
+ 3679      7200
+ 3680              	.LASF139:
+ 3681 0350 433A5C44 		.ascii	"C:\\Dani\\MegaLux\\Repo\\Smarty\\Smarty\\smarty\\fi"
+ 3681      616E695C 
+ 3681      4D656761 
+ 3681      4C75785C 
+ 3681      5265706F 
+ 3682 037c 726D7761 		.ascii	"rmware\000"
+ 3682      726500
+ 3683              	.LASF41:
+ 3684 0383 705F6D74 		.ascii	"p_mtxlist\000"
+ 3684      786C6973 
+ 3684      7400
+ 3685              	.LASF5:
+ 3686 038d 73686F72 		.ascii	"short int\000"
+ 3686      7420696E 
+ 3686      7400
+ 3687              	.LASF32:
+ 3688 0397 705F7374 		.ascii	"p_state\000"
+ 3688      61746500 
+ 3689              	.LASF35:
+ 3690 039f 705F7072 		.ascii	"p_preempt\000"
+ 3690      65656D70 
+ 3690      7400
+ 3691              	.LASF117:
+ 3692 03a9 6572726F 		.ascii	"error_cb\000"
+ 3692      725F6362 
+ 3692      00
+ 3693              	.LASF50:
+ 3694 03b2 725F7072 		.ascii	"r_prio\000"
+ 3694      696F00
+ 3695              	.LASF63:
+ 3696 03b9 65776D61 		.ascii	"ewmask\000"
+ 3696      736B00
+ 3697              	.LASF25:
+ 3698 03c0 705F6E65 		.ascii	"p_next\000"
+ 3698      787400
+ 3699              	.LASF33:
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 71
+
+
+ 3700 03c7 705F666C 		.ascii	"p_flags\000"
+ 3700      61677300 
+ 3701              	.LASF70:
+ 3702 03cf 4A4F4652 		.ascii	"JOFR4\000"
+ 3702      3400
+ 3703              	.LASF24:
+ 3704 03d5 54687265 		.ascii	"Thread\000"
+ 3704      616400
+ 3705              	.LASF40:
+ 3706 03dc 705F6570 		.ascii	"p_epending\000"
+ 3706      656E6469 
+ 3706      6E6700
+ 3707              	.LASF85:
+ 3708 03e7 69666372 		.ascii	"ifcr\000"
+ 3708      00
+ 3709              	.LASF10:
+ 3710 03ec 75696E74 		.ascii	"uint32_t\000"
+ 3710      33325F74 
+ 3710      00
+ 3711              	.LASF49:
+ 3712 03f5 725F7175 		.ascii	"r_queue\000"
+ 3712      65756500 
+ 3713              	.LASF19:
+ 3714 03fd 74736C69 		.ascii	"tslices_t\000"
+ 3714      6365735F 
+ 3714      7400
+ 3715              	.LASF11:
+ 3716 0407 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3716      20756E73 
+ 3716      69676E65 
+ 3716      6420696E 
+ 3716      7400
+ 3717              	.LASF64:
+ 3718 0419 63686172 		.ascii	"char\000"
+ 3718      00
+ 3719              	.LASF104:
+ 3720 041e 636F6E66 		.ascii	"config\000"
+ 3720      696700
+ 3721              	.LASF120:
+ 3722 0425 73717231 		.ascii	"sqr1\000"
+ 3722      00
+ 3723              	.LASF121:
+ 3724 042a 73717232 		.ascii	"sqr2\000"
+ 3724      00
+ 3725              	.LASF122:
+ 3726 042f 73717233 		.ascii	"sqr3\000"
+ 3726      00
+ 3727              	.LASF23:
+ 3728 0434 73797374 		.ascii	"systime_t\000"
+ 3728      696D655F 
+ 3728      7400
+ 3729              	.LASF42:
+ 3730 043e 705F7265 		.ascii	"p_realprio\000"
+ 3730      616C7072 
+ 3730      696F00
+ 3731              	.LASF80:
+ 3732 0449 4E445452 		.ascii	"NDTR\000"
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 72
+
+
+ 3732      00
+ 3733              	.LASF83:
+ 3734 044e 444D415F 		.ascii	"DMA_Stream_TypeDef\000"
+ 3734      53747265 
+ 3734      616D5F54 
+ 3734      79706544 
+ 3734      656600
+ 3735              	.LASF48:
+ 3736 0461 636F6E74 		.ascii	"context\000"
+ 3736      65787400 
+ 3737              	.LASF130:
+ 3738 0469 61646353 		.ascii	"adcStartConversion\000"
+ 3738      74617274 
+ 3738      436F6E76 
+ 3738      65727369 
+ 3738      6F6E00
+ 3739              	.LASF47:
+ 3740 047c 696E7463 		.ascii	"intctx\000"
+ 3740      747800
+ 3741              	.LASF82:
+ 3742 0483 4D314152 		.ascii	"M1AR\000"
+ 3742      00
+ 3743              	.LASF95:
+ 3744 0488 4144435F 		.ascii	"ADC_ERROR\000"
+ 3744      4552524F 
+ 3744      5200
+ 3745              	.LASF128:
+ 3746 0492 61646353 		.ascii	"adcStart\000"
+ 3746      74617274 
+ 3746      00
+ 3747              	.LASF34:
+ 3748 049b 705F7265 		.ascii	"p_refs\000"
+ 3748      667300
+ 3749              	.LASF55:
+ 3750 04a2 52656164 		.ascii	"ReadyList\000"
+ 3750      794C6973 
+ 3750      7400
+ 3751              	.LASF118:
+ 3752 04ac 736D7072 		.ascii	"smpr1\000"
+ 3752      3100
+ 3753              	.LASF119:
+ 3754 04b2 736D7072 		.ascii	"smpr2\000"
+ 3754      3200
+ 3755              	.LASF135:
+ 3756 04b8 726C6973 		.ascii	"rlist\000"
+ 3756      7400
+ 3757              	.LASF3:
+ 3758 04be 75696E74 		.ascii	"uint8_t\000"
+ 3758      385F7400 
+ 3759              	.LASF132:
+ 3760 04c6 61646353 		.ascii	"adcStopConversionI\000"
+ 3760      746F7043 
+ 3760      6F6E7665 
+ 3760      7273696F 
+ 3760      6E4900
+ 3761              	.LASF123:
+ 3762 04d9 41444343 		.ascii	"ADCConversionGroup\000"
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 73
+
+
+ 3762      6F6E7665 
+ 3762      7273696F 
+ 3762      6E47726F 
+ 3762      757000
+ 3763              	.LASF75:
+ 3764 04ec 4A445231 		.ascii	"JDR1\000"
+ 3764      00
+ 3765              	.LASF76:
+ 3766 04f1 4A445232 		.ascii	"JDR2\000"
+ 3766      00
+ 3767              	.LASF77:
+ 3768 04f6 4A445233 		.ascii	"JDR3\000"
+ 3768      00
+ 3769              	.LASF78:
+ 3770 04fb 4A445234 		.ascii	"JDR4\000"
+ 3770      00
+ 3771              	.LASF62:
+ 3772 0500 77746F62 		.ascii	"wtobjp\000"
+ 3772      6A7000
+ 3773              	.LASF94:
+ 3774 0507 4144435F 		.ascii	"ADC_COMPLETE\000"
+ 3774      434F4D50 
+ 3774      4C455445 
+ 3774      00
+ 3775              	.LASF31:
+ 3776 0514 705F6E61 		.ascii	"p_name\000"
+ 3776      6D6500
+ 3777              	.LASF98:
+ 3778 051b 6164635F 		.ascii	"adc_channels_num_t\000"
+ 3778      6368616E 
+ 3778      6E656C73 
+ 3778      5F6E756D 
+ 3778      5F7400
+ 3779              	.LASF39:
+ 3780 052e 705F6D73 		.ascii	"p_msg\000"
+ 3780      6700
+ 3781              	.LASF142:
+ 3782 0534 61646343 		.ascii	"adcConvert\000"
+ 3782      6F6E7665 
+ 3782      727400
+ 3783              	.LASF131:
+ 3784 053f 61646353 		.ascii	"adcStopConversion\000"
+ 3784      746F7043 
+ 3784      6F6E7665 
+ 3784      7273696F 
+ 3784      6E00
+ 3785              	.LASF58:
+ 3786 0551 6D5F6F77 		.ascii	"m_owner\000"
+ 3786      6E657200 
+ 3787              	.LASF133:
+ 3788 0559 61646341 		.ascii	"adcAcquireBus\000"
+ 3788      63717569 
+ 3788      72654275 
+ 3788      7300
+ 3789              	.LASF28:
+ 3790 0567 705F6374 		.ascii	"p_ctx\000"
+ 3790      7800
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 74
+
+
+ 3791              	.LASF37:
+ 3792 056d 705F7761 		.ascii	"p_waiting\000"
+ 3792      6974696E 
+ 3792      6700
+ 3793              		.ident	"GCC: (Sourcery G++ Lite 2011.03-42) 4.5.2"
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s 			page 75
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 adc.c
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:24     .text.adcInit:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:30     .text.adcInit:00000000 adcInit
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:45     .text.adcObjectInit:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:51     .text.adcObjectInit:00000000 adcObjectInit
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:84     .text.adcStart:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:90     .text.adcStart:00000000 adcStart
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:141    .text.adcStop:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:147    .text.adcStop:00000000 adcStop
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:196    .text.adcStartConversion:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:202    .text.adcStartConversion:00000000 adcStartConversion
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:261    .text.adcStartConversionI:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:267    .text.adcStartConversionI:00000000 adcStartConversionI
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:298    .text.adcStopConversion:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:304    .text.adcStopConversion:00000000 adcStopConversion
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:376    .text.adcStopConversionI:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:382    .text.adcStopConversionI:00000000 adcStopConversionI
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:438    .text.adcConvert:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:444    .text.adcConvert:00000000 adcConvert
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:522    .text.adcConvert:00000034 $d
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:527    .text.adcAcquireBus:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:533    .text.adcAcquireBus:00000000 adcAcquireBus
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:551    .text.adcReleaseBus:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:557    .text.adcReleaseBus:00000000 adcReleaseBus
+                     .debug_frame:00000010 $d
+C:\Users\DNIEL~1\AppData\Local\Temp\ccWMyWRM.s:3793   .text.adcConvert:00000038 $t
+
+UNDEFINED SYMBOLS
+adc_lld_init
+chMtxInit
+adc_lld_start
+adc_lld_stop
+adc_lld_start_conversion
+adc_lld_stop_conversion
+chSchWakeupS
+chSchReadyI
+chSchGoSleepS
+rlist
+chMtxLock
+chMtxUnlock

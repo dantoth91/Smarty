@@ -72,6 +72,7 @@ static msg_t task20ms(void *arg) {
     time += MS2ST(20);
 
     lightCalc();
+    can_commCalc();
     speedCalc();
     measCalc();
     cruiseCalc();

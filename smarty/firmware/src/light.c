@@ -10,7 +10,17 @@
 #include "chprintf.h"
 #include "can_comm.h"
 
-static CANTxFrame txmsg;
+#define LIGHTS_PERIOD   30
+
+static struct lightChanels 
+{
+  bool lights_disabled;
+  bool right;
+  bool left;
+  bool warning;
+  bool braking;
+  bool pos_lamp;
+} lightchanels;
 
 static PWMConfig pwmcfg = {
   1000000,	/* 1MHz PWM clock frequency */
@@ -26,59 +36,83 @@ static PWMConfig pwmcfg = {
   0
 };
 
-/*
- * Blinking thread.
- */
-static WORKING_AREA(light_blink_wa, 256);
-static msg_t light_blink(void * p) {
-
-  (void)p;
-  chRegSetThreadName("light_blink");
-
-  txmsg.IDE = CAN_IDE_EXT;
-  txmsg.EID = 0x01234567;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
-  txmsg.data32[0] = 0x55AA55AA;
-  txmsg.data32[1] = 0x00FF00FF;
-
-  while (!chThdShouldTerminate()) {
-    canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
-    pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000)); //100%
-    chThdSleepMilliseconds(400);
-
-    pwmDisableChannel(&PWMD4, 1); //1%
-    chThdSleepMilliseconds(400);
-  }
-  return 0;
-}
-
-static uint32_t ido;
+static int period;
+static bool flashing;
 
 void lightInit(void){
-    pwmStart(&PWMD4, &pwmcfg);
-
-    /*
-    * Creates the 20ms Task.
-    */
-    //chThdCreateStatic(light_blink_wa, sizeof(light_blink_wa), NORMALPRIO, light_blink, NULL);
+  period = 0;
+  flashing = FALSE;
+  pwmStart(&PWMD4, &pwmcfg);
 }
 
 void lightCalc(void){
 
-  ido = RTT2US(chTimeNow());
+  period++;
   
-  // Horn
-	pwmEnableChannel(&PWMD4, 0, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000)); //100%
-	
-  //Right front light
-  //pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 7500));  //75%
-	
-  //Left front light
-  pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 5000));  //50%
-	
-  //Front light
-  pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 1000));  //10%
+  if (period > (2 * LIGHTS_PERIOD)){
+    period = 0;
+    flashing = TRUE;
+  }
+  
+  else if(period > LIGHTS_PERIOD)
+  {
+    pwmDisableChannel(&PWMD4, 1);
+    pwmDisableChannel(&PWMD4, 2);
+  }
+  
+  else{
+    if(lightchanels.right && flashing)
+    {
+      can_lightRight();
+      pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      flashing = FALSE;
+    }
+
+    if(lightchanels.left && flashing)
+    {
+      can_lightLeft();
+      pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      flashing = FALSE;
+    }
+
+    if(lightchanels.warning && flashing)
+    {
+      can_lightWarning();
+      pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      flashing = FALSE;
+    }
+  }
+}
+
+void lightFlashing (int chanel) {
+  lightchanels.lights_disabled = (chanel == 0 ? TRUE : FALSE);
+  lightchanels.right = (chanel == 1 ? TRUE : FALSE);
+  lightchanels.left = (chanel == 2 ? TRUE : FALSE);
+  lightchanels.warning = (chanel == 3 ? TRUE : FALSE);
+
+  period = 0;
+  flashing = TRUE;
+}
+
+void lightBrakeOn() {
+  lightchanels.braking = TRUE;
+  can_lightBreakOn();
+}
+void lightBrakeOff() {
+  lightchanels.braking = FALSE;
+  can_lightBreakOff();
+}
+
+void lightPosLampOn() {
+  lightchanels.pos_lamp = TRUE;
+  can_lightPosLampOn();
+  pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+}
+void lightPosLampOff() {
+  lightchanels.pos_lamp = FALSE;
+  can_lightPosLampOff();
+  pwmDisableChannel(&PWMD4, 3);
 }
 
 void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
@@ -90,8 +124,91 @@ void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
     chprintf(chp, "\x1B[%d;%dH", 0, 0);
 
-    chprintf(chp, "---- PWM START ----");
-    chprintf(chp, "ido : %x \r\n", ido);
+    chprintf(chp, "Right light: %15d\r\n", lightchanels.right);
+    chprintf(chp, "Left light: %15d\r\n", lightchanels.left);
+    chprintf(chp, "Warning light: %15d\r\n", lightchanels.warning);
+    chprintf(chp, "Brake light: %15d\r\n", lightchanels.braking);
+    chprintf(chp, "Position light: %15d\r\n", lightchanels.pos_lamp);
     chThdSleepMilliseconds(1000);
   }
+}
+
+void cmd_lightblink(BaseSequentialStream *chp, int argc, char *argv[]) {
+
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    chprintf(chp, "\x1B[%d;%dH", 0, 0);
+    if ((argc == 1) && (strcmp(argv[0], "right") == 0)){
+
+      chprintf(chp,"-------------- Blinking right enabled --------------\r\n");
+      lightFlashing(1);
+      return;
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "left") == 0)){
+
+      chprintf(chp,"-------------- Blinking left enabled --------------\r\n");
+      lightFlashing(2);
+      return;
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "warning") == 0)){
+
+      chprintf(chp,"-------------- Blinking warning enabled --------------\r\n");
+      lightFlashing(3);
+      return;
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "brakeon") == 0)){
+
+      chprintf(chp,"-------------- Brake light enabled --------------\r\n");
+      lightBrakeOn();
+      return;
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "brakeoff") == 0)){
+
+      chprintf(chp,"-------------- Brake light disabled --------------\r\n");
+      lightBrakeOff();
+      return;
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "lampon") == 0)){
+
+      chprintf(chp,"-------------- Position lamp enabled --------------\r\n");
+      lightPosLampOn();
+      return;
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "lampoff") == 0)){
+
+      chprintf(chp,"-------------- Position lamp disabled --------------\r\n");
+      lightPosLampOff();
+      return;
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "stop") == 0)){
+      chprintf(chp,"-------------- All blinking disabled --------------\r\n");
+      lightFlashing(0);
+      return;
+    }
+
+    else{
+      goto ERROR;
+    }
+  }
+
+ERROR:
+  chprintf(chp, "Usage: light right\r\n");
+  chprintf(chp, "       light left\r\n");
+  chprintf(chp, "       light warning\r\n");
+  chprintf(chp, "       light brakeon\r\n");
+  chprintf(chp, "       light brakeoff\r\n");
+  chprintf(chp, "       light lampon\r\n");
+  chprintf(chp, "       light lampoff\r\n");
+  chprintf(chp, "       light stop\r\n");
+  return;
 }

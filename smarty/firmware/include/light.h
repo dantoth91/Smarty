@@ -12,6 +12,12 @@
 
 void lightInit(void);
 void lightCalc(void);
+void lightFlashing (int chanel);
+void lightBrakeOn();
+void lightBrakeOff();
+void lightPosLampOn();
+void lightPosLampOff();
 
 void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_lightblink(BaseSequentialStream *chp, int argc, char *argv[]);
 #endif

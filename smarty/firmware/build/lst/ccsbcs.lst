@@ -1,0 +1,1450 @@
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"ccsbcs.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 D0000000 		.text
+  20      02007B00 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.section	.text.ff_convert,"ax",%progbits
+  24              		.align	2
+  25              		.p2align 4,,15
+  26              		.global	ff_convert
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	ff_convert, %function
+  30              	ff_convert:
+  31              	.LFB7:
+  32              		.file 1 "../../../ChibiOS/ext/fatfs/src/option/ccsbcs.c"
+  33              		.loc 1 505 0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		@ link register save eliminated.
+  38              	.LVL0:
+  39              		.loc 1 509 0
+  40 0000 7F28     		cmp	r0, #127
+  41 0002 18D9     		bls	.L2
+  42              		.loc 1 513 0
+  43 0004 A1B9     		cbnz	r1, .L12
+  44              		.loc 1 514 0
+  45 0006 0F4B     		ldr	r3, .L15
+  46 0008 0AE0     		b	.L5
+  47              	.LVL1:
+  48              	.L13:
+  49              		.loc 1 518 0
+  50 000a B3F802C0 		ldrh	ip, [r3, #2]
+  51              		.loc 1 517 0
+  52 000e 0131     		adds	r1, r1, #1
+  53              		.loc 1 514 0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 2
+
+
+  54 0010 0233     		adds	r3, r3, #2
+  55              		.loc 1 518 0
+  56 0012 8445     		cmp	ip, r0
+  57              		.loc 1 517 0
+  58 0014 89B2     		uxth	r1, r1
+  59              	.LVL2:
+  60              		.loc 1 518 0
+  61 0016 07D0     		beq	.L4
+  62              		.loc 1 517 0
+  63 0018 4A1C     		adds	r2, r1, #1
+  64 001a 91B2     		uxth	r1, r2
+  65              	.LVL3:
+  66 001c 8029     		cmp	r1, #128
+  67 001e 03D0     		beq	.L4
+  68              	.LVL4:
+  69              	.L5:
+  70              		.loc 1 518 0
+  71 0020 5A88     		ldrh	r2, [r3, #2]
+  72              		.loc 1 514 0
+  73 0022 0233     		adds	r3, r3, #2
+  74              		.loc 1 518 0
+  75 0024 8242     		cmp	r2, r0
+  76 0026 F0D1     		bne	.L13
+  77              	.L4:
+  78              		.loc 1 520 0
+  79 0028 01F18000 		add	r0, r1, #128
+  80              	.LVL5:
+  81 002c C0B2     		uxtb	r0, r0
+  82              	.LVL6:
+  83 002e 7047     		bx	lr
+  84              	.LVL7:
+  85              	.L12:
+  86              		.loc 1 514 0
+  87 0030 FF28     		cmp	r0, #255
+  88 0032 01D9     		bls	.L14
+  89 0034 0020     		movs	r0, #0
+  90              	.LVL8:
+  91              	.L2:
+  92              		.loc 1 525 0
+  93 0036 7047     		bx	lr
+  94              	.LVL9:
+  95              	.L14:
+  96              		.loc 1 514 0 discriminator 1
+  97 0038 8038     		subs	r0, r0, #128
+  98              	.LVL10:
+  99 003a 034B     		ldr	r3, .L15+4
+ 100 003c 33F81000 		ldrh	r0, [r3, r0, lsl #1]
+ 101 0040 7047     		bx	lr
+ 102              	.L16:
+ 103 0042 00BF     		.align	2
+ 104              	.L15:
+ 105 0044 FEFFFFFF 		.word	.LANCHOR0-2
+ 106 0048 00000000 		.word	.LANCHOR0
+ 107              		.cfi_endproc
+ 108              	.LFE7:
+ 109              		.size	ff_convert, .-ff_convert
+ 110 004c AFF30080 		.section	.text.ff_wtoupper,"ax",%progbits
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 3
+
+
+ 111              		.align	2
+ 112              		.p2align 4,,15
+ 113              		.global	ff_wtoupper
+ 114              		.thumb
+ 115              		.thumb_func
+ 116              		.type	ff_wtoupper, %function
+ 117              	ff_wtoupper:
+ 118              	.LFB8:
+ 119              		.loc 1 531 0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		@ link register save eliminated.
+ 124              	.LVL11:
+ 125              		.loc 1 537 0
+ 126 0000 6128     		cmp	r0, #97
+ 127 0002 0AD0     		beq	.L21
+ 128 0004 0749     		ldr	r1, .L24
+ 129 0006 0022     		movs	r2, #0
+ 130 0008 01E0     		b	.L20
+ 131              	.LVL12:
+ 132              	.L23:
+ 133              		.loc 1 537 0 is_stmt 0 discriminator 2
+ 134 000a 8342     		cmp	r3, r0
+ 135 000c 06D0     		beq	.L18
+ 136              	.LVL13:
+ 137              	.L20:
+ 138              		.loc 1 537 0 discriminator 1
+ 139 000e 31F8023F 		ldrh	r3, [r1, #2]!
+ 140 0012 0132     		adds	r2, r2, #1
+ 141              	.LVL14:
+ 142 0014 002B     		cmp	r3, #0
+ 143 0016 F8D1     		bne	.L23
+ 144              		.loc 1 540 0 is_stmt 1 discriminator 3
+ 145 0018 7047     		bx	lr
+ 146              	.LVL15:
+ 147              	.L21:
+ 148              		.loc 1 537 0
+ 149 001a 0022     		movs	r2, #0
+ 150              	.LVL16:
+ 151              	.L18:
+ 152              		.loc 1 539 0
+ 153 001c 024B     		ldr	r3, .L24+4
+ 154 001e 33F81200 		ldrh	r0, [r3, r2, lsl #1]
+ 155              	.LVL17:
+ 156 0022 7047     		bx	lr
+ 157              	.L25:
+ 158              		.align	2
+ 159              	.L24:
+ 160 0024 00000000 		.word	.LANCHOR1
+ 161 0028 00000000 		.word	.LANCHOR2
+ 162              		.cfi_endproc
+ 163              	.LFE8:
+ 164              		.size	ff_wtoupper, .-ff_wtoupper
+ 165 002c AFF30080 		.section	.rodata.tbl_upper.4836,"a",%progbits
+ 166              		.align	2
+ 167              		.set	.LANCHOR2,. + 0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 4
+
+
+ 168              		.type	tbl_upper.4836, %object
+ 169              		.size	tbl_upper.4836, 480
+ 170              	tbl_upper.4836:
+ 171 0000 4100     		.short	65
+ 172 0002 4200     		.short	66
+ 173 0004 4300     		.short	67
+ 174 0006 4400     		.short	68
+ 175 0008 4500     		.short	69
+ 176 000a 4600     		.short	70
+ 177 000c 4700     		.short	71
+ 178 000e 4800     		.short	72
+ 179 0010 4900     		.short	73
+ 180 0012 4A00     		.short	74
+ 181 0014 4B00     		.short	75
+ 182 0016 4C00     		.short	76
+ 183 0018 4D00     		.short	77
+ 184 001a 4E00     		.short	78
+ 185 001c 4F00     		.short	79
+ 186 001e 5000     		.short	80
+ 187 0020 5100     		.short	81
+ 188 0022 5200     		.short	82
+ 189 0024 5300     		.short	83
+ 190 0026 5400     		.short	84
+ 191 0028 5500     		.short	85
+ 192 002a 5600     		.short	86
+ 193 002c 5700     		.short	87
+ 194 002e 5800     		.short	88
+ 195 0030 5900     		.short	89
+ 196 0032 5A00     		.short	90
+ 197 0034 2100     		.short	33
+ 198 0036 E0FF     		.short	-32
+ 199 0038 E1FF     		.short	-31
+ 200 003a E5FF     		.short	-27
+ 201 003c E2FF     		.short	-30
+ 202 003e E3FF     		.short	-29
+ 203 0040 C000     		.short	192
+ 204 0042 C100     		.short	193
+ 205 0044 C200     		.short	194
+ 206 0046 C300     		.short	195
+ 207 0048 C400     		.short	196
+ 208 004a C500     		.short	197
+ 209 004c C600     		.short	198
+ 210 004e C700     		.short	199
+ 211 0050 C800     		.short	200
+ 212 0052 C900     		.short	201
+ 213 0054 CA00     		.short	202
+ 214 0056 CB00     		.short	203
+ 215 0058 CC00     		.short	204
+ 216 005a CD00     		.short	205
+ 217 005c CE00     		.short	206
+ 218 005e CF00     		.short	207
+ 219 0060 D000     		.short	208
+ 220 0062 D100     		.short	209
+ 221 0064 D200     		.short	210
+ 222 0066 D300     		.short	211
+ 223 0068 D400     		.short	212
+ 224 006a D500     		.short	213
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 5
+
+
+ 225 006c D600     		.short	214
+ 226 006e D800     		.short	216
+ 227 0070 D900     		.short	217
+ 228 0072 DA00     		.short	218
+ 229 0074 DB00     		.short	219
+ 230 0076 DC00     		.short	220
+ 231 0078 DD00     		.short	221
+ 232 007a DE00     		.short	222
+ 233 007c 7801     		.short	376
+ 234 007e 0001     		.short	256
+ 235 0080 0201     		.short	258
+ 236 0082 0401     		.short	260
+ 237 0084 0601     		.short	262
+ 238 0086 0801     		.short	264
+ 239 0088 0A01     		.short	266
+ 240 008a 0C01     		.short	268
+ 241 008c 0E01     		.short	270
+ 242 008e 1001     		.short	272
+ 243 0090 1201     		.short	274
+ 244 0092 1401     		.short	276
+ 245 0094 1601     		.short	278
+ 246 0096 1801     		.short	280
+ 247 0098 1A01     		.short	282
+ 248 009a 1C01     		.short	284
+ 249 009c 1E01     		.short	286
+ 250 009e 2001     		.short	288
+ 251 00a0 2201     		.short	290
+ 252 00a2 2401     		.short	292
+ 253 00a4 2601     		.short	294
+ 254 00a6 2801     		.short	296
+ 255 00a8 2A01     		.short	298
+ 256 00aa 2C01     		.short	300
+ 257 00ac 2E01     		.short	302
+ 258 00ae 3001     		.short	304
+ 259 00b0 3201     		.short	306
+ 260 00b2 3401     		.short	308
+ 261 00b4 3601     		.short	310
+ 262 00b6 3901     		.short	313
+ 263 00b8 3B01     		.short	315
+ 264 00ba 3D01     		.short	317
+ 265 00bc 3F01     		.short	319
+ 266 00be 4101     		.short	321
+ 267 00c0 4301     		.short	323
+ 268 00c2 4501     		.short	325
+ 269 00c4 4701     		.short	327
+ 270 00c6 4A01     		.short	330
+ 271 00c8 4C01     		.short	332
+ 272 00ca 4E01     		.short	334
+ 273 00cc 5001     		.short	336
+ 274 00ce 5201     		.short	338
+ 275 00d0 5401     		.short	340
+ 276 00d2 5601     		.short	342
+ 277 00d4 5801     		.short	344
+ 278 00d6 5A01     		.short	346
+ 279 00d8 5C01     		.short	348
+ 280 00da 5E01     		.short	350
+ 281 00dc 6001     		.short	352
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 6
+
+
+ 282 00de 6201     		.short	354
+ 283 00e0 6401     		.short	356
+ 284 00e2 6601     		.short	358
+ 285 00e4 6801     		.short	360
+ 286 00e6 6A01     		.short	362
+ 287 00e8 6C01     		.short	364
+ 288 00ea 6E01     		.short	366
+ 289 00ec 7001     		.short	368
+ 290 00ee 7201     		.short	370
+ 291 00f0 7401     		.short	372
+ 292 00f2 7601     		.short	374
+ 293 00f4 7901     		.short	377
+ 294 00f6 7B01     		.short	379
+ 295 00f8 7D01     		.short	381
+ 296 00fa 9101     		.short	401
+ 297 00fc 9103     		.short	913
+ 298 00fe 9203     		.short	914
+ 299 0100 9303     		.short	915
+ 300 0102 9403     		.short	916
+ 301 0104 9503     		.short	917
+ 302 0106 9603     		.short	918
+ 303 0108 9703     		.short	919
+ 304 010a 9803     		.short	920
+ 305 010c 9903     		.short	921
+ 306 010e 9A03     		.short	922
+ 307 0110 9B03     		.short	923
+ 308 0112 9C03     		.short	924
+ 309 0114 9D03     		.short	925
+ 310 0116 9E03     		.short	926
+ 311 0118 9F03     		.short	927
+ 312 011a A003     		.short	928
+ 313 011c A103     		.short	929
+ 314 011e A303     		.short	931
+ 315 0120 A403     		.short	932
+ 316 0122 A503     		.short	933
+ 317 0124 A603     		.short	934
+ 318 0126 A703     		.short	935
+ 319 0128 A803     		.short	936
+ 320 012a A903     		.short	937
+ 321 012c AA03     		.short	938
+ 322 012e 1004     		.short	1040
+ 323 0130 1104     		.short	1041
+ 324 0132 1204     		.short	1042
+ 325 0134 1304     		.short	1043
+ 326 0136 1404     		.short	1044
+ 327 0138 1504     		.short	1045
+ 328 013a 1604     		.short	1046
+ 329 013c 1704     		.short	1047
+ 330 013e 1804     		.short	1048
+ 331 0140 1904     		.short	1049
+ 332 0142 1A04     		.short	1050
+ 333 0144 1B04     		.short	1051
+ 334 0146 1C04     		.short	1052
+ 335 0148 1D04     		.short	1053
+ 336 014a 1E04     		.short	1054
+ 337 014c 1F04     		.short	1055
+ 338 014e 2004     		.short	1056
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 7
+
+
+ 339 0150 2104     		.short	1057
+ 340 0152 2204     		.short	1058
+ 341 0154 2304     		.short	1059
+ 342 0156 2404     		.short	1060
+ 343 0158 2504     		.short	1061
+ 344 015a 2604     		.short	1062
+ 345 015c 2704     		.short	1063
+ 346 015e 2804     		.short	1064
+ 347 0160 2904     		.short	1065
+ 348 0162 2A04     		.short	1066
+ 349 0164 2B04     		.short	1067
+ 350 0166 2C04     		.short	1068
+ 351 0168 2D04     		.short	1069
+ 352 016a 2E04     		.short	1070
+ 353 016c 2F04     		.short	1071
+ 354 016e 0104     		.short	1025
+ 355 0170 0204     		.short	1026
+ 356 0172 0304     		.short	1027
+ 357 0174 0404     		.short	1028
+ 358 0176 0504     		.short	1029
+ 359 0178 0604     		.short	1030
+ 360 017a 0704     		.short	1031
+ 361 017c 0804     		.short	1032
+ 362 017e 0904     		.short	1033
+ 363 0180 0A04     		.short	1034
+ 364 0182 0B04     		.short	1035
+ 365 0184 0C04     		.short	1036
+ 366 0186 0E04     		.short	1038
+ 367 0188 0F04     		.short	1039
+ 368 018a 6021     		.short	8544
+ 369 018c 6121     		.short	8545
+ 370 018e 6221     		.short	8546
+ 371 0190 6321     		.short	8547
+ 372 0192 6421     		.short	8548
+ 373 0194 6521     		.short	8549
+ 374 0196 6621     		.short	8550
+ 375 0198 6721     		.short	8551
+ 376 019a 6821     		.short	8552
+ 377 019c 6921     		.short	8553
+ 378 019e 6A21     		.short	8554
+ 379 01a0 6B21     		.short	8555
+ 380 01a2 6C21     		.short	8556
+ 381 01a4 6D21     		.short	8557
+ 382 01a6 6E21     		.short	8558
+ 383 01a8 6F21     		.short	8559
+ 384 01aa 21FF     		.short	-223
+ 385 01ac 22FF     		.short	-222
+ 386 01ae 23FF     		.short	-221
+ 387 01b0 24FF     		.short	-220
+ 388 01b2 25FF     		.short	-219
+ 389 01b4 26FF     		.short	-218
+ 390 01b6 27FF     		.short	-217
+ 391 01b8 28FF     		.short	-216
+ 392 01ba 29FF     		.short	-215
+ 393 01bc 2AFF     		.short	-214
+ 394 01be 2BFF     		.short	-213
+ 395 01c0 2CFF     		.short	-212
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 8
+
+
+ 396 01c2 2DFF     		.short	-211
+ 397 01c4 2EFF     		.short	-210
+ 398 01c6 2FFF     		.short	-209
+ 399 01c8 30FF     		.short	-208
+ 400 01ca 31FF     		.short	-207
+ 401 01cc 32FF     		.short	-206
+ 402 01ce 33FF     		.short	-205
+ 403 01d0 34FF     		.short	-204
+ 404 01d2 35FF     		.short	-203
+ 405 01d4 36FF     		.short	-202
+ 406 01d6 37FF     		.short	-201
+ 407 01d8 38FF     		.short	-200
+ 408 01da 39FF     		.short	-199
+ 409 01dc 3AFF     		.short	-198
+ 410 01de 0000     		.short	0
+ 411              		.section	.rodata.Tbl,"a",%progbits
+ 412              		.align	2
+ 413              		.set	.LANCHOR0,. + 0
+ 414              		.type	Tbl, %object
+ 415              		.size	Tbl, 256
+ 416              	Tbl:
+ 417 0000 AC20     		.short	8364
+ 418 0002 0000     		.short	0
+ 419 0004 1A20     		.short	8218
+ 420 0006 0000     		.short	0
+ 421 0008 1E20     		.short	8222
+ 422 000a 2620     		.short	8230
+ 423 000c 2020     		.short	8224
+ 424 000e 2120     		.short	8225
+ 425 0010 0000     		.short	0
+ 426 0012 3020     		.short	8240
+ 427 0014 6001     		.short	352
+ 428 0016 3920     		.short	8249
+ 429 0018 5A01     		.short	346
+ 430 001a 6401     		.short	356
+ 431 001c 7D01     		.short	381
+ 432 001e 7901     		.short	377
+ 433 0020 0000     		.short	0
+ 434 0022 1820     		.short	8216
+ 435 0024 1920     		.short	8217
+ 436 0026 1C20     		.short	8220
+ 437 0028 1D20     		.short	8221
+ 438 002a 2220     		.short	8226
+ 439 002c 1320     		.short	8211
+ 440 002e 1420     		.short	8212
+ 441 0030 0000     		.short	0
+ 442 0032 2221     		.short	8482
+ 443 0034 6101     		.short	353
+ 444 0036 3A20     		.short	8250
+ 445 0038 5B01     		.short	347
+ 446 003a 6501     		.short	357
+ 447 003c 7E01     		.short	382
+ 448 003e 7A01     		.short	378
+ 449 0040 A000     		.short	160
+ 450 0042 C702     		.short	711
+ 451 0044 D802     		.short	728
+ 452 0046 4101     		.short	321
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 9
+
+
+ 453 0048 A400     		.short	164
+ 454 004a 0401     		.short	260
+ 455 004c A600     		.short	166
+ 456 004e A700     		.short	167
+ 457 0050 A800     		.short	168
+ 458 0052 A900     		.short	169
+ 459 0054 5E01     		.short	350
+ 460 0056 AB00     		.short	171
+ 461 0058 AC00     		.short	172
+ 462 005a AD00     		.short	173
+ 463 005c AE00     		.short	174
+ 464 005e 7B01     		.short	379
+ 465 0060 B000     		.short	176
+ 466 0062 B100     		.short	177
+ 467 0064 DB02     		.short	731
+ 468 0066 4201     		.short	322
+ 469 0068 B400     		.short	180
+ 470 006a B500     		.short	181
+ 471 006c B600     		.short	182
+ 472 006e B700     		.short	183
+ 473 0070 B800     		.short	184
+ 474 0072 0501     		.short	261
+ 475 0074 5F01     		.short	351
+ 476 0076 BB00     		.short	187
+ 477 0078 3D01     		.short	317
+ 478 007a DD02     		.short	733
+ 479 007c 3E01     		.short	318
+ 480 007e 7C01     		.short	380
+ 481 0080 5401     		.short	340
+ 482 0082 C100     		.short	193
+ 483 0084 C200     		.short	194
+ 484 0086 0201     		.short	258
+ 485 0088 C400     		.short	196
+ 486 008a 3901     		.short	313
+ 487 008c 0601     		.short	262
+ 488 008e C700     		.short	199
+ 489 0090 0C01     		.short	268
+ 490 0092 C900     		.short	201
+ 491 0094 1801     		.short	280
+ 492 0096 CB00     		.short	203
+ 493 0098 1A01     		.short	282
+ 494 009a CD00     		.short	205
+ 495 009c CE00     		.short	206
+ 496 009e 0E01     		.short	270
+ 497 00a0 1001     		.short	272
+ 498 00a2 4301     		.short	323
+ 499 00a4 4701     		.short	327
+ 500 00a6 D300     		.short	211
+ 501 00a8 D400     		.short	212
+ 502 00aa 5001     		.short	336
+ 503 00ac D600     		.short	214
+ 504 00ae D700     		.short	215
+ 505 00b0 5801     		.short	344
+ 506 00b2 6E01     		.short	366
+ 507 00b4 DA00     		.short	218
+ 508 00b6 7001     		.short	368
+ 509 00b8 DC00     		.short	220
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 10
+
+
+ 510 00ba DD00     		.short	221
+ 511 00bc 6201     		.short	354
+ 512 00be DF00     		.short	223
+ 513 00c0 5501     		.short	341
+ 514 00c2 E100     		.short	225
+ 515 00c4 E200     		.short	226
+ 516 00c6 0301     		.short	259
+ 517 00c8 E400     		.short	228
+ 518 00ca 3A01     		.short	314
+ 519 00cc 0701     		.short	263
+ 520 00ce E700     		.short	231
+ 521 00d0 0D01     		.short	269
+ 522 00d2 E900     		.short	233
+ 523 00d4 1901     		.short	281
+ 524 00d6 EB00     		.short	235
+ 525 00d8 1B01     		.short	283
+ 526 00da ED00     		.short	237
+ 527 00dc EE00     		.short	238
+ 528 00de 0F01     		.short	271
+ 529 00e0 1101     		.short	273
+ 530 00e2 4401     		.short	324
+ 531 00e4 4801     		.short	328
+ 532 00e6 F300     		.short	243
+ 533 00e8 F400     		.short	244
+ 534 00ea 5101     		.short	337
+ 535 00ec F600     		.short	246
+ 536 00ee F700     		.short	247
+ 537 00f0 5901     		.short	345
+ 538 00f2 6F01     		.short	367
+ 539 00f4 FA00     		.short	250
+ 540 00f6 7101     		.short	369
+ 541 00f8 FC00     		.short	252
+ 542 00fa FD00     		.short	253
+ 543 00fc 6301     		.short	355
+ 544 00fe D902     		.short	729
+ 545              		.section	.rodata.tbl_lower.4835,"a",%progbits
+ 546              		.align	2
+ 547              		.set	.LANCHOR1,. + 0
+ 548              		.type	tbl_lower.4835, %object
+ 549              		.size	tbl_lower.4835, 480
+ 550              	tbl_lower.4835:
+ 551 0000 6100     		.short	97
+ 552 0002 6200     		.short	98
+ 553 0004 6300     		.short	99
+ 554 0006 6400     		.short	100
+ 555 0008 6500     		.short	101
+ 556 000a 6600     		.short	102
+ 557 000c 6700     		.short	103
+ 558 000e 6800     		.short	104
+ 559 0010 6900     		.short	105
+ 560 0012 6A00     		.short	106
+ 561 0014 6B00     		.short	107
+ 562 0016 6C00     		.short	108
+ 563 0018 6D00     		.short	109
+ 564 001a 6E00     		.short	110
+ 565 001c 6F00     		.short	111
+ 566 001e 7000     		.short	112
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 11
+
+
+ 567 0020 7100     		.short	113
+ 568 0022 7200     		.short	114
+ 569 0024 7300     		.short	115
+ 570 0026 7400     		.short	116
+ 571 0028 7500     		.short	117
+ 572 002a 7600     		.short	118
+ 573 002c 7700     		.short	119
+ 574 002e 7800     		.short	120
+ 575 0030 7900     		.short	121
+ 576 0032 7A00     		.short	122
+ 577 0034 A100     		.short	161
+ 578 0036 A200     		.short	162
+ 579 0038 A300     		.short	163
+ 580 003a A500     		.short	165
+ 581 003c AC00     		.short	172
+ 582 003e AF00     		.short	175
+ 583 0040 E000     		.short	224
+ 584 0042 E100     		.short	225
+ 585 0044 E200     		.short	226
+ 586 0046 E300     		.short	227
+ 587 0048 E400     		.short	228
+ 588 004a E500     		.short	229
+ 589 004c E600     		.short	230
+ 590 004e E700     		.short	231
+ 591 0050 E800     		.short	232
+ 592 0052 E900     		.short	233
+ 593 0054 EA00     		.short	234
+ 594 0056 EB00     		.short	235
+ 595 0058 EC00     		.short	236
+ 596 005a ED00     		.short	237
+ 597 005c EE00     		.short	238
+ 598 005e EF00     		.short	239
+ 599 0060 F000     		.short	240
+ 600 0062 F100     		.short	241
+ 601 0064 F200     		.short	242
+ 602 0066 F300     		.short	243
+ 603 0068 F400     		.short	244
+ 604 006a F500     		.short	245
+ 605 006c F600     		.short	246
+ 606 006e F800     		.short	248
+ 607 0070 F900     		.short	249
+ 608 0072 FA00     		.short	250
+ 609 0074 FB00     		.short	251
+ 610 0076 FC00     		.short	252
+ 611 0078 FD00     		.short	253
+ 612 007a FE00     		.short	254
+ 613 007c FF00     		.short	255
+ 614 007e 0101     		.short	257
+ 615 0080 0301     		.short	259
+ 616 0082 0501     		.short	261
+ 617 0084 0701     		.short	263
+ 618 0086 0901     		.short	265
+ 619 0088 0B01     		.short	267
+ 620 008a 0D01     		.short	269
+ 621 008c 0F01     		.short	271
+ 622 008e 1101     		.short	273
+ 623 0090 1301     		.short	275
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 12
+
+
+ 624 0092 1501     		.short	277
+ 625 0094 1701     		.short	279
+ 626 0096 1901     		.short	281
+ 627 0098 1B01     		.short	283
+ 628 009a 1D01     		.short	285
+ 629 009c 1F01     		.short	287
+ 630 009e 2101     		.short	289
+ 631 00a0 2301     		.short	291
+ 632 00a2 2501     		.short	293
+ 633 00a4 2701     		.short	295
+ 634 00a6 2901     		.short	297
+ 635 00a8 2B01     		.short	299
+ 636 00aa 2D01     		.short	301
+ 637 00ac 2F01     		.short	303
+ 638 00ae 3101     		.short	305
+ 639 00b0 3301     		.short	307
+ 640 00b2 3501     		.short	309
+ 641 00b4 3701     		.short	311
+ 642 00b6 3A01     		.short	314
+ 643 00b8 3C01     		.short	316
+ 644 00ba 3E01     		.short	318
+ 645 00bc 4001     		.short	320
+ 646 00be 4201     		.short	322
+ 647 00c0 4401     		.short	324
+ 648 00c2 4601     		.short	326
+ 649 00c4 4801     		.short	328
+ 650 00c6 4B01     		.short	331
+ 651 00c8 4D01     		.short	333
+ 652 00ca 4F01     		.short	335
+ 653 00cc 5101     		.short	337
+ 654 00ce 5301     		.short	339
+ 655 00d0 5501     		.short	341
+ 656 00d2 5701     		.short	343
+ 657 00d4 5901     		.short	345
+ 658 00d6 5B01     		.short	347
+ 659 00d8 5D01     		.short	349
+ 660 00da 5F01     		.short	351
+ 661 00dc 6101     		.short	353
+ 662 00de 6301     		.short	355
+ 663 00e0 6501     		.short	357
+ 664 00e2 6701     		.short	359
+ 665 00e4 6901     		.short	361
+ 666 00e6 6B01     		.short	363
+ 667 00e8 6D01     		.short	365
+ 668 00ea 6F01     		.short	367
+ 669 00ec 7101     		.short	369
+ 670 00ee 7301     		.short	371
+ 671 00f0 7501     		.short	373
+ 672 00f2 7701     		.short	375
+ 673 00f4 7A01     		.short	378
+ 674 00f6 7C01     		.short	380
+ 675 00f8 7E01     		.short	382
+ 676 00fa 9201     		.short	402
+ 677 00fc B103     		.short	945
+ 678 00fe B203     		.short	946
+ 679 0100 B303     		.short	947
+ 680 0102 B403     		.short	948
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 13
+
+
+ 681 0104 B503     		.short	949
+ 682 0106 B603     		.short	950
+ 683 0108 B703     		.short	951
+ 684 010a B803     		.short	952
+ 685 010c B903     		.short	953
+ 686 010e BA03     		.short	954
+ 687 0110 BB03     		.short	955
+ 688 0112 BC03     		.short	956
+ 689 0114 BD03     		.short	957
+ 690 0116 BE03     		.short	958
+ 691 0118 BF03     		.short	959
+ 692 011a C003     		.short	960
+ 693 011c C103     		.short	961
+ 694 011e C303     		.short	963
+ 695 0120 C403     		.short	964
+ 696 0122 C503     		.short	965
+ 697 0124 C603     		.short	966
+ 698 0126 C703     		.short	967
+ 699 0128 C803     		.short	968
+ 700 012a C903     		.short	969
+ 701 012c CA03     		.short	970
+ 702 012e 3004     		.short	1072
+ 703 0130 3104     		.short	1073
+ 704 0132 3204     		.short	1074
+ 705 0134 3304     		.short	1075
+ 706 0136 3404     		.short	1076
+ 707 0138 3504     		.short	1077
+ 708 013a 3604     		.short	1078
+ 709 013c 3704     		.short	1079
+ 710 013e 3804     		.short	1080
+ 711 0140 3904     		.short	1081
+ 712 0142 3A04     		.short	1082
+ 713 0144 3B04     		.short	1083
+ 714 0146 3C04     		.short	1084
+ 715 0148 3D04     		.short	1085
+ 716 014a 3E04     		.short	1086
+ 717 014c 3F04     		.short	1087
+ 718 014e 4004     		.short	1088
+ 719 0150 4104     		.short	1089
+ 720 0152 4204     		.short	1090
+ 721 0154 4304     		.short	1091
+ 722 0156 4404     		.short	1092
+ 723 0158 4504     		.short	1093
+ 724 015a 4604     		.short	1094
+ 725 015c 4704     		.short	1095
+ 726 015e 4804     		.short	1096
+ 727 0160 4904     		.short	1097
+ 728 0162 4A04     		.short	1098
+ 729 0164 4B04     		.short	1099
+ 730 0166 4C04     		.short	1100
+ 731 0168 4D04     		.short	1101
+ 732 016a 4E04     		.short	1102
+ 733 016c 4F04     		.short	1103
+ 734 016e 5104     		.short	1105
+ 735 0170 5204     		.short	1106
+ 736 0172 5304     		.short	1107
+ 737 0174 5404     		.short	1108
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 14
+
+
+ 738 0176 5504     		.short	1109
+ 739 0178 5604     		.short	1110
+ 740 017a 5704     		.short	1111
+ 741 017c 5804     		.short	1112
+ 742 017e 5904     		.short	1113
+ 743 0180 5A04     		.short	1114
+ 744 0182 5B04     		.short	1115
+ 745 0184 5C04     		.short	1116
+ 746 0186 5E04     		.short	1118
+ 747 0188 5F04     		.short	1119
+ 748 018a 7021     		.short	8560
+ 749 018c 7121     		.short	8561
+ 750 018e 7221     		.short	8562
+ 751 0190 7321     		.short	8563
+ 752 0192 7421     		.short	8564
+ 753 0194 7521     		.short	8565
+ 754 0196 7621     		.short	8566
+ 755 0198 7721     		.short	8567
+ 756 019a 7821     		.short	8568
+ 757 019c 7921     		.short	8569
+ 758 019e 7A21     		.short	8570
+ 759 01a0 7B21     		.short	8571
+ 760 01a2 7C21     		.short	8572
+ 761 01a4 7D21     		.short	8573
+ 762 01a6 7E21     		.short	8574
+ 763 01a8 7F21     		.short	8575
+ 764 01aa 41FF     		.short	-191
+ 765 01ac 42FF     		.short	-190
+ 766 01ae 43FF     		.short	-189
+ 767 01b0 44FF     		.short	-188
+ 768 01b2 45FF     		.short	-187
+ 769 01b4 46FF     		.short	-186
+ 770 01b6 47FF     		.short	-185
+ 771 01b8 48FF     		.short	-184
+ 772 01ba 49FF     		.short	-183
+ 773 01bc 4AFF     		.short	-182
+ 774 01be 4BFF     		.short	-181
+ 775 01c0 4CFF     		.short	-180
+ 776 01c2 4DFF     		.short	-179
+ 777 01c4 4EFF     		.short	-178
+ 778 01c6 4FFF     		.short	-177
+ 779 01c8 50FF     		.short	-176
+ 780 01ca 51FF     		.short	-175
+ 781 01cc 52FF     		.short	-174
+ 782 01ce 53FF     		.short	-173
+ 783 01d0 54FF     		.short	-172
+ 784 01d2 55FF     		.short	-171
+ 785 01d4 56FF     		.short	-170
+ 786 01d6 57FF     		.short	-169
+ 787 01d8 58FF     		.short	-168
+ 788 01da 59FF     		.short	-167
+ 789 01dc 5AFF     		.short	-166
+ 790 01de 0000     		.short	0
+ 791              		.text
+ 792              	.Letext0:
+ 793              		.section	.debug_loc,"",%progbits
+ 794              	.Ldebug_loc0:
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 15
+
+
+ 795              	.LLST0:
+ 796 0000 00000000 		.4byte	.LVL0
+ 797 0004 2C000000 		.4byte	.LVL5
+ 798 0008 0100     		.2byte	0x1
+ 799 000a 50       		.byte	0x50
+ 800 000b 30000000 		.4byte	.LVL7
+ 801 000f 36000000 		.4byte	.LVL8
+ 802 0013 0100     		.2byte	0x1
+ 803 0015 50       		.byte	0x50
+ 804 0016 38000000 		.4byte	.LVL9
+ 805 001a 3A000000 		.4byte	.LVL10
+ 806 001e 0100     		.2byte	0x1
+ 807 0020 50       		.byte	0x50
+ 808 0021 00000000 		.4byte	0x0
+ 809 0025 00000000 		.4byte	0x0
+ 810              	.LLST1:
+ 811 0029 00000000 		.4byte	.LVL0
+ 812 002d 0A000000 		.4byte	.LVL1
+ 813 0031 0100     		.2byte	0x1
+ 814 0033 51       		.byte	0x51
+ 815 0034 30000000 		.4byte	.LVL7
+ 816 0038 4C000000 		.4byte	.LFE7
+ 817 003c 0100     		.2byte	0x1
+ 818 003e 51       		.byte	0x51
+ 819 003f 00000000 		.4byte	0x0
+ 820 0043 00000000 		.4byte	0x0
+ 821              	.LLST2:
+ 822 0047 16000000 		.4byte	.LVL2
+ 823 004b 1C000000 		.4byte	.LVL3
+ 824 004f 0100     		.2byte	0x1
+ 825 0051 51       		.byte	0x51
+ 826 0052 1C000000 		.4byte	.LVL3
+ 827 0056 20000000 		.4byte	.LVL4
+ 828 005a 0100     		.2byte	0x1
+ 829 005c 51       		.byte	0x51
+ 830 005d 2E000000 		.4byte	.LVL6
+ 831 0061 30000000 		.4byte	.LVL7
+ 832 0065 0100     		.2byte	0x1
+ 833 0067 50       		.byte	0x50
+ 834 0068 36000000 		.4byte	.LVL8
+ 835 006c 38000000 		.4byte	.LVL9
+ 836 0070 0100     		.2byte	0x1
+ 837 0072 50       		.byte	0x50
+ 838 0073 00000000 		.4byte	0x0
+ 839 0077 00000000 		.4byte	0x0
+ 840              	.LLST3:
+ 841 007b 00000000 		.4byte	.LVL11
+ 842 007f 22000000 		.4byte	.LVL17
+ 843 0083 0100     		.2byte	0x1
+ 844 0085 50       		.byte	0x50
+ 845 0086 00000000 		.4byte	0x0
+ 846 008a 00000000 		.4byte	0x0
+ 847              	.LLST4:
+ 848 008e 00000000 		.4byte	.LVL11
+ 849 0092 0A000000 		.4byte	.LVL12
+ 850 0096 0200     		.2byte	0x2
+ 851 0098 30       		.byte	0x30
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 16
+
+
+ 852 0099 9F       		.byte	0x9f
+ 853 009a 0A000000 		.4byte	.LVL12
+ 854 009e 0E000000 		.4byte	.LVL13
+ 855 00a2 0100     		.2byte	0x1
+ 856 00a4 52       		.byte	0x52
+ 857 00a5 14000000 		.4byte	.LVL14
+ 858 00a9 1A000000 		.4byte	.LVL15
+ 859 00ad 0100     		.2byte	0x1
+ 860 00af 52       		.byte	0x52
+ 861 00b0 1A000000 		.4byte	.LVL15
+ 862 00b4 1C000000 		.4byte	.LVL16
+ 863 00b8 0200     		.2byte	0x2
+ 864 00ba 30       		.byte	0x30
+ 865 00bb 9F       		.byte	0x9f
+ 866 00bc 00000000 		.4byte	0x0
+ 867 00c0 00000000 		.4byte	0x0
+ 868              		.file 2 "../../../ChibiOS/ext/fatfs/src/option/../integer.h"
+ 869              		.section	.debug_info
+ 870 0000 7D010000 		.4byte	0x17d
+ 871 0004 0200     		.2byte	0x2
+ 872 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 873 000a 04       		.byte	0x4
+ 874 000b 01       		.uleb128 0x1
+ 875 000c 0E000000 		.4byte	.LASF17
+ 876 0010 01       		.byte	0x1
+ 877 0011 5A000000 		.4byte	.LASF18
+ 878 0015 27000000 		.4byte	.LASF19
+ 879 0019 00000000 		.4byte	0x0
+ 880 001d 00000000 		.4byte	0x0
+ 881 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 882 0025 00000000 		.4byte	.Ldebug_line0
+ 883 0029 02       		.uleb128 0x2
+ 884 002a 04       		.byte	0x4
+ 885 002b 05       		.byte	0x5
+ 886 002c 696E7400 		.ascii	"int\000"
+ 887 0030 03       		.uleb128 0x3
+ 888 0031 8F000000 		.4byte	.LASF5
+ 889 0035 02       		.byte	0x2
+ 890 0036 11       		.byte	0x11
+ 891 0037 3B000000 		.4byte	0x3b
+ 892 003b 04       		.uleb128 0x4
+ 893 003c 04       		.byte	0x4
+ 894 003d 07       		.byte	0x7
+ 895 003e 1A000000 		.4byte	.LASF0
+ 896 0042 04       		.uleb128 0x4
+ 897 0043 01       		.byte	0x1
+ 898 0044 08       		.byte	0x8
+ 899 0045 DA000000 		.4byte	.LASF1
+ 900 0049 04       		.uleb128 0x4
+ 901 004a 01       		.byte	0x1
+ 902 004b 08       		.byte	0x8
+ 903 004c CC000000 		.4byte	.LASF2
+ 904 0050 04       		.uleb128 0x4
+ 905 0051 02       		.byte	0x2
+ 906 0052 05       		.byte	0x5
+ 907 0053 1F010000 		.4byte	.LASF3
+ 908 0057 04       		.uleb128 0x4
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 17
+
+
+ 909 0058 02       		.byte	0x2
+ 910 0059 07       		.byte	0x7
+ 911 005a 00010000 		.4byte	.LASF4
+ 912 005e 03       		.uleb128 0x3
+ 913 005f 89000000 		.4byte	.LASF6
+ 914 0063 02       		.byte	0x2
+ 915 0064 1C       		.byte	0x1c
+ 916 0065 57000000 		.4byte	0x57
+ 917 0069 04       		.uleb128 0x4
+ 918 006a 04       		.byte	0x4
+ 919 006b 05       		.byte	0x5
+ 920 006c DF000000 		.4byte	.LASF7
+ 921 0070 04       		.uleb128 0x4
+ 922 0071 04       		.byte	0x4
+ 923 0072 07       		.byte	0x7
+ 924 0073 E8000000 		.4byte	.LASF8
+ 925 0077 04       		.uleb128 0x4
+ 926 0078 01       		.byte	0x1
+ 927 0079 06       		.byte	0x6
+ 928 007a 13010000 		.4byte	.LASF9
+ 929 007e 04       		.uleb128 0x4
+ 930 007f 08       		.byte	0x8
+ 931 0080 05       		.byte	0x5
+ 932 0081 00000000 		.4byte	.LASF10
+ 933 0085 04       		.uleb128 0x4
+ 934 0086 08       		.byte	0x8
+ 935 0087 07       		.byte	0x7
+ 936 0088 A0000000 		.4byte	.LASF11
+ 937 008c 04       		.uleb128 0x4
+ 938 008d 01       		.byte	0x1
+ 939 008e 02       		.byte	0x2
+ 940 008f FA000000 		.4byte	.LASF12
+ 941 0093 05       		.uleb128 0x5
+ 942 0094 01       		.byte	0x1
+ 943 0095 C1000000 		.4byte	.LASF13
+ 944 0099 01       		.byte	0x1
+ 945 009a F501     		.2byte	0x1f5
+ 946 009c 01       		.byte	0x1
+ 947 009d 5E000000 		.4byte	0x5e
+ 948 00a1 00000000 		.4byte	.LFB7
+ 949 00a5 4C000000 		.4byte	.LFE7
+ 950 00a9 02       		.byte	0x2
+ 951 00aa 7D       		.byte	0x7d
+ 952 00ab 00       		.sleb128 0
+ 953 00ac DF000000 		.4byte	0xdf
+ 954 00b0 06       		.uleb128 0x6
+ 955 00b1 73726300 		.ascii	"src\000"
+ 956 00b5 01       		.byte	0x1
+ 957 00b6 F601     		.2byte	0x1f6
+ 958 00b8 5E000000 		.4byte	0x5e
+ 959 00bc 00000000 		.4byte	.LLST0
+ 960 00c0 06       		.uleb128 0x6
+ 961 00c1 64697200 		.ascii	"dir\000"
+ 962 00c5 01       		.byte	0x1
+ 963 00c6 F701     		.2byte	0x1f7
+ 964 00c8 30000000 		.4byte	0x30
+ 965 00cc 29000000 		.4byte	.LLST1
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 18
+
+
+ 966 00d0 07       		.uleb128 0x7
+ 967 00d1 6300     		.ascii	"c\000"
+ 968 00d3 01       		.byte	0x1
+ 969 00d4 FA01     		.2byte	0x1fa
+ 970 00d6 5E000000 		.4byte	0x5e
+ 971 00da 47000000 		.4byte	.LLST2
+ 972 00de 00       		.byte	0x0
+ 973 00df 05       		.uleb128 0x5
+ 974 00e0 01       		.byte	0x1
+ 975 00e1 94000000 		.4byte	.LASF14
+ 976 00e5 01       		.byte	0x1
+ 977 00e6 1002     		.2byte	0x210
+ 978 00e8 01       		.byte	0x1
+ 979 00e9 5E000000 		.4byte	0x5e
+ 980 00ed 00000000 		.4byte	.LFB8
+ 981 00f1 2C000000 		.4byte	.LFE8
+ 982 00f5 02       		.byte	0x2
+ 983 00f6 7D       		.byte	0x7d
+ 984 00f7 00       		.sleb128 0
+ 985 00f8 3F010000 		.4byte	0x13f
+ 986 00fc 06       		.uleb128 0x6
+ 987 00fd 63687200 		.ascii	"chr\000"
+ 988 0101 01       		.byte	0x1
+ 989 0102 1102     		.2byte	0x211
+ 990 0104 5E000000 		.4byte	0x5e
+ 991 0108 7B000000 		.4byte	.LLST3
+ 992 010c 08       		.uleb128 0x8
+ 993 010d B7000000 		.4byte	.LASF15
+ 994 0111 01       		.byte	0x1
+ 995 0112 1402     		.2byte	0x214
+ 996 0114 4F010000 		.4byte	0x14f
+ 997 0118 05       		.byte	0x5
+ 998 0119 03       		.byte	0x3
+ 999 011a 00000000 		.4byte	tbl_lower.4835
+ 1000 011e 08       		.uleb128 0x8
+ 1001 011f 29010000 		.4byte	.LASF16
+ 1002 0123 01       		.byte	0x1
+ 1003 0124 1502     		.2byte	0x215
+ 1004 0126 54010000 		.4byte	0x154
+ 1005 012a 05       		.byte	0x5
+ 1006 012b 03       		.byte	0x3
+ 1007 012c 00000000 		.4byte	tbl_upper.4836
+ 1008 0130 07       		.uleb128 0x7
+ 1009 0131 6900     		.ascii	"i\000"
+ 1010 0133 01       		.byte	0x1
+ 1011 0134 1602     		.2byte	0x216
+ 1012 0136 29000000 		.4byte	0x29
+ 1013 013a 8E000000 		.4byte	.LLST4
+ 1014 013e 00       		.byte	0x0
+ 1015 013f 09       		.uleb128 0x9
+ 1016 0140 5E000000 		.4byte	0x5e
+ 1017 0144 4F010000 		.4byte	0x14f
+ 1018 0148 0A       		.uleb128 0xa
+ 1019 0149 3B000000 		.4byte	0x3b
+ 1020 014d EF       		.byte	0xef
+ 1021 014e 00       		.byte	0x0
+ 1022 014f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 19
+
+
+ 1023 0150 3F010000 		.4byte	0x13f
+ 1024 0154 0B       		.uleb128 0xb
+ 1025 0155 3F010000 		.4byte	0x13f
+ 1026 0159 09       		.uleb128 0x9
+ 1027 015a 5E000000 		.4byte	0x5e
+ 1028 015e 69010000 		.4byte	0x169
+ 1029 0162 0A       		.uleb128 0xa
+ 1030 0163 3B000000 		.4byte	0x3b
+ 1031 0167 7F       		.byte	0x7f
+ 1032 0168 00       		.byte	0x0
+ 1033 0169 0C       		.uleb128 0xc
+ 1034 016a 54626C00 		.ascii	"Tbl\000"
+ 1035 016e 01       		.byte	0x1
+ 1036 016f 2A01     		.2byte	0x12a
+ 1037 0171 7B010000 		.4byte	0x17b
+ 1038 0175 05       		.byte	0x5
+ 1039 0176 03       		.byte	0x3
+ 1040 0177 00000000 		.4byte	Tbl
+ 1041 017b 0B       		.uleb128 0xb
+ 1042 017c 59010000 		.4byte	0x159
+ 1043 0180 00       		.byte	0x0
+ 1044              		.section	.debug_abbrev
+ 1045 0000 01       		.uleb128 0x1
+ 1046 0001 11       		.uleb128 0x11
+ 1047 0002 01       		.byte	0x1
+ 1048 0003 25       		.uleb128 0x25
+ 1049 0004 0E       		.uleb128 0xe
+ 1050 0005 13       		.uleb128 0x13
+ 1051 0006 0B       		.uleb128 0xb
+ 1052 0007 03       		.uleb128 0x3
+ 1053 0008 0E       		.uleb128 0xe
+ 1054 0009 1B       		.uleb128 0x1b
+ 1055 000a 0E       		.uleb128 0xe
+ 1056 000b 11       		.uleb128 0x11
+ 1057 000c 01       		.uleb128 0x1
+ 1058 000d 52       		.uleb128 0x52
+ 1059 000e 01       		.uleb128 0x1
+ 1060 000f 55       		.uleb128 0x55
+ 1061 0010 06       		.uleb128 0x6
+ 1062 0011 10       		.uleb128 0x10
+ 1063 0012 06       		.uleb128 0x6
+ 1064 0013 00       		.byte	0x0
+ 1065 0014 00       		.byte	0x0
+ 1066 0015 02       		.uleb128 0x2
+ 1067 0016 24       		.uleb128 0x24
+ 1068 0017 00       		.byte	0x0
+ 1069 0018 0B       		.uleb128 0xb
+ 1070 0019 0B       		.uleb128 0xb
+ 1071 001a 3E       		.uleb128 0x3e
+ 1072 001b 0B       		.uleb128 0xb
+ 1073 001c 03       		.uleb128 0x3
+ 1074 001d 08       		.uleb128 0x8
+ 1075 001e 00       		.byte	0x0
+ 1076 001f 00       		.byte	0x0
+ 1077 0020 03       		.uleb128 0x3
+ 1078 0021 16       		.uleb128 0x16
+ 1079 0022 00       		.byte	0x0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 20
+
+
+ 1080 0023 03       		.uleb128 0x3
+ 1081 0024 0E       		.uleb128 0xe
+ 1082 0025 3A       		.uleb128 0x3a
+ 1083 0026 0B       		.uleb128 0xb
+ 1084 0027 3B       		.uleb128 0x3b
+ 1085 0028 0B       		.uleb128 0xb
+ 1086 0029 49       		.uleb128 0x49
+ 1087 002a 13       		.uleb128 0x13
+ 1088 002b 00       		.byte	0x0
+ 1089 002c 00       		.byte	0x0
+ 1090 002d 04       		.uleb128 0x4
+ 1091 002e 24       		.uleb128 0x24
+ 1092 002f 00       		.byte	0x0
+ 1093 0030 0B       		.uleb128 0xb
+ 1094 0031 0B       		.uleb128 0xb
+ 1095 0032 3E       		.uleb128 0x3e
+ 1096 0033 0B       		.uleb128 0xb
+ 1097 0034 03       		.uleb128 0x3
+ 1098 0035 0E       		.uleb128 0xe
+ 1099 0036 00       		.byte	0x0
+ 1100 0037 00       		.byte	0x0
+ 1101 0038 05       		.uleb128 0x5
+ 1102 0039 2E       		.uleb128 0x2e
+ 1103 003a 01       		.byte	0x1
+ 1104 003b 3F       		.uleb128 0x3f
+ 1105 003c 0C       		.uleb128 0xc
+ 1106 003d 03       		.uleb128 0x3
+ 1107 003e 0E       		.uleb128 0xe
+ 1108 003f 3A       		.uleb128 0x3a
+ 1109 0040 0B       		.uleb128 0xb
+ 1110 0041 3B       		.uleb128 0x3b
+ 1111 0042 05       		.uleb128 0x5
+ 1112 0043 27       		.uleb128 0x27
+ 1113 0044 0C       		.uleb128 0xc
+ 1114 0045 49       		.uleb128 0x49
+ 1115 0046 13       		.uleb128 0x13
+ 1116 0047 11       		.uleb128 0x11
+ 1117 0048 01       		.uleb128 0x1
+ 1118 0049 12       		.uleb128 0x12
+ 1119 004a 01       		.uleb128 0x1
+ 1120 004b 40       		.uleb128 0x40
+ 1121 004c 0A       		.uleb128 0xa
+ 1122 004d 01       		.uleb128 0x1
+ 1123 004e 13       		.uleb128 0x13
+ 1124 004f 00       		.byte	0x0
+ 1125 0050 00       		.byte	0x0
+ 1126 0051 06       		.uleb128 0x6
+ 1127 0052 05       		.uleb128 0x5
+ 1128 0053 00       		.byte	0x0
+ 1129 0054 03       		.uleb128 0x3
+ 1130 0055 08       		.uleb128 0x8
+ 1131 0056 3A       		.uleb128 0x3a
+ 1132 0057 0B       		.uleb128 0xb
+ 1133 0058 3B       		.uleb128 0x3b
+ 1134 0059 05       		.uleb128 0x5
+ 1135 005a 49       		.uleb128 0x49
+ 1136 005b 13       		.uleb128 0x13
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 21
+
+
+ 1137 005c 02       		.uleb128 0x2
+ 1138 005d 06       		.uleb128 0x6
+ 1139 005e 00       		.byte	0x0
+ 1140 005f 00       		.byte	0x0
+ 1141 0060 07       		.uleb128 0x7
+ 1142 0061 34       		.uleb128 0x34
+ 1143 0062 00       		.byte	0x0
+ 1144 0063 03       		.uleb128 0x3
+ 1145 0064 08       		.uleb128 0x8
+ 1146 0065 3A       		.uleb128 0x3a
+ 1147 0066 0B       		.uleb128 0xb
+ 1148 0067 3B       		.uleb128 0x3b
+ 1149 0068 05       		.uleb128 0x5
+ 1150 0069 49       		.uleb128 0x49
+ 1151 006a 13       		.uleb128 0x13
+ 1152 006b 02       		.uleb128 0x2
+ 1153 006c 06       		.uleb128 0x6
+ 1154 006d 00       		.byte	0x0
+ 1155 006e 00       		.byte	0x0
+ 1156 006f 08       		.uleb128 0x8
+ 1157 0070 34       		.uleb128 0x34
+ 1158 0071 00       		.byte	0x0
+ 1159 0072 03       		.uleb128 0x3
+ 1160 0073 0E       		.uleb128 0xe
+ 1161 0074 3A       		.uleb128 0x3a
+ 1162 0075 0B       		.uleb128 0xb
+ 1163 0076 3B       		.uleb128 0x3b
+ 1164 0077 05       		.uleb128 0x5
+ 1165 0078 49       		.uleb128 0x49
+ 1166 0079 13       		.uleb128 0x13
+ 1167 007a 02       		.uleb128 0x2
+ 1168 007b 0A       		.uleb128 0xa
+ 1169 007c 00       		.byte	0x0
+ 1170 007d 00       		.byte	0x0
+ 1171 007e 09       		.uleb128 0x9
+ 1172 007f 01       		.uleb128 0x1
+ 1173 0080 01       		.byte	0x1
+ 1174 0081 49       		.uleb128 0x49
+ 1175 0082 13       		.uleb128 0x13
+ 1176 0083 01       		.uleb128 0x1
+ 1177 0084 13       		.uleb128 0x13
+ 1178 0085 00       		.byte	0x0
+ 1179 0086 00       		.byte	0x0
+ 1180 0087 0A       		.uleb128 0xa
+ 1181 0088 21       		.uleb128 0x21
+ 1182 0089 00       		.byte	0x0
+ 1183 008a 49       		.uleb128 0x49
+ 1184 008b 13       		.uleb128 0x13
+ 1185 008c 2F       		.uleb128 0x2f
+ 1186 008d 0B       		.uleb128 0xb
+ 1187 008e 00       		.byte	0x0
+ 1188 008f 00       		.byte	0x0
+ 1189 0090 0B       		.uleb128 0xb
+ 1190 0091 26       		.uleb128 0x26
+ 1191 0092 00       		.byte	0x0
+ 1192 0093 49       		.uleb128 0x49
+ 1193 0094 13       		.uleb128 0x13
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 22
+
+
+ 1194 0095 00       		.byte	0x0
+ 1195 0096 00       		.byte	0x0
+ 1196 0097 0C       		.uleb128 0xc
+ 1197 0098 34       		.uleb128 0x34
+ 1198 0099 00       		.byte	0x0
+ 1199 009a 03       		.uleb128 0x3
+ 1200 009b 08       		.uleb128 0x8
+ 1201 009c 3A       		.uleb128 0x3a
+ 1202 009d 0B       		.uleb128 0xb
+ 1203 009e 3B       		.uleb128 0x3b
+ 1204 009f 05       		.uleb128 0x5
+ 1205 00a0 49       		.uleb128 0x49
+ 1206 00a1 13       		.uleb128 0x13
+ 1207 00a2 02       		.uleb128 0x2
+ 1208 00a3 0A       		.uleb128 0xa
+ 1209 00a4 00       		.byte	0x0
+ 1210 00a5 00       		.byte	0x0
+ 1211 00a6 00       		.byte	0x0
+ 1212              		.section	.debug_pubnames,"",%progbits
+ 1213 0000 2D000000 		.4byte	0x2d
+ 1214 0004 0200     		.2byte	0x2
+ 1215 0006 00000000 		.4byte	.Ldebug_info0
+ 1216 000a 81010000 		.4byte	0x181
+ 1217 000e 93000000 		.4byte	0x93
+ 1218 0012 66665F63 		.ascii	"ff_convert\000"
+ 1218      6F6E7665 
+ 1218      727400
+ 1219 001d DF000000 		.4byte	0xdf
+ 1220 0021 66665F77 		.ascii	"ff_wtoupper\000"
+ 1220      746F7570 
+ 1220      70657200 
+ 1221 002d 00000000 		.4byte	0x0
+ 1222              		.section	.debug_pubtypes,"",%progbits
+ 1223 0000 21000000 		.4byte	0x21
+ 1224 0004 0200     		.2byte	0x2
+ 1225 0006 00000000 		.4byte	.Ldebug_info0
+ 1226 000a 81010000 		.4byte	0x181
+ 1227 000e 30000000 		.4byte	0x30
+ 1228 0012 55494E54 		.ascii	"UINT\000"
+ 1228      00
+ 1229 0017 5E000000 		.4byte	0x5e
+ 1230 001b 57434841 		.ascii	"WCHAR\000"
+ 1230      5200
+ 1231 0021 00000000 		.4byte	0x0
+ 1232              		.section	.debug_aranges,"",%progbits
+ 1233 0000 24000000 		.4byte	0x24
+ 1234 0004 0200     		.2byte	0x2
+ 1235 0006 00000000 		.4byte	.Ldebug_info0
+ 1236 000a 04       		.byte	0x4
+ 1237 000b 00       		.byte	0x0
+ 1238 000c 0000     		.2byte	0x0
+ 1239 000e 0000     		.2byte	0x0
+ 1240 0010 00000000 		.4byte	.LFB7
+ 1241 0014 4C000000 		.4byte	.LFE7-.LFB7
+ 1242 0018 00000000 		.4byte	.LFB8
+ 1243 001c 2C000000 		.4byte	.LFE8-.LFB8
+ 1244 0020 00000000 		.4byte	0x0
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 23
+
+
+ 1245 0024 00000000 		.4byte	0x0
+ 1246              		.section	.debug_ranges,"",%progbits
+ 1247              	.Ldebug_ranges0:
+ 1248 0000 00000000 		.4byte	.LFB7
+ 1249 0004 4C000000 		.4byte	.LFE7
+ 1250 0008 00000000 		.4byte	.LFB8
+ 1251 000c 2C000000 		.4byte	.LFE8
+ 1252 0010 00000000 		.4byte	0x0
+ 1253 0014 00000000 		.4byte	0x0
+ 1254              		.section	.debug_str,"MS",%progbits,1
+ 1255              	.LASF10:
+ 1256 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1256      206C6F6E 
+ 1256      6720696E 
+ 1256      7400
+ 1257              	.LASF17:
+ 1258 000e 474E5520 		.ascii	"GNU C 4.5.2\000"
+ 1258      4320342E 
+ 1258      352E3200 
+ 1259              	.LASF0:
+ 1260 001a 756E7369 		.ascii	"unsigned int\000"
+ 1260      676E6564 
+ 1260      20696E74 
+ 1260      00
+ 1261              	.LASF19:
+ 1262 0027 433A5C44 		.ascii	"C:\\Dani\\MegaLux\\Repo\\Smarty\\Smarty\\smarty\\fi"
+ 1262      616E695C 
+ 1262      4D656761 
+ 1262      4C75785C 
+ 1262      5265706F 
+ 1263 0053 726D7761 		.ascii	"rmware\000"
+ 1263      726500
+ 1264              	.LASF18:
+ 1265 005a 2E2E2F2E 		.ascii	"../../../ChibiOS/ext/fatfs/src/option/ccsbcs.c\000"
+ 1265      2E2F2E2E 
+ 1265      2F436869 
+ 1265      62694F53 
+ 1265      2F657874 
+ 1266              	.LASF6:
+ 1267 0089 57434841 		.ascii	"WCHAR\000"
+ 1267      5200
+ 1268              	.LASF5:
+ 1269 008f 55494E54 		.ascii	"UINT\000"
+ 1269      00
+ 1270              	.LASF14:
+ 1271 0094 66665F77 		.ascii	"ff_wtoupper\000"
+ 1271      746F7570 
+ 1271      70657200 
+ 1272              	.LASF11:
+ 1273 00a0 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1273      206C6F6E 
+ 1273      6720756E 
+ 1273      7369676E 
+ 1273      65642069 
+ 1274              	.LASF15:
+ 1275 00b7 74626C5F 		.ascii	"tbl_lower\000"
+ 1275      6C6F7765 
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 24
+
+
+ 1275      7200
+ 1276              	.LASF13:
+ 1277 00c1 66665F63 		.ascii	"ff_convert\000"
+ 1277      6F6E7665 
+ 1277      727400
+ 1278              	.LASF2:
+ 1279 00cc 756E7369 		.ascii	"unsigned char\000"
+ 1279      676E6564 
+ 1279      20636861 
+ 1279      7200
+ 1280              	.LASF1:
+ 1281 00da 63686172 		.ascii	"char\000"
+ 1281      00
+ 1282              	.LASF7:
+ 1283 00df 6C6F6E67 		.ascii	"long int\000"
+ 1283      20696E74 
+ 1283      00
+ 1284              	.LASF8:
+ 1285 00e8 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1285      20756E73 
+ 1285      69676E65 
+ 1285      6420696E 
+ 1285      7400
+ 1286              	.LASF12:
+ 1287 00fa 5F426F6F 		.ascii	"_Bool\000"
+ 1287      6C00
+ 1288              	.LASF4:
+ 1289 0100 73686F72 		.ascii	"short unsigned int\000"
+ 1289      7420756E 
+ 1289      7369676E 
+ 1289      65642069 
+ 1289      6E7400
+ 1290              	.LASF9:
+ 1291 0113 7369676E 		.ascii	"signed char\000"
+ 1291      65642063 
+ 1291      68617200 
+ 1292              	.LASF3:
+ 1293 011f 73686F72 		.ascii	"short int\000"
+ 1293      7420696E 
+ 1293      7400
+ 1294              	.LASF16:
+ 1295 0129 74626C5F 		.ascii	"tbl_upper\000"
+ 1295      75707065 
+ 1295      7200
+ 1296              		.ident	"GCC: (Sourcery G++ Lite 2011.03-42) 4.5.2"
+ARM GAS  C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s 			page 25
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 ccsbcs.c
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:24     .text.ff_convert:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:30     .text.ff_convert:00000000 ff_convert
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:105    .text.ff_convert:00000044 $d
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:111    .text.ff_wtoupper:00000000 $t
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:117    .text.ff_wtoupper:00000000 ff_wtoupper
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:160    .text.ff_wtoupper:00000024 $d
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:166    .rodata.tbl_upper.4836:00000000 $d
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:170    .rodata.tbl_upper.4836:00000000 tbl_upper.4836
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:412    .rodata.Tbl:00000000 $d
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:416    .rodata.Tbl:00000000 Tbl
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:546    .rodata.tbl_lower.4835:00000000 $d
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:550    .rodata.tbl_lower.4835:00000000 tbl_lower.4835
+                     .debug_frame:00000010 $d
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:110    .text.ff_convert:0000004c $t
+C:\Users\DNIEL~1\AppData\Local\Temp\cczIpTdB.s:165    .text.ff_wtoupper:0000002c $t
+
+NO UNDEFINED SYMBOLS

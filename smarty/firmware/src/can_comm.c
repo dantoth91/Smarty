@@ -20,6 +20,11 @@
 
 #define CAN_ML_MIN          0x20
 #define CAN_ML_MAX          0x2F
+#define CAN_ANS_BRAKE_ON    0x02
+#define CAN_ANS_BRAKE_OFF   0x03
+#define CAN_ANS_LIGHT_ON    0x04
+#define CAN_ANS_LIGHT_OFF   0x05
+#define CAN_ANS_TIME        25
 
 #define CAN_RPY_MIN         0x30
 #define CAN_RPY_MAX         0x3F
@@ -41,10 +46,13 @@ enum canState
   CAN_NUM_CH
 }canstate;
 
+/*enum canMessage
+{
+  CAN_MESSAGE_FREE
+}canmessage;*/
+
 static CANTxFrame txmsg;
 static CANRxFrame rxmsg;
-
-//uint32_t canRxEID;
 
 /*--------------------------------------------------*/
 /* CAN_MCR_ABOM   ->  Automatic Bus-Off Management  */
@@ -72,9 +80,12 @@ static const CANConfig cancfg = {
   CAN_BTR_TS1(8) | CAN_BTR_BRP(6)
 };
 
-static int seged;
 static uint16_t id;
 static uint16_t messages;
+static uint32_t brakeon_ans_time;
+static uint32_t brakeoff_ans_time;
+static uint32_t lampon_ans_time;
+static uint32_t lampoff_ans_time;
 
 /*
  * Receiver thread.
@@ -82,7 +93,6 @@ static uint16_t messages;
 static WORKING_AREA(can_rx_wa, 256);
 static msg_t can_rx(void *p) {
   EventListener el;
-  seged = 0;
   int i;
 
   (void)p;
@@ -113,17 +123,28 @@ static msg_t can_rx(void *p) {
 
       switch(canstate){
           case CAN_SM:
-            seged = 1;
             canstate = CAN_WAIT;
             break;
 
           case CAN_ML:
-            seged = 5;
+            if(messages == CAN_ANS_BRAKE_ON){
+              brakeon_ans_time = CAN_ANS_TIME + 10;
+
+            }
+            if(messages == CAN_ANS_BRAKE_OFF){
+              brakeoff_ans_time = CAN_ANS_TIME + 10;
+            }
+
+            if(messages == CAN_ANS_LIGHT_ON){
+              lampon_ans_time = CAN_ANS_TIME + 10;
+            }
+            if(messages == CAN_ANS_LIGHT_OFF){
+              lampoff_ans_time = CAN_ANS_TIME + 10;
+            }
             canstate = CAN_WAIT;
             break;
 
           case CAN_RPY:
-            seged = 3;
             canstate = CAN_WAIT;
             break;
 
@@ -151,7 +172,6 @@ static msg_t can_rx(void *p) {
                 }
               }
             }
-            seged = 8;
             canstate = CAN_WAIT;
             break;
 
@@ -175,39 +195,133 @@ static msg_t can_tx(void * p) {
 
   (void)p;
   chRegSetThreadName("transmitter");
+
   txmsg.IDE = CAN_IDE_EXT;
-  txmsg.EID = 0x01234567;
+  txmsg.EID = 0x00001000;
   txmsg.RTR = CAN_RTR_DATA;
   txmsg.DLC = 8;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x00FF00FF;
 
-  //canTransmit(&CAND1, &txmsg, MS2ST(100));
-
   while (!chThdShouldTerminate()) {
-    canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+    
+    /*switch(canmessage){
+
+      case CAN_MESSAGE_FREE:
+        break;
+
+      default:
+        break;
+    }*/
     chThdSleepMilliseconds(100);
   }
   return 0;
 }
 
-/*uint8_t canTransmitData(CANTxFrame txmsg){
-
-  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
-  return 0;
-}
-
-uint8_t canReceiveData(CANRxFrame *rxmsg){
-  
-  canReceive(&CAND1, CAN_ANY_MAILBOX, &rxmsg, TIME_IMMEDIATE)
-  return 0;
-
-}*/
-
 void can_commInit(void){
   canStart(&CAND1, &cancfg);
-	chThdCreateStatic(can_rx_wa, sizeof(can_rx_wa), NORMALPRIO + 7, can_rx, NULL);
+  chThdCreateStatic(can_rx_wa, sizeof(can_rx_wa), NORMALPRIO + 7, can_rx, NULL);
   chThdCreateStatic(can_tx_wa, sizeof(can_tx_wa), NORMALPRIO + 7, can_tx, NULL);
+  brakeon_ans_time = CAN_ANS_TIME + 10;
+  brakeoff_ans_time = CAN_ANS_TIME + 10;
+  lampon_ans_time = CAN_ANS_TIME + 10;
+  lampoff_ans_time = CAN_ANS_TIME + 10;
+}
+
+void can_commCalc(void){
+  brakeon_ans_time++;
+  brakeoff_ans_time++;
+  lampon_ans_time++;
+  lampoff_ans_time++;
+
+  if (brakeon_ans_time == CAN_ANS_TIME)
+  {
+    can_lightBreakOn();
+  }
+
+  if (brakeoff_ans_time == CAN_ANS_TIME)
+  {
+    can_lightBreakOff();
+  }
+
+  if (lampon_ans_time == CAN_ANS_TIME)
+  {
+    can_lightPosLampOn();
+  }
+
+  if (lampoff_ans_time == CAN_ANS_TIME)
+  {
+    can_lightPosLampOff();
+  }
+}
+
+void can_lightRight(void){
+  txmsg.EID = 0x00001001;
+  txmsg.RTR = CAN_RTR_DATA;
+  txmsg.DLC = 8;
+  txmsg.data32[0] = 0x55AA55AA;
+  txmsg.data32[1] = 0x55AA55AA;
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+}
+
+void can_lightLeft(void){
+  txmsg.EID = 0x00001002;
+  txmsg.RTR = CAN_RTR_DATA;
+  txmsg.DLC = 8;
+  txmsg.data32[0] = 0x55AA55AA;
+  txmsg.data32[1] = 0x55AA55AA;
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+}
+
+void can_lightWarning(void){
+  txmsg.EID = 0x00001003;
+  txmsg.RTR = CAN_RTR_DATA;
+  txmsg.DLC = 8;
+  txmsg.data32[0] = 0x55AA55AA;
+  txmsg.data32[1] = 0x55AA55AA;
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+}
+
+void can_lightBreakOn(void){
+  txmsg.EID = 0x00001004;
+  txmsg.RTR = CAN_RTR_DATA;
+  txmsg.DLC = 8;
+  txmsg.data32[0] = 0x55AA55AA;
+  txmsg.data32[1] = 0x55AA55AA;
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+  brakeon_ans_time = 0;
+  brakeoff_ans_time = CAN_ANS_TIME + 10;
+}
+void can_lightBreakOff(void){
+  txmsg.EID = 0x00001005;
+  txmsg.RTR = CAN_RTR_DATA;
+  txmsg.DLC = 8;
+  txmsg.data32[0] = 0x55AA55AA;
+  txmsg.data32[1] = 0x55AA55AA;
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+  brakeoff_ans_time = 0;
+  brakeon_ans_time = CAN_ANS_TIME + 10;
+}
+
+void can_lightPosLampOn(void){
+  txmsg.EID = 0x00001006;
+  txmsg.RTR = CAN_RTR_DATA;
+  txmsg.DLC = 8;
+  txmsg.data32[0] = 0x55AA55AA;
+  txmsg.data32[1] = 0x55AA55AA;
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+  lampon_ans_time = 0;
+  lampoff_ans_time = CAN_ANS_TIME + 10;
+}
+void can_lightPosLampOff(void){
+  txmsg.EID = 0x00001007;
+  txmsg.RTR = CAN_RTR_DATA;
+  txmsg.DLC = 8;
+  txmsg.data32[0] = 0x55AA55AA;
+  txmsg.data32[1] = 0x55AA55AA;
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+  lampoff_ans_time = 0;
+  lampon_ans_time = CAN_ANS_TIME + 10;
 }
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
@@ -218,9 +332,11 @@ void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "\x1B[2J");
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
     chprintf(chp, "\x1B[%d;%dH", 0, 0);
-    chprintf(chp,"RX.EID : %x \r\n",txmsg.EID);
-    chprintf(chp,"RX.DATA1 : %x \r\n",txmsg.data32[0]);
-    chprintf(chp,"RX.DATA2 : %x \r\n",txmsg.data32[1]);
+    chprintf(chp,"RX.EID : %x \r\n",rxmsg.EID);
+    chprintf(chp,"RX.DATA1 : %d \r\n",rxmsg.data16[0]);
+    chprintf(chp,"RX.DATA2 : %d \r\n",rxmsg.data16[1]);
+    chprintf(chp,"RX.DATA3 : %d \r\n",rxmsg.data16[2]);
+    chprintf(chp,"RX.DATA4 : %d \r\n",rxmsg.data16[3]);
 
     chThdSleepMilliseconds(1000);
   }
@@ -252,7 +368,6 @@ void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp,"RX.DATA8_5 (VIN)    : %15d \r\n",rxmsg.data16[2]);
     chprintf(chp,"RX.DATA8_5 (VOUT)   : %15d \r\n",rxmsg.data16[3]);
     chprintf(chp,"\r\n");
-    chprintf(chp,"seged               : %15d \r\n",seged);
     chprintf(chp,"id                  : %15x \r\n",id);
     chprintf(chp,"messages            : %15x \r\n",messages);
 
@@ -276,7 +391,7 @@ void cmd_candata(BaseSequentialStream *chp, int argc, char *argv[]) {
       
       db = atol(argv[1]);
 
-      chprintf(chp,"-------------- luxCControl %d/%d --------------\r\n", db, sizeof(lcitems) / 16);
+      chprintf(chp,"-------------- luxControl %d/%d --------------\r\n", db, sizeof(lcitems) / 16);
       chprintf(chp,"lcitems[%d].id         (ID)     : %15x \r\n", db, lcitems[db].id);
       chprintf(chp,"lcitems[%d].temp       (NTC)    : %15d \r\n", db, lcitems[db].temp);
       chprintf(chp,"lcitems[%d].curr_in    (IN_CUR) : %15d \r\n", db, lcitems[db].curr_in);
