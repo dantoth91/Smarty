@@ -20,4 +20,9 @@ void can_lightRight(void);
 void can_lightLeft(void);
 void can_lightWarning(void);
 
+void can_lightBrakeOn(void);
+void can_lightWBrakeOff(void);
+void can_lightPosLampOn(void);
+void can_lightPosLampOff(void);
+
 #endif

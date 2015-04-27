@@ -72,6 +72,7 @@ static msg_t task20ms(void *arg) {
     time += MS2ST(20);
 
     lightCalc();
+    can_commCalc();
     speedCalc();
     measCalc();
     cruiseCalc();
@@ -140,16 +141,19 @@ int main(void) {
    * Analog measurement initialization.
    */
   measInit();
-  /*
-   * Initializes Display module.
-   */
-  dspInit();
+
 
 
   /*
    * Cruise control initialization.
    */
   cruiseInit();
+
+  /*
+     * Initializes Display module.
+     */
+  chThdSleepMilliseconds(1000);
+    dspInit();
 
   /*
    * Creates the 20ms Task.
