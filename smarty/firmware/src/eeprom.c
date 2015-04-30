@@ -32,7 +32,7 @@ void eepromInit(void){
 	i2cStart(&I2CD1, &i2ccfg);
 }
 
-struct eepromItem *eepromGetItembyName(uint8_t id) {
+/*struct eepromItem *eepromGetItembyName(uint8_t id) {
   int i;
   
   i = 0;
@@ -49,7 +49,7 @@ struct eepromItem *eepromGetItembyName(uint8_t id) {
   else {
     return &eepromitems[i];
   }
-}
+}*/
 
 uint8_t eepromWrite(uint16_t addr, uint8_t size, uint32_t value){
   uint8_t tx[6];
@@ -61,7 +61,11 @@ uint8_t eepromWrite(uint16_t addr, uint8_t size, uint32_t value){
   tx[1] = (uint8_t)(addr);
 
   for(i = size; i > 0; i--){
-    tx[i + 1] = (uint8_t)(value >> ((i - 1) * 8));
+    if(i > 1){
+      tx[i + 1] = (uint8_t)(value >> ((i - 1) * 8));
+    }
+    else
+      tx[i + 1] = (uint8_t)value;
   }
   
   i2cAcquireBus(&I2CD1);
@@ -97,7 +101,7 @@ uint8_t eepromRead(uint16_t addr, uint8_t size, uint32_t *buff){
   
 }*/
 
-uint32_t eepromReadItem(enum eepromItemNames name, uint32_t *buff){
+/*uint32_t eepromReadItem(enum eepromItemNames name, uint32_t *buff){
   uint8_t size;
   struct eepromItem *item;
   item = eepromGetItembyName(name);
@@ -111,7 +115,7 @@ uint32_t eepromReadItem(enum eepromItemNames name, uint32_t *buff){
     buff = 0;
     return 1;
   }
-}
+}*/
 
 void cmd_eepromTest(BaseSequentialStream *chp, int argc, char *argv[]) {
   
@@ -132,7 +136,7 @@ void cmd_eepromTest(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "\r\n----------------------- \r\n");
   chprintf(chp, "EEPROM read test ! \r\n");
 
-  if(eepromReadItem(FIRST_TEST, &value) != 0){
+  if(eepromRead(addr, 4, &value) != 0){
     chprintf(chp, "EEPROM read error! \r\n");
   }
   chprintf(chp, "Address: 0x%02x, value: %2d\r\n",addr, value);
