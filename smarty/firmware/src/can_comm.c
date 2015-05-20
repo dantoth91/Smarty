@@ -12,12 +12,18 @@
 #include "can_comm.h"
 #include "can_items.h"
 
+/* Smarty ID */
+#define CAN_EID             0x10
+
+/* CAN Min-Max ID */
 #define CAN_MIN_EID         0x10
 #define CAN_MAX_EID         0x1FFFFFF
 
+/* CAN other Smarty messages */
 #define CAN_SM_MIN          0x10
 #define CAN_SM_MAX          0x1F
 
+/* CAN Modulux messages */
 #define CAN_ML_MIN          0x20
 #define CAN_ML_MAX          0x2F
 #define CAN_ANS_BRAKE_ON    0x02
@@ -26,15 +32,15 @@
 #define CAN_ANS_LIGHT_OFF   0x05
 #define CAN_ANS_TIME        25
 
+/* CAN Raspberry Pi messages */
 #define CAN_RPY_MIN         0x30
 #define CAN_RPY_MAX         0x3F
 
+/* CAN LuxControl messages */
 #define CAN_LC_MIN          0x40
 #define CAN_LC_MAX          0x5F
 #define CAN_LC_MESSAGES_1   0x01
 #define CAN_LC_MESSAGES_2   0x02
-
-#define CAN_MAX_ADR         0x1FFFFFF
 
 enum canState
 {
@@ -163,7 +169,7 @@ static msg_t can_rx(void *p) {
               }
             }
 
-            if(messages == CAN_LC_MESSAGES_2){
+            else if(messages == CAN_LC_MESSAGES_2){
               for(i = 0; i < sizeof(lcitems); i++){
                 if (id == lcitems[i].id)
                 {

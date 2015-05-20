@@ -21,6 +21,7 @@
 #include "cruise.h"
 #include "dsp.h"
 #include "uart_comm.h"
+#include "log.h"
 
 
 /*===========================================================================*/
@@ -77,6 +78,7 @@ static msg_t task20ms(void *arg) {
     measCalc();
     cruiseCalc();
     dspCalc();
+    logCalc();
 
 
     chThdSleepUntil(time);
@@ -142,18 +144,21 @@ int main(void) {
    */
   measInit();
 
-
-
   /*
    * Cruise control initialization.
    */
   cruiseInit();
 
   /*
-     * Initializes Display module.
-     */
+   * Initializes Display module.
+   */
   chThdSleepMilliseconds(1000);
     dspInit();
+
+  /*
+   * Initializes Log module.
+   */
+  logInit();
 
   /*
    * Creates the 20ms Task.

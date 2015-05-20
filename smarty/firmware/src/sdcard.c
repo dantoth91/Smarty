@@ -453,7 +453,10 @@ void cmd_debug(BaseSequentialStream *chp, int argc, char *argv[]) {
   FIL FileObject;
   uint32_t bytes_written;
   int i;
-  uint8_t teststring[] = {"65536 65535 65534 65533 65532\r\n"};
+  uint8_t teststring[3];
+  teststring[0] = 212;
+  teststring[1] = 121;
+  teststring[2] = 50;
   
   (void)argv;
 if (argc != 0) {
@@ -466,7 +469,7 @@ if (argc != 0) {
   }
   chprintf(chp, "Open test file (%u)...", chTimeNow());
   chThdSleepMilliseconds(100);
-  err = f_open(&FileObject, "0:logtest.txt", FA_WRITE | FA_OPEN_ALWAYS);
+  err = f_open(&FileObject, "0:logtest.mega", FA_WRITE | FA_OPEN_ALWAYS);
   if (err != FR_OK) {
     chprintf(chp, "FS: File creation error\r\n");
   }
@@ -475,7 +478,7 @@ if (argc != 0) {
   chprintf(chp, "Start writing test file (%u)...", chTimeNow());
   for(i = 0; i < 100; i++)
   {
-    err = f_write(&FileObject, teststring, sizeof(teststring), (void *)&bytes_written);
+    err = f_write(&FileObject, (void *)&teststring, sizeof(teststring), (void *)&bytes_written);
     if (err != FR_OK) 
     {
       chprintf(chp, "FS: Write error\r\n");

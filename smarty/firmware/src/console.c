@@ -24,6 +24,7 @@
 #include "meas.h"
 #include "cruise.h"
 #include "dsp.h"
+#include "log.h"
 
 
 /* libc stub */
@@ -75,6 +76,8 @@ static const ShellCommand commands[] = {
   {"tree", cmd_tree},
   {"cat", cmd_cat},
   {"sdiotest", cmd_sdiotest},
+  {"testlog", cmd_testlog},
+  {"logtest", cmd_debug},
 //{"eepromtest", cmd_eepromTest},
   {"canvalues", cmd_can_commvalues},
   {"canmppttest", cmd_canmppttest},
@@ -86,7 +89,6 @@ static const ShellCommand commands[] = {
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},
   {"dbshow", cmdfrappans_dspmessages},
-
 
   {NULL, NULL}
 };

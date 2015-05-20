@@ -12,10 +12,7 @@
 
 #include "ff.h"
 #include "sdcard.h"
-#include "ec.h"
-#include "meas.h"
-#include "nmea.h"
-#include "calc.h"
+#include "can_items.h"
 
 #include "log.h"
 
@@ -27,32 +24,14 @@
 struct logEntry
 {
   uint32_t time;
-  int32_t igncnt;
-  int32_t injcnt;
-  int16_t injtime;
-  int16_t ignangle;
-  uint16_t rpm;
-  uint16_t ubat;
-  uint16_t cht;
-  uint16_t mat;
-  uint16_t cyt;
-  uint16_t trq;
-  uint16_t eff;
-  uint16_t fup;
-  uint16_t cls;
-  uint16_t bws;
-  uint16_t avg_bws;
-  uint16_t fuelcon;
-  uint16_t afr;
-  int32_t lon;
-  int32_t lat;
-  int16_t alt;
-  int16_t vel;
-  int8_t hdg;
-  uint8_t svs;
-  int16_t sta;
-  uint16_t pwm;
-  uint16_t bws_rpm;
+  int8_t lc1_temp;
+  int8_t lc1_curr_in;
+  int8_t lc1_curr_out;
+  int8_t lc1_eff;
+  uint16_t lc1_v_in;
+  uint16_t lc1_v_out;
+  uint16_t lc1_status;
+  uint16_t lc1_pwm;
 } __attribute__((packed));
 
 struct logEntry logBuffer[LOG_BUFFER_SIZE];
@@ -67,9 +46,12 @@ systime_t logStartTime;
 int32_t logLastIgnCount;
 uint32_t logIdleCount;
 
-char logFileName[] = "0:mm12_yymmdd_hhmmss.log";
+//char logFileName[] = "0:mm12_yymmdd_hhmmss.mega";
+char logFileName[] = "test.txt";
 
 static msg_t logThread(void *arg);
+
+int logCount = 0;
 
 /*
  * Initializes log 
@@ -128,65 +110,35 @@ void logStop(void){
  */
 void logCalc(void){
   int actualReadPointer;
-  int32_t actualIgnCount;
-  uint32_t actualLastPeriod;
-  nmeaPosition_t pos;
   chSysLock();
   actualReadPointer = logReadPointer;
   chSysUnlock();
-  
-  if (logGetState() == LOG_RUNNING){
-    actualIgnCount = ecGetIgnCount();
-    actualLastPeriod = ecGetFilteredPeriod();
-    if((   actualIgnCount != logLastIgnCount \
-        && actualLastPeriod < LOG_MAX_PERIOD)          \
-        || logIdleCount > LOG_MAX_IDLE_CNT){
-/*                                                                        // igncount = -2
-        if(actualIgnCount > logLastIgnCount){               // actualIgnCount = ecGetIgnCount() > logLastIgnCount = -2;
-            ecGetLastIgnStartTime() - logStartTime;         // ecGetLastIgnStartTime() = gyujtásonként a jelenlegi idő; logStartTime = logolás után a jelenlegi idő
-        }
-        else{
-            chTimeNow() - logStartTime;                     // jelenlegi idő - logolások utáni jelenlegi idő
-        }*/
+  systime_t logTime;
 
-      logBuffer[logWritePointer].time = (actualIgnCount > logLastIgnCount ? ecGetLastIgnStartTime() : chTimeNow()); //- logStartTime;
-      logBuffer[logWritePointer].igncnt = actualIgnCount;
-      logBuffer[logWritePointer].injcnt = ecGetInjCount();
-      logBuffer[logWritePointer].rpm = (uint16_t)(actualLastPeriod == 0 ? 0 : 2500000L / actualLastPeriod) ;
-      logBuffer[logWritePointer].injtime = ecGetValue16(EC_INJTIME);
-      logBuffer[logWritePointer].ignangle = ecGetValue16(EC_IGNANGLE);
-      logBuffer[logWritePointer].ubat = measGetValue(MEAS_UBAT);
-      logBuffer[logWritePointer].cht = measGetValue(MEAS_CHT);
-      logBuffer[logWritePointer].mat = measGetValue(MEAS_MAT);
-      logBuffer[logWritePointer].cyt = measGetValue(MEAS_CYT);
-      logBuffer[logWritePointer].trq = calcGetValue(CALC_TRQ);
-      logBuffer[logWritePointer].eff = calcGetValue(CALC_EFF);
-      logBuffer[logWritePointer].fup = calcGetValue(CALC_FUP);
-      logBuffer[logWritePointer].cls = calcGetValue(CALC_CLS);
-      logBuffer[logWritePointer].bws = calcGetValue(CALC_BWS);
-      logBuffer[logWritePointer].avg_bws = calcGetValue(CALC_AVG_BWS);
-      logBuffer[logWritePointer].fuelcon = calcGetValue(CALC_FUELCON);
-      logBuffer[logWritePointer].afr = (uint16_t)((calcGetValue(CALC_AFR) * 1000) / 1470);
-      logBuffer[logWritePointer].sta = calcGetValue(CALC_STA);
-      logBuffer[logWritePointer].pwm = (uint16_t)steeringGetValues();
-      logBuffer[logWritePointer].bws_rpm = calcGetValue(CALC_BWS_RPM);
-      /* GPS data */
-      nmeaGetCurrentPosition(&pos);
-      logBuffer[logWritePointer].lon = (int32_t)(pos.Lon * 100000000.0);
-      logBuffer[logWritePointer].lat = (int32_t)(pos.Lat * 100000000.0);
-      logBuffer[logWritePointer].alt = (int16_t)(pos.Alt);
-      logBuffer[logWritePointer].vel = (int16_t)(pos.Vel * 100.0);
-      logBuffer[logWritePointer].hdg = (int8_t)(pos.Hdg * 0.5);
-      logBuffer[logWritePointer].svs = pos.Svs;
-      chSysLock();
-      logWritePointer = logWritePointer < LOG_BUFFER_SIZE - 1 ? logWritePointer + 1 : 0;
-      chSysUnlock();
-      logLastIgnCount = actualIgnCount;
-      logIdleCount = 0;
+  if (logGetState() == LOG_RUNNING){
+    chTimeNow() - logStartTime;                     // jelenlegi idő - logolások utáni jelenlegi idő
+    if (logCount == 0)
+    {
+      logTime = chTimeNow();
     }
-    else {
-      logIdleCount++;
-    }
+    logCount++;
+
+    logBuffer[logWritePointer].time = chTimeNow() - logTime; //- logStartTime;
+    logBuffer[logWritePointer].lc1_temp = (uint8_t)lcitems[0].temp;
+    logBuffer[logWritePointer].lc1_curr_in = (uint8_t)lcitems[0].curr_in;
+    logBuffer[logWritePointer].lc1_curr_out = (uint8_t)lcitems[0].curr_out;
+    logBuffer[logWritePointer].lc1_eff = (uint8_t)lcitems[0].efficiency;
+    logBuffer[logWritePointer].lc1_v_in = (uint16_t)lcitems[0].volt_in;
+    logBuffer[logWritePointer].lc1_v_out = (uint16_t)lcitems[0].volt_out;
+    logBuffer[logWritePointer].lc1_status = (uint16_t)lcitems[0].status;
+    logBuffer[logWritePointer].lc1_pwm = (uint16_t)lcitems[0].pwm;
+    chSysLock();
+    logWritePointer = logWritePointer < LOG_BUFFER_SIZE - 1 ? logWritePointer + 1 : 0;
+    chSysUnlock();
+    logIdleCount = 0;
+  }
+  else {
+    logIdleCount++;
   }
 }
 
@@ -216,17 +168,18 @@ static msg_t logThread(void *arg) {
 
     switch(logState){
       case LOG_STOPPED:
+        logCount = 0;
         if(isStartRequest){
           sdcardMount();
           if (sdcardIsMounted()) {
             rtcGetTimeTm(&RTCD1, &timp);
             /* Adjust file name */
-            twodigit(timp.tm_year - 100, &logFileName[7]);
+            /*twodigit(timp.tm_year - 100, &logFileName[7]);
             twodigit(timp.tm_mon + 1, &logFileName[9]);
             twodigit(timp.tm_mday, &logFileName[11]);
             twodigit(timp.tm_hour, &logFileName[14]);
             twodigit(timp.tm_min, &logFileName[16]);
-            twodigit(timp.tm_sec, &logFileName[18]);
+            twodigit(timp.tm_sec, &logFileName[18]);*/
             
             err = f_open(&logFileObject, logFileName, FA_WRITE | FA_OPEN_ALWAYS);
             if (err == FR_OK) {

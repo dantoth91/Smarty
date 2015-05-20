@@ -21,7 +21,6 @@
 #define DRAW_LINE                 (0xFFC8)
 
 
-
 void gfx_Cls(void)
 {
   sdPut(&SD2, GFX_CLS >> 8);

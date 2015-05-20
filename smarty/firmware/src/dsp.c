@@ -578,8 +578,6 @@ void dspCalc(void) {
 
 }
 
-
-
 void cmdfrappans_dspmessages(BaseSequentialStream *chp, int argc, char *argv[]) {
 
 enum dspMessages ch;
