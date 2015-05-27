@@ -149,6 +149,8 @@ static msg_t logThread(void *arg) {
   bool_t isStartRequest;
   bool_t isStopRequest;
   int actualWritePointer;
+  uint8_t teststring[] = {"This is test file\r\n"};
+  teststring[21] += 50;
   
   FRESULT err;
   UINT bytesWritten;
@@ -199,7 +201,8 @@ static msg_t logThread(void *arg) {
         }
         while(actualWritePointer != logReadPointer)
         {
-          err = f_write(&logFileObject, (void *)&logBuffer[logReadPointer], sizeof(struct logEntry), &bytesWritten);
+          err = f_write(&logFileObject, teststring, sizeof(teststring), &bytesWritten);
+          //err = f_write(&logFileObject, (void *)&logBuffer[logReadPointer], sizeof(struct logEntry), &bytesWritten);
           if (err != FR_OK || bytesWritten != sizeof(struct logEntry)){
             isStopRequest = TRUE;
             break;
