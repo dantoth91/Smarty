@@ -15,7 +15,7 @@ static int16_t K_I = 2;
 static int16_t K_D = 500;
 
 static double MAX_U = 1000000;
-static double MIN_U = 650000;
+static double MIN_U = 0;
 
 static double MAX_P = 1000000;
 static double MAX_I = 1000000;
@@ -27,6 +27,7 @@ static double I;
 static double D;
 static double eelozo;
 static double e;
+static double cruise_on;
 
 static int set;
 
@@ -45,7 +46,9 @@ static PWMConfig cruise_pwmcfg = {
 };
 
 void cruiseInit(void){
-	pwm = 0;
+	pwm = 10000;
+
+  cruise_on = FALSE;
 
 	P = 0;
 	I = 0;
@@ -59,9 +62,33 @@ void cruiseInit(void){
 }
 
 void cruiseCalc(void){
-	pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+	if (cruise_on)
+  {
+    pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    pwm = 10000 - pwm;
+  }
+
+  else
+  {
+    pwm = 10000;
+    P = 0;
+    I = 0;
+    D = 0;
+    eelozo = 0;
+    e = 0;
+
+    set = 500;
+  }
 
 	pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
+}
+
+void cruiseEnable(void){
+  cruise_on = TRUE;
+}
+
+void cruiseDisable(void){
+  cruise_on = FALSE;
 }
 
 int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxU, int32_t MinU, double Kp, double Ki, double Kd, int32_t MaxP, int32_t MaxI, int32_t MaxD)
@@ -185,6 +212,16 @@ void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
         }
       }
 
+      if ((argc == 1) && (strcmp(argv[0], "on") == 0)){
+        cruiseEnable();
+        chprintf(chp, "Cruise control switch ON!\r\n");
+      }
+
+      if ((argc == 1) && (strcmp(argv[0], "off") == 0)){
+        cruiseDisable();
+        chprintf(chp, "Cruise control switch OFF!\r\n");
+      }
+
       else{
         goto ERROR;
       }
@@ -201,4 +238,37 @@ void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
 
       chThdSleepMilliseconds(100);
   }
+}
+
+void cmd_cruise(BaseSequentialStream *chp, int argc, char *argv[]){
+  (void)argc;
+  (void)argv;
+
+  int16_t szam;
+
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
+
+  if ((argc == 1) && (strcmp(argv[0], "on") == 0)){
+    cruiseEnable();
+    chprintf(chp, "Cruise control switch ON!\r\n");
+  }
+
+  if ((argc == 1) && (strcmp(argv[0], "off") == 0)){
+    cruiseDisable();
+    chprintf(chp, "Cruise control switch OFF!\r\n");
+  }
+
+  else{
+    goto ERROR;
+  }
+  return;
+
+ERROR:
+  chprintf(chp, "Usage: cruise on\r\n");
+  chprintf(chp, "       cruise off\r\n");
+  return;
+
+  chThdSleepMilliseconds(100);
 }

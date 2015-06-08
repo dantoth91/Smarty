@@ -12,11 +12,28 @@
 #include "can_comm.h"
 #include "can_items.h"
 
-#define CAN_MIN_EID         0x10
-#define CAN_MAX_EID         0x1FFFFFF
+
+//#define CAN_MIN_EID         0x10
+//#define CAN_MAX_EID         0x1FFFFFF
 
 #define CAN_SM_MIN          0x10
 #define CAN_SM_MAX          0x1F
+#define CAN_SM_EID          0x10
+#define CAN_SM_MESSAGES_1   0x41
+#define CAN_SM_MESSAGES_2   0x42
+#define CAN_SM_MESSAGES_3   0x43
+#define CAN_SM_MESSAGES_4   0x44
+#define CAN_SM_MESSAGES_5   0x45
+#define CAN_SM_MESSAGES_6   0x46
+#define CAN_SM_MESSAGES_7   0x47
+#define CAN_SM_MESSAGES_8   0x48
+#define CAN_SM_MESSAGES_9   0x49
+#define CAN_SM_MESSAGES_10  0x4A
+#define CAN_SM_MESSAGES_11  0x4B
+#define CAN_SM_MESSAGES_12  0x4C
+#define CAN_SM_MESSAGES_13  0x4D
+#define CAN_SM_MESSAGES_14  0x4E
+#define CAN_SM_MESSAGES_15  0x4F
 
 #define CAN_ML_MIN          0x20
 #define CAN_ML_MAX          0x2F
@@ -46,10 +63,12 @@ enum canState
   CAN_NUM_CH
 }canstate;
 
-/*enum canMessage
+enum canMessages
 {
-  CAN_MESSAGE_FREE
-}canmessage;*/
+  CAN_MESSAGES_1,
+  CAN_MESSAGES_WAIT,
+  CAN_NUM_MESS
+}canmessages;
 
 static CANTxFrame txmsg;
 static CANRxFrame rxmsg;
@@ -80,13 +99,14 @@ static const CANConfig cancfg = {
   CAN_BTR_TS1(8) | CAN_BTR_BRP(6)
 };
 
-static uint16_t id;
+static uint16_t rx_id;
 static uint16_t messages;
 static uint32_t brakeon_ans_time;
 static uint32_t brakeoff_ans_time;
 static uint32_t lampon_ans_time;
 static uint32_t lampoff_ans_time;
-
+static int tx_status;
+static bool_t can_newdata;
 /*
  * Receiver thread.
  */
@@ -103,19 +123,20 @@ static msg_t can_rx(void *p) {
       continue;
     while (canReceive(&CAND1, CAN_ANY_MAILBOX, &rxmsg, TIME_IMMEDIATE) == RDY_OK) {
 
-      id = rxmsg.EID >> 8;
+      rx_id = rxmsg.EID >> 8;
       messages = (uint8_t)rxmsg.EID;
+      can_newdata = TRUE;
       
-      if(id >= CAN_SM_MIN && id <= CAN_SM_MAX){
+      if(rx_id >= CAN_SM_MIN && rx_id <= CAN_SM_MAX){
         canstate = CAN_SM;
       }
-      if(id >= CAN_ML_MIN && id <= CAN_ML_MAX){
+      else if(rx_id >= CAN_ML_MIN && rx_id <= CAN_ML_MAX){
         canstate = CAN_ML;
       }
-      if(id >= CAN_RPY_MIN && id <= CAN_RPY_MAX){
+      else if(rx_id >= CAN_RPY_MIN && rx_id <= CAN_RPY_MAX){
         canstate = CAN_RPY;
       }
-      if(id >= CAN_LC_MIN && id <= CAN_LC_MAX){
+      else if(rx_id >= CAN_LC_MIN && rx_id <= CAN_LC_MAX){
         canstate = CAN_LC;
       }
       else
@@ -129,8 +150,8 @@ static msg_t can_rx(void *p) {
           case CAN_ML:
             if(messages == CAN_ANS_BRAKE_ON){
               brakeon_ans_time = CAN_ANS_TIME + 10;
-
             }
+
             if(messages == CAN_ANS_BRAKE_OFF){
               brakeoff_ans_time = CAN_ANS_TIME + 10;
             }
@@ -138,9 +159,11 @@ static msg_t can_rx(void *p) {
             if(messages == CAN_ANS_LIGHT_ON){
               lampon_ans_time = CAN_ANS_TIME + 10;
             }
+
             if(messages == CAN_ANS_LIGHT_OFF){
               lampoff_ans_time = CAN_ANS_TIME + 10;
             }
+
             canstate = CAN_WAIT;
             break;
 
@@ -151,7 +174,7 @@ static msg_t can_rx(void *p) {
           case CAN_LC:
             if(messages == CAN_LC_MESSAGES_1){
               for(i = 0; i < sizeof(lcitems); i++){
-                if (id == lcitems[i].id)
+                if (rx_id == lcitems[i].id)
                 {
                   lcitems[i].temp       = rxmsg.data8[0];
                   lcitems[i].curr_in    = rxmsg.data8[1];
@@ -165,7 +188,7 @@ static msg_t can_rx(void *p) {
 
             if(messages == CAN_LC_MESSAGES_2){
               for(i = 0; i < sizeof(lcitems); i++){
-                if (id == lcitems[i].id)
+                if (rx_id == lcitems[i].id)
                 {
                   lcitems[i].status = rxmsg.data16[0];
                   lcitems[i].pwm    = rxmsg.data16[1];
@@ -196,23 +219,30 @@ static msg_t can_tx(void * p) {
   (void)p;
   chRegSetThreadName("transmitter");
 
-  txmsg.IDE = CAN_IDE_EXT;
-  txmsg.EID = 0x00001000;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
-  txmsg.data32[0] = 0x55AA55AA;
-  txmsg.data32[1] = 0x00FF00FF;
-
   while (!chThdShouldTerminate()) {
     
-    /*switch(canmessage){
+    switch(tx_status){
+      case CAN_MESSAGES_1:
+        /* Message 1 */
+        txmsg.EID = 0;
+        txmsg.EID = CAN_SM_MESSAGES_1;
+        txmsg.EID += CAN_SM_EID << 8;
 
-      case CAN_MESSAGE_FREE:
+        txmsg.data8[0] = 0xAA;
+        txmsg.data8[1] = 0;
+        txmsg.data16[1] = 0;
+        txmsg.data32[1] = 0;
+         
+        canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+        tx_status = CAN_MESSAGES_WAIT;
+        break;
+      case CAN_MESSAGES_WAIT:
+        /* Message wait */
         break;
 
-      default:
+      default:      
         break;
-    }*/
+    }
     chThdSleepMilliseconds(100);
   }
   return 0;
@@ -226,6 +256,17 @@ void can_commInit(void){
   brakeoff_ans_time = CAN_ANS_TIME + 10;
   lampon_ans_time = CAN_ANS_TIME + 10;
   lampoff_ans_time = CAN_ANS_TIME + 10;
+  tx_status = CAN_MESSAGES_WAIT;
+
+  txmsg.IDE = CAN_IDE_EXT;
+  txmsg.RTR = CAN_RTR_DATA;
+  txmsg.DLC = 8;
+
+  rxmsg.IDE = CAN_IDE_EXT;
+  rxmsg.RTR = CAN_RTR_DATA;
+  rxmsg.DLC = 8;
+
+  can_newdata = FALSE;
 }
 
 void can_commCalc(void){
@@ -368,7 +409,7 @@ void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp,"RX.DATA8_5 (VIN)    : %15d \r\n",rxmsg.data16[2]);
     chprintf(chp,"RX.DATA8_5 (VOUT)   : %15d \r\n",rxmsg.data16[3]);
     chprintf(chp,"\r\n");
-    chprintf(chp,"id                  : %15x \r\n",id);
+    chprintf(chp,"id                  : %15x \r\n",rx_id);
     chprintf(chp,"messages            : %15x \r\n",messages);
 
     chThdSleepMilliseconds(250);
@@ -406,6 +447,38 @@ void cmd_candata(BaseSequentialStream *chp, int argc, char *argv[]) {
     else{
       chprintf(chp, "This not good parameters!\r\n");
       return;
+    }
+  }
+}
+
+void cmd_lcSleep(BaseSequentialStream *chp, int argc, char *argv[]){
+  tx_status = CAN_MESSAGES_1;
+  chprintf(chp,"Sleep 1. LC!\r\n");
+}
+
+void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
+  
+  (void)argc;
+  (void)argv;
+
+  int16_t db;
+
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    //chprintf(chp, "\x1B[%d;%dH", 0, 0);
+    if(can_newdata){
+      chprintf(chp,"%5x - ", rxmsg.EID);
+      chprintf(chp,"%4x %4x %4x %4x %4x %4x %4x %4x\r\n", 
+        rxmsg.data8[0],
+        rxmsg.data8[1],
+        rxmsg.data8[2],
+        rxmsg.data8[3],
+        rxmsg.data8[4],
+        rxmsg.data8[5],
+        rxmsg.data8[6],
+        rxmsg.data8[7]);
+      can_newdata = FALSE;
     }
   }
 }

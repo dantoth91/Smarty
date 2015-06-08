@@ -21,9 +21,17 @@ enum measChannels
   MEAS_NUM_CH
 };
 
+enum measChannels2
+{
+  MEAS2_CURR1,
+  MEAS2_THROTTLE,
+  MEAS2_NUM_CH
+};
+
 void measInit(void);
 void measCalc(void);
 int16_t measGetValue(enum measChannels ch);
+int16_t measGetValue2(enum measChannels2 ch);
 
 void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 

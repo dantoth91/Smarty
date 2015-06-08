@@ -24,5 +24,7 @@ void can_lightBrakeOn(void);
 void can_lightWBrakeOff(void);
 void can_lightPosLampOn(void);
 void can_lightPosLampOff(void);
+void cmd_lcSleep(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]);
 
 #endif
