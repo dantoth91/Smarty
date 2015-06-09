@@ -319,8 +319,11 @@
 /*
  * Port F setup.
  * All input with pull-up except:
+ * PF6  - BUT1                  (analog - CURR1)
+ * PF7  - BUT2                  (analog - CURR2)
  */
-#define VAL_GPIOF_MODER             0x00000000
+#define VAL_GPIOF_MODER             (PIN_MODE_ANALOG(GPIOF_BUT1)        | \
+                                     PIN_MODE_ANALOG(GPIOF_BUT2))
 #define VAL_GPIOF_OTYPER            0x00000000
 #define VAL_GPIOF_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOF_PUPDR             0xFFFFFFFF

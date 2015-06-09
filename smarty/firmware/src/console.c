@@ -86,10 +86,16 @@ static const ShellCommand commands[] = {
   {"measvalues", cmd_measvalues},
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},
+  {"cruise", cmd_cruise},
   {"dbshow", cmdfrappans_dspmessages},
+<<<<<<< HEAD
+  {"lcsleep", cmd_lcSleep},
+  {"canmonitor", cmd_canmonitor},
+=======
   {"dspvalues", cmd_dspvalues},
 
 
+>>>>>>> master
   {NULL, NULL}
 };
 

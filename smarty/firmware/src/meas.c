@@ -18,7 +18,11 @@ enum measStates
 static int32_t measValue[MEAS_NUM_CH +2];
 static adcsample_t samples[MEAS_NUM_CH * ADC_GRP1_BUF_DEPTH];
 
+static int32_t measValue_2[MEAS2_NUM_CH +2];
+static adcsample_t samples_2[MEAS2_NUM_CH * ADC_GRP1_BUF_DEPTH];
+
 static void adcerrorcallback(ADCDriver *adcp, adcerror_t err);
+static void adcerrorcallback_2(ADCDriver *adcp, adcerror_t err);
 
 /*
  * ADC conversion group.
@@ -45,11 +49,33 @@ static const ADCConversionGroup adcgrpcfg = {
   ADC_SQR3_SQ2_N(ADC_CHANNEL_IN10) | ADC_SQR3_SQ1_N(ADC_CHANNEL_IN14)      /* SQR3  | 2. IN10-BRAKE1   | 1. IN14-UBAT 		 */
 };
 
+/*
+ * ADC conversion group.
+ * Mode:        Linear buffer, 8 samples of 8 channel, SW triggered.
+ * Channels:    IN5, IN4.
+ * SMPR1 -     CH 10...17,           |  SMPR2 - CH 0...9  |
+ * SQR1 - 13...16 + sequence length, |  SQR2 - 7...12,    | SQR3 - 1...6
+ */
+static const ADCConversionGroup adcgrpcfg_2 = {
+  FALSE,
+  MEAS2_NUM_CH,
+  NULL,
+  adcerrorcallback,
+  0,                                                                       /* CR1 */
+  ADC_CR2_SWSTART,                                                         /* CR2 */
+  0,                                                                       /* SMPR1 |                  |                   */
+  ADC_SMPR2_SMP_AN4(ADC_SAMPLE_15) | ADC_SMPR2_SMP_AN5(ADC_SAMPLE_15),     /* SMPR2 | AN4-PF6-SEN1     | AN5-PF7-THROTTLE  */
+  ADC_SQR1_NUM_CH(MEAS2_NUM_CH),                                           /* SQR1  -----------Number of sensors---------- */
+  0,                                                                       /* SQR2  |                  |                   */
+  ADC_SQR3_SQ2_N(ADC_CHANNEL_IN5) | ADC_SQR3_SQ1_N(ADC_CHANNEL_IN4)        /* SQR3  | 2. IN5-THROTTLE  | 1. IN4-SEN1       */
+};
+
 void measInit(void){
 
   /*
   * Activates the ADC3 driver.
   */
+  adcStart(&ADCD3, NULL);
   adcStart(&ADCD2, NULL);
   measstate = MEAS_START;
 }
@@ -98,15 +124,38 @@ void measCalc(void){
         measValue[ch] = (int16_t)avg;
         chSysUnlock();
       }
+      for(ch = 0; ch < MEAS2_NUM_CH; ch++) {
+        avg = 0;
+        for(i = 0; i < ADC_GRP1_BUF_DEPTH; i ++) {
+          avg += samples_2[ch + MEAS2_NUM_CH * i];
+        }
+        avg /= ADC_GRP1_BUF_DEPTH;
+        switch(ch){
+          case MEAS2_CURR1:
+            break;
+          case MEAS2_THROTTLE:
+            break;
+          default:
+            break;
+        }
+        chSysLock();
+        measValue_2[ch] = (int16_t)avg;
+        chSysUnlock();
+      }
       break;
     default:
       break;
   }
   adcConvert(&ADCD2, &adcgrpcfg, samples, ADC_GRP1_BUF_DEPTH);
+  adcConvert(&ADCD3, &adcgrpcfg_2, samples_2, ADC_GRP1_BUF_DEPTH);
 }
 
 int16_t measGetValue(enum measChannels ch){
 	  return measValue[ch];
+}
+
+int16_t measGetValue_2(enum measChannels2 ch){
+    return measValue_2[ch];
 }
 
 /*
@@ -131,6 +180,11 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       "SEN4",
       "SEN5"};
 
+  static const char * const names2[] = {
+
+      "CURR1",
+      "THROTTLE"};
+
   (void)argc;
   (void)argv;
   chprintf(chp, "\x1B\x63");
@@ -139,6 +193,9 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       chprintf(chp, "\x1B[%d;%dH", 0, 0);
       for(ch = 0; ch < MEAS_NUM_CH; ch++) {
           chprintf(chp, "%s: %15d\r\n", names[ch], measValue[ch]);
+      }
+      for(ch = 0; ch < MEAS2_NUM_CH; ch++) {
+          chprintf(chp, "%s: %15d\r\n", names2[ch], measValue_2[ch]);
       }
       chThdSleepMilliseconds(1000);
   }
