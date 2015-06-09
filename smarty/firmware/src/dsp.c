@@ -19,6 +19,27 @@
 #define BLACK                     (0x0000)
 #define WHITE                     (0xFFFF)
 
+#define BUT1                      (0x6FE)
+#define BUT2                      (0x6FD)
+#define BUT3                      (0x6FB)
+#define BUT4                      (0x6F7)
+#define BUT5                      (0x6EF)
+#define BUT6                      (0x6DF)
+#define BUT7                      (0x6BF)
+#define BUT8                      (0x67F)
+
+static struct buttonChanels 
+{
+  bool button1;
+  bool button2;
+  bool button3;
+  bool button4;
+  bool button5;
+  bool button6;
+  bool button7;
+  bool button8;
+} buttonchanels;
+
 enum dspState {
   DSP_WAITING,
   DSP_RUNNING
@@ -62,6 +83,8 @@ enum dspMessages {
 
 static int32_t dspValue[DSP_NUM_MSG + 2] = {-1};
 static int tasknumber;
+static uint32_t bus_status;
+static uint8_t bit_tmb[24];
 bool_t dsp_activ;
 uint8_t c;
 
@@ -187,6 +210,55 @@ void dsp_RefreshMidle(int frame) {
 
 }
 
+/*
+ * Button thread.
+ */
+static WORKING_AREA(dsp_buttons_wa, 256);
+static msg_t dsp_buttons(void * p) {
+
+  systime_t time; 
+  int i;
+
+  (void)p;
+  chRegSetThreadName("Buttons");
+  while (!chThdShouldTerminate()) {
+    time = 100;
+
+    bus_status = 0;
+    bus_status = bus_Read();
+    /*for (i = 0; i < 24; i++)
+    {
+      bit_tmb[i] = bus_status >> i;
+      bus_status >>= i;
+    }*/
+    
+/* Left index */
+    if(bus_status == BUT1 && buttonchanels.button1 == FALSE){ 
+      lightFlashing(2);
+      buttonchanels.button1 = TRUE;
+      buttonchanels.button6 = FALSE;
+    }
+    else if(bus_status == BUT1 && buttonchanels.button1 == TRUE){
+      lightFlashing(0);
+      buttonchanels.button1 = FALSE;
+    }
+
+/* Right index */
+    if(bus_status == BUT6 && buttonchanels.button6 == FALSE){
+      lightFlashing(1);
+      buttonchanels.button6 = TRUE;
+      buttonchanels.button1 = FALSE;
+    }
+    else if(bus_status == BUT6 && buttonchanels.button6 == TRUE){
+      lightFlashing(0);
+      buttonchanels.button6 = FALSE;
+    }
+
+    chThdSleepMilliseconds(time);
+  }
+  return 0;
+}
+
 void dspInit(void) {
 
   gfx_Cls();
@@ -194,7 +266,8 @@ void dspInit(void) {
   dsp_LoadTop();
   dsp_LoadMidle();
   dsp_LoadBottom();
-
+  bus_In();
+  chThdCreateStatic(dsp_buttons_wa, sizeof(dsp_buttons_wa), NORMALPRIO + 7, dsp_buttons, NULL);
 }
 
 void dspCalc(void) {
@@ -575,10 +648,27 @@ void dspCalc(void) {
   if (dspmessages == DSP_NUM_MSG) {
     dspmessages = 0;
   }
-
 }
 
-
+void cmd_dspvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
+  
+  (void)argc;
+  (void)argv;
+  int i;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    chprintf(chp, "\x1B[%d;%dH", 0, 0);
+    chprintf(chp,"bus_status: %x\r\n",bus_status);
+    /*chprintf(chp,"bit_tmb[]: ");
+    for (i = 0; i < 24; ++i)
+    {
+      chprintf(chp,"%d ",bit_tmb[i]);
+    }
+    chprintf(chp,"\r\n");*/
+    chThdSleepMilliseconds(150);
+  }
+}
 
 void cmdfrappans_dspmessages(BaseSequentialStream *chp, int argc, char *argv[]) {
 

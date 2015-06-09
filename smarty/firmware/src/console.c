@@ -77,6 +77,7 @@ static const ShellCommand commands[] = {
   {"sdiotest", cmd_sdiotest},
 //{"eepromtest", cmd_eepromTest},
   {"canvalues", cmd_can_commvalues},
+  {"canall", cmd_canall},
   {"canmppttest", cmd_canmppttest},
   {"candata", cmd_candata},
   {"lightvalues", cmd_lightvalues},
@@ -86,6 +87,7 @@ static const ShellCommand commands[] = {
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},
   {"dbshow", cmdfrappans_dspmessages},
+  {"dspvalues", cmd_dspvalues},
 
 
   {NULL, NULL}

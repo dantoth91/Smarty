@@ -19,6 +19,8 @@
 #define MEDIA_VIDEOFRAME          (0xFF94)
 #define PUTSTR                    (0x0018)
 #define DRAW_LINE                 (0xFFC8)
+#define BUS_READ                  (0xFFCF)
+#define BUS_IN                    (0xFFD3)
 
 
 
@@ -148,4 +150,20 @@ void WriteChars(char * charsout)
     wk = *charsout++ ;
     sdPut(&SD2, wk) ;
   } while (wk) ;
+}
+
+uint32_t bus_Read(void)
+{
+  uint32_t bus;
+  sdPut(&SD2, BUS_READ >> 8);
+  sdPut(&SD2, BUS_READ);
+  chSequentialStreamRead(&SD2, &bus, 3);
+
+  return (uint32_t)bus;
+}
+
+void bus_In(void)
+{
+  sdPut(&SD2, BUS_IN >> 8);
+  sdPut(&SD2, BUS_IN);
 }
