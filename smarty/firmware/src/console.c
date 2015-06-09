@@ -17,7 +17,7 @@
 
 #include "console.h"
 #include "sdcard.h"
-//#include "eeprom.h"
+#include "eeprom.h"
 #include "can_comm.h"
 #include "light.h"
 #include "speed.h"
@@ -75,7 +75,7 @@ static const ShellCommand commands[] = {
   {"tree", cmd_tree},
   {"cat", cmd_cat},
   {"sdiotest", cmd_sdiotest},
-//{"eepromtest", cmd_eepromTest},
+  {"eepromtest", cmd_eepromTest},
   {"canvalues", cmd_can_commvalues},
   {"canall", cmd_canall},
   {"canmppttest", cmd_canmppttest},
