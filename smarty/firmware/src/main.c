@@ -116,7 +116,7 @@ int main(void) {
   /*
    * EEPROM initialization.
    */
-  //eepromInit();
+  eepromInit();
 
   /*
    * CAN bus initialization.

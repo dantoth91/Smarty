@@ -1,25 +1,19 @@
-build/obj/console.o: src/console.c \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/string.h \
+build/obj/eeprom.o: src/eeprom.c \
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdlib.h \
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/ieeefp.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/_ansi.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/newlib.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/config.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/ieeefp.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/features.h \
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/reent.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/_ansi.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/_types.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/_types.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/_default_types.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/lock.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/string.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdlib.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/stdlib.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/alloca.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/time.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/time.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/types.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/types.h \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdint.h \
@@ -96,20 +90,14 @@ build/obj/console.o: src/console.c \
  ../../../ChibiOS/os/hal/platforms/STM32/OTGv1/stm32_otg.h \
  ../../../ChibiOS/os/hal/include/mmc_spi.h \
  ../../../ChibiOS/os/hal/include/serial_usb.h \
- ../../../ChibiOS/test/test.h ../../../ChibiOS/os/various/shell.h \
+ ../../../ChibiOS/os/various/shell.h \
  ../../../ChibiOS/os/various/chprintf.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h \
- ../../../ChibiOS/os/various/chrtclib.h include/console.h \
- include/sdcard.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdio.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/stdio.h \
- include/eeprom.h include/can_comm.h include/light.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h \
- include/speed.h include/meas.h include/cruise.h include/dsp.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/errno.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/errno.h
+ include/eeprom.h include/eepromItems.h
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/string.h:
+c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdlib.h:
+
+c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/ieeefp.h:
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/_ansi.h:
 
@@ -117,9 +105,9 @@ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-non
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/config.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/ieeefp.h:
-
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/features.h:
+
+c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h:
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/reent.h:
 
@@ -133,23 +121,9 @@ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-non
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/lock.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/string.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdlib.h:
-
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/stdlib.h:
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/alloca.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/time.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/time.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/types.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/types.h:
 
 ../../../ChibiOS/os/kernel/include/ch.h:
 
@@ -311,40 +285,12 @@ os/mcuconf.h:
 
 ../../../ChibiOS/os/hal/include/serial_usb.h:
 
-../../../ChibiOS/test/test.h:
-
 ../../../ChibiOS/os/various/shell.h:
 
 ../../../ChibiOS/os/various/chprintf.h:
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h:
 
-../../../ChibiOS/os/various/chrtclib.h:
-
-include/console.h:
-
-include/sdcard.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdio.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/stdio.h:
-
 include/eeprom.h:
 
-include/can_comm.h:
-
-include/light.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h:
-
-include/speed.h:
-
-include/meas.h:
-
-include/cruise.h:
-
-include/dsp.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/errno.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/errno.h:
+include/eepromItems.h:
