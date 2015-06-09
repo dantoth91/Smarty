@@ -53,6 +53,7 @@
 #define CAN_LC_MAX          0x5F
 #define CAN_LC_MESSAGES_1   0x01
 #define CAN_LC_MESSAGES_2   0x02
+#define CAN_LC_MESSAGES_3   0x03
 
 #define CAN_MAX_ADR         0x1FFFFFF
 
@@ -206,6 +207,9 @@ static msg_t can_rx(void *p) {
                   lcitems[i].pwm    = rxmsg.data16[1];
                 }
               }
+            }
+            if(messages == CAN_LC_MESSAGES_3){
+              
             }
             canstate = CAN_WAIT;
             break;
@@ -425,6 +429,54 @@ void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp,"messages            : %15x \r\n",messages);
 
     chThdSleepMilliseconds(250);
+  }
+}
+
+void cmd_canall(BaseSequentialStream *chp, int argc, char *argv[]) {
+  
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    chprintf(chp, "\x1B[%d;%dH", 0, 0);
+
+    if ((argc == 1) && (strcmp(argv[0], "8") == 0)){
+
+      chprintf(chp,"-------------- CAN all data --------------\r\n");
+      chprintf(chp,"rxmsg.EID     : %15d \r\n",rxmsg.EID);
+      chprintf(chp,"rxmsg.data8[0]: %15d \r\n",rxmsg.data8[0]);
+      chprintf(chp,"rxmsg.data8[1]: %15d \r\n",rxmsg.data8[1]);
+      chprintf(chp,"rxmsg.data8[2]: %15d \r\n",rxmsg.data8[2]);
+      chprintf(chp,"rxmsg.data8[3]: %15d \r\n",rxmsg.data8[3]);
+      chprintf(chp,"rxmsg.data8[4]: %15d \r\n",rxmsg.data8[4]);
+      chprintf(chp,"rxmsg.data8[5]: %15d \r\n",rxmsg.data8[5]);
+      chprintf(chp,"rxmsg.data8[6]: %15d \r\n",rxmsg.data8[6]);
+      chprintf(chp,"rxmsg.data8[7]: %15d \r\n",rxmsg.data8[7]);
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "16") == 0)){
+
+      chprintf(chp,"-------------- CAN all data --------------\r\n");
+      chprintf(chp,"rxmsg.EID     : %15d \r\n",rxmsg.EID);
+      chprintf(chp,"rxmsg.data16[0]: %15d \r\n",rxmsg.data16[0]);
+      chprintf(chp,"rxmsg.data16[1]: %15d \r\n",rxmsg.data16[1]);
+      chprintf(chp,"rxmsg.data16[2]: %15d \r\n",rxmsg.data16[2]);
+      chprintf(chp,"rxmsg.data16[3]: %15d \r\n",rxmsg.data16[3]);
+    }
+
+    else if ((argc == 1) && (strcmp(argv[0], "32") == 0)){
+
+      chprintf(chp,"-------------- CAN all data --------------\r\n");
+      chprintf(chp,"rxmsg.EID     : %15d \r\n",rxmsg.EID);
+      chprintf(chp,"rxmsg.data32[0]: %15d \r\n",rxmsg.data32[0]);
+      chprintf(chp,"rxmsg.data32[1]: %15d \r\n",rxmsg.data32[1]);
+    }
+
+    else{
+      chprintf(chp, "This not good parameters! (canall 8/16/32)\r\n");
+      return;
+    }
   }
 }
 

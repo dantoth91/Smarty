@@ -108,6 +108,7 @@ CSRC = $(PORTSRC) \
        $(CHIBIOS)/os/various/chrtclib.c \
        src/main.c \
        src/console.c \
+       src/eeprom.c \
        src/sdcard.c \
        src/can_comm.c \
        src/light.c \

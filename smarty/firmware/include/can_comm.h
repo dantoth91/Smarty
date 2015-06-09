@@ -13,6 +13,7 @@ void can_commInit(void);
 void can_commCalc(void);
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_canall(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_candata(BaseSequentialStream *chp, int argc, char *argv[]);
 
