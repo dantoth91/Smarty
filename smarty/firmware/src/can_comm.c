@@ -16,6 +16,9 @@
 //#define CAN_MIN_EID         0x10
 //#define CAN_MAX_EID         0x1FFFFFF
 
+#define CAN_BMS_MIN         0x00
+#define CAN_BMS_MAX         0x0F
+
 #define CAN_SM_MIN          0x10
 #define CAN_SM_MAX          0x1F
 #define CAN_SM_EID          0x10
@@ -55,6 +58,7 @@
 
 enum canState
 {
+  CAN_BMS,
   CAN_SM,
   CAN_ML,
   CAN_RPY,
@@ -106,7 +110,7 @@ static uint32_t brakeoff_ans_time;
 static uint32_t lampon_ans_time;
 static uint32_t lampoff_ans_time;
 static int tx_status;
-static bool_t can_newdata;
+static bool can_newdata;
 /*
  * Receiver thread.
  */
@@ -126,8 +130,11 @@ static msg_t can_rx(void *p) {
       rx_id = rxmsg.EID >> 8;
       messages = (uint8_t)rxmsg.EID;
       can_newdata = TRUE;
-      
-      if(rx_id >= CAN_SM_MIN && rx_id <= CAN_SM_MAX){
+
+      if(rx_id >= CAN_BMS_MIN && rx_id <= CAN_BMS_MAX){
+        canstate = CAN_BMS;
+      }
+      else if(rx_id >= CAN_SM_MIN && rx_id <= CAN_SM_MAX){
         canstate = CAN_SM;
       }
       else if(rx_id >= CAN_ML_MIN && rx_id <= CAN_ML_MAX){
@@ -143,6 +150,11 @@ static msg_t can_rx(void *p) {
         canstate = CAN_WAIT;
 
       switch(canstate){
+
+          case CAN_BMS:
+            canstate = CAN_WAIT;
+            break;
+
           case CAN_SM:
             canstate = CAN_WAIT;
             break;
@@ -468,8 +480,8 @@ void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
     //chprintf(chp, "\x1B[%d;%dH", 0, 0);
     if(can_newdata){
-      chprintf(chp,"%5x - ", rxmsg.EID);
-      chprintf(chp,"%4x %4x %4x %4x %4x %4x %4x %4x\r\n", 
+      chprintf(chp,"%5x - %4x %4x %4x %4x %4x %4x %4x %4x\r\n", 
+        rxmsg.EID,
         rxmsg.data8[0],
         rxmsg.data8[1],
         rxmsg.data8[2],
