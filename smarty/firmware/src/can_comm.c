@@ -57,6 +57,8 @@
 
 #define CAN_MAX_ADR         0x1FFFFFF
 
+#define CAN_OK_PERIOD_NUM   25
+
 enum canState
 {
   CAN_BMS,
@@ -112,6 +114,8 @@ static uint32_t lampon_ans_time;
 static uint32_t lampoff_ans_time;
 static int tx_status;
 static bool can_newdata;
+static bool can_ok;
+static bool can_ok_period;
 /*
  * Receiver thread.
  */
@@ -131,6 +135,8 @@ static msg_t can_rx(void *p) {
       rx_id = rxmsg.EID >> 8;
       messages = (uint8_t)rxmsg.EID;
       can_newdata = TRUE;
+      can_ok = TRUE;
+      can_ok_period = 0;
 
       if(rx_id >= CAN_BMS_MIN && rx_id <= CAN_BMS_MAX){
         canstate = CAN_BMS;
@@ -283,6 +289,8 @@ void can_commInit(void){
   rxmsg.DLC = 8;
 
   can_newdata = FALSE;
+  can_ok = FALSE;
+  can_ok_period = 0;
 }
 
 void can_commCalc(void){
@@ -290,6 +298,8 @@ void can_commCalc(void){
   brakeoff_ans_time++;
   lampon_ans_time++;
   lampoff_ans_time++;
+  can_ok_period ++;
+  can_ok = can_ok_period > CAN_OK_PERIOD_NUM ? TRUE : FALSE;
 
   if (brakeon_ans_time == CAN_ANS_TIME)
   {

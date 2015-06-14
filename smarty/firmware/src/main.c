@@ -21,6 +21,7 @@
 #include "cruise.h"
 #include "dsp.h"
 #include "uart_comm.h"
+#include "button.h"
 
 
 /*===========================================================================*/
@@ -77,6 +78,7 @@ static msg_t task20ms(void *arg) {
     measCalc();
     cruiseCalc();
     dspCalc();
+    buttonCalc();
 
 
     chThdSleepUntil(time);
@@ -142,8 +144,6 @@ int main(void) {
    */
   measInit();
 
-
-
   /*
    * Cruise control initialization.
    */
@@ -154,6 +154,11 @@ int main(void) {
      */
   chThdSleepMilliseconds(1000);
     dspInit();
+
+  /*
+   * Display buttons initialization.
+   */
+  buttonInit();
 
   /*
    * Creates the 20ms Task.

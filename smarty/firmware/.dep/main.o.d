@@ -99,7 +99,7 @@ build/obj/main.o: src/main.c \
  include/light.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h \
  include/speed.h include/meas.h include/cruise.h include/dsp.h \
- include/uart_comm.h
+ include/uart_comm.h include/button.h
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdio.h:
 
@@ -322,3 +322,5 @@ include/cruise.h:
 include/dsp.h:
 
 include/uart_comm.h:
+
+include/button.h:

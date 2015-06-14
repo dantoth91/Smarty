@@ -10,7 +10,7 @@
 #include "chprintf.h"
 
 #include "eeprom.h"
-#include "eepromItems.h"
+//#include "eepromItems.h"
 
 #define EEPROM_I2C_ADDR    0x50
 

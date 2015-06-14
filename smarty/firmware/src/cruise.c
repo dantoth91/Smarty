@@ -27,7 +27,7 @@ static double I;
 static double D;
 static double eelozo;
 static double e;
-static double cruise_on;
+static bool_t cruise_on;
 
 static int set;
 
@@ -89,6 +89,10 @@ void cruiseEnable(void){
 
 void cruiseDisable(void){
   cruise_on = FALSE;
+}
+
+bool_t cruiseStatus(void){
+  return cruise_on;
 }
 
 int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxU, int32_t MinU, double Kp, double Ki, double Kd, int32_t MaxP, int32_t MaxI, int32_t MaxD)

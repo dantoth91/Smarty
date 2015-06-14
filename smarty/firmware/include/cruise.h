@@ -14,6 +14,7 @@ void cruiseCalc(void);
 
 void cruiseEnable(void);
 void cruiseDisable(void);
+bool_t cruiseStatus(void);
 
 int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxU, int32_t MinU, double Kp, double Ki, double Kd, int32_t MaxP, int32_t MaxI, int32_t MaxD);
 

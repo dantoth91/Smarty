@@ -1,3 +1,8 @@
+/*
+    Smarty - Copyright (C) 2014
+    GAMF MegaLux Team              
+*/
+    
 #include "gfx.h"
 #include "dsp.h"
 
@@ -152,14 +157,14 @@ void WriteChars(char * charsout)
   } while (wk) ;
 }
 
-uint32_t bus_Read(void)
+uint8_t bus_Read(void)
 {
   uint32_t bus;
   sdPut(&SD2, BUS_READ >> 8);
   sdPut(&SD2, BUS_READ);
   chSequentialStreamRead(&SD2, &bus, 3);
 
-  return (uint32_t)bus;
+  return (uint8_t)bus;
 }
 
 void bus_In(void)

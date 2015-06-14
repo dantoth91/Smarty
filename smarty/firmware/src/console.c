@@ -24,6 +24,7 @@
 #include "meas.h"
 #include "cruise.h"
 #include "dsp.h"
+#include "button.h"
 
 
 /* libc stub */
@@ -88,14 +89,10 @@ static const ShellCommand commands[] = {
   {"setcruisevalues", cmd_setcruisevalues},
   {"cruise", cmd_cruise},
   {"dbshow", cmdfrappans_dspmessages},
-<<<<<<< HEAD
   {"lcsleep", cmd_lcSleep},
   {"canmonitor", cmd_canmonitor},
-=======
   {"dspvalues", cmd_dspvalues},
-
-
->>>>>>> master
+  {"buttonvalues", cmd_buttonvalues},
   {NULL, NULL}
 };
 

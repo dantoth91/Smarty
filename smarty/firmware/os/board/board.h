@@ -271,6 +271,8 @@
  * PD1 - CAN_TX                 (alternate 9)
  * PD2 - SDIO_CLK               (alternate 12).
  * PD3 - SD Card installed      (input) 
+ * PD5 - TXD2                   (alternate 7) 
+ * PD6 - RXD2                   (alternate 7)
  * PD12 - PO5 Horn              (alternate 2)
  * PD13 - PO6 Right front light (alternate 2)
  * PD14 - PO7 Left front light  (alternate 2)

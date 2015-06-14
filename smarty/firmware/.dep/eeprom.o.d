@@ -93,7 +93,7 @@ build/obj/eeprom.o: src/eeprom.c \
  ../../../ChibiOS/os/various/shell.h \
  ../../../ChibiOS/os/various/chprintf.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h \
- include/eeprom.h include/eepromItems.h
+ include/eeprom.h
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdlib.h:
 
@@ -292,5 +292,3 @@ os/mcuconf.h:
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h:
 
 include/eeprom.h:
-
-include/eepromItems.h:
