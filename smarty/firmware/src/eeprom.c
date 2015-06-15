@@ -10,7 +10,6 @@
 #include "chprintf.h"
 
 #include "eeprom.h"
-#include "eepromItems.h"
 
 #define EEPROM_I2C_ADDR    0x50
 
@@ -23,20 +22,17 @@ OPMODE_I2C,
 FAST_DUTY_CYCLE_2
 };
 
-uint8_t eepromWrite(uint16_t addr, uint8_t size, uint32_t value);
-uint8_t eepromRead(uint16_t addr, uint8_t size, uint32_t *buff);
-//uint8_t eepromWriteItem(uint16_t addr, uint8_t size, uint32_t *buff);
-uint32_t eepromReadItem(enum eepromItemNames name, uint32_t *buff);
+struct eepromItem *eepromGetItembyName(enum eepromItemNames);
 
 void eepromInit(void){
 	i2cStart(&I2CD1, &i2ccfg);
 }
 
-/*struct eepromItem *eepromGetItembyName(uint8_t id) {
+struct eepromItem *eepromGetItembyName(enum eepromItemNames item_name){
   int i;
   
   i = 0;
-  while(eepromitems[i].name != name) {
+  while(eepromitems[i].name != item_name) {
     if(eepromitems[i].name == EEPROM_ITEMS_NUM || i == EEPROM_ITEMS_NUM) {
       i = -1;
       break;
@@ -49,18 +45,21 @@ void eepromInit(void){
   else {
     return &eepromitems[i];
   }
-}*/
+}
 
-uint8_t eepromWrite(uint16_t addr, uint8_t size, uint32_t value){
+uint8_t eepromWrite(enum eepromItemNames name, uint32_t value){
   uint8_t tx[6];
   msg_t i2cmsg=0;
 
   int i;
 
-  tx[0] = (uint8_t)(addr >> 8);
-  tx[1] = (uint8_t)(addr);
+  struct eepromItem *item;
+  item = eepromGetItembyName(name);
 
-  for(i = size; i > 0; i--){
+  tx[0] = (uint8_t)(item->address >> 8);
+  tx[1] = (uint8_t)(item->address);
+
+  for(i = item->size; i > 0; i--){
     if(i > 1){
       tx[i + 1] = (uint8_t)(value >> ((i - 1) * 8));
     }
@@ -69,7 +68,7 @@ uint8_t eepromWrite(uint16_t addr, uint8_t size, uint32_t value){
   }
   
   i2cAcquireBus(&I2CD1);
-  i2cmsg = i2cMasterTransmitTimeout(&I2CD1, EEPROM_I2C_ADDR, tx, size + 2, NULL, 0, TIME_INFINITE);
+  i2cmsg = i2cMasterTransmitTimeout(&I2CD1, EEPROM_I2C_ADDR, tx, item->size + 2, NULL, 0, TIME_INFINITE);
   i2cReleaseBus(&I2CD1);
 
   if (i2cmsg != RDY_OK){
@@ -79,15 +78,18 @@ uint8_t eepromWrite(uint16_t addr, uint8_t size, uint32_t value){
     return 0;
 }
 
-uint8_t eepromRead(uint16_t addr, uint8_t size, uint32_t *buff){
+uint8_t eepromRead(enum eepromItemNames name, uint32_t *buff){
   uint8_t tx[2] = {0};
   msg_t i2cmsg=0;
 
-  tx[0] = (uint8_t)(addr >> 8);
-  tx[1] = (uint8_t)(addr);
+  struct eepromItem *item;
+  item = eepromGetItembyName(name);
+
+  tx[0] = (uint8_t)(item->address >> 8);
+  tx[1] = (uint8_t)(item->address);
 
   i2cAcquireBus(&I2CD1);
-  i2cmsg = i2cMasterTransmitTimeout(&I2CD1, EEPROM_I2C_ADDR, tx, 2, buff, size, TIME_INFINITE);
+  i2cmsg = i2cMasterTransmitTimeout(&I2CD1, EEPROM_I2C_ADDR, tx, 2, buff, item->size, TIME_INFINITE);
   i2cReleaseBus(&I2CD1);
 
   if (i2cmsg != RDY_OK){
@@ -96,26 +98,6 @@ uint8_t eepromRead(uint16_t addr, uint8_t size, uint32_t *buff){
   else
     return 0;
 }
-
-/*uint8_t eepromWriteItem(uint16_t addr, uint8_t size, uint32_t *buff){
-  
-}*/
-
-/*uint32_t eepromReadItem(enum eepromItemNames name, uint32_t *buff){
-  uint8_t size;
-  struct eepromItem *item;
-  item = eepromGetItembyName(name);
-
-  if(eepromRead(uint16_t item->addr, item->size, (uint32_t *)(item->value)) != 0){
-    buff = item.value;
-    return 0;
-  }
-
-  else {
-    buff = 0;
-    return 1;
-  }
-}*/
 
 void cmd_eepromTest(BaseSequentialStream *chp, int argc, char *argv[]) {
   
@@ -129,15 +111,52 @@ void cmd_eepromTest(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "EEPROM write test !\r\n"
   				"Address: 0x%02x, Value: %2d", addr, tx);
 
-  if(eepromWrite(addr, 4, tx) != 0){
+  if(eepromWrite(FIRST_ITEM, tx) != 0){
   	chprintf(chp, "EEPROM write error! \r\n");
   }
 
   chprintf(chp, "\r\n----------------------- \r\n");
   chprintf(chp, "EEPROM read test ! \r\n");
 
-  if(eepromRead(addr, 4, &value) != 0){
+  if(eepromRead(FIRST_ITEM, &value) != 0){
     chprintf(chp, "EEPROM read error! \r\n");
   }
   chprintf(chp, "Address: 0x%02x, value: %2d\r\n",addr, value);
+}
+
+void cmd_eepromAllData(BaseSequentialStream *chp, int argc, char *argv[]) {
+
+  uint32_t value = 0;
+
+  enum eepromItemNames ch;
+
+  static const char * const names[] = {
+
+      "FIRST_ITEM",
+      "CENTER_ITEM",
+      "LAST_ITEM"};
+
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
+  chprintf(chp, "          NAME      DATA\r\n");
+  for(ch = 0; ch < EEPROM_ITEMS_NUM; ch++) {
+    
+    if(eepromRead(ch, &value) != 0){
+      chprintf(chp, "%s EEPROM read error!\r\n", names[ch]);
+    }
+
+    else{
+      chprintf(chp, "%10s: %15d\r\n", names[ch], value);
+      value = 0;
+    }
+
+    if (ch > 5)
+    {
+      chprintf(chp, "\r\n");
+    }
+  }
 }
