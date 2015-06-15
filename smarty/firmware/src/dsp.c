@@ -190,7 +190,7 @@ void dsp_RefreshMidle(int frame) {
 }
 
 int szamlalo;
-static uint8_t bus_read = 0;
+static uint32_t bus_read = 0;
 bool_t cruise_assis = FALSE;
 
 /*
@@ -209,9 +209,9 @@ static msg_t dspTask(void *arg) {
 
     bus_read++;
 
-    if (bus_read > 1)
+    if ((bus_read % 2) == 1)
     {
-      bus_read = 0;
+      //bus_read = 0;
       bus_status = 0;
       bus_status = bus_Read();
       if (bus_status > 0x06)
@@ -229,7 +229,8 @@ static msg_t dspTask(void *arg) {
       }
     }
 
-    else{
+    else if((bus_read % 4) == 2)
+    {
       szamlalo++;
       szamlalo = szamlalo > 999 ? 0 : szamlalo;
 
@@ -238,8 +239,8 @@ static msg_t dspTask(void *arg) {
       switch (dspmessages) {
 
         case DSP_x100_SPEED:
-          if(speedGetRpm() > 0 && speedGetRpm() < 999){
-            new_val = (int16_t)(speedGetRpm()/100);
+          if(speedGetSpeed() > 0 && speedGetSpeed() < 999){
+            new_val = (int16_t)(speedGetSpeed()/100);
           }
           else
             new_val = 0;
@@ -262,13 +263,13 @@ static msg_t dspTask(void *arg) {
             dspmessages++;
 
         case DSP_x10_SPEED:
-          if(speedGetRpm() > 0 && speedGetRpm() < 999){
-            new_val = (int)(speedGetRpm()/100);
+          if(speedGetSpeed() > 0 && speedGetSpeed() < 999){
+            new_val = (int)(speedGetSpeed()/100);
           }
           else
             new_val = 0;
 
-          new_val = (int)((speedGetRpm()/10)%10);
+          new_val = (int)((speedGetSpeed()/10)%10);
           if (dspValue[dspmessages] != new_val) {
 
             media_SetSector(0, 6449); // szam nagy icon
@@ -282,13 +283,13 @@ static msg_t dspTask(void *arg) {
             dspmessages++;
 
         case DSP_x1_SPEED:
-          if(speedGetRpm() > 0 && speedGetRpm() < 999){
-              new_val = (int)(speedGetRpm()/100);
+          if(speedGetSpeed() > 0 && speedGetSpeed() < 999){
+              new_val = (int)(speedGetSpeed()/100);
           }
           else
             new_val = 0;
 
-          new_val = (int)(speedGetRpm()%10);
+          new_val = (int)(speedGetSpeed()%10);
           if (dspValue[dspmessages] != new_val) {
             media_SetSector(0, 6449); // szam nagy icon
             media_VideoFrame(186, 162, new_val);
@@ -346,7 +347,7 @@ static msg_t dspTask(void *arg) {
             dspmessages++;*/
       
         case DSP_GAUGE:
-          new_val = 127;
+          new_val = speedGetSpeed();
           if (dspValue[dspmessages] != new_val) {
             gfx_Transparency(1);
             gfx_TransparentColour(BLUE);
@@ -396,7 +397,7 @@ static msg_t dspTask(void *arg) {
               dspmessages++;
 
         case DSP_x100_TEMP_SPEED:
-          new_val = 87;
+          new_val = cruiseGet();
             if (dspValue[dspmessages] != new_val) {
               media_SetSector(0, 6410);
               media_VideoFrame(315, 205, new_val/100);
@@ -408,7 +409,7 @@ static msg_t dspTask(void *arg) {
               dspmessages++;
 
         case DSP_x10_TEMP_SPEED:
-          new_val = 87;
+          new_val = cruiseGet();
             if (dspValue[dspmessages] != new_val) {
               media_SetSector(0, 6410);
               media_VideoFrame(315, 225, (new_val / 10) % 10);
@@ -420,7 +421,7 @@ static msg_t dspTask(void *arg) {
               dspmessages++;
 
         case DSP_x1_TEMP_SPEED:
-          new_val = 87;
+          new_val = cruiseGet();
             if (dspValue[dspmessages] != new_val) {
               media_SetSector(0, 6410);
               media_VideoFrame(315, 245, new_val  % 10);

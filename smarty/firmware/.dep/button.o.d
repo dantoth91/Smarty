@@ -78,7 +78,7 @@ build/obj/button.o: src/button.c include/button.h \
  ../../../ChibiOS/os/hal/include/serial_usb.h \
  ../../../ChibiOS/os/various/chprintf.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h \
- include/dsp.h
+ include/dsp.h include/speed.h include/cruise.h
 
 include/button.h:
 
@@ -249,3 +249,7 @@ os/mcuconf.h:
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h:
 
 include/dsp.h:
+
+include/speed.h:
+
+include/cruise.h:

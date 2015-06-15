@@ -10,6 +10,8 @@
 
 #include "chprintf.h"
 
+#define START_CRUISE_KMPH 50
+
 static int16_t K_P = 5;
 static int16_t K_I = 2;
 static int16_t K_D = 500;
@@ -29,7 +31,7 @@ static double eelozo;
 static double e;
 static bool_t cruise_on;
 
-static int set;
+static int16_t set;
 
 static PWMConfig cruise_pwmcfg = {
   10000000,	/* 10MHz PWM clock frequency */
@@ -56,7 +58,7 @@ void cruiseInit(void){
 	eelozo = 0;
 	e = 0;
 
-	set = 500;
+	set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
 
 	pwmStart(&PWMD5, &cruise_pwmcfg);
 }
@@ -77,7 +79,7 @@ void cruiseCalc(void){
     eelozo = 0;
     e = 0;
 
-    set = 500;
+    //set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
   }
 
 	pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
@@ -93,6 +95,19 @@ void cruiseDisable(void){
 
 bool_t cruiseStatus(void){
   return cruise_on;
+}
+
+void cruiseIncrease(double rpm){
+  set += rpm;
+  set = set > 130 ? 130 : set;
+}
+void cruiseReduction(double rpm){
+  set -= rpm;
+  set = set < 0 ? 0 : set;
+}
+
+uint8_t cruiseGet(void){
+  return speedRPM_TO_KMPH(set);
 }
 
 int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxU, int32_t MinU, double Kp, double Ki, double Kd, int32_t MaxP, int32_t MaxI, int32_t MaxD)
