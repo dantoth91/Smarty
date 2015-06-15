@@ -10,6 +10,10 @@
 #include "chprintf.h"
 
 #include "eeprom.h"
+<<<<<<< HEAD
+//#include "eepromItems.h"
+=======
+>>>>>>> master
 
 #define EEPROM_I2C_ADDR    0x50
 

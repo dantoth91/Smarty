@@ -1,4 +1,4 @@
-build/obj/sdc_lld.o: ../../../ChibiOS/os/hal/platforms/STM32/sdc_lld.c \
+../build/obj/sdc_lld.o: ../../../ChibiOS/os/hal/platforms/STM32/sdc_lld.c \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/string.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/_ansi.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/newlib.h \

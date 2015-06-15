@@ -1,4 +1,4 @@
-build/obj/vectors.o: \
+../build/obj/vectors.o: \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/STM32F4xx/vectors.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

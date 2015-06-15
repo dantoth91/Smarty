@@ -24,6 +24,7 @@
 #include "meas.h"
 #include "cruise.h"
 #include "dsp.h"
+#include "button.h"
 
 
 /* libc stub */
@@ -91,6 +92,7 @@ static const ShellCommand commands[] = {
   {"lcsleep", cmd_lcSleep},
   {"canmonitor", cmd_canmonitor},
   {"dspvalues", cmd_dspvalues},
+  {"buttonvalues", cmd_buttonvalues},
   {"eepromall", cmd_eepromAllData},
   {NULL, NULL}
 };

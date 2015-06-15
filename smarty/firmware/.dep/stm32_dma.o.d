@@ -1,4 +1,4 @@
-build/obj/stm32_dma.o: \
+../build/obj/stm32_dma.o: \
  ../../../ChibiOS/os/hal/platforms/STM32F4xx/stm32_dma.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

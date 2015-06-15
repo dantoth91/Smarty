@@ -1,4 +1,4 @@
-build/obj/ff.o: ../../../ChibiOS/ext/fatfs/src/ff.c \
+../build/obj/ff.o: ../../../ChibiOS/ext/fatfs/src/ff.c \
  ../../../ChibiOS/ext/fatfs/src/ff.h \
  ../../../ChibiOS/ext/fatfs/src/integer.h os/ffconf.h \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \

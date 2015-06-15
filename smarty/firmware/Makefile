@@ -72,7 +72,7 @@ endif
 
 # Define build directory
 #BUILDDIR = /tmp/build
-BUILDDIR =
+BUILDDIR = ../build
 
 # Define project name here
 PROJECT = smarty
@@ -117,7 +117,8 @@ CSRC = $(PORTSRC) \
        src/cruise.c \
        src/dsp.c \
        scr/gfx.c \
-       scr/uart_comm.c 
+       scr/uart_comm.c \
+       src/button.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

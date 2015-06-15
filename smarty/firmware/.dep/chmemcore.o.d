@@ -1,4 +1,4 @@
-build/obj/chmemcore.o: ../../../ChibiOS/os/kernel/src/chmemcore.c \
+../build/obj/chmemcore.o: ../../../ChibiOS/os/kernel/src/chmemcore.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h \

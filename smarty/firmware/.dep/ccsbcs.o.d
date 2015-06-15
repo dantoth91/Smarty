@@ -1,4 +1,4 @@
-build/obj/ccsbcs.o: ../../../ChibiOS/ext/fatfs/src/option/ccsbcs.c \
+../build/obj/ccsbcs.o: ../../../ChibiOS/ext/fatfs/src/option/ccsbcs.c \
  ../../../ChibiOS/ext/fatfs/src/option/../ff.h \
  ../../../ChibiOS/ext/fatfs/src/option/../integer.h os/ffconf.h \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
