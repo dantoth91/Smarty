@@ -93,6 +93,7 @@ static const ShellCommand commands[] = {
   {"canmonitor", cmd_canmonitor},
   {"dspvalues", cmd_dspvalues},
   {"buttonvalues", cmd_buttonvalues},
+  {"eepromall", cmd_eepromAllData},
   {NULL, NULL}
 };
 

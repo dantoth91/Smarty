@@ -3,6 +3,14 @@
     GAMF MegaLux Team              
 */
 
+enum eepromItemNames
+{
+  FIRST_ITEM,
+  CENTER_ITEM,
+  LAST_ITEM,
+  EEPROM_ITEMS_NUM
+};
+
 static struct eepromItem 
 {
   uint8_t id;
@@ -13,13 +21,16 @@ static struct eepromItem
 
 /* 
  * EEPROM layout definition
- * int32_t    -   size = 4 
+ * int32_t    -   size = 4
  * uint32_t   -   size = 4
  */
-static struct eepromItem eepromitems[] = { 
+static struct eepromItem eepromitems[] = {
   /* Engine Control Settings*/
   /* First item */
   { 0x0010, 0x0010, 4, FIRST_ITEM},
+
+  /* Center item */
+  { 0x0011, 0x0014, 4, CENTER_ITEM},
 
   /* Last item, always should be 0xFFFF */
   { 0xFFFB, 0xFFFB, 4, LAST_ITEM}
