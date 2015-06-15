@@ -1,4 +1,4 @@
-../build/obj/fatfs_diskio.o: \
+../../build/obj/fatfs_diskio.o: \
  ../../../ChibiOS/os/various/fatfs_bindings/fatfs_diskio.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

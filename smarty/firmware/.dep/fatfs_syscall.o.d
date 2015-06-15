@@ -1,4 +1,4 @@
-../build/obj/fatfs_syscall.o: \
+../../build/obj/fatfs_syscall.o: \
  ../../../ChibiOS/os/various/fatfs_bindings/fatfs_syscall.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

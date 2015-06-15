@@ -1,4 +1,4 @@
-../build/obj/adc_lld.o: \
+../../build/obj/adc_lld.o: \
  ../../../ChibiOS/os/hal/platforms/STM32F4xx/adc_lld.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

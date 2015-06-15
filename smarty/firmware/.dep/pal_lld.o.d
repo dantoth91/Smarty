@@ -1,4 +1,4 @@
-../build/obj/pal_lld.o: \
+../../build/obj/pal_lld.o: \
  ../../../ChibiOS/os/hal/platforms/STM32/GPIOv2/pal_lld.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

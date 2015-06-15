@@ -1,4 +1,4 @@
-../build/obj/rtc_lld.o: \
+../../build/obj/rtc_lld.o: \
  ../../../ChibiOS/os/hal/platforms/STM32/RTCv2/rtc_lld.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

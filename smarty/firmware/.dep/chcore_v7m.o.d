@@ -1,4 +1,4 @@
-../build/obj/chcore_v7m.o: \
+../../build/obj/chcore_v7m.o: \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chcore_v7m.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

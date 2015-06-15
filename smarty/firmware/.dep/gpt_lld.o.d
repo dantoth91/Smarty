@@ -1,4 +1,4 @@
-../build/obj/gpt_lld.o: \
+../../build/obj/gpt_lld.o: \
  ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/gpt_lld.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

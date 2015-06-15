@@ -71,7 +71,7 @@ endif
 #
 
 # Define build directory
-BUILDDIR = ../build
+BUILDDIR = ../../build
 
 # Define project name here
 PROJECT = smarty

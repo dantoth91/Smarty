@@ -1,4 +1,4 @@
-../build/obj/i2c_lld.o: \
+../../build/obj/i2c_lld.o: \
  ../../../ChibiOS/os/hal/platforms/STM32/I2Cv1/i2c_lld.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

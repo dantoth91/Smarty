@@ -1,4 +1,4 @@
-../build/obj/ext_lld_isr.o: \
+../../build/obj/ext_lld_isr.o: \
  ../../../ChibiOS/os/hal/platforms/STM32F4xx/ext_lld_isr.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \

@@ -1,4 +1,4 @@
-../build/obj/spi_lld.o: \
+../../build/obj/spi_lld.o: \
  ../../../ChibiOS/os/hal/platforms/STM32/SPIv1/spi_lld.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \
