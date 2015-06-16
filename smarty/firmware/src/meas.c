@@ -134,6 +134,7 @@ void measCalc(void){
           case MEAS2_CURR1:
             break;
           case MEAS2_THROTTLE:
+            avg = 0;
             break;
           default:
             break;

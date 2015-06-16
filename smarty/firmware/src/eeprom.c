@@ -102,7 +102,8 @@ uint8_t eepromRead(enum eepromItemNames name, uint32_t *buff){
 void cmd_eepromTest(BaseSequentialStream *chp, int argc, char *argv[]) {
   
   int addr = 0x0010;
-  uint32_t tx = rand() % 1000000000;
+  //uint32_t tx = rand() % 1000000000;
+  int16_t tx = 824;
   uint32_t value = 0;
 
   chprintf(chp, "\x1B\x63");
@@ -111,14 +112,14 @@ void cmd_eepromTest(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "EEPROM write test !\r\n"
   				"Address: 0x%02x, Value: %2d", addr, tx);
 
-  if(eepromWrite(FIRST_ITEM, tx) != 0){
+  if(eepromWrite(CENTER_ITEM, tx) != 0){
   	chprintf(chp, "EEPROM write error! \r\n");
   }
 
   chprintf(chp, "\r\n----------------------- \r\n");
   chprintf(chp, "EEPROM read test ! \r\n");
 
-  if(eepromRead(FIRST_ITEM, &value) != 0){
+  if(eepromRead(CENTER_ITEM, &value) != 0){
     chprintf(chp, "EEPROM read error! \r\n");
   }
   chprintf(chp, "Address: 0x%02x, value: %2d\r\n",addr, value);
@@ -132,7 +133,7 @@ void cmd_eepromAllData(BaseSequentialStream *chp, int argc, char *argv[]) {
 
   static const char * const names[] = {
 
-      "FIRST_ITEM",
+      "CRUISE_CONTROLL",
       "CENTER_ITEM",
       "LAST_ITEM"};
 

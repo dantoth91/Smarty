@@ -93,7 +93,8 @@
  ../../../ChibiOS/os/hal/include/mmc_spi.h \
  ../../../ChibiOS/os/hal/include/serial_usb.h include/speed.h \
  ../../../ChibiOS/os/various/chprintf.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h
+ c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h \
+ include/eeprom.h include/eepromItems.h include/meas.h
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/string.h:
 
@@ -296,3 +297,9 @@ include/speed.h:
 ../../../ChibiOS/os/various/chprintf.h:
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h:
+
+include/eeprom.h:
+
+include/eepromItems.h:
+
+include/meas.h:

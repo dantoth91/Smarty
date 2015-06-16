@@ -9,8 +9,11 @@
 #include "speed.h"
 
 #include "chprintf.h"
+#include "eeprom.h"
+#include "meas.h"
 
-#define START_CRUISE_KMPH 50
+#define START_CRUISE_KMPH   50
+#define EEPROM_WRITE_PERIOD 250
 
 static int16_t K_P = 5;
 static int16_t K_I = 2;
@@ -27,11 +30,15 @@ static int32_t pwm;
 static double P;
 static double I;
 static double D;
+static int32_t U;
 static double eelozo;
 static double e;
 static bool_t cruise_on;
 
 static int16_t set;
+static int16_t old_set;
+static uint32_t eeprom_read_period;
+static bool_t eeprom_write;
 
 static PWMConfig cruise_pwmcfg = {
   10000000,	/* 10MHz PWM clock frequency */
@@ -49,40 +56,83 @@ static PWMConfig cruise_pwmcfg = {
 
 void cruiseInit(void){
 	pwm = 10000;
+  eeprom_read_period = 0;
+  old_set = 0;
+  eeprom_write = FALSE;
 
   cruise_on = FALSE;
 
-	P = 0;
-	I = 0;
-	D = 0;
+	pwm = 10000;
+  P = 2985;
+  I = 384000;
+  D = 0;
 	eelozo = 0;
 	e = 0;
 
-	set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
+  /*if(eepromWrite(CRUISE_CONTROLL, speedKMPH_TO_RPM(START_CRUISE_KMPH)) != 0){
+      set = 5;
+  }*/
+
+  if(eepromRead(CRUISE_CONTROLL, &set) != 0){
+    set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
+  }
+  if (set > 1300)
+  {
+    set = 1300;
+  }
+  else if (set < 0)
+  {
+    set = 0;
+  }
 
 	pwmStart(&PWMD5, &cruise_pwmcfg);
 }
 
 void cruiseCalc(void){
-	if (cruise_on)
+	eeprom_read_period ++;
+
+  if(eeprom_read_period == EEPROM_WRITE_PERIOD)
+  {
+    if (old_set == set)
+    {
+      if (eeprom_write)
+      {
+        eeprom_write = FALSE;
+        if(eepromWrite(CRUISE_CONTROLL, set) != 0){
+          old_set = -1;
+        }
+      }
+    }
+  }
+  else if (old_set != set)
+  {
+    old_set = set;
+    eeprom_read_period = 0;
+    eeprom_write = TRUE;
+  }
+
+  if (cruise_on)
   {
     pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
     pwm = 10000 - pwm;
   }
-
   else
   {
     pwm = 10000;
-    P = 0;
-    I = 0;
+    P = 2985;
+    I = 384000;
     D = 0;
     eelozo = 0;
     e = 0;
 
-    //set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
+    /*set = measGetValue_2(MEAS2_THROTTLE);
+    pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    pwm = 10000 - pwm;*/
+
+    //pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
   }
 
-	pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
+  pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
 }
 
 void cruiseEnable(void){
@@ -99,7 +149,7 @@ bool_t cruiseStatus(void){
 
 void cruiseIncrease(double rpm){
   set += rpm;
-  set = set > 130 ? 130 : set;
+  set = set > speedKMPH_TO_RPM(130) ? speedKMPH_TO_RPM(130) : set;
 }
 void cruiseReduction(double rpm){
   set -= rpm;
@@ -112,8 +162,6 @@ uint8_t cruiseGet(void){
 
 int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxU, int32_t MinU, double Kp, double Ki, double Kd, int32_t MaxP, int32_t MaxI, int32_t MaxD)
 {	 
-  int32_t U;
-
 	e = Set - Input;
 
 	/* Proportional */
@@ -172,6 +220,7 @@ void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
       chprintf(chp, "K_P: %15d - P: %15d\r\n", K_P, (int32_t)P);
       chprintf(chp, "K_I: %15d - I: %15d\r\n", K_I, (int32_t)I);
 	    chprintf(chp, "K_D: %15d - D: %15d\r\n", K_D, (int32_t)D);
+      chprintf(chp, "K_U: %15d - U: %15d\r\n", K_D, (int32_t)U);
       chprintf(chp, "pwm: %15d\r\n", pwm);
       chprintf(chp, "set rpm: %15d\r\n", set);
       chprintf(chp, "input rpm: %15d\r\n", speedGetRpm());
@@ -262,8 +311,6 @@ void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
 void cmd_cruise(BaseSequentialStream *chp, int argc, char *argv[]){
   (void)argc;
   (void)argv;
-
-  int16_t szam;
 
   chprintf(chp, "\x1B\x63");
   chprintf(chp, "\x1B[2J");
