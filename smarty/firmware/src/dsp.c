@@ -8,6 +8,7 @@
 #include "gfx.h"
 #include "dsp.h"
 #include "cruise.h"
+#include "light.h"
 
 #include "chprintf.h"
 
@@ -544,10 +545,13 @@ static msg_t dspTask(void *arg) {
             dspmessages++;
 
         case DSP_INDEX_RIGHT:
-          new_val = 1;
+          if (getLightFlashing(2) || getLightFlashing(4)) { new_val = 0; }
+          else
+            new_val = 1;
+
           if (dspValue[dspmessages] != new_val) {
             media_SetSector(0, 50); //indexjobb icon
-            media_VideoFrame(433, 230, 1);
+            media_VideoFrame(433, 230, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
             break;
@@ -556,10 +560,12 @@ static msg_t dspTask(void *arg) {
             dspmessages++;
 
         case DSP_INDEX_LEFT:
-          new_val = 1;
+          if (getLightFlashing(3) || getLightFlashing(4)){ new_val = 0; }
+          else
+            new_val = 1;
           if (dspValue[dspmessages] != new_val) {
             media_SetSector(0, 39); // indexbal icon
-            media_VideoFrame(433, 7, 1);
+            media_VideoFrame(433, 7, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
             break;
@@ -586,10 +592,15 @@ static msg_t dspTask(void *arg) {
             dspmessages++;
 
         case DSP_LIGHT:
-          new_val = 1;
+          if (getLightFlashing(5))
+          {
+            new_val = 0;
+          }
+          else
+            new_val = 1;
           if (dspValue[dspmessages] != new_val) {
             media_SetSector(0, 65); //lámpa icon
-            media_VideoFrame(433, 154, 1);
+            media_VideoFrame(433, 154, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
             break;

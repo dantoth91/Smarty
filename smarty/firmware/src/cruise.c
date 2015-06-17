@@ -55,7 +55,8 @@ static PWMConfig cruise_pwmcfg = {
 };
 
 void cruiseInit(void){
-	pwm = 10000;
+  pwm = 10000;
+
   eeprom_read_period = 0;
   old_set = 0;
   eeprom_write = FALSE;
@@ -68,10 +69,6 @@ void cruiseInit(void){
   D = 0;
 	eelozo = 0;
 	e = 0;
-
-  /*if(eepromWrite(CRUISE_CONTROLL, speedKMPH_TO_RPM(START_CRUISE_KMPH)) != 0){
-      set = 5;
-  }*/
 
   if(eepromRead(CRUISE_CONTROLL, &set) != 0){
     set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
@@ -124,12 +121,6 @@ void cruiseCalc(void){
     D = 0;
     eelozo = 0;
     e = 0;
-
-    /*set = measGetValue_2(MEAS2_THROTTLE);
-    pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
-    pwm = 10000 - pwm;*/
-
-    //pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
   }
 
   pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
