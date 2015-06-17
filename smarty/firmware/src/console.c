@@ -83,6 +83,7 @@ static const ShellCommand commands[] = {
   {"candata", cmd_candata},
   {"lightvalues", cmd_lightvalues},
   {"light", cmd_lightblink},
+  {"getlight", cmd_getLight},
   {"speedvalues", cmd_speedvalues},
   {"measvalues", cmd_measvalues},
   {"cruisevalues", cmd_cruisevalues},

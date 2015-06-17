@@ -17,7 +17,9 @@ void lightBrakeOn();
 void lightBrakeOff();
 void lightPosLampOn();
 void lightPosLampOff();
+bool_t getLightFlashing (uint8_t chanel);
 
 void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_lightblink(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_getLight(BaseSequentialStream *chp, int argc, char *argv[]);
 #endif

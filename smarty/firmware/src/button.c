@@ -17,15 +17,23 @@
 static bool_t cruise_ok;
 static bool_t cruise_plusz;
 static uint16_t cruise_long_plusz;
-
 static bool_t cruise_minusz;
 static uint16_t cruise_long_minusz;
+
+static bool_t index_right;
+static bool_t index_left;
+static bool_t lamp_ok;
 
 void buttonInit(void){
 	cruise_ok = FALSE;
 	cruise_plusz = FALSE;
 	cruise_long_plusz = 0;
 	cruise_minusz = FALSE;
+	cruise_minusz = FALSE;
+	/* Még nincs bekötve az index nyomógomb */
+	/*index_right = FALSE;
+	index_left = FALSE;*/
+	lamp_ok = FALSE;
 }
 
 void buttonCalc(void){
@@ -90,6 +98,59 @@ void buttonCalc(void){
 		cruise_long_minusz = 0;
 	}
 
+/* Még nincs bekötve az index nyomógomb */
+/* Index right */
+	/*if((dspGetValue() == 0) && index_right){
+		if (getLightFlashing(2))
+		{
+			lightFlashing(1);
+			index_right = FALSE;
+		}
+		else
+		{
+			lightFlashing(0);
+		}
+	}
+	else if(dspGetValue(3))
+	{
+		index_right = TRUE;
+	}*/
+
+/* Még nincs bekötve az index nyomógomb */
+/* Index left */
+	/*if((dspGetValue() == 0) && index_left){
+		if (getLightFlashing(3))
+		{
+			lightFlashing(2);
+			index_left = FALSE;
+		}
+		else
+		{
+			lightFlashing(0);
+		}
+	}
+	else if(dspGetValue())
+	{
+		index_left = TRUE;
+	}*/
+
+/* Pos. Lamp */
+	if((dspGetValue(5) == 0) && lamp_ok){
+		if (getLightFlashing(5))
+		{
+			lightPosLampOff();
+			lamp_ok = FALSE;
+		}
+		else
+		{
+			lightPosLampOn();
+			lamp_ok = FALSE;
+		}
+	}
+	else if(dspGetValue(5))
+	{
+		lamp_ok = TRUE;
+	}
 }
 
 void cmd_buttonvalues(BaseSequentialStream *chp, int argc, char *argv[]){
