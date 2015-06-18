@@ -95,8 +95,8 @@
  ../../../ChibiOS/os/hal/include/mmc_spi.h \
  ../../../ChibiOS/os/hal/include/serial_usb.h \
  ../../../ChibiOS/test/test.h include/console.h include/sdcard.h \
- ../../../ChibiOS/os/various/chprintf.h include/can_comm.h \
- include/light.h \
+ ../../../ChibiOS/os/various/chprintf.h include/log.h include/eeprom.h \
+ include/eepromItems.h include/can_comm.h include/light.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h \
  include/speed.h include/meas.h include/cruise.h include/dsp.h \
  include/uart_comm.h include/button.h
@@ -306,6 +306,12 @@ include/console.h:
 include/sdcard.h:
 
 ../../../ChibiOS/os/various/chprintf.h:
+
+include/log.h:
+
+include/eeprom.h:
+
+include/eepromItems.h:
 
 include/can_comm.h:
 

@@ -103,7 +103,7 @@
  include/sdcard.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdio.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/stdio.h \
- include/eeprom.h include/eepromItems.h include/can_comm.h \
+ include/log.h include/eeprom.h include/eepromItems.h include/can_comm.h \
  include/light.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h \
  include/speed.h include/meas.h include/cruise.h include/dsp.h \
@@ -330,6 +330,8 @@ include/sdcard.h:
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdio.h:
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/stdio.h:
+
+include/log.h:
 
 include/eeprom.h:
 

@@ -12,10 +12,6 @@
 
 #include "ff.h"
 #include "sdcard.h"
-#include "ec.h"
-#include "meas.h"
-#include "nmea.h"
-#include "calc.h"
 
 #include "log.h"
 
@@ -64,12 +60,13 @@ FIL logFileObject;
 bool_t logStartRequest;
 bool_t logStopRequest;
 systime_t logStartTime;
-int32_t logLastIgnCount;
 uint32_t logIdleCount;
 
-char logFileName[] = "0:mm12_yymmdd_hhmmss.log";
+char logFileName[] = "test.log";
 
 static msg_t logThread(void *arg);
+static allapot;
+static allapot2;
 
 /*
  * Initializes log 
@@ -81,8 +78,9 @@ void logInit(void){
   logStartRequest = FALSE;
   logStopRequest = FALSE;
   logStartTime = 0;
-  logLastIgnCount = -3;
   logIdleCount = 0;
+  allapot = 0;
+  allapot2 = 0;
 
   static WORKING_AREA(waLog, LOG_WA_SIZE);
   chThdCreateStatic(waLog, sizeof(waLog), LOWPRIO, logThread, NULL);
@@ -128,66 +126,37 @@ void logStop(void){
  */
 void logCalc(void){
   int actualReadPointer;
-  int32_t actualIgnCount;
-  uint32_t actualLastPeriod;
-  nmeaPosition_t pos;
   chSysLock();
   actualReadPointer = logReadPointer;
   chSysUnlock();
+  systime_t logTime;
   
   if (logGetState() == LOG_RUNNING){
-    actualIgnCount = ecGetIgnCount();
-    actualLastPeriod = ecGetFilteredPeriod();
-    if((   actualIgnCount != logLastIgnCount \
+        allapot = 1;
+/*     if((   actualIgnCount != logLastIgnCount \
         && actualLastPeriod < LOG_MAX_PERIOD)          \
         || logIdleCount > LOG_MAX_IDLE_CNT){
-/*                                                                        // igncount = -2
+                                                                       // igncount = -2
         if(actualIgnCount > logLastIgnCount){               // actualIgnCount = ecGetIgnCount() > logLastIgnCount = -2;
             ecGetLastIgnStartTime() - logStartTime;         // ecGetLastIgnStartTime() = gyujtásonként a jelenlegi idő; logStartTime = logolás után a jelenlegi idő
         }
         else{
             chTimeNow() - logStartTime;                     // jelenlegi idő - logolások utáni jelenlegi idő
-        }*/
+        }
 
       logBuffer[logWritePointer].time = (actualIgnCount > logLastIgnCount ? ecGetLastIgnStartTime() : chTimeNow()); //- logStartTime;
-      logBuffer[logWritePointer].igncnt = actualIgnCount;
-      logBuffer[logWritePointer].injcnt = ecGetInjCount();
-      logBuffer[logWritePointer].rpm = (uint16_t)(actualLastPeriod == 0 ? 0 : 2500000L / actualLastPeriod) ;
-      logBuffer[logWritePointer].injtime = ecGetValue16(EC_INJTIME);
-      logBuffer[logWritePointer].ignangle = ecGetValue16(EC_IGNANGLE);
-      logBuffer[logWritePointer].ubat = measGetValue(MEAS_UBAT);
-      logBuffer[logWritePointer].cht = measGetValue(MEAS_CHT);
-      logBuffer[logWritePointer].mat = measGetValue(MEAS_MAT);
-      logBuffer[logWritePointer].cyt = measGetValue(MEAS_CYT);
-      logBuffer[logWritePointer].trq = calcGetValue(CALC_TRQ);
-      logBuffer[logWritePointer].eff = calcGetValue(CALC_EFF);
-      logBuffer[logWritePointer].fup = calcGetValue(CALC_FUP);
-      logBuffer[logWritePointer].cls = calcGetValue(CALC_CLS);
-      logBuffer[logWritePointer].bws = calcGetValue(CALC_BWS);
-      logBuffer[logWritePointer].avg_bws = calcGetValue(CALC_AVG_BWS);
-      logBuffer[logWritePointer].fuelcon = calcGetValue(CALC_FUELCON);
-      logBuffer[logWritePointer].afr = (uint16_t)((calcGetValue(CALC_AFR) * 1000) / 1470);
-      logBuffer[logWritePointer].sta = calcGetValue(CALC_STA);
-      logBuffer[logWritePointer].pwm = (uint16_t)steeringGetValues();
-      logBuffer[logWritePointer].bws_rpm = calcGetValue(CALC_BWS_RPM);
-      /* GPS data */
-      nmeaGetCurrentPosition(&pos);
-      logBuffer[logWritePointer].lon = (int32_t)(pos.Lon * 100000000.0);
-      logBuffer[logWritePointer].lat = (int32_t)(pos.Lat * 100000000.0);
-      logBuffer[logWritePointer].alt = (int16_t)(pos.Alt);
-      logBuffer[logWritePointer].vel = (int16_t)(pos.Vel * 100.0);
-      logBuffer[logWritePointer].hdg = (int8_t)(pos.Hdg * 0.5);
-      logBuffer[logWritePointer].svs = pos.Svs;
+      logBuffer[logWritePointer].igncnt = actualIgnCount;*/
+      
       chSysLock();
       logWritePointer = logWritePointer < LOG_BUFFER_SIZE - 1 ? logWritePointer + 1 : 0;
       chSysUnlock();
-      logLastIgnCount = actualIgnCount;
+      /*logLastIgnCount = actualIgnCount;*/
       logIdleCount = 0;
+
     }
     else {
       logIdleCount++;
     }
-  }
 }
 
 /*
@@ -197,10 +166,13 @@ static msg_t logThread(void *arg) {
   bool_t isStartRequest;
   bool_t isStopRequest;
   int actualWritePointer;
+  char teststring[10];
+  teststring[0] = "H";
+  teststring[1] = "e";
+  teststring[2] = "l";
   
   FRESULT err;
   UINT bytesWritten;
-  struct tm timp;
   
   (void)arg;
   chRegSetThreadName("logTask");
@@ -219,17 +191,9 @@ static msg_t logThread(void *arg) {
         if(isStartRequest){
           sdcardMount();
           if (sdcardIsMounted()) {
-            rtcGetTimeTm(&RTCD1, &timp);
-            /* Adjust file name */
-            twodigit(timp.tm_year - 100, &logFileName[7]);
-            twodigit(timp.tm_mon + 1, &logFileName[9]);
-            twodigit(timp.tm_mday, &logFileName[11]);
-            twodigit(timp.tm_hour, &logFileName[14]);
-            twodigit(timp.tm_min, &logFileName[16]);
-            twodigit(timp.tm_sec, &logFileName[18]);
-            
             err = f_open(&logFileObject, logFileName, FA_WRITE | FA_OPEN_ALWAYS);
             if (err == FR_OK) {
+              allapot = 50;
               chSysLock();
               logStartTime = chTimeNow();
               logState = LOG_RUNNING;
@@ -246,7 +210,8 @@ static msg_t logThread(void *arg) {
         }
         while(actualWritePointer != logReadPointer)
         {
-          err = f_write(&logFileObject, (void *)&logBuffer[logReadPointer], sizeof(struct logEntry), &bytesWritten);
+          allapot = 256;
+          err = f_write(&logFileObject, teststring, sizeof(teststring), &bytesWritten);
           if (err != FR_OK || bytesWritten != sizeof(struct logEntry)){
             isStopRequest = TRUE;
             break;
@@ -343,6 +308,8 @@ void cmd_testlog(BaseSequentialStream *chp, int argc, char *argv[]) {
     if (state == LOG_RUNNING){
       chprintf(chp, "ReadPointer = %D WritePointer = %D    \r\n", logReadPointer, logWritePointer);
     }
+    chprintf(chp, "allapot: %15d", allapot);
+    chprintf(chp, "allapot2: %15d", allapot2);
     chThdSleepMilliseconds(200);
   }
   logStop();
