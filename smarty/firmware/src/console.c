@@ -86,6 +86,7 @@ static const ShellCommand commands[] = {
   {"getlight", cmd_getLight},
   {"speedvalues", cmd_speedvalues},
   {"measvalues", cmd_measvalues},
+  {"throttle", cmd_getThrottle},
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},
   {"cruise", cmd_cruise},

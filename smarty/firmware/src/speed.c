@@ -12,7 +12,7 @@
 #define SEN_POINTS          48
 #define WHEEL               1800     /* Kerék kerület mm-ben */
 #define MSTOS               60000000
-#define MAX_RPM_STEP        20
+#define MAX_RPM_STEP        50
 #define SPEED_ZERO_PERIOD   50
 
 static double rpm_buff[SEN_POINTS];

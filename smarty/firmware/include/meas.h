@@ -30,9 +30,16 @@ enum measChannels2
 
 void measInit(void);
 void measCalc(void);
+
+long map(long x, long in_min, long in_max, long out_min, long out_max);
+
 int16_t measGetValue(enum measChannels ch);
 int16_t measGetValue2(enum measChannels2 ch);
 
+void meas_throttleSetMin(void);
+void meas_throttleSetMax(void);
+
 void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_getThrottle(BaseSequentialStream *chp, int argc, char *argv[]);
 
 #endif

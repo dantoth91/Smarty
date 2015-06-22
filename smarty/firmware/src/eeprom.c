@@ -112,14 +112,14 @@ void cmd_eepromTest(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "EEPROM write test !\r\n"
   				"Address: 0x%02x, Value: %2d", addr, tx);
 
-  if(eepromWrite(CENTER_ITEM, tx) != 0){
+  if(eepromWrite(LAST_ITEM, tx) != 0){
   	chprintf(chp, "EEPROM write error! \r\n");
   }
 
   chprintf(chp, "\r\n----------------------- \r\n");
   chprintf(chp, "EEPROM read test ! \r\n");
 
-  if(eepromRead(CENTER_ITEM, &value) != 0){
+  if(eepromRead(LAST_ITEM, &value) != 0){
     chprintf(chp, "EEPROM read error! \r\n");
   }
   chprintf(chp, "Address: 0x%02x, value: %2d\r\n",addr, value);
@@ -134,7 +134,8 @@ void cmd_eepromAllData(BaseSequentialStream *chp, int argc, char *argv[]) {
   static const char * const names[] = {
 
       "CRUISE_CONTROLL",
-      "CENTER_ITEM",
+      "MIN_THROTTLE",
+      "MAX_THROTTLE",
       "LAST_ITEM"};
 
   (void)argc;
@@ -143,7 +144,7 @@ void cmd_eepromAllData(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "\x1B[2J");
   
   chprintf(chp, "\x1B[%d;%dH", 0, 0);
-  chprintf(chp, "          NAME      DATA\r\n");
+  //chprintf(chp, "          NAME      DATA\r\n");
   for(ch = 0; ch < EEPROM_ITEMS_NUM; ch++) {
     
     if(eepromRead(ch, &value) != 0){
@@ -151,7 +152,7 @@ void cmd_eepromAllData(BaseSequentialStream *chp, int argc, char *argv[]) {
     }
 
     else{
-      chprintf(chp, "%10s: %15d\r\n", names[ch], value);
+      chprintf(chp, "%20s: %15d\r\n", names[ch], value);
       value = 0;
     }
 

@@ -15,6 +15,7 @@ void cruiseCalc(void);
 void cruiseEnable(void);
 void cruiseDisable(void);
 bool_t cruiseStatus(void);
+bool_t cruiseIndicator(void);
 void cruiseIncrease(double rpm);
 void cruiseReduction(double rpm);
 uint8_t cruiseGet(void);
