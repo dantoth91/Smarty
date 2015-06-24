@@ -17,6 +17,9 @@
 
 #define CRUISE_DISABLE_PERIOD   75
 
+#define ACCELERAT_RPM           200
+#define DECELERATE_RPM          200
+
 static int16_t K_P = 5;
 static int16_t K_I = 2;
 static int16_t K_D = 500;
@@ -128,35 +131,22 @@ void cruiseCalc(void){
   }
 
 /* Cruise control minimum limiter */
-  /*if (cruise_on && (speedGetSpeed() < 10))
+  if (cruise_on && (speedGetSpeed() < 10))
   {
     cruise_on = FALSE;
-  }*/
+  }
 /* ============================== */
 
 /* Cruise control activated */
   if (cruise_on)
   {
-    /* Tempomat visszajelző villogtatása */
-    /*if((set - speedGetRpm()) > 50)
-    {
-      cruise_indicator_index ++;
-      if ((cruise_indicator_index % 8) == 4)
-      {
-        cruise_indicator = TRUE;
-      }
-      else if ((cruise_indicator_index % 8) == 0)
-      {
-        cruise_indicator = FALSE;
-      }
-    }*/
     if (button_long_accel){
       set = speedGetRpm();
-      pwm = (int32_t)(cruisePID((speedGetRpm() - 300), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+      pwm = (int32_t)(cruisePID((speedGetRpm() - ACCELERAT_RPM), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
     }
     else if (button_long_decelerat){
       set = speedGetRpm();
-      pwm = (int32_t)(cruisePID((speedGetRpm() + 300), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+      pwm = (int32_t)(cruisePID((speedGetRpm() + DECELERATE_RPM), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
     }
     else
       pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
@@ -186,7 +176,7 @@ void cruiseCalc(void){
     pwm = 10000 - measGetValue_2(MEAS2_THROTTLE);
     P = 15;
     //P = pwm * 100;
-    //I = 606700;
+    I = 606700;
     I = 0;
     D = 0;
     eelozo = 0;
@@ -219,7 +209,9 @@ void cruiseAccel(){
 }
 
 void cruiseAccelOk(){
-  set = speedGetRpm();
+  if (cruise_on){
+    set = speedGetRpm();
+  }
   button_long_accel = FALSE;
 }
 
@@ -228,7 +220,9 @@ void cruiseDecelerat(){
 }
 
 void cruiseDeceleratOk(){
-  set = speedGetRpm();
+  if (cruise_on){
+    set = speedGetRpm();
+  }
   button_long_decelerat = FALSE;
 }
 

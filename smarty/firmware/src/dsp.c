@@ -574,7 +574,6 @@ static msg_t dspTask(void *arg) {
             dspmessages++;
 
         case DSP_TEMPOMAT:
-          //if (cruiseIndicator()) // Tempomat villogás
           if (cruiseStatus())
           {
             new_val = 0;

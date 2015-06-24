@@ -19,12 +19,13 @@ static bool_t cruise_plusz;
 static uint16_t cruise_long_plusz;
 static bool_t cruise_minusz;
 static uint16_t cruise_long_minusz;
+static bool_t button_accel;
+static bool_t button_decelerat;
 
 static bool_t index_right;
 static bool_t index_left;
+
 static bool_t lamp_ok;
-static bool_t button_accel;
-static bool_t button_decelerat;
 
 void buttonInit(void){
 	cruise_ok = FALSE;
@@ -32,9 +33,6 @@ void buttonInit(void){
 	cruise_long_plusz = 0;
 	cruise_minusz = FALSE;
 	cruise_minusz = FALSE;
-	/* Még nincs bekötve az index nyomógomb */
-	/*index_right = FALSE;
-	index_left = FALSE;*/
 	lamp_ok = FALSE;
 	button_accel = FALSE;
 }
@@ -124,7 +122,7 @@ void buttonCalc(void){
 
 /* Még nincs bekötve az index nyomógomb */
 /* Index right */
-	/*if((dspGetValue() == 0) && index_right){
+	/*if((palReadPad() == 0) && index_right){
 		if (getLightFlashing(2))
 		{
 			lightFlashing(1);
@@ -135,14 +133,14 @@ void buttonCalc(void){
 			lightFlashing(0);
 		}
 	}
-	else if(dspGetValue(3))
+	else if(palReadPad())
 	{
 		index_right = TRUE;
 	}*/
 
 /* Még nincs bekötve az index nyomógomb */
 /* Index left */
-	/*if((dspGetValue() == 0) && index_left){
+	/*if((palReadPad() == 0) && index_left){
 		if (getLightFlashing(3))
 		{
 			lightFlashing(2);
@@ -153,7 +151,7 @@ void buttonCalc(void){
 			lightFlashing(0);
 		}
 	}
-	else if(dspGetValue())
+	else if(palReadPad())
 	{
 		index_left = TRUE;
 	}*/
