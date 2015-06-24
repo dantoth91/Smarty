@@ -26,7 +26,7 @@ bool_t logStartRequest;
 bool_t logStopRequest;
 systime_t logStartTime;
 
-char logFileName[] = "test.mega";
+char logFileName[] = "0:ml_yymmdd_hhmmss.mega";
 
 static msg_t logThread(void *arg);
 static uint16_t size = 0;
@@ -116,6 +116,8 @@ static msg_t logThread(void *arg) {
   int i;
   
   FRESULT err;
+
+  struct tm timp;
   
   (void)arg;
   chRegSetThreadName("logTask");
@@ -133,6 +135,15 @@ static msg_t logThread(void *arg) {
         if(isStartRequest){
           sdcardMount();
           if (sdcardIsMounted()) {
+            rtcGetTimeTm(&RTCD1, &timp);
+            /* Adjust file name */
+            twodigit(timp.tm_year - 100, &logFileName[5]);
+            twodigit(timp.tm_mon + 1, &logFileName[7]);
+            twodigit(timp.tm_mday, &logFileName[9]);
+            twodigit(timp.tm_hour, &logFileName[12]);
+            twodigit(timp.tm_min, &logFileName[14]);
+            twodigit(timp.tm_sec, &logFileName[16]);
+
             err = f_open(&logFileObject, logFileName, FA_WRITE | FA_OPEN_ALWAYS);
             if (err == FR_OK) {
               chSysLock();
@@ -155,20 +166,27 @@ static msg_t logThread(void *arg) {
           for (i = 0; i < LOG_ITEMS_NUM; ++i)
           {
             err = f_printf (&logFileObject, "%s", logitems[i].name);
-            if (err == EOF)
-            {
+            if (err == EOF){
               isStopRequest = TRUE;
-              break;
             }
           }
           err = f_puts ("\r\n", &logFileObject);
+          if (err == EOF){
+              isStopRequest = TRUE;
+            }
 
           for (i = 0; i < LOG_ITEMS_NUM; ++i)
           {
             err = f_printf (&logFileObject, "%s", logitems[i].convert);
+            if (err == EOF){
+              isStopRequest = TRUE;
+            }
           }
           err = f_puts ("\r\n", &logFileObject);
-          szam = err;
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          szam = EOF;
           logPeriod += 1;
         }         
         else if (logPeriod > 0)
@@ -176,9 +194,15 @@ static msg_t logThread(void *arg) {
           for (i = 0; i < LOG_ITEMS_NUM; ++i)
           {
             err = f_printf (&logFileObject, "%d;", logitems[i].value);
+            if (err == EOF){
+              isStopRequest = TRUE;
+            }
             //sprintf(logString, "%s%d;", logString, logitems[i].value);
           }
           err = f_puts ("\r\n", &logFileObject);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
 
           /*sprintf(logString, "%d;%d;%d;%d;%d;%d;%d;%d;%d\r\n", \
              measGetValue(MEAS_UBAT),                       \
