@@ -12,8 +12,13 @@
 #include "eeprom.h"
 #include "meas.h"
 
-#define START_CRUISE_KMPH   50
-#define EEPROM_WRITE_PERIOD 250
+#define START_CRUISE_KMPH       50
+#define EEPROM_WRITE_PERIOD     250
+
+#define CRUISE_DISABLE_PERIOD   75
+
+#define ACCELERAT_RPM           200
+#define DECELERATE_RPM          200
 
 static int16_t K_P = 5;
 static int16_t K_I = 2;
@@ -34,11 +39,19 @@ static int32_t U;
 static double eelozo;
 static double e;
 static bool_t cruise_on;
+static bool_t cruise_indicator;
+static uint32_t cruise_indicator_index;
+
+static uint16_t cruise_disable_period;
+static bool_t period_null;
 
 static int16_t set;
 static int16_t old_set;
 static uint32_t eeprom_read_period;
 static bool_t eeprom_write;
+
+static bool_t button_long_accel;
+static bool_t button_long_decelerat;
 
 static PWMConfig cruise_pwmcfg = {
   10000000,	/* 10MHz PWM clock frequency */
@@ -63,12 +76,20 @@ void cruiseInit(void){
 
   cruise_on = FALSE;
 
+  cruise_indicator = FALSE;
+  cruise_indicator_index = 0;
+
+  cruise_disable_period = 0;
+
 	pwm = 10000;
   P = 2985;
   I = 384000;
   D = 0;
 	eelozo = 0;
 	e = 0;
+
+  button_long_accel = FALSE;
+  button_long_decelerat = FALSE;
 
   if(eepromRead(CRUISE_CONTROLL, &set) != 0){
     set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
@@ -88,6 +109,7 @@ void cruiseInit(void){
 void cruiseCalc(void){
 	eeprom_read_period ++;
 
+/* Cruise control "set" value save */
   if(eeprom_read_period == EEPROM_WRITE_PERIOD)
   {
     if (old_set == set)
@@ -108,26 +130,66 @@ void cruiseCalc(void){
     eeprom_write = TRUE;
   }
 
+/* Cruise control minimum limiter */
+  if (cruise_on && (speedGetSpeed() < 10))
+  {
+    cruise_on = FALSE;
+  }
+/* ============================== */
+
+/* Cruise control activated */
   if (cruise_on)
   {
-    pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    if (button_long_accel){
+      set = speedGetRpm();
+      pwm = (int32_t)(cruisePID((speedGetRpm() - ACCELERAT_RPM), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    }
+    else if (button_long_decelerat){
+      set = speedGetRpm();
+      pwm = (int32_t)(cruisePID((speedGetRpm() + DECELERATE_RPM), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    }
+    else
+      pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    
     pwm = 10000 - pwm;
+    pwm = pwm < 1000 ? 1000 : pwm;
+
+    pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
+
+    if(pwm > (10000 - measGetValue_2(MEAS2_THROTTLE)))
+    {
+      cruise_disable_period ++;
+      if(cruise_disable_period > CRUISE_DISABLE_PERIOD)
+      {
+        cruise_on = FALSE;
+      }
+    }
   }
+/* =========================== */
+
+/* Throttle pedal */
   else
   {
-    pwm = 10000;
-    P = 2985;
-    I = 384000;
+    cruise_disable_period = 0;
+    cruise_indicator = FALSE;
+    cruise_indicator_index = FALSE;
+    pwm = 10000 - measGetValue_2(MEAS2_THROTTLE);
+    P = 15;
+    //P = pwm * 100;
+    I = 606700;
+    I = 0;
     D = 0;
     eelozo = 0;
     e = 0;
-  }
 
-  pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
+    pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
+  }
 }
+/* ============== */
 
 void cruiseEnable(void){
   cruise_on = TRUE;
+  cruise_disable_period = 0;
 }
 
 void cruiseDisable(void){
@@ -136,6 +198,32 @@ void cruiseDisable(void){
 
 bool_t cruiseStatus(void){
   return cruise_on;
+}
+
+bool_t cruiseIndicator(void){
+  return cruise_indicator;
+}
+
+void cruiseAccel(){
+  button_long_accel = TRUE;
+}
+
+void cruiseAccelOk(){
+  if (cruise_on){
+    set = speedGetRpm();
+  }
+  button_long_accel = FALSE;
+}
+
+void cruiseDecelerat(){
+  button_long_decelerat = TRUE;
+}
+
+void cruiseDeceleratOk(){
+  if (cruise_on){
+    set = speedGetRpm();
+  }
+  button_long_decelerat = FALSE;
 }
 
 void cruiseIncrease(double rpm){
@@ -215,6 +303,10 @@ void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
       chprintf(chp, "pwm: %15d\r\n", pwm);
       chprintf(chp, "set rpm: %15d\r\n", set);
       chprintf(chp, "input rpm: %15d\r\n", speedGetRpm());
+      chprintf(chp, "set - rpm: %15d\r\n", set - speedGetRpm());
+      chprintf(chp, "\r\n");
+      chprintf(chp, "cruise_disable_period: %15d\r\n", cruise_disable_period);
+      chprintf(chp, "period_null: %15d\r\n", period_null);
 
       chThdSleepMilliseconds(100);
   }

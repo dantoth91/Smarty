@@ -4,10 +4,14 @@
 */
 
 #include "meas.h"
+#include "eeprom.h"
 
 #include "chprintf.h"
 
 #define ADC_GRP1_BUF_DEPTH      8
+
+#define MIN_PWM                 0
+#define MAX_PWM                 9000
 
 enum measStates
 {
@@ -23,6 +27,13 @@ static adcsample_t samples_2[MEAS2_NUM_CH * ADC_GRP1_BUF_DEPTH];
 
 static void adcerrorcallback(ADCDriver *adcp, adcerror_t err);
 static void adcerrorcallback_2(ADCDriver *adcp, adcerror_t err);
+
+static uint16_t max_throttle;
+static uint16_t min_throttle;
+static uint16_t throttle;
+
+static bool_t set_min;
+static bool_t set_max;
 
 /*
  * ADC conversion group.
@@ -78,6 +89,18 @@ void measInit(void){
   adcStart(&ADCD3, NULL);
   adcStart(&ADCD2, NULL);
   measstate = MEAS_START;
+
+  if(eepromRead(MAX_THROTTLE, &max_throttle) != 0){
+    max_throttle = 2600;
+  }
+  if(eepromRead(MIN_THROTTLE, &min_throttle) != 0){
+    min_throttle = 1111;
+  }
+
+  throttle = 0;
+
+  set_min = FALSE;
+  set_max = FALSE;
 }
 
 void measCalc(void){
@@ -134,7 +157,31 @@ void measCalc(void){
           case MEAS2_CURR1:
             break;
           case MEAS2_THROTTLE:
-            avg = 0;
+
+            if(set_max){ 
+              max_throttle = avg;
+              if(eepromWrite(MAX_THROTTLE, max_throttle) != 0){
+                max_throttle = avg;
+              }
+              set_max = FALSE;
+            }
+
+            if(set_min){ 
+              min_throttle = avg;
+              if(eepromWrite(MIN_THROTTLE, min_throttle) != 0){
+                min_throttle = avg;
+              }
+              set_min = FALSE;
+            }
+
+            avg = avg > max_throttle ? max_throttle : avg;
+            avg = avg < min_throttle ? min_throttle: avg;
+
+            throttle = map(avg, min_throttle, max_throttle, MIN_PWM, MAX_PWM);
+            avg = throttle;
+
+            avg = avg > 10000 ? 10000 : avg;
+            avg = avg < 0 ? 0: avg;
             break;
           default:
             break;
@@ -151,12 +198,25 @@ void measCalc(void){
   adcConvert(&ADCD3, &adcgrpcfg_2, samples_2, ADC_GRP1_BUF_DEPTH);
 }
 
+long map(long x, long in_min, long in_max, long out_min, long out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 int16_t measGetValue(enum measChannels ch){
 	  return measValue[ch];
 }
 
 int16_t measGetValue_2(enum measChannels2 ch){
     return measValue_2[ch];
+}
+
+void meas_throttleSetMin(void){
+  set_min = TRUE;
+}
+
+void meas_throttleSetMax(void){
+  set_max = TRUE;
 }
 
 /*
@@ -200,4 +260,28 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       }
       chThdSleepMilliseconds(1000);
   }
+}
+
+void cmd_getThrottle(BaseSequentialStream *chp, int argc, char *argv[]) {
+  
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+
+  if ((argc == 1) && (strcmp(argv[0], "set_min") == 0)){
+    meas_throttleSetMin();
+    chprintf(chp, "Set throttle pedal min. value!\r\n");
+  }
+
+  else if ((argc == 1) && (strcmp(argv[0], "set_max") == 0)){
+    meas_throttleSetMax();
+    chprintf(chp, "Set throttle pedal max. value!\r\n");
+  }
+
+  else{
+    chprintf(chp, "Usage: throttle set_min\r\n");
+    chprintf(chp, "                set_max\r\n");  
+  }
+  return;
 }
