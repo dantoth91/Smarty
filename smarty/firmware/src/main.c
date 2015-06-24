@@ -13,7 +13,8 @@
 
 #include "console.h"
 #include "sdcard.h"
-//#include "eeprom.h"
+#include "log.h"
+#include "eeprom.h"
 #include "can_comm.h"
 #include "light.h"
 #include "speed.h"
@@ -72,6 +73,7 @@ static msg_t task20ms(void *arg) {
   while (TRUE) {
     time += MS2ST(20);
 
+    logCalc();
     lightCalc();
     can_commCalc();
     speedCalc();
@@ -109,6 +111,11 @@ int main(void) {
    * Initialize the SDcard module.
    */
   sdcardInit();
+
+  /*
+   * Initialize the SDcard module.
+   */
+  logInit();
 
   /*
    * Shell manager initialization.
