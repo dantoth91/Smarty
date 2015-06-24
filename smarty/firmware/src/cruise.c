@@ -47,6 +47,9 @@ static int16_t old_set;
 static uint32_t eeprom_read_period;
 static bool_t eeprom_write;
 
+static bool_t button_long_accel;
+static bool_t button_long_decelerat;
+
 static PWMConfig cruise_pwmcfg = {
   10000000,	/* 10MHz PWM clock frequency */
   10000,    /* PWM period 1 milliseconds (1 kHz) */
@@ -81,6 +84,9 @@ void cruiseInit(void){
   D = 0;
 	eelozo = 0;
 	e = 0;
+
+  button_long_accel = FALSE;
+  button_long_decelerat = FALSE;
 
   if(eepromRead(CRUISE_CONTROLL, &set) != 0){
     set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
@@ -122,10 +128,10 @@ void cruiseCalc(void){
   }
 
 /* Cruise control minimum limiter */
-  if (cruise_on && (speedGetSpeed() < 10))
+  /*if (cruise_on && (speedGetSpeed() < 10))
   {
     cruise_on = FALSE;
-  }
+  }*/
 /* ============================== */
 
 /* Cruise control activated */
@@ -144,8 +150,17 @@ void cruiseCalc(void){
         cruise_indicator = FALSE;
       }
     }*/
-
-    pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    if (button_long_accel){
+      set = speedGetRpm();
+      pwm = (int32_t)(cruisePID((speedGetRpm() - 300), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    }
+    else if (button_long_decelerat){
+      set = speedGetRpm();
+      pwm = (int32_t)(cruisePID((speedGetRpm() + 300), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    }
+    else
+      pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_U, MIN_U, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
+    
     pwm = 10000 - pwm;
     pwm = pwm < 1000 ? 1000 : pwm;
 
@@ -171,7 +186,8 @@ void cruiseCalc(void){
     pwm = 10000 - measGetValue_2(MEAS2_THROTTLE);
     P = 15;
     //P = pwm * 100;
-    I = 606700;
+    //I = 606700;
+    I = 0;
     D = 0;
     eelozo = 0;
     e = 0;
@@ -196,6 +212,24 @@ bool_t cruiseStatus(void){
 
 bool_t cruiseIndicator(void){
   return cruise_indicator;
+}
+
+void cruiseAccel(){
+  button_long_accel = TRUE;
+}
+
+void cruiseAccelOk(){
+  set = speedGetRpm();
+  button_long_accel = FALSE;
+}
+
+void cruiseDecelerat(){
+  button_long_decelerat = TRUE;
+}
+
+void cruiseDeceleratOk(){
+  set = speedGetRpm();
+  button_long_decelerat = FALSE;
 }
 
 void cruiseIncrease(double rpm){

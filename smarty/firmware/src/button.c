@@ -23,6 +23,8 @@ static uint16_t cruise_long_minusz;
 static bool_t index_right;
 static bool_t index_left;
 static bool_t lamp_ok;
+static bool_t button_accel;
+static bool_t button_decelerat;
 
 void buttonInit(void){
 	cruise_ok = FALSE;
@@ -34,6 +36,7 @@ void buttonInit(void){
 	/*index_right = FALSE;
 	index_left = FALSE;*/
 	lamp_ok = FALSE;
+	button_accel = FALSE;
 }
 
 void buttonCalc(void){
@@ -63,16 +66,27 @@ void buttonCalc(void){
 	}
 	else if((dspGetValue(4) == 0) && cruise_plusz == FALSE){
 		cruise_long_plusz++;
-		if (cruise_long_plusz > PRESS_PERIOD)
+		/*if (cruise_long_plusz > PRESS_PERIOD)
 		{
 			if (cruise_long_plusz % 16 == 0)
 			{
 				cruiseIncrease(speedKMPH_TO_RPM(CRUISE_FAST_STEP));
 			}
+		}*/
+
+		if (cruise_long_plusz > PRESS_PERIOD)
+		{
+			cruiseAccel();
+			button_accel = TRUE;
 		}
 	}
 	else if(dspGetValue(4))
 	{
+		if (button_accel)
+		{
+			button_accel = FALSE;
+			cruiseAccelOk();
+		}
 		cruise_plusz = TRUE;
 		cruise_long_plusz = 0;
 	}
@@ -84,16 +98,26 @@ void buttonCalc(void){
 	}
 	else if((dspGetValue(3) == 0) && cruise_minusz == FALSE){
 		cruise_long_minusz++;
-		if (cruise_long_minusz > PRESS_PERIOD)
+		/*if (cruise_long_minusz > PRESS_PERIOD)
 		{
 			if (cruise_long_minusz % 16 == 0)
 			{
 				cruiseReduction(speedKMPH_TO_RPM(CRUISE_FAST_STEP));
 			}
+		}*/
+		if (cruise_long_minusz > PRESS_PERIOD)
+		{
+			cruiseDecelerat();
+			button_decelerat = TRUE;
 		}
 	}
 	else if(dspGetValue(3))
 	{
+		if (button_decelerat)
+		{
+			button_decelerat = FALSE;
+			cruiseDeceleratOk();
+		}
 		cruise_minusz = TRUE;
 		cruise_long_minusz = 0;
 	}
