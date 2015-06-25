@@ -99,7 +99,7 @@
  include/eepromItems.h include/can_comm.h include/light.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h \
  include/speed.h include/meas.h include/cruise.h include/dsp.h \
- include/uart_comm.h include/button.h
+ include/uart_comm.h include/button.h include/brake.h
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdio.h:
 
@@ -330,3 +330,5 @@ include/dsp.h:
 include/uart_comm.h:
 
 include/button.h:
+
+include/brake.h:

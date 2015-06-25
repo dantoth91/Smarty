@@ -59,7 +59,7 @@ static PWMConfig cruise_pwmcfg = {
   NULL,
   {
    {PWM_OUTPUT_DISABLED , NULL},
-   {PWM_OUTPUT_DISABLED , NULL},
+   {PWM_OUTPUT_ACTIVE_HIGH , NULL},
    {PWM_OUTPUT_ACTIVE_HIGH , NULL},
    {PWM_OUTPUT_DISABLED , NULL}
   },

@@ -23,6 +23,7 @@
 #include "dsp.h"
 #include "uart_comm.h"
 #include "button.h"
+#include "brake.h"
 
 
 /*===========================================================================*/
@@ -81,6 +82,7 @@ static msg_t task20ms(void *arg) {
     cruiseCalc();
     dspCalc();
     buttonCalc();
+    brakeCalc();
 
 
     chThdSleepUntil(time);
@@ -166,6 +168,11 @@ int main(void) {
    * Display buttons initialization.
    */
   buttonInit();
+
+  /*
+   * Regenerative brake initialization.
+   */
+  brakeInit();
 
   /*
    * Creates the 20ms Task.

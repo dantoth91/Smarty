@@ -104,6 +104,7 @@ void logCalc(void){
     logitems[FUT_SEN4].value = measGetValue(MEAS_SEN5);
     logitems[CURR1].value = measGetValue_2(MEAS2_CURR1);
     logitems[THROTTLE].value = measGetValue_2(MEAS2_THROTTLE);
+    logitems[REGEN_BRAKE].value = measGetValue_2(MEAS2_REGEN_BRAKE);
   }
 }
 

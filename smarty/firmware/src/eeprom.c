@@ -136,6 +136,8 @@ void cmd_eepromAllData(BaseSequentialStream *chp, int argc, char *argv[]) {
       "CRUISE_CONTROLL",
       "MIN_THROTTLE",
       "MAX_THROTTLE",
+      "MIN_REGEN_BRAKE",
+      "MAX_REGEN_BRAKE",
       "LAST_ITEM"};
 
   (void)argc;

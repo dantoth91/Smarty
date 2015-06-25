@@ -323,9 +323,11 @@
  * All input with pull-up except:
  * PF6  - BUT1                  (analog - CURR1)
  * PF7  - BUT2                  (analog - CURR2)
+ * PF8  - BUT3                  (analog - CURR2)
  */
 #define VAL_GPIOF_MODER             (PIN_MODE_ANALOG(GPIOF_BUT1)        | \
-                                     PIN_MODE_ANALOG(GPIOF_BUT2))
+                                     PIN_MODE_ANALOG(GPIOF_BUT2)        | \
+                                     PIN_MODE_ANALOG(GPIOF_BUT3))
 #define VAL_GPIOF_OTYPER            0x00000000
 #define VAL_GPIOF_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOF_PUPDR             0xFFFFFFFF
@@ -348,18 +350,21 @@
 /*
  * Port H setup.
  * All input with pull-up except:
- * PH0 - OSC_IN         (input floating).
- * PH1 - OSC_OUT        (input floating).
- * PH12 - LS_4 Throttle (alternate 2)
+ * PH0 - OSC_IN                     (input floating).
+ * PH1 - OSC_OUT                    (input floating).
+ * PH12 - LS_4 Throttle             (alternate 2)
+ * PH11 - LS_3 TRegenerative brake  (alternate 2)
  */
-#define VAL_GPIOH_MODER             (PIN_MODE_ALTERNATE(GPIOH_LS_4))
+#define VAL_GPIOH_MODER             (PIN_MODE_ALTERNATE(GPIOH_LS_4)  | \
+                                     PIN_MODE_ALTERNATE(GPIOH_LS_3))
 #define VAL_GPIOH_OTYPER            0x00000000
 #define VAL_GPIOH_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOH_PUPDR             (~(PIN_PUPDR_FLOATING(0)  | \
                                        PIN_PUPDR_FLOATING(1)))
 #define VAL_GPIOH_ODR               0xFFFFFFFF
 #define VAL_GPIOH_AFRL              0x00000000
-#define VAL_GPIOH_AFRH              (PIN_AFIO_AF(GPIOH_LS_4, 2))
+#define VAL_GPIOH_AFRH              (PIN_AFIO_AF(GPIOH_LS_4, 2)  | \
+                                     PIN_AFIO_AF(GPIOH_LS_3, 2))
 
 /*
  * Port I setup.

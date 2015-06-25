@@ -118,7 +118,8 @@ CSRC = $(PORTSRC) \
        src/dsp.c \
        scr/gfx.c \
        scr/uart_comm.c \
-       src/button.c
+       src/button.c \
+       src/brake.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

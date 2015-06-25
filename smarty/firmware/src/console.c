@@ -26,6 +26,7 @@
 #include "cruise.h"
 #include "dsp.h"
 #include "button.h"
+#include "brake.h"
 
 
 /* libc stub */
@@ -89,6 +90,8 @@ static const ShellCommand commands[] = {
   {"speedvalues", cmd_speedvalues},
   {"measvalues", cmd_measvalues},
   {"throttle", cmd_getThrottle},
+  {"brake", cmd_getRegenBrake},
+  {"brakevalues", cmd_brakevalues},
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},
   {"cruise", cmd_cruise},

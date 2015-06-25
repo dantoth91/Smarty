@@ -13,6 +13,9 @@
 #define MIN_PWM                 0
 #define MAX_PWM                 9000
 
+#define MIN_PERCENT             0
+#define MAX_PERCENT             9000
+
 enum measStates
 {
   MEAS_START,
@@ -32,12 +35,19 @@ static uint16_t max_throttle;
 static uint16_t min_throttle;
 static uint16_t throttle;
 
-static bool_t set_min;
-static bool_t set_max;
+static uint16_t max_regen_brake;
+static uint16_t min_regen_brake;
+static uint16_t regen_brake;
+
+static bool_t set_min_throttle;
+static bool_t set_max_throttle;
+
+static bool_t set_min_regen;
+static bool_t set_max_regen;
 
 /*
  * ADC conversion group.
- * Mode:        Linear buffer, 8 samples of 8 channel, SW triggered.
+ * Mode:        Linear buffer, 8 samples of 7 channel, SW triggered.
  * Channels:    IN14, IN10, IN11, IN12, IN13, IN15, IN8.
  * SMPR1 - CH 10...17, 			     |	SMPR2 - CH 0...9  |
  * SQR1 - 13...16 + sequence length, |	SQR2 - 7...12, 	  |	SQR3 - 1...6
@@ -62,8 +72,8 @@ static const ADCConversionGroup adcgrpcfg = {
 
 /*
  * ADC conversion group.
- * Mode:        Linear buffer, 8 samples of 8 channel, SW triggered.
- * Channels:    IN5, IN4.
+ * Mode:        Linear buffer, 8 samples of 3 channel, SW triggered.
+ * Channels:    IN5, IN4, IN6.
  * SMPR1 -     CH 10...17,           |  SMPR2 - CH 0...9  |
  * SQR1 - 13...16 + sequence length, |  SQR2 - 7...12,    | SQR3 - 1...6
  */
@@ -74,11 +84,13 @@ static const ADCConversionGroup adcgrpcfg_2 = {
   adcerrorcallback,
   0,                                                                       /* CR1 */
   ADC_CR2_SWSTART,                                                         /* CR2 */
-  0,                                                                       /* SMPR1 |                  |                   */
-  ADC_SMPR2_SMP_AN4(ADC_SAMPLE_15) | ADC_SMPR2_SMP_AN5(ADC_SAMPLE_15),     /* SMPR2 | AN4-PF6-SEN1     | AN5-PF7-THROTTLE  */
+  0,                                                                       /* SMPR1 |                       |                   */
+  ADC_SMPR2_SMP_AN4(ADC_SAMPLE_15) | ADC_SMPR2_SMP_AN5(ADC_SAMPLE_15) |    /* SMPR2 | AN6-PF6-SEN1          | AN5-PF7-THROTTLE  */
+  ADC_SMPR2_SMP_AN6(ADC_SAMPLE_15),                                        /* SMPR2 | AN4-PF6-REGEN_BRAKE   |                   */
   ADC_SQR1_NUM_CH(MEAS2_NUM_CH),                                           /* SQR1  -----------Number of sensors---------- */
-  0,                                                                       /* SQR2  |                  |                   */
-  ADC_SQR3_SQ2_N(ADC_CHANNEL_IN5) | ADC_SQR3_SQ1_N(ADC_CHANNEL_IN4)        /* SQR3  | 2. IN5-THROTTLE  | 1. IN4-SEN1       */
+  0,                                                                       /* SQR2  |                       |                   */
+  ADC_SQR3_SQ3_N(ADC_CHANNEL_IN6) | ADC_SQR3_SQ2_N(ADC_CHANNEL_IN5) |      /* SQR3  | 3. IN6-REGEN_BREAK    | 1. IN4-SEN1       */
+  ADC_SQR3_SQ1_N(ADC_CHANNEL_IN4)                                          /* SQR3  | 2. IN5-THROTTLE       |                   */
 };
 
 void measInit(void){
@@ -97,10 +109,21 @@ void measInit(void){
     min_throttle = 1111;
   }
 
-  throttle = 0;
+  if(eepromRead(MAX_REGEN_BRAKE, &max_regen_brake) != 0){
+    max_regen_brake = 100;
+  }
+  if(eepromRead(MIN_REGEN_BRAKE, &min_regen_brake) != 0){
+    min_regen_brake = 0;
+  }
 
-  set_min = FALSE;
-  set_max = FALSE;
+  throttle = 0;
+  regen_brake = 0;
+
+  set_min_throttle = FALSE;
+  set_max_throttle = FALSE;
+
+  set_min_regen = FALSE;
+  set_max_regen = FALSE;
 }
 
 void measCalc(void){
@@ -158,30 +181,57 @@ void measCalc(void){
             break;
           case MEAS2_THROTTLE:
 
-            if(set_max){ 
+            if(set_max_throttle){ 
               max_throttle = avg;
               if(eepromWrite(MAX_THROTTLE, max_throttle) != 0){
                 max_throttle = avg;
               }
-              set_max = FALSE;
+              set_max_throttle = FALSE;
             }
 
-            if(set_min){ 
+            if(set_min_throttle){ 
               min_throttle = avg;
               if(eepromWrite(MIN_THROTTLE, min_throttle) != 0){
                 min_throttle = avg;
               }
-              set_min = FALSE;
+              set_min_throttle = FALSE;
             }
 
             avg = avg > max_throttle ? max_throttle : avg;
-            avg = avg < min_throttle ? min_throttle: avg;
+            avg = avg < min_throttle ? min_throttle : avg;
 
             throttle = map(avg, min_throttle, max_throttle, MIN_PWM, MAX_PWM);
             avg = throttle;
 
-            avg = avg > 10000 ? 10000 : avg;
-            avg = avg < 0 ? 0: avg;
+            avg = avg > MAX_PWM ? MAX_PWM : avg;
+            avg = avg < MIN_PWM ? MIN_PWM: avg;
+            break;
+
+          case  MEAS2_REGEN_BRAKE:
+            if(set_max_regen){ 
+              max_regen_brake = avg;
+              if(eepromWrite(MAX_REGEN_BRAKE, max_regen_brake) != 0){
+                max_regen_brake = avg;
+              }
+              set_max_regen = FALSE;
+            }
+
+            if(set_min_regen){ 
+              min_regen_brake = avg;
+              if(eepromWrite(MIN_REGEN_BRAKE, min_regen_brake) != 0){
+                min_regen_brake = avg;
+              }
+              set_min_regen = FALSE;
+            }
+
+            avg = avg > max_regen_brake ? max_regen_brake : avg;
+            avg = avg < min_regen_brake ? min_regen_brake: avg;
+
+            regen_brake = map(avg, min_regen_brake, max_regen_brake, MIN_PERCENT, MAX_PERCENT);
+            avg = regen_brake;
+
+            avg = avg > MAX_PERCENT ? MAX_PERCENT : avg;
+            avg = avg < MIN_PERCENT ? MIN_PERCENT : avg;
             break;
           default:
             break;
@@ -212,11 +262,17 @@ int16_t measGetValue_2(enum measChannels2 ch){
 }
 
 void meas_throttleSetMin(void){
-  set_min = TRUE;
+  set_min_throttle = TRUE;
+}
+void meas_throttleSetMax(void){
+  set_max_throttle = TRUE;
 }
 
-void meas_throttleSetMax(void){
-  set_max = TRUE;
+void meas_regen_brakeSetMin(void){
+  set_min_regen = TRUE;
+}
+void meas_regen_brakeSetMax(void){
+  set_max_regen = TRUE;
 }
 
 /*
@@ -244,7 +300,8 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
   static const char * const names2[] = {
 
       "CURR1",
-      "THROTTLE"};
+      "THROTTLE",
+      "REGEN_BRAKE"};
 
   (void)argc;
   (void)argv;
@@ -277,6 +334,30 @@ void cmd_getThrottle(BaseSequentialStream *chp, int argc, char *argv[]) {
   else if ((argc == 1) && (strcmp(argv[0], "set_max") == 0)){
     meas_throttleSetMax();
     chprintf(chp, "Set throttle pedal max. value!\r\n");
+  }
+
+  else{
+    chprintf(chp, "Usage: throttle set_min\r\n");
+    chprintf(chp, "                set_max\r\n");  
+  }
+  return;
+}
+
+void cmd_getRegenBrake(BaseSequentialStream *chp, int argc, char *argv[]) {
+  
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+
+  if ((argc == 1) && (strcmp(argv[0], "set_min") == 0)){
+    meas_regen_brakeSetMin();
+    chprintf(chp, "Set regen. brake pedal min. value!\r\n");
+  }
+
+  else if ((argc == 1) && (strcmp(argv[0], "set_max") == 0)){
+    meas_regen_brakeSetMax();
+    chprintf(chp, "Set regen. brake pedal max. value!\r\n");
   }
 
   else{
