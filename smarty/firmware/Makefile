@@ -109,6 +109,7 @@ CSRC = $(PORTSRC) \
        src/console.c \
        src/eeprom.c \
        src/sdcard.c \
+       src/log.c \
        src/can_comm.c \
        src/light.c \
        src/speed.c \

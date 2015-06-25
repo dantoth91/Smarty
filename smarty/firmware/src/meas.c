@@ -258,7 +258,7 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       for(ch = 0; ch < MEAS2_NUM_CH; ch++) {
           chprintf(chp, "%s: %15d\r\n", names2[ch], measValue_2[ch]);
       }
-      chThdSleepMilliseconds(1000);
+      chThdSleepMilliseconds(500);
   }
 }
 
