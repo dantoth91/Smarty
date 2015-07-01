@@ -29,7 +29,6 @@
 /*===========================================================================*/
 /* Generic code.                                                             */
 /*===========================================================================*/
-
 /*
  * Red LED blinker thread, times are in milliseconds.
  */
@@ -64,7 +63,7 @@ static msg_t Thread1(void *arg) {
 /*
  * 20ms Task
  */
-static WORKING_AREA(watask20ms, 256);
+static WORKING_AREA(watask20ms, 512);
 static msg_t task20ms(void *arg) {
   systime_t time; 
 
@@ -80,11 +79,10 @@ static msg_t task20ms(void *arg) {
     speedCalc();
     measCalc();
     cruiseCalc();
-    dspCalc();
     buttonCalc();
-    brakeCalc();
+    //brakeCalc();
 
-
+    mainTime(time);
     chThdSleepUntil(time);
   }
   return 0; /* Never executed.*/
@@ -172,7 +170,7 @@ int main(void) {
   /*
    * Regenerative brake initialization.
    */
-  brakeInit();
+  //brakeInit();
 
   /*
    * Creates the 20ms Task.

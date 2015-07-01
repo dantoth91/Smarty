@@ -64,7 +64,7 @@ enum dspMessages {
 
 static int32_t dspValue[DSP_NUM_MSG + 2] = {-1};
 static int tasknumber;
-static uint8_t bus_status;
+static uint16_t bus_status;
 bool_t dsp_activ;
 uint8_t c;
 static bool_t bus_bit[8];
@@ -194,10 +194,12 @@ int szamlalo;
 static uint32_t bus_read = 0;
 bool_t cruise_assis = FALSE;
 
+static uint16_t bus_bites;
+
 /*
  * Display Task
  */
-static WORKING_AREA(wadspTask, 256);
+static WORKING_AREA(wadspTask, 512);
 static msg_t dspTask(void *arg) {
   systime_t time; 
 
@@ -212,10 +214,14 @@ static msg_t dspTask(void *arg) {
 
     if ((bus_read % 2) == 1)
     {
+      
       //bus_read = 0;
       bus_status = 0;
+      //bus_bites = bus_Read(&bus_status);
       bus_status = bus_Read();
-      if (bus_status > 0x06)
+
+      bus_bites = sizeof(bus_status);
+      if (bus_status > 0x6 && bus_status != 0x1F)
       {
         for (i = 0; i < 8; i++)
         {
@@ -232,6 +238,7 @@ static msg_t dspTask(void *arg) {
 
     else if((bus_read % 4) == 2)
     {
+      
       szamlalo++;
       szamlalo = szamlalo > 999 ? 0 : szamlalo;
 
@@ -684,10 +691,6 @@ void dspInit(void) {
   chThdCreateStatic(wadspTask, sizeof(wadspTask), NORMALPRIO + 7, dspTask, NULL);
 }
 
-void dspCalc(void) {
-
-}
-
 bool_t dspGetValue(uint8_t ch){
     ch = ch < 0 ? 0 : ch;
     ch = ch > 8 ? 8 : ch;
@@ -783,3 +786,21 @@ chThdSleepMilliseconds(1000);
 
 }
 
+void cmd_dspbites(BaseSequentialStream *chp, int argc, char *argv[]) {
+  
+  (void)argc;
+  (void)argv;
+  uint16_t old_bit;
+
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    //chprintf(chp, "\x1B[%d;%dH", 0, 0);
+    if (old_bit != bus_status)
+    {
+      chprintf(chp,"bus_bites: %x - %x\r\n",bus_bites, bus_status);
+      old_bit = bus_status;
+    }
+    chThdSleepMilliseconds(10);
+  }
+}

@@ -121,6 +121,7 @@ void lightPosLampOn() {
   pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
 }
 void lightPosLampOff() {
+
   lightchanels.pos_lamp = FALSE;
   can_lightPosLampOff();
   pwmDisableChannel(&PWMD4, 3);

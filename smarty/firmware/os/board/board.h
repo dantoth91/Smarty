@@ -273,6 +273,7 @@
  * PD3 - SD Card installed      (input) 
  * PD5 - TXD2                   (alternate 7) 
  * PD6 - RXD2                   (alternate 7)
+ * PD6 - TXD3                   (output) This is used as a normal LED.)
  * PD12 - PO5 Horn              (alternate 2)
  * PD13 - PO6 Right front light (alternate 2)
  * PD14 - PO7 Left front light  (alternate 2)
@@ -284,13 +285,14 @@
                                      PIN_MODE_ALTERNATE(GPIOD_SD_CMD)    | \
                                      PIN_MODE_ALTERNATE(GPIOD_TXD2)      | \
                                      PIN_MODE_ALTERNATE(GPIOD_RXD2)      | \
+                                     PIN_MODE_OUTPUT(GPIOD_TXD3)         | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO5)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO6)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO7)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO8))
 #define VAL_GPIOD_OTYPER            0x00000000
 #define VAL_GPIOD_OSPEEDR           (PIN_OSPEED_25M(GPIOD_SD_CMD))
-#define VAL_GPIOD_PUPDR             0xFFFFFFFF
+#define VAL_GPIOD_PUPDR             (~(PIN_PUPDR_FLOATING(GPIOD_TXD3)))
 #define VAL_GPIOD_ODR               0xFFFFFFFF
 #define VAL_GPIOD_AFRL              (PIN_AFIO_AF(GPIOD_CAN_RX, 9)     | \
                                      PIN_AFIO_AF(GPIOD_CAN_TX, 9)     | \

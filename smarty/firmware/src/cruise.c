@@ -31,6 +31,9 @@ static double MAX_P = 1000000;
 static double MAX_I = 1000000;
 static double MAX_D = 1000000;
 
+static int32_t brake_pwm;
+
+static int32_t save_pwm;
 static int32_t pwm;
 static double P;
 static double I;
@@ -69,6 +72,8 @@ static PWMConfig cruise_pwmcfg = {
 
 void cruiseInit(void){
   pwm = 10000;
+  brake_pwm = 0;
+  save_pwm = 0;
 
   eeprom_read_period = 0;
   old_set = 0;
@@ -133,7 +138,7 @@ void cruiseCalc(void){
 /* Cruise control minimum limiter */
   if (cruise_on && (speedGetSpeed() < 10))
   {
-    cruise_on = FALSE;
+    //cruise_on = FALSE;
   }
 /* ============================== */
 
@@ -161,7 +166,7 @@ void cruiseCalc(void){
       cruise_disable_period ++;
       if(cruise_disable_period > CRUISE_DISABLE_PERIOD)
       {
-        cruise_on = FALSE;
+        //cruise_on = FALSE;
       }
     }
   }
@@ -184,6 +189,12 @@ void cruiseCalc(void){
 
     pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
   }
+  chSysLock();
+  save_pwm = pwm;
+  brake_pwm = measGetValue_2(MEAS2_REGEN_BRAKE);
+  chSysUnlock();
+
+  pwmEnableChannel(&PWMD5, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, 10000 - brake_pwm)); //10000 = 0% - 0 = 100%
 }
 /* ============== */
 
@@ -233,6 +244,10 @@ void cruiseIncrease(double rpm){
 void cruiseReduction(double rpm){
   set -= rpm;
   set = set < 0 ? 0 : set;
+}
+
+int32_t cruiseGetPWM(void){
+  return save_pwm;
 }
 
 uint8_t cruiseGet(void){

@@ -63,6 +63,7 @@ void func_sleep(void);
 void cmd_sleep(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_alarm(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_date(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_clear(BaseSequentialStream *chp, int argc, char *argv[]);
 
 Thread *consoleThread;
 
@@ -73,6 +74,7 @@ static const ShellCommand commands[] = {
   {"date", cmd_date},
   {"alarm", cmd_alarm},
   {"sleep", cmd_sleep},
+  {"clear", cmd_clear},
   {"mountsd", cmd_mountsd},
   {"umountsd", cmd_umountsd},
   {"tree", cmd_tree},
@@ -80,10 +82,13 @@ static const ShellCommand commands[] = {
   {"sdiotest", cmd_sdiotest},
   {"testlog", cmd_testlog},
   {"eepromtest", cmd_eepromTest},
+  {"eepromall", cmd_eepromAllData},
   {"canvalues", cmd_can_commvalues},
   {"canall", cmd_canall},
   {"canmppttest", cmd_canmppttest},
   {"candata", cmd_candata},
+  {"canmonitor", cmd_canmonitor},
+  {"canlight", cmd_canlightans},
   {"lightvalues", cmd_lightvalues},
   {"light", cmd_lightblink},
   {"getlight", cmd_getLight},
@@ -97,10 +102,10 @@ static const ShellCommand commands[] = {
   {"cruise", cmd_cruise},
   {"dbshow", cmdfrappans_dspmessages},
   {"lcsleep", cmd_lcSleep},
-  {"canmonitor", cmd_canmonitor},
   {"dspvalues", cmd_dspvalues},
+  {"dspbites", cmd_dspbites},
   {"buttonvalues", cmd_buttonvalues},
-  {"eepromall", cmd_eepromAllData},
+  {"mainvalues", cmd_mainValues},
   {NULL, NULL}
 };
 
@@ -285,4 +290,12 @@ ERROR:
   chprintf(chp, "Usage: alarm get\r\n");
   chprintf(chp, "       alarm set N\r\n");
   chprintf(chp, "where N is alarm time in seconds\r\n");
+}
+
+void cmd_clear(BaseSequentialStream *chp, int argc, char *argv[]){
+
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
 }

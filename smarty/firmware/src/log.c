@@ -18,6 +18,26 @@
 #include "meas.h"
 #include "logItems.h"
 
+/*
+CAN-en küldeni
+sebesség
+tempomat beállított értéke
+gáz állás
+gázpedád állás
+fákpedál állás
+2db féknyomás
+motortúlmelegedés mérés
+motor áram
+tempomat státusz
+lámpa fel/le
+féklámpa fel/le
+index jobb/bal
+12V feszültséget (UBAT)
+
+LuxControlok adatai
+BMS adatai
+*/
+
 #define LOG_WA_SIZE (2048)
 
 enum logStates logState;
@@ -198,24 +218,11 @@ static msg_t logThread(void *arg) {
             if (err == EOF){
               isStopRequest = TRUE;
             }
-            //sprintf(logString, "%s%d;", logString, logitems[i].value);
           }
           err = f_puts ("\r\n", &logFileObject);
           if (err == EOF){
             isStopRequest = TRUE;
           }
-
-          /*sprintf(logString, "%d;%d;%d;%d;%d;%d;%d;%d;%d\r\n", \
-             measGetValue(MEAS_UBAT),                       \
-             measGetValue(MEAS_BRAKE_PRESSURE1),            \
-             measGetValue(MEAS_BRAKE_PRESSURE2),            \
-             measGetValue(MEAS_SEN2),                       \
-             measGetValue(MEAS_SEN3),                       \
-             measGetValue(MEAS_SEN4),                       \
-             measGetValue(MEAS_SEN5),                       \
-             measGetValue_2(MEAS2_CURR1),                   \
-             measGetValue_2(MEAS2_THROTTLE)                 \
-          );*/
           logPeriod += 1;
         }
           

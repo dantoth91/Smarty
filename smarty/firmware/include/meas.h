@@ -43,8 +43,12 @@ void meas_throttleSetMax(void);
 void meas_regen_brakeSetMin(void);
 void meas_regen_brakeSetMax(void);
 
+void mainTime(systime_t maradek_time);
+
 void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_getThrottle(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_getRegenBrake(BaseSequentialStream *chp, int argc, char *argv[]);
+
+void cmd_mainValues(BaseSequentialStream *chp, int argc, char *argv[]);
 
 #endif

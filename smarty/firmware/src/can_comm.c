@@ -11,7 +11,8 @@
 
 #include "can_comm.h"
 #include "can_items.h"
-
+#include "speed.h"
+#include "meas.h"
 
 //#define CAN_MIN_EID         0x10
 //#define CAN_MAX_EID         0x1FFFFFF
@@ -22,21 +23,26 @@
 #define CAN_SM_MIN          0x10
 #define CAN_SM_MAX          0x1F
 #define CAN_SM_EID          0x10
-#define CAN_SM_MESSAGES_1   0x41
-#define CAN_SM_MESSAGES_2   0x42
-#define CAN_SM_MESSAGES_3   0x43
-#define CAN_SM_MESSAGES_4   0x44
-#define CAN_SM_MESSAGES_5   0x45
-#define CAN_SM_MESSAGES_6   0x46
-#define CAN_SM_MESSAGES_7   0x47
-#define CAN_SM_MESSAGES_8   0x48
-#define CAN_SM_MESSAGES_9   0x49
-#define CAN_SM_MESSAGES_10  0x4A
-#define CAN_SM_MESSAGES_11  0x4B
-#define CAN_SM_MESSAGES_12  0x4C
-#define CAN_SM_MESSAGES_13  0x4D
-#define CAN_SM_MESSAGES_14  0x4E
-#define CAN_SM_MESSAGES_15  0x4F
+
+/*--------- 1st Pack ----------*/
+/*------ Lights status --------*/
+#define CAN_SM_LIGHT_RIGHT     0x01
+#define CAN_SM_LIGHT_LEFT      0x02
+#define CAN_SM_LIGHT_WARNING   0x03
+#define CAN_SM_LIGHT_BRAKE_ON  0x04
+#define CAN_SM_LIGHT_BRAKE_OFF 0x05
+#define CAN_SM_LIGHT_LAMP_ON   0x06
+#define CAN_SM_LIGHT_LAMP_OFF  0x07
+/*-----------------------------*/
+/*--------- 2st Pack ----------*/
+#define CAN_SM_MESSAGES_1   0x08
+/*-----------------------------*/
+/*--------- 3st Pack ----------*/
+#define CAN_SM_MESSAGES_2   0x09
+/*-----------------------------*/
+/*--------- 4st Pack ----------*/
+#define CAN_SM_MESSAGES_3   0x0A
+/*-----------------------------*/
 
 #define CAN_ML_MIN          0x20
 #define CAN_ML_MAX          0x2F
@@ -70,10 +76,31 @@ enum canState
   CAN_NUM_CH
 }canstate;
 
+enum canTx_State
+{
+  LIGHT,
+  DATA,
+  WAIT,
+}can_tx_state;
+
+enum canLight
+{
+  CAN_LIGHT_RIGHT,
+  CAN_LIGHT_LEFT,
+  CAN_LIGHT_WARNING,
+  CAN_LIGHT_BRAKE_ON,
+  CAN_LIGHT_BRAKE_OFF,
+  CAN_LIGHT_LAMP_ON,
+  CAN_LIGHT_LAMP_OFF,
+  CAN_LIGHT_MESS
+}canlight;
+
 enum canMessages
 {
   CAN_MESSAGES_1,
-  CAN_MESSAGES_WAIT,
+  CAN_MESSAGES_2,
+  CAN_MESSAGES_3,
+  CAN_MESSAGES_LAST,
   CAN_NUM_MESS
 }canmessages;
 
@@ -112,10 +139,10 @@ static uint32_t brakeon_ans_time;
 static uint32_t brakeoff_ans_time;
 static uint32_t lampon_ans_time;
 static uint32_t lampoff_ans_time;
-static int tx_status;
+static int32_t message_status;
+static int32_t light_status;
+static int32_t can_tx_status;
 static bool can_newdata;
-static bool can_ok;
-static bool can_ok_period;
 /*
  * Receiver thread.
  */
@@ -135,8 +162,6 @@ static msg_t can_rx(void *p) {
       rx_id = rxmsg.EID >> 8;
       messages = (uint8_t)rxmsg.EID;
       can_newdata = TRUE;
-      can_ok = TRUE;
-      can_ok_period = 0;
 
       if(rx_id >= CAN_BMS_MIN && rx_id <= CAN_BMS_MAX){
         canstate = CAN_BMS;
@@ -239,33 +264,79 @@ static WORKING_AREA(can_tx_wa, 256);
 static msg_t can_tx(void * p) {
 
   (void)p;
+  uint8_t period = 0;
   chRegSetThreadName("transmitter");
 
   while (!chThdShouldTerminate()) {
-    
-    switch(tx_status){
-      case CAN_MESSAGES_1:
-        /* Message 1 */
-        txmsg.EID = 0;
-        txmsg.EID = CAN_SM_MESSAGES_1;
-        txmsg.EID += CAN_SM_EID << 8;
 
-        txmsg.data8[0] = 0xAA;
-        txmsg.data8[1] = 0;
-        txmsg.data16[1] = 0;
-        txmsg.data32[1] = 0;
-         
-        canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
-        tx_status = CAN_MESSAGES_WAIT;
-        break;
-      case CAN_MESSAGES_WAIT:
-        /* Message wait */
-        break;
+    for(message_status = 0; message_status < CAN_NUM_MESS; message_status ++){
+      switch(message_status){
+        case CAN_MESSAGES_1:
+              /* Message 3 */
+              /* 
+               * 16bit - sebesség
+               * 16bit - gáz állás
+               * 8bit  - tempomat beállított értéke
+               * 8bit  - tempomat státusz 
+              */
 
-      default:      
-        break;
-    }
-    chThdSleepMilliseconds(100);
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_1;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data16[0] = speedGetSpeed();
+          txmsg.data16[1] = cruiseGetPWM();
+          txmsg.data8[4] = cruiseGet();
+          txmsg.data8[5] = cruiseStatus();
+               
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          break;
+
+        case CAN_MESSAGES_2:
+              /* Message 3 */
+              /* 
+               * 16bit - gázpedál állás
+          * 16bit - fákpedál állás
+          * 16bit - féknyomás1
+          * 16bit - féknyomás2
+          */
+
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_2;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data16[0] = measGetValue_2(MEAS2_THROTTLE);
+          txmsg.data16[1] = measGetValue_2(MEAS2_REGEN_BRAKE);
+          txmsg.data16[2] = measGetValue(MEAS_BRAKE_PRESSURE1);
+          txmsg.data16[3] = measGetValue(MEAS_BRAKE_PRESSURE2);
+               
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          break;
+
+        case CAN_MESSAGES_3:
+          /* Message 3 */
+          /* 
+          * 8bit  - motortúlmelegedés mérés
+          * 16bit - motor áram
+          * 16bit - 12V feszültséget (UBAT)
+          */
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_3;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data8[0] = 0;
+          txmsg.data16[1] = measGetValue_2(MEAS2_CURR1);
+          txmsg.data16[2] = measGetValue(MEAS_UBAT);
+               
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          break;
+
+        default:      
+            break;
+      }
+      chThdSleepMilliseconds(5);
+      }
+    chThdSleepMilliseconds(20);
   }
   return 0;
 }
@@ -278,7 +349,6 @@ void can_commInit(void){
   brakeoff_ans_time = CAN_ANS_TIME + 10;
   lampon_ans_time = CAN_ANS_TIME + 10;
   lampoff_ans_time = CAN_ANS_TIME + 10;
-  tx_status = CAN_MESSAGES_WAIT;
 
   txmsg.IDE = CAN_IDE_EXT;
   txmsg.RTR = CAN_RTR_DATA;
@@ -289,8 +359,8 @@ void can_commInit(void){
   rxmsg.DLC = 8;
 
   can_newdata = FALSE;
-  can_ok = FALSE;
-  can_ok_period = 0;
+
+  can_tx_status = WAIT;
 }
 
 void can_commCalc(void){
@@ -298,8 +368,6 @@ void can_commCalc(void){
   brakeoff_ans_time++;
   lampon_ans_time++;
   lampoff_ans_time++;
-  can_ok_period ++;
-  can_ok = can_ok_period > CAN_OK_PERIOD_NUM ? TRUE : FALSE;
 
   if (brakeon_ans_time == CAN_ANS_TIME)
   {
@@ -323,72 +391,72 @@ void can_commCalc(void){
 }
 
 void can_lightRight(void){
-  txmsg.EID = 0x00001001;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
+  light_status = CAN_LIGHT_RIGHT;
+  can_tx_status = LIGHT;
+  /*txmsg.EID = 0x00001001;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x55AA55AA;
-  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));*/
 }
 
 void can_lightLeft(void){
-  txmsg.EID = 0x00001002;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
+  light_status = CAN_LIGHT_LEFT;
+  can_tx_status = LIGHT;
+  /*txmsg.EID = 0x00001002;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x55AA55AA;
-  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));*/
 }
 
 void can_lightWarning(void){
-  txmsg.EID = 0x00001003;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
+  light_status = CAN_LIGHT_WARNING;
+  can_tx_status = LIGHT;
+  /*txmsg.EID = 0x00001003;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x55AA55AA;
-  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
+  canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));*/
 }
 
 void can_lightBreakOn(void){
-  txmsg.EID = 0x00001004;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
+  light_status = CAN_LIGHT_BRAKE_ON;
+  can_tx_status = LIGHT;
+  /*txmsg.EID = 0x00001004;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x55AA55AA;
   canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
   brakeon_ans_time = 0;
-  brakeoff_ans_time = CAN_ANS_TIME + 10;
+  brakeoff_ans_time = CAN_ANS_TIME + 10;*/
 }
 void can_lightBreakOff(void){
-  txmsg.EID = 0x00001005;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
+  light_status = CAN_LIGHT_BRAKE_OFF;
+  can_tx_status = LIGHT;
+  /*txmsg.EID = 0x00001005;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x55AA55AA;
   canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
   brakeoff_ans_time = 0;
-  brakeon_ans_time = CAN_ANS_TIME + 10;
+  brakeon_ans_time = CAN_ANS_TIME + 10;*/
 }
 
 void can_lightPosLampOn(void){
-  txmsg.EID = 0x00001006;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
+  light_status = CAN_LIGHT_LAMP_ON;
+  can_tx_status = LIGHT;
+  /*txmsg.EID = 0x00001006;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x55AA55AA;
   canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
   lampon_ans_time = 0;
-  lampoff_ans_time = CAN_ANS_TIME + 10;
+  lampoff_ans_time = CAN_ANS_TIME + 10;*/
 }
 void can_lightPosLampOff(void){
-  txmsg.EID = 0x00001007;
-  txmsg.RTR = CAN_RTR_DATA;
-  txmsg.DLC = 8;
+  light_status = CAN_LIGHT_LAMP_OFF;
+  can_tx_status = LIGHT;
+  /*txmsg.EID = 0x00001007;
   txmsg.data32[0] = 0x55AA55AA;
   txmsg.data32[1] = 0x55AA55AA;
   canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg, MS2ST(100));
   lampoff_ans_time = 0;
-  lampon_ans_time = CAN_ANS_TIME + 10;
+  lampon_ans_time = CAN_ANS_TIME + 10;*/
 }
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
@@ -398,14 +466,15 @@ void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "\x1B\x63");
   chprintf(chp, "\x1B[2J");
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
-    chprintf(chp, "\x1B[%d;%dH", 0, 0);
+    //chprintf(chp, "\x1B[%d;%dH", 0, 0);
     chprintf(chp,"RX.EID : %x \r\n",rxmsg.EID);
     chprintf(chp,"RX.DATA1 : %d \r\n",rxmsg.data16[0]);
     chprintf(chp,"RX.DATA2 : %d \r\n",rxmsg.data16[1]);
     chprintf(chp,"RX.DATA3 : %d \r\n",rxmsg.data16[2]);
     chprintf(chp,"RX.DATA4 : %d \r\n",rxmsg.data16[3]);
+    chprintf(chp,"\r\n");
 
-    chThdSleepMilliseconds(1000);
+    chThdSleepMilliseconds(50);
   }
 }
 
@@ -526,23 +595,21 @@ void cmd_candata(BaseSequentialStream *chp, int argc, char *argv[]) {
 }
 
 void cmd_lcSleep(BaseSequentialStream *chp, int argc, char *argv[]){
-  tx_status = CAN_MESSAGES_1;
+  //message_status = CAN_MESSAGES_1;
   chprintf(chp,"Sleep 1. LC!\r\n");
 }
 
 void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
-  
+
   (void)argc;
   (void)argv;
-
-  int16_t db;
 
   chprintf(chp, "\x1B\x63");
   chprintf(chp, "\x1B[2J");
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
     //chprintf(chp, "\x1B[%d;%dH", 0, 0);
     if(can_newdata){
-      chprintf(chp,"%5x - %4x %4x %4x %4x %4x %4x %4x %4x\r\n", 
+      chprintf(chp,"%5x - %4x %4x %4x %4x %4x %4x %4x\r\n", 
         rxmsg.EID,
         rxmsg.data8[0],
         rxmsg.data8[1],
@@ -550,9 +617,29 @@ void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
         rxmsg.data8[3],
         rxmsg.data8[4],
         rxmsg.data8[5],
-        rxmsg.data8[6],
-        rxmsg.data8[7]);
-      can_newdata = FALSE;
+        rxmsg.data8[6]
+      );
+
+      can_newdata = FALSE;      
     }
+    chThdSleepMilliseconds(50);
+  }
+}
+
+void cmd_canlightans(BaseSequentialStream *chp, int argc, char *argv[]) {
+
+  (void)argc;
+  (void)argv;
+
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    chprintf(chp, "\x1B[%d;%dH", 0, 0);
+    chprintf(chp,"brakeon_ans_time: %5d\r\n", brakeon_ans_time);
+    chprintf(chp,"brakeoff_ans_time: %5d\r\n", brakeoff_ans_time);
+    chprintf(chp,"lampon_ans_time: %5d\r\n", lampon_ans_time);
+    chprintf(chp,"lampoff_ans_time: %5d\r\n", lampoff_ans_time);    
+    
+    chThdSleepMilliseconds(500);
   }
 }

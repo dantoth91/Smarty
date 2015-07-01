@@ -45,6 +45,8 @@ static bool_t set_max_throttle;
 static bool_t set_min_regen;
 static bool_t set_max_regen;
 
+static systime_t ido;
+
 /*
  * ADC conversion group.
  * Mode:        Linear buffer, 8 samples of 7 channel, SW triggered.
@@ -275,6 +277,10 @@ void meas_regen_brakeSetMax(void){
   set_max_regen = TRUE;
 }
 
+void mainTime(systime_t maradek_time){
+  ido = maradek_time;
+}
+
 /*
  * ADC error callback. TODO: utilize
  */
@@ -365,4 +371,16 @@ void cmd_getRegenBrake(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp, "                set_max\r\n");  
   }
   return;
+}
+
+void cmd_mainValues(BaseSequentialStream *chp, int argc, char *argv[]){
+  
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+      chprintf(chp, "chTimeNov(), beallitott, maradek: %15d, %15d, %15d\r\n", chTimeNow(), ido, ido - chTimeNow());
+      chThdSleepMilliseconds(50);
+  }
 }

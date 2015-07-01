@@ -38,7 +38,7 @@ static struct logItem logitems[] = {
   { FUT_SEN2,   "FUT_SEN2;",      "1;",       0},
   { FUT_SEN3,   "FUT_SEN3;",      "1;",       0},
   { FUT_SEN4,   "FUT_SEN4;",      "1;",       0},
-  { CURR1,      "CURR1;",         "1;",       0},
+  { CURR1,      "MOTOR_CURR;",    "1;",       0},
   { THROTTLE,   "THROTTLE;",      "1;",       0},
   { REGEN_BRAKE,"REGEN_BRAKE;",   "1;",       0}
 };
