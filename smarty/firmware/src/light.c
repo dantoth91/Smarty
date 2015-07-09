@@ -70,7 +70,6 @@ void lightCalc(void){
   else{
     if(lightchanels.right && flashing)
     {
-      can_lightRight();
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
       flashing = FALSE;
       right_active = TRUE;
@@ -78,7 +77,6 @@ void lightCalc(void){
 
     if(lightchanels.left && flashing)
     {
-      can_lightLeft();
       pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
       flashing = FALSE;
       left_active = TRUE;
@@ -86,7 +84,6 @@ void lightCalc(void){
 
     if(lightchanels.warning && flashing)
     {
-      can_lightWarning();
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
       pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
       flashing = FALSE;
@@ -108,22 +105,18 @@ void lightFlashing (int chanel) {
 
 void lightBrakeOn() {
   lightchanels.braking = TRUE;
-  can_lightBreakOn();
 }
 void lightBrakeOff() {
   lightchanels.braking = FALSE;
-  can_lightBreakOff();
 }
 
 void lightPosLampOn() {
   lightchanels.pos_lamp = TRUE;
-  can_lightPosLampOn();
   pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
 }
 void lightPosLampOff() {
 
   lightchanels.pos_lamp = FALSE;
-  can_lightPosLampOff();
   pwmDisableChannel(&PWMD4, 3);
 }
 

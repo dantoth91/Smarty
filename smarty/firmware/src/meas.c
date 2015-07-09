@@ -379,8 +379,10 @@ void cmd_mainValues(BaseSequentialStream *chp, int argc, char *argv[]){
   (void)argv;
   chprintf(chp, "\x1B\x63");
   chprintf(chp, "\x1B[2J");
+  systime_t start_time = chTimeNow();
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
-      chprintf(chp, "chTimeNov(), beallitott, maradek: %15d, %15d, %15d\r\n", chTimeNow(), ido, ido - chTimeNow());
+      //chprintf(chp, "chTimeNov(), beallitott, maradek: %15d, %15d, %15d\r\n", chTimeNow(), ido, ido - chTimeNow());
+      chprintf(chp, "start_time, chTimeNov(): %15d, %15d\r\n", start_time, chTimeNow());
       chThdSleepMilliseconds(50);
   }
 }

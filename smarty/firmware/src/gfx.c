@@ -158,11 +158,13 @@ void WriteChars(char * charsout)
 uint16_t bus_Read(void)
 {
   uint16_t bus;
+  //palClearPad(GPIOA, GPIOA_TXD4);
 
   sdPut(&SD2, BUS_READ >> 8);
   sdPut(&SD2, BUS_READ);
   //chSequentialStreamRead(&SD2, &bus, 3);
   sdReadTimeout(&SD2, &bus, 3, 10);
+  //palSetPad(GPIOA, GPIOA_TXD4);
   return (uint8_t)bus;
 }
 

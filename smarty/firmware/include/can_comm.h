@@ -10,23 +10,16 @@
 uint8_t canReceiveData(CANRxFrame *rxmsg);*/
 
 void can_commInit(void);
-void can_commCalc(void);
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canall(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]);
-void cmd_candata(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_candata_ml(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_candata_bms(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_candata_cell(BaseSequentialStream *chp, int argc, char *argv[]);
 
-void can_lightRight(void);
-void can_lightLeft(void);
-void can_lightWarning(void);
-
-void can_lightBrakeOn(void);
-void can_lightWBrakeOff(void);
-void can_lightPosLampOn(void);
-void can_lightPosLampOff(void);
 void cmd_lcSleep(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]);
-void cmd_canlightans(BaseSequentialStream *chp, int argc, char *argv[]);
 
 #endif

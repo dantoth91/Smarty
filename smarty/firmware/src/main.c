@@ -52,9 +52,9 @@ static msg_t Thread1(void *arg) {
       time = 1000;
     }
 
-    palClearPad(GPIOA, GPIOA_TXD4);
+    //palClearPad(GPIOA, GPIOA_TXD4);
     chThdSleepMilliseconds(time);
-    palSetPad(GPIOA, GPIOA_TXD4);
+    //palSetPad(GPIOA, GPIOA_TXD4);
     chThdSleepMilliseconds(time);
   }
   return 0; /* Never executed.*/
@@ -73,16 +73,17 @@ static msg_t task20ms(void *arg) {
   while (TRUE) {
     time += MS2ST(20);
 
+    //palClearPad(GPIOA, GPIOA_TXD4);
     logCalc();
     lightCalc();
-    can_commCalc();
-    speedCalc();
+    //speedCalc();
     measCalc();
     cruiseCalc();
     buttonCalc();
     //brakeCalc();
-
     mainTime(time);
+    //palSetPad(GPIOA, GPIOA_TXD4);
+    
     chThdSleepUntil(time);
   }
   return 0; /* Never executed.*/
@@ -132,8 +133,8 @@ int main(void) {
    */
   can_commInit();
   /*
-     * uart initialization.
-     */
+   * uart initialization.
+   */
   uart_commInit();
 
   /*
@@ -157,8 +158,8 @@ int main(void) {
   cruiseInit();
 
   /*
-     * Initializes Display module.
-     */
+   * Initializes Display module.
+   */
   chThdSleepMilliseconds(1000);
     dspInit();
 

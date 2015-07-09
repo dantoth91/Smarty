@@ -250,6 +250,7 @@ static msg_t logThread(void *arg) {
         break;
     }
     chThdSleepMilliseconds(50);
+
   }
   return 0; /* Never executed.*/
 }
