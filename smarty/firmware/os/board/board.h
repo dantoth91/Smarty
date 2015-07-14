@@ -170,11 +170,15 @@
  * Port A setup.
  * All input with pull-up except:
  * PA0  - TXD4         (output) This is used as a normal LED.
+ * PA5  - BUT5         (input) Right index
+ * PA6  - BUT6         (input) Left index
  * PA13 - J_TMS        (alternate 0)
  * PA14 - J_TCK        (alternate 0)
  * PA15 - J_TDI        (alternate 0)
  */
 #define VAL_GPIOA_MODER             (PIN_MODE_OUTPUT(GPIOA_TXD4)       | \
+                                     PIN_MODE_INPUT(GPIOA_BUT5)        | \
+                                     PIN_MODE_INPUT(GPIOA_BUT6)        | \
                                      PIN_MODE_ALTERNATE(GPIOA_J_TMS)   | \
                                      PIN_MODE_ALTERNATE(GPIOA_J_TCK)   | \
                                      PIN_MODE_ALTERNATE(GPIOA_J_TDI))
@@ -274,7 +278,7 @@
  * PD5 - TXD2                   (alternate 7) 
  * PD6 - RXD2                   (alternate 7)
  * PD6 - TXD3                   (output) This is used as a normal LED.)
- * PD12 - PO5 Horn              (alternate 2)
+ * PD12 - PO5 Rear light        (alternate 2)
  * PD13 - PO6 Right front light (alternate 2)
  * PD14 - PO7 Left front light  (alternate 2)
  * PD15 - PO8 Front light       (alternate 2)

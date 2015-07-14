@@ -9,6 +9,11 @@
 /*uint8_t canTransmitData(CANTxFrame txmsg);
 uint8_t canReceiveData(CANRxFrame *rxmsg);*/
 
+extern struct moduluxItems mlitems;
+extern struct bmsItems bmsitems;
+extern struct bms_cellItem cellitems;
+extern struct luxcontrolItem lcitems;
+
 void can_commInit(void);
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]);

@@ -5,6 +5,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "ch.h"
+#include "hal.h"
+
 #include "cruise.h"
 #include "speed.h"
 

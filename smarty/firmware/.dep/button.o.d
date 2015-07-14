@@ -1,4 +1,4 @@
-../../build/obj/button.o: src/button.c include/button.h \
+../../build/obj/button.o: src/button.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h \
@@ -75,12 +75,10 @@
  ../../../ChibiOS/os/hal/platforms/STM32/OTGv1/usb_lld.h \
  ../../../ChibiOS/os/hal/platforms/STM32/OTGv1/stm32_otg.h \
  ../../../ChibiOS/os/hal/include/mmc_spi.h \
- ../../../ChibiOS/os/hal/include/serial_usb.h \
+ ../../../ChibiOS/os/hal/include/serial_usb.h include/button.h \
  ../../../ChibiOS/os/various/chprintf.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h \
  include/dsp.h include/speed.h include/cruise.h
-
-include/button.h:
 
 ../../../ChibiOS/os/kernel/include/ch.h:
 
@@ -243,6 +241,8 @@ os/mcuconf.h:
 ../../../ChibiOS/os/hal/include/mmc_spi.h:
 
 ../../../ChibiOS/os/hal/include/serial_usb.h:
+
+include/button.h:
 
 ../../../ChibiOS/os/various/chprintf.h:
 

@@ -88,7 +88,7 @@ static const ADCConversionGroup adcgrpcfg_2 = {
   ADC_CR2_SWSTART,                                                         /* CR2 */
   0,                                                                       /* SMPR1 |                       |                   */
   ADC_SMPR2_SMP_AN4(ADC_SAMPLE_15) | ADC_SMPR2_SMP_AN5(ADC_SAMPLE_15) |    /* SMPR2 | AN6-PF6-SEN1          | AN5-PF7-THROTTLE  */
-  ADC_SMPR2_SMP_AN6(ADC_SAMPLE_15),                                        /* SMPR2 | AN4-PF6-REGEN_BRAKE   |                   */
+  ADC_SMPR2_SMP_AN6(ADC_SAMPLE_15),                                        /* SMPR2 | AN4-PF68-REGEN_BRAKE   |                   */
   ADC_SQR1_NUM_CH(MEAS2_NUM_CH),                                           /* SQR1  -----------Number of sensors---------- */
   0,                                                                       /* SQR2  |                       |                   */
   ADC_SQR3_SQ3_N(ADC_CHANNEL_IN6) | ADC_SQR3_SQ2_N(ADC_CHANNEL_IN5) |      /* SQR3  | 3. IN6-REGEN_BREAK    | 1. IN4-SEN1       */

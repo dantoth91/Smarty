@@ -98,8 +98,8 @@ void speedInit(void){
   /*
    * Activates and starts the icu driver 1
    */
-  //icuStart(&ICUD1, &icucfg);
-  //icuEnable(&ICUD1);
+  icuStart(&ICUD1, &icucfg);
+  icuEnable(&ICUD1);
 
   speed_period_num = 0;
   old_rotation = 0;
@@ -189,6 +189,8 @@ uint32_t speedGetSpeed(void){
 
 uint32_t speedRPM_TO_KMPH(double rpm){
   uint32_t tmp;
+
+  chSysLock();
   tmp = rpm * WHEEL;
   tmp *= 60;
   tmp /= 100000;
@@ -199,12 +201,15 @@ uint32_t speedRPM_TO_KMPH(double rpm){
   }
   else
     tmp /= 10;
+  chSysUnlock();
 
   return tmp;
 }
 
 uint32_t speedKMPH_TO_RPM(double kmph){
   uint32_t tmp;
+
+  chSysLock();
   tmp = kmph * 1000000;
   tmp /= 60;
   tmp /= (WHEEL / 10);
@@ -215,6 +220,7 @@ uint32_t speedKMPH_TO_RPM(double kmph){
   }
   else
     tmp /= 10;
+  chSysUnlock();
 
   return tmp;
 }
