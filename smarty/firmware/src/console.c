@@ -27,7 +27,7 @@
 #include "dsp.h"
 #include "button.h"
 #include "brake.h"
-
+#include "safety.h"
 
 /* libc stub */
 int _getpid(void) {return 1;}
@@ -102,12 +102,14 @@ static const ShellCommand commands[] = {
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},
   {"cruise", cmd_cruise},
+  {"regen_brake", cmd_regen_brake},
   {"dbshow", cmdfrappans_dspmessages},
   {"lcsleep", cmd_lcSleep},
   {"dspvalues", cmd_dspvalues},
   {"dspbites", cmd_dspbites},
   {"buttonvalues", cmd_buttonvalues},
   {"mainvalues", cmd_mainValues},
+  {"safetyvalues", cmd_safetyvalues},
   {NULL, NULL}
 };
 

@@ -62,13 +62,13 @@ static const ADCConversionGroup adcgrpcfg = {
   0,                                                                       /* CR1 */
   ADC_CR2_SWSTART,                                                         /* CR2 */
   ADC_SMPR1_SMP_AN14(ADC_SAMPLE_15) | ADC_SMPR1_SMP_AN10(ADC_SAMPLE_15) |  /* SMPR1 | AN14-PC4-UBAT    | AN10-PC0-BRAKE1	 */
-  ADC_SMPR1_SMP_AN11(ADC_SAMPLE_15) | ADC_SMPR1_SMP_AN12(ADC_SAMPLE_15) |  /* SMPR1 | AN11-PC1-BRAKE2  | AN12-PC2-SEN2 		 */
-  ADC_SMPR1_SMP_AN13(ADC_SAMPLE_15) | ADC_SMPR1_SMP_AN15(ADC_SAMPLE_15),   /* SMPR1 | AN13-PC3-SEN3    | AN15-PC5-SEN4  	 */
-  ADC_SMPR2_SMP_AN8(ADC_SAMPLE_15),									                       /* SMPR2 | AN8-PB0-SEN5     |					         */
+  ADC_SMPR1_SMP_AN11(ADC_SAMPLE_15) | ADC_SMPR1_SMP_AN12(ADC_SAMPLE_15) |  /* SMPR1 | AN11-PC1-BRAKE2  | AN12-PC2-STEERING */
+  ADC_SMPR1_SMP_AN13(ADC_SAMPLE_15) | ADC_SMPR1_SMP_AN15(ADC_SAMPLE_15),   /* SMPR1 | AN13-PC3-SEN1    | AN15-PC5-SEN2  	 */
+  ADC_SMPR2_SMP_AN8(ADC_SAMPLE_15),									                       /* SMPR2 | AN8-PB0-SEN3     |					         */
   ADC_SQR1_NUM_CH(MEAS_NUM_CH),                                            /* SQR1  -----------Number of sensors---------- */
-  ADC_SQR2_SQ7_N(ADC_CHANNEL_IN8),    									                   /* SQR2  | 7. IN8-SEN5  	   |					         */
-  ADC_SQR3_SQ6_N(ADC_CHANNEL_IN15) | ADC_SQR3_SQ5_N(ADC_CHANNEL_IN13) |    /* SQR3  | 6. IN15-SEN4 	   | 5. IN13-SEN3   	 */
-  ADC_SQR3_SQ4_N(ADC_CHANNEL_IN12) | ADC_SQR3_SQ3_N(ADC_CHANNEL_IN11) |    /* SQR3  | 4. IN12-SEN2 	   | 3. IN11-BRAKE2 	 */
+  ADC_SQR2_SQ7_N(ADC_CHANNEL_IN8),    									                   /* SQR2  | 7. IN8-SEN3  	   |					         */
+  ADC_SQR3_SQ6_N(ADC_CHANNEL_IN15) | ADC_SQR3_SQ5_N(ADC_CHANNEL_IN13) |    /* SQR3  | 6. IN15-SEN2 	   | 5. IN13-SEN1   	 */
+  ADC_SQR3_SQ4_N(ADC_CHANNEL_IN12) | ADC_SQR3_SQ3_N(ADC_CHANNEL_IN11) |    /* SQR3  | 4. IN12-STEERING | 3. IN11-BRAKE2 	 */
   ADC_SQR3_SQ2_N(ADC_CHANNEL_IN10) | ADC_SQR3_SQ1_N(ADC_CHANNEL_IN14)      /* SQR3  | 2. IN10-BRAKE1   | 1. IN14-UBAT 		 */
 };
 
@@ -157,13 +157,13 @@ void measCalc(void){
             break;
           case MEAS_BRAKE_PRESSURE2:
             break;
+          case MEAS_STEERING:
+            break;
+          case MEAS_SEN1:
+            break;
           case MEAS_SEN2:
             break;
           case MEAS_SEN3:
-            break;
-          case MEAS_SEN4:
-            break;
-          case MEAS_SEN5:
             break;
           default:
             break;
@@ -298,10 +298,10 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       "UBAT",
       "BRAKE_PRESSURE1",
       "BRAKE_PRESSURE2",
+      "MEAS_STEERING",
+      "SEN1",
       "SEN2",
-      "SEN3",
-      "SEN4",
-      "SEN5"};
+      "SEN3"};
 
   static const char * const names2[] = {
 
@@ -367,7 +367,7 @@ void cmd_getRegenBrake(BaseSequentialStream *chp, int argc, char *argv[]) {
   }
 
   else{
-    chprintf(chp, "Usage: throttle set_min\r\n");
+    chprintf(chp, "Usage: brake set_min\r\n");
     chprintf(chp, "                set_max\r\n");  
   }
   return;

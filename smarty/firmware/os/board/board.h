@@ -344,8 +344,9 @@
 /*
  * Port G setup.
  * All input with pull-up.
+ * PG5 - PO4 Fan (output)
  */
-#define VAL_GPIOG_MODER             0x00000000
+#define VAL_GPIOG_MODER             (PIN_MODE_OUTPUT(GPIOG_PO4))
 #define VAL_GPIOG_OTYPER            0x00000000
 #define VAL_GPIOG_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOG_PUPDR             0xFFFFFFFF

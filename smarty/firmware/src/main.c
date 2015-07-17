@@ -24,6 +24,7 @@
 #include "uart_comm.h"
 #include "button.h"
 #include "brake.h"
+#include "safety.h"
 
 
 /*===========================================================================*/
@@ -52,9 +53,9 @@ static msg_t Thread1(void *arg) {
       time = 1000;
     }
 
-    //palClearPad(GPIOA, GPIOA_TXD4);
+    palClearPad(GPIOA, GPIOA_TXD4);
     chThdSleepMilliseconds(time);
-    //palSetPad(GPIOA, GPIOA_TXD4);
+    palSetPad(GPIOA, GPIOA_TXD4);
     chThdSleepMilliseconds(time);
   }
   return 0; /* Never executed.*/
@@ -65,7 +66,7 @@ static msg_t Thread1(void *arg) {
  */
 static WORKING_AREA(watask20ms, 512);
 static msg_t task20ms(void *arg) {
-  systime_t time; 
+  systime_t time;
 
   (void)arg;
   chRegSetThreadName("task20ms");
@@ -172,6 +173,11 @@ int main(void) {
    * Regenerative brake initialization.
    */
   //brakeInit();
+
+  /*
+   * Regenerative brake initialization.
+   */
+  safetyInit();
 
   /*
    * Creates the 20ms Task.

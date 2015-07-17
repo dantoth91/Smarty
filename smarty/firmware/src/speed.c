@@ -105,9 +105,8 @@ void speedInit(void){
   old_rotation = 0;
 }
 
-/*void speedCalc(void){
-  int i;
-  double rpmasis;
+void speedCalc(void){
+  /*int i;
 
   speed_zero_period ++;
 
@@ -148,8 +147,8 @@ void speedInit(void){
   if(speed_zero_period > SPEED_ZERO_PERIOD){
     rotation = 0;
     speed = 0;
-  }
-}*/
+  }*/
+}
 
 uint32_t speedGetLastPeriod(void){
   uint32_t tmp;
@@ -202,7 +201,7 @@ uint32_t speedRPM_TO_KMPH(double rpm){
   else
     tmp /= 10;
   chSysUnlock();
-
+  
   return tmp;
 }
 

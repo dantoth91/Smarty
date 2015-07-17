@@ -35,6 +35,7 @@ static double MAX_I = 1000000;
 static double MAX_D = 1000000;
 
 static int32_t brake_pwm;
+static bool_t regen_on;
 
 static int32_t save_pwm;
 static int32_t pwm;
@@ -83,6 +84,7 @@ void cruiseInit(void){
   eeprom_write = FALSE;
 
   cruise_on = FALSE;
+  regen_on = FALSE;
 
   cruise_indicator = FALSE;
   cruise_indicator_index = 0;
@@ -141,7 +143,7 @@ void cruiseCalc(void){
 /* Cruise control minimum limiter */
   if (cruise_on && (speedGetSpeed() < 10))
   {
-    //cruise_on = FALSE;
+    cruise_on = FALSE;
   }
 /* ============================== */
 
@@ -169,7 +171,7 @@ void cruiseCalc(void){
       cruise_disable_period ++;
       if(cruise_disable_period > CRUISE_DISABLE_PERIOD)
       {
-        //cruise_on = FALSE;
+        cruise_on = FALSE;
       }
     }
   }
@@ -194,20 +196,31 @@ void cruiseCalc(void){
   }
   chSysLock();
   save_pwm = pwm;
+/* ============== */
+  /* Regenerative brake */
   brake_pwm = measGetValue_2(MEAS2_REGEN_BRAKE);
   chSysUnlock();
 
-  pwmEnableChannel(&PWMD5, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, 10000 - brake_pwm)); //10000 = 0% - 0 = 100%
+  if (regen_on)
+  {
+    pwmEnableChannel(&PWMD5, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, 10000 - brake_pwm)); //10000 = 0% - 0 = 100%
+  }
 }
-/* ============== */
+
 
 void cruiseEnable(void){
   cruise_on = TRUE;
   cruise_disable_period = 0;
 }
-
 void cruiseDisable(void){
   cruise_on = FALSE;
+}
+
+void regen_brakeEnable(void){
+  regen_on = TRUE;
+}
+void regen_brakeDisable(void){
+  regen_on = FALSE;
 }
 
 bool_t cruiseStatus(void){
@@ -325,6 +338,8 @@ void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
       chprintf(chp, "\r\n");
       chprintf(chp, "cruise_disable_period: %15d\r\n", cruise_disable_period);
       chprintf(chp, "period_null: %15d\r\n", period_null);
+      chprintf(chp, "cruise_on: %15d\r\n", cruise_on);
+      chprintf(chp, "regen_on: %15d\r\n", regen_on);
 
       chThdSleepMilliseconds(100);
   }
@@ -351,7 +366,7 @@ void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
         }
       }
 
-      if ((argc == 2) && (strcmp(argv[0], "K_P") == 0)){
+      else if ((argc == 2) && (strcmp(argv[0], "K_P") == 0)){
         szam = atol(argv[1]);
         if (szam > 0 || szam < MAX_P){
             K_P = szam;
@@ -361,7 +376,7 @@ void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
         }
       }
 
-      if ((argc == 2) && (strcmp(argv[0], "K_I") == 0)){
+      else if ((argc == 2) && (strcmp(argv[0], "K_I") == 0)){
         szam = atol(argv[1]);
         if (szam > 0 || szam < MAX_I){
             K_I = szam;
@@ -371,7 +386,7 @@ void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
         }
       }
 
-      if ((argc == 2) && (strcmp(argv[0], "K_D") == 0)){
+      else if ((argc == 2) && (strcmp(argv[0], "K_D") == 0)){
         szam = atol(argv[1]);
         if (szam > 0 || szam < MAX_D){
             K_D = szam;
@@ -381,12 +396,12 @@ void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
         }
       }
 
-      if ((argc == 1) && (strcmp(argv[0], "on") == 0)){
+      else if ((argc == 1) && (strcmp(argv[0], "on") == 0)){
         cruiseEnable();
         chprintf(chp, "Cruise control switch ON!\r\n");
       }
 
-      if ((argc == 1) && (strcmp(argv[0], "off") == 0)){
+      else if ((argc == 1) && (strcmp(argv[0], "off") == 0)){
         cruiseDisable();
         chprintf(chp, "Cruise control switch OFF!\r\n");
       }
@@ -422,7 +437,7 @@ void cmd_cruise(BaseSequentialStream *chp, int argc, char *argv[]){
     chprintf(chp, "Cruise control switch ON!\r\n");
   }
 
-  if ((argc == 1) && (strcmp(argv[0], "off") == 0)){
+  else if ((argc == 1) && (strcmp(argv[0], "off") == 0)){
     cruiseDisable();
     chprintf(chp, "Cruise control switch OFF!\r\n");
   }
@@ -435,6 +450,37 @@ void cmd_cruise(BaseSequentialStream *chp, int argc, char *argv[]){
 ERROR:
   chprintf(chp, "Usage: cruise on\r\n");
   chprintf(chp, "       cruise off\r\n");
+  return;
+
+  chThdSleepMilliseconds(100);
+}
+
+void cmd_regen_brake(BaseSequentialStream *chp, int argc, char *argv[]){
+  (void)argc;
+  (void)argv;
+
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
+
+  if ((argc == 1) && (strcmp(argv[0], "on") == 0)){
+    regen_brakeEnable();
+    chprintf(chp, "Regenerative brake switch ON!\r\n");
+  }
+
+  else if ((argc == 1) && (strcmp(argv[0], "off") == 0)){
+    regen_brakeDisable();
+    chprintf(chp, "Regenerative brake switch OFF!\r\n");
+  }
+
+  else{
+    goto ERROR;
+  }
+  return;
+
+ERROR:
+  chprintf(chp, "Usage: regen_brake on\r\n");
+  chprintf(chp, "       regen_brake off\r\n");
   return;
 
   chThdSleepMilliseconds(100);

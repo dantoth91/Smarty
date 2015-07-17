@@ -135,7 +135,6 @@ static msg_t can_rx(void *p) {
     if (chEvtWaitAnyTimeout(ALL_EVENTS, MS2ST(100)) == 0)
       continue;
     while (canReceive(&CAND1, CAN_ANY_MAILBOX, &rxmsg, TIME_IMMEDIATE) == RDY_OK) {
-      palClearPad(GPIOA, GPIOA_TXD4);
       chSysLock();
       rx_id = 0;
       rx_id = rxmsg.EID >> 8;
@@ -294,7 +293,6 @@ static msg_t can_rx(void *p) {
           break;
       }
       chSysUnlock();
-      palSetPad(GPIOA, GPIOA_TXD4);
     }
   }
   chEvtUnregister(&CAND1.rxfull_event, &el);
@@ -314,7 +312,6 @@ static msg_t can_tx(void * p) {
   while (!chThdShouldTerminate()) {
     
     for(message_status = 0; message_status < CAN_NUM_MESS; message_status ++){
-      palClearPad(GPIOD, GPIOD_TXD3);
       switch(message_status){
         case CAN_MESSAGES_1:
           /* Message 3 */
@@ -374,6 +371,7 @@ static msg_t can_tx(void * p) {
           txmsg.data8[0] = 0;
           txmsg.data16[1] = measGetValue_2(MEAS2_CURR1);
           txmsg.data16[2] = measGetValue(MEAS_UBAT);
+          txmsg.data16[2] = measGetValue(MEAS_UBAT);
           
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
@@ -383,7 +381,6 @@ static msg_t can_tx(void * p) {
             break;
         
       }
-      palSetPad(GPIOD, GPIOD_TXD3);
       chThdSleepMilliseconds(5);
       }
     chThdSleepMilliseconds(200);
@@ -532,28 +529,31 @@ void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]) {
 
   db = atol(argv[0]);
   
-  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+  while (TRUE) {
     chprintf(chp, "\x1B[%d;%dH", 0, 0);
 
     if (argc == 1){
-      //chnReadTimeout(&SD1, (uint8_t *)&c, 3, 100);
-      //sdReadTimeout(&SD1, &c, 1, 70);
-      /*chSequentialStreamRead(chp, (uint8_t *)&c, 1);
-      if (c == 97) {
+      chnReadTimeout(&SD1, (uint8_t *)&c, 1, 100);
+
+      if (c == 97){
         db--;
-        chprintf(chp, "a %d\r\n", c);
         c = 0;
       }
-      else if (c == 100) {
+
+      else if (c == 100){
         db++;
-        chprintf(chp, "d %d\r\n", c);
         c = 0;
-      }*/
+      }
+      else if (c == 13){
+        break;
+      }
 
       db = db > (sizeof(lcitems.id) / 4) ? (sizeof(lcitems.id) / 4) : db;
       db = db < 1 ? 1 : db;
 
-      chprintf(chp,"---------------- <<< a | d >>> -----------------\r\n");
+      chprintf(chp,"------------------------------------------------\r\n");
+      chprintf(chp,"|                <-  (EXIT)  ->                |\r\n");
+      chprintf(chp,"|               (a)  (ENTER) (d)               |\r\n");
       chprintf(chp,"--------------- LuxControl %d/%d ---------------\r\n", db, sizeof(lcitems.id) / 4);
       chprintf(chp,"lcitems.id[%d]         (ID)     : %15x \r\n", db, lcitems.id[db]);
       chprintf(chp,"lcitems.temp[%d]       (NTC)    : %15d \r\n", db, lcitems.temp[db]);
@@ -571,8 +571,9 @@ void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]) {
       chprintf(chp, "(Luxcontrol 1-x) lc n\r\n");
       return;
     }
+
+    chThdSleepMilliseconds(100);
   }
-  //sdReadTimeout((BaseChannel *)chp, (uint8_t *)&c, 1, 10);
 }
 
 void cmd_candata_ml(BaseSequentialStream *chp, int argc, char *argv[]) {
@@ -614,7 +615,6 @@ void cmd_candata_bms(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "\x1B[2J");
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
     chprintf(chp, "\x1B[%d;%dH", 0, 0);
-
     if (argc == 1){
       chprintf(chp,"------------- BMS 1/1 --------------\r\n");
       chprintf(chp,"----------- Messages 2 -------------\r\n");
@@ -660,19 +660,39 @@ void cmd_candata_cell(BaseSequentialStream *chp, int argc, char *argv[]) {
   (void)argc;
   (void)argv;
 
+  char c;
   int16_t db;
+
+  db = atol(argv[0]);
 
   chprintf(chp, "\x1B\x63");
   chprintf(chp, "\x1B[2J");
-  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+  
+  while (TRUE) {
     chprintf(chp, "\x1B[%d;%dH", 0, 0);
 
     if (argc == 1){
+      chnReadTimeout(&SD1, (uint8_t *)&c, 1, 100);
+
+      if (c == 97){
+        db--;
+        c = 0;
+      }
+
+      else if (c == 100){
+        db++;
+        c = 0;
+      }
+      else if (c == 13){
+        break;
+      }
       
-      db = atol(argv[0]);
       db = db > (sizeof(cellitems.id) / 4) ? (sizeof(cellitems.id) / 4) : db;
       db = db < 1 ? 1 : db;
 
+      chprintf(chp,"------------------------------------------------\r\n");
+      chprintf(chp,"|                <-  (EXIT)  ->                |\r\n");
+      chprintf(chp,"|               (a)  (ENTER) (d)               |\r\n");
       chprintf(chp,"-------------- Bettery Cell %d/%d --------------\r\n", db, 34);
       chprintf(chp,"cellitems.id[%d]              : %15x \r\n", db - 1, cellitems.id[db - 1]);
       chprintf(chp,"cellitems.cell_voltage[%d]    : %15d \r\n", db - 1, cellitems.cell_voltage[db - 1]);
@@ -685,6 +705,7 @@ void cmd_candata_cell(BaseSequentialStream *chp, int argc, char *argv[]) {
       chprintf(chp, "(Cell 1-x) lc n\r\n");
       return;
     }
+    chThdSleepMilliseconds(100);
   }
 }
 

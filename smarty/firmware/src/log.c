@@ -110,10 +110,7 @@ void logCalc(void){
     logitems[UBAT].value = measGetValue(MEAS_UBAT);
     logitems[BRAKE_P1].value = measGetValue(MEAS_BRAKE_PRESSURE1);
     logitems[BRAKE_P2].value = measGetValue(MEAS_BRAKE_PRESSURE2);
-    logitems[FUT_SEN1].value = measGetValue(MEAS_SEN2);
-    logitems[FUT_SEN2].value = measGetValue(MEAS_SEN3);
-    logitems[FUT_SEN3].value = measGetValue(MEAS_SEN4);
-    logitems[FUT_SEN4].value = measGetValue(MEAS_SEN5);
+    logitems[STEERING_SEN].value = measGetValue(MEAS_STEERING);
     logitems[CURR1].value = measGetValue_2(MEAS2_CURR1);
     logitems[THROTTLE].value = measGetValue_2(MEAS2_THROTTLE);
     logitems[REGEN_BRAKE].value = measGetValue_2(MEAS2_REGEN_BRAKE);

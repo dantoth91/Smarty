@@ -14,6 +14,10 @@ void cruiseCalc(void);
 
 void cruiseEnable(void);
 void cruiseDisable(void);
+
+void regen_brakeEnable(void);
+void regen_brakeDisable(void);
+
 bool_t cruiseStatus(void);
 bool_t cruiseIndicator(void);
 
@@ -34,5 +38,6 @@ int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxU, int32_t MinU, doubl
 void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_cruise(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_regen_brake(BaseSequentialStream *chp, int argc, char *argv[]);
 
 #endif
