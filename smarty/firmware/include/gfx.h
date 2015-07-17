@@ -8,6 +8,7 @@
 #include "ch.h"
 #include "hal.h"
 
+void read(void);
 void gfx_Cls(void);
 void file_Mount(void);
 void media_Image(int X, int Y);
@@ -22,7 +23,8 @@ void file_LoadImageControl(char * Datname, char * GCIName, int Mode);
 void media_VideoFrame(int X, int Y, int Framenumber);
 void putstr(char * InString);
 void WriteChars(char * charsout);
-uint8_t bus_Read(void);
+//uint16_t bus_Read(uint16_t *bus);
+uint16_t bus_Read(void);
 void bus_In(void);
 
 #endif

@@ -3,6 +3,9 @@
     GAMF MegaLux Team              
 */
 
+#include "ch.h"
+#include "hal.h"
+
 #include "button.h"
 
 #include "chprintf.h"
@@ -26,6 +29,7 @@ static bool_t index_right;
 static bool_t index_left;
 
 static bool_t lamp_ok;
+static uint8_t seged;
 
 void buttonInit(void){
 	cruise_ok = FALSE;
@@ -91,13 +95,13 @@ void buttonCalc(void){
 
 /* Cruise controll reduction */
 	if((dspGetValue(3) == 0) && cruise_minusz){
-		cruiseReduction(speedKMPH_TO_RPM(CRUISE_SPEED_STEP));
-		cruise_minusz = FALSE;
+	  cruiseReduction(speedKMPH_TO_RPM(CRUISE_SPEED_STEP));
+	  cruise_minusz = FALSE;
 	}
 	else if((dspGetValue(3) == 0) && cruise_minusz == FALSE){
-		cruise_long_minusz++;
-		/*if (cruise_long_minusz > PRESS_PERIOD)
-		{
+	  cruise_long_minusz++;
+	  /*if (cruise_long_minusz > PRESS_PERIOD)
+	  {
 			if (cruise_long_minusz % 16 == 0)
 			{
 				cruiseReduction(speedKMPH_TO_RPM(CRUISE_FAST_STEP));
@@ -122,39 +126,45 @@ void buttonCalc(void){
 
 /* Még nincs bekötve az index nyomógomb */
 /* Index right */
-	/*if((palReadPad() == 0) && index_right){
+	if((palReadPad(GPIOA, GPIOA_BUT5) == 0) && index_right){
+		seged = 1;
 		if (getLightFlashing(2))
 		{
-			lightFlashing(1);
+			seged = 2;
+			lightFlashing(0);
 			index_right = FALSE;
 		}
 		else
 		{
-			lightFlashing(0);
+			lightFlashing(1);
+			index_right = FALSE;
+			seged = 3;
 		}
 	}
-	else if(palReadPad())
+	else if(palReadPad(GPIOA, GPIOA_BUT5))
 	{
 		index_right = TRUE;
-	}*/
+		seged = 4;
+	}
 
 /* Még nincs bekötve az index nyomógomb */
 /* Index left */
-	/*if((palReadPad() == 0) && index_left){
+	if((palReadPad(GPIOA, GPIOA_BUT6) == 0) && index_left){
 		if (getLightFlashing(3))
 		{
-			lightFlashing(2);
+			lightFlashing(0);
 			index_left = FALSE;
 		}
 		else
 		{
-			lightFlashing(0);
+			lightFlashing(2);
+			index_left = FALSE;
 		}
 	}
-	else if(palReadPad())
+	else if(palReadPad(GPIOA, GPIOA_BUT6))
 	{
 		index_left = TRUE;
-	}*/
+	}
 
 /* Pos. Lamp */
 	if((dspGetValue(5) == 0) && lamp_ok){
@@ -189,6 +199,8 @@ void cmd_buttonvalues(BaseSequentialStream *chp, int argc, char *argv[]){
           chprintf(chp, "%d ", dspGetValue(i));
       }
       chprintf(chp, "\r\n");
+      chprintf(chp, "right: %d left: %d \r\n", index_right, index_left);
+      chprintf(chp, "seged: %d \r\n", seged);
       chThdSleepMilliseconds(100);
   }
 }

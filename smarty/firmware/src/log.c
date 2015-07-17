@@ -18,6 +18,9 @@
 #include "meas.h"
 #include "logItems.h"
 
+#include "can_items.h"
+#include "can_comm.h"
+
 #define LOG_WA_SIZE (2048)
 
 enum logStates logState;
@@ -32,6 +35,11 @@ static msg_t logThread(void *arg);
 static uint16_t size = 0;
 static uint32_t logPeriod = 0;
 static uint32_t szam = 0;
+
+struct moduluxItems mlitems;
+struct bmsItems bmsitems;
+struct bms_cellItem cellitems;
+struct luxcontrolItem lcitems;
 
 /*
  * Initializes log 
@@ -89,21 +97,80 @@ void logStop(void){
  * Main modue to be called from periodic task, handles buffering and flushing of logged data 
  */
 void logCalc(void){
+  uint16_t i, db;
   size = LOG_ITEMS_NUM;
   
   if (logGetState() == LOG_RUNNING){
 
+    
+    chSysLock();
     logitems[NUM].value = logPeriod;
     logitems[TIME].value = chTimeNow() - logStartTime;
+    /* Analog meas */
     logitems[UBAT].value = measGetValue(MEAS_UBAT);
     logitems[BRAKE_P1].value = measGetValue(MEAS_BRAKE_PRESSURE1);
     logitems[BRAKE_P2].value = measGetValue(MEAS_BRAKE_PRESSURE2);
-    logitems[FUT_SEN1].value = measGetValue(MEAS_SEN2);
-    logitems[FUT_SEN2].value = measGetValue(MEAS_SEN3);
-    logitems[FUT_SEN3].value = measGetValue(MEAS_SEN4);
-    logitems[FUT_SEN4].value = measGetValue(MEAS_SEN5);
+    logitems[STEERING_SEN].value = measGetValue(MEAS_STEERING);
     logitems[CURR1].value = measGetValue_2(MEAS2_CURR1);
     logitems[THROTTLE].value = measGetValue_2(MEAS2_THROTTLE);
+    logitems[REGEN_BRAKE].value = measGetValue_2(MEAS2_REGEN_BRAKE);
+    /* Cruise control */
+    logitems[CRUISE_SWITCH].value = cruiseStatus();
+    logitems[CRUISE_SET].value = cruiseGetPWM();
+    logitems[SPEED_KMPH].value = speedGetSpeed();
+    logitems[SPEED_RPM].value = speedGetRpm();
+    /* Modulux */
+    logitems[SOLARCELL_TEMP_1].value = mlitems.onevire_1;
+    logitems[SOLARCELL_TEMP_2].value = mlitems.onevire_2;
+    logitems[SOLARCELL_TEMP_3].value = mlitems.onevire_3;
+    logitems[SOLARCELL_TEMP_4].value = mlitems.onevire_4;
+    /* BMS */
+    logitems[BMS_CUSTOM_FLAG_1].value = bmsitems.custom_flag_1;
+    logitems[BMS_PACK_INST_VOLT].value = bmsitems.pack_inst_volt;
+    logitems[BMS_PACK_SOC].value = bmsitems.pack_soc;
+    logitems[BMS_PACK_HEALT].value = bmsitems.pack_healt;
+    logitems[BMS_PACK_AMPS].value = bmsitems.pack_amps;
+    logitems[BMS_PACK_RESIST].value = bmsitems.pack_resist;
+
+    logitems[BMS_AVERAGE_TEMP].value = bmsitems.average_temp;
+    logitems[BMS_INTERNAL_TEMP].value = bmsitems.internal_temp;
+    logitems[BMS_LOW_CELL_VOLT].value = bmsitems.low_cell_volt;
+    logitems[BMS_HIGH_CELL_VOLT].value = bmsitems.high_cell_volt;
+    logitems[BMS_AVG_CELL_VOLT].value = bmsitems.avg_cell_voltage;
+
+    logitems[BMS_PACK_CURRENT].value = bmsitems.pack_current;
+    logitems[BMS_PACK_CYCLE].value = bmsitems.total_pack_cycle;
+    logitems[BMS_PACK_CCL].value = bmsitems.pack_ccl;
+    logitems[BMS_PACK_DCL].value = bmsitems.pack_dcl;
+    logitems[BMS_MAXIMUM_CELL_VOLT].value = bmsitems.maximum_cell;
+    logitems[BMS_CUSTOM_FLAG_2].value = bmsitems.custom_flag_2;
+
+    logitems[BMS_MINIMUM_CELL_VOLT].value = bmsitems.minimum_cell;
+    logitems[BMS_HIGH_CELL_VOLT_NUM].value = bmsitems.high_cell_volt_num;
+    logitems[BMS_LOW_CELL_VOLT_NUM].value = bmsitems.low_cell_volt_num;
+    logitems[BMS_SUPPLY_12V].value = bmsitems.supply_12v;
+    logitems[BMS_FAN_SPEED].value = bmsitems.fan_speed;
+    logitems[BMS_PACK_OPEN_VOLT].value = bmsitems.pack_open_voltage;
+    
+    for (i = 43, db = 0; db < 34; i+=3, db++)
+    {
+      logitems[i].value = cellitems.cell_voltage[db];
+      logitems[i+1].value = cellitems.cell_resistant[db];
+      logitems[i+2].value = cellitems.open_voltage[db];
+    }
+
+    for (i = 145, db = 0; db < 15; i+=8, db++)
+    {
+      logitems[i].value = lcitems.temp[db];
+      logitems[i+1].value = lcitems.curr_in[db];
+      logitems[i+2].value = lcitems.curr_out[db];
+      logitems[i+3].value = lcitems.efficiency[db];
+      logitems[i+4].value = lcitems.status[db];
+      logitems[i+5].value = lcitems.volt_in[db];
+      logitems[i+6].value = lcitems.volt_out[db];
+      logitems[i+7].value = lcitems.pwm[db];
+    }
+    chSysUnlock();
   }
 }
 
@@ -197,24 +264,11 @@ static msg_t logThread(void *arg) {
             if (err == EOF){
               isStopRequest = TRUE;
             }
-            //sprintf(logString, "%s%d;", logString, logitems[i].value);
           }
           err = f_puts ("\r\n", &logFileObject);
           if (err == EOF){
             isStopRequest = TRUE;
           }
-
-          /*sprintf(logString, "%d;%d;%d;%d;%d;%d;%d;%d;%d\r\n", \
-             measGetValue(MEAS_UBAT),                       \
-             measGetValue(MEAS_BRAKE_PRESSURE1),            \
-             measGetValue(MEAS_BRAKE_PRESSURE2),            \
-             measGetValue(MEAS_SEN2),                       \
-             measGetValue(MEAS_SEN3),                       \
-             measGetValue(MEAS_SEN4),                       \
-             measGetValue(MEAS_SEN5),                       \
-             measGetValue_2(MEAS2_CURR1),                   \
-             measGetValue_2(MEAS2_THROTTLE)                 \
-          );*/
           logPeriod += 1;
         }
           
@@ -241,7 +295,8 @@ static msg_t logThread(void *arg) {
       default:
         break;
     }
-    chThdSleepMilliseconds(50);
+    chThdSleepMilliseconds(500);
+
   }
   return 0; /* Never executed.*/
 }

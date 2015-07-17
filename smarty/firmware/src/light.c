@@ -19,7 +19,8 @@ static struct lightChanels
   bool_t left;
   bool_t warning;
   bool_t braking;
-  bool_t pos_lamp;
+  bool_t front_pos_lamp;
+  bool_t rear_pos_lamp;
 } lightchanels;
 
 static PWMConfig pwmcfg = {
@@ -70,7 +71,6 @@ void lightCalc(void){
   else{
     if(lightchanels.right && flashing)
     {
-      can_lightRight();
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
       flashing = FALSE;
       right_active = TRUE;
@@ -78,7 +78,6 @@ void lightCalc(void){
 
     if(lightchanels.left && flashing)
     {
-      can_lightLeft();
       pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
       flashing = FALSE;
       left_active = TRUE;
@@ -86,7 +85,6 @@ void lightCalc(void){
 
     if(lightchanels.warning && flashing)
     {
-      can_lightWarning();
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
       pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
       flashing = FALSE;
@@ -108,22 +106,30 @@ void lightFlashing (int chanel) {
 
 void lightBrakeOn() {
   lightchanels.braking = TRUE;
-  can_lightBreakOn();
+  pwmEnableChannel(&PWMD4, 0, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
 }
 void lightBrakeOff() {
   lightchanels.braking = FALSE;
-  can_lightBreakOff();
+  if (lightchanels.rear_pos_lamp)
+  {
+    pwmEnableChannel(&PWMD4, 0, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 5000));
+  }
+  else
+    pwmDisableChannel(&PWMD4, 0);
 }
 
 void lightPosLampOn() {
-  lightchanels.pos_lamp = TRUE;
-  can_lightPosLampOn();
+  lightchanels.front_pos_lamp = TRUE;
+  lightchanels.rear_pos_lamp = TRUE;
   pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+  pwmEnableChannel(&PWMD4, 0, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 5000));
 }
 void lightPosLampOff() {
-  lightchanels.pos_lamp = FALSE;
-  can_lightPosLampOff();
+
+  lightchanels.front_pos_lamp = FALSE;
+  lightchanels.rear_pos_lamp = FALSE;
   pwmDisableChannel(&PWMD4, 3);
+  pwmDisableChannel(&PWMD4, 0);
 }
 
 bool_t getLightFlashing (uint8_t chanel) {
@@ -131,7 +137,7 @@ bool_t getLightFlashing (uint8_t chanel) {
   else if (chanel == 2 && right_active){ return lightchanels.right; }
   else if (chanel == 3 && left_active){ return lightchanels.left; }
   else if (chanel == 4 && right_active == 1 && left_active == 1){ return lightchanels.warning; }
-  else if (chanel == 5){ return lightchanels.pos_lamp; }
+  else if (chanel == 5){ return lightchanels.front_pos_lamp; }
   else if (chanel == 6){ return lightchanels.braking; }
   else
     return 0;
@@ -150,7 +156,7 @@ void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp, "Left light: %15d\r\n", lightchanels.left);
     chprintf(chp, "Warning light: %15d\r\n", lightchanels.warning);
     chprintf(chp, "Brake light: %15d\r\n", lightchanels.braking);
-    chprintf(chp, "Position light: %15d\r\n", lightchanels.pos_lamp);
+    chprintf(chp, "Position light: %15d\r\n", lightchanels.front_pos_lamp);
     chThdSleepMilliseconds(1000);
   }
 }

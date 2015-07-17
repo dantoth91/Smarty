@@ -54,11 +54,12 @@
  ../../../ChibiOS/os/hal/platforms/STM32/can_lld.h \
  ../../../ChibiOS/os/hal/include/ext.h \
  ../../../ChibiOS/os/hal/include/gpt.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/gpt_lld.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h \
  ../../../ChibiOS/os/hal/include/i2c.h \
  ../../../ChibiOS/os/hal/platforms/STM32/I2Cv1/i2c_lld.h \
  ../../../ChibiOS/os/hal/include/icu.h \
  ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/icu_lld.h \
- ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h \
  ../../../ChibiOS/os/hal/include/mac.h \
  ../../../ChibiOS/os/hal/include/pwm.h \
  ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/pwm_lld.h \
@@ -213,6 +214,10 @@ os/mcuconf.h:
 
 ../../../ChibiOS/os/hal/include/gpt.h:
 
+../../../ChibiOS/os/hal/platforms/STM32/TIMv1/gpt_lld.h:
+
+../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h:
+
 ../../../ChibiOS/os/hal/include/i2c.h:
 
 ../../../ChibiOS/os/hal/platforms/STM32/I2Cv1/i2c_lld.h:
@@ -220,8 +225,6 @@ os/mcuconf.h:
 ../../../ChibiOS/os/hal/include/icu.h:
 
 ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/icu_lld.h:
-
-../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h:
 
 ../../../ChibiOS/os/hal/include/mac.h:
 

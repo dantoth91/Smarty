@@ -170,11 +170,15 @@
  * Port A setup.
  * All input with pull-up except:
  * PA0  - TXD4         (output) This is used as a normal LED.
+ * PA5  - BUT5         (input) Right index
+ * PA6  - BUT6         (input) Left index
  * PA13 - J_TMS        (alternate 0)
  * PA14 - J_TCK        (alternate 0)
  * PA15 - J_TDI        (alternate 0)
  */
 #define VAL_GPIOA_MODER             (PIN_MODE_OUTPUT(GPIOA_TXD4)       | \
+                                     PIN_MODE_INPUT(GPIOA_BUT5)        | \
+                                     PIN_MODE_INPUT(GPIOA_BUT6)        | \
                                      PIN_MODE_ALTERNATE(GPIOA_J_TMS)   | \
                                      PIN_MODE_ALTERNATE(GPIOA_J_TCK)   | \
                                      PIN_MODE_ALTERNATE(GPIOA_J_TDI))
@@ -273,7 +277,8 @@
  * PD3 - SD Card installed      (input) 
  * PD5 - TXD2                   (alternate 7) 
  * PD6 - RXD2                   (alternate 7)
- * PD12 - PO5 Horn              (alternate 2)
+ * PD6 - TXD3                   (output) This is used as a normal LED.)
+ * PD12 - PO5 Rear light        (alternate 2)
  * PD13 - PO6 Right front light (alternate 2)
  * PD14 - PO7 Left front light  (alternate 2)
  * PD15 - PO8 Front light       (alternate 2)
@@ -284,13 +289,14 @@
                                      PIN_MODE_ALTERNATE(GPIOD_SD_CMD)    | \
                                      PIN_MODE_ALTERNATE(GPIOD_TXD2)      | \
                                      PIN_MODE_ALTERNATE(GPIOD_RXD2)      | \
+                                     PIN_MODE_OUTPUT(GPIOD_TXD3)         | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO5)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO6)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO7)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO8))
 #define VAL_GPIOD_OTYPER            0x00000000
 #define VAL_GPIOD_OSPEEDR           (PIN_OSPEED_25M(GPIOD_SD_CMD))
-#define VAL_GPIOD_PUPDR             0xFFFFFFFF
+#define VAL_GPIOD_PUPDR             (~(PIN_PUPDR_FLOATING(GPIOD_TXD3)))
 #define VAL_GPIOD_ODR               0xFFFFFFFF
 #define VAL_GPIOD_AFRL              (PIN_AFIO_AF(GPIOD_CAN_RX, 9)     | \
                                      PIN_AFIO_AF(GPIOD_CAN_TX, 9)     | \
@@ -323,9 +329,11 @@
  * All input with pull-up except:
  * PF6  - BUT1                  (analog - CURR1)
  * PF7  - BUT2                  (analog - CURR2)
+ * PF8  - BUT3                  (analog - CURR2)
  */
 #define VAL_GPIOF_MODER             (PIN_MODE_ANALOG(GPIOF_BUT1)        | \
-                                     PIN_MODE_ANALOG(GPIOF_BUT2))
+                                     PIN_MODE_ANALOG(GPIOF_BUT2)        | \
+                                     PIN_MODE_ANALOG(GPIOF_BUT3))
 #define VAL_GPIOF_OTYPER            0x00000000
 #define VAL_GPIOF_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOF_PUPDR             0xFFFFFFFF
@@ -336,8 +344,9 @@
 /*
  * Port G setup.
  * All input with pull-up.
+ * PG5 - PO4 Fan (output)
  */
-#define VAL_GPIOG_MODER             0x00000000
+#define VAL_GPIOG_MODER             (PIN_MODE_OUTPUT(GPIOG_PO4))
 #define VAL_GPIOG_OTYPER            0x00000000
 #define VAL_GPIOG_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOG_PUPDR             0xFFFFFFFF
@@ -348,18 +357,21 @@
 /*
  * Port H setup.
  * All input with pull-up except:
- * PH0 - OSC_IN         (input floating).
- * PH1 - OSC_OUT        (input floating).
- * PH12 - LS_4 Throttle (alternate 2)
+ * PH0 - OSC_IN                     (input floating).
+ * PH1 - OSC_OUT                    (input floating).
+ * PH12 - LS_4 Throttle             (alternate 2)
+ * PH11 - LS_3 TRegenerative brake  (alternate 2)
  */
-#define VAL_GPIOH_MODER             (PIN_MODE_ALTERNATE(GPIOH_LS_4))
+#define VAL_GPIOH_MODER             (PIN_MODE_ALTERNATE(GPIOH_LS_4)  | \
+                                     PIN_MODE_ALTERNATE(GPIOH_LS_3))
 #define VAL_GPIOH_OTYPER            0x00000000
 #define VAL_GPIOH_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOH_PUPDR             (~(PIN_PUPDR_FLOATING(0)  | \
                                        PIN_PUPDR_FLOATING(1)))
 #define VAL_GPIOH_ODR               0xFFFFFFFF
 #define VAL_GPIOH_AFRL              0x00000000
-#define VAL_GPIOH_AFRH              (PIN_AFIO_AF(GPIOH_LS_4, 2))
+#define VAL_GPIOH_AFRH              (PIN_AFIO_AF(GPIOH_LS_4, 2)  | \
+                                     PIN_AFIO_AF(GPIOH_LS_3, 2))
 
 /*
  * Port I setup.

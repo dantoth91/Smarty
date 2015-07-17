@@ -10,11 +10,11 @@
 #include "hal.h"
 
 void dspInit(void);
-void dspCalc(void);
 bool_t dsp_active(void);
 void cmdfrappans_dspmessages(BaseSequentialStream *chp, int argc, char *argv[]) ;
 bool_t dspGetValue(uint8_t ch);
 
 void cmd_dspvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_dspmessages(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_dspbites(BaseSequentialStream *chp, int argc, char *argv[]);
 #endif

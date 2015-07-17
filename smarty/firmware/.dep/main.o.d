@@ -72,11 +72,12 @@
  ../../../ChibiOS/os/hal/platforms/STM32/can_lld.h \
  ../../../ChibiOS/os/hal/include/ext.h \
  ../../../ChibiOS/os/hal/include/gpt.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/gpt_lld.h \
+ ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h \
  ../../../ChibiOS/os/hal/include/i2c.h \
  ../../../ChibiOS/os/hal/platforms/STM32/I2Cv1/i2c_lld.h \
  ../../../ChibiOS/os/hal/include/icu.h \
  ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/icu_lld.h \
- ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h \
  ../../../ChibiOS/os/hal/include/mac.h \
  ../../../ChibiOS/os/hal/include/pwm.h \
  ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/pwm_lld.h \
@@ -99,7 +100,7 @@
  include/eepromItems.h include/can_comm.h include/light.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h \
  include/speed.h include/meas.h include/cruise.h include/dsp.h \
- include/uart_comm.h include/button.h
+ include/uart_comm.h include/button.h include/brake.h include/safety.h
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdio.h:
 
@@ -255,6 +256,10 @@ os/mcuconf.h:
 
 ../../../ChibiOS/os/hal/include/gpt.h:
 
+../../../ChibiOS/os/hal/platforms/STM32/TIMv1/gpt_lld.h:
+
+../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h:
+
 ../../../ChibiOS/os/hal/include/i2c.h:
 
 ../../../ChibiOS/os/hal/platforms/STM32/I2Cv1/i2c_lld.h:
@@ -262,8 +267,6 @@ os/mcuconf.h:
 ../../../ChibiOS/os/hal/include/icu.h:
 
 ../../../ChibiOS/os/hal/platforms/STM32/TIMv1/icu_lld.h:
-
-../../../ChibiOS/os/hal/platforms/STM32/TIMv1/stm32_tim.h:
 
 ../../../ChibiOS/os/hal/include/mac.h:
 
@@ -330,3 +333,7 @@ include/dsp.h:
 include/uart_comm.h:
 
 include/button.h:
+
+include/brake.h:
+
+include/safety.h:

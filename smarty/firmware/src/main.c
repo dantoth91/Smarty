@@ -23,12 +23,13 @@
 #include "dsp.h"
 #include "uart_comm.h"
 #include "button.h"
+#include "brake.h"
+#include "safety.h"
 
 
 /*===========================================================================*/
 /* Generic code.                                                             */
 /*===========================================================================*/
-
 /*
  * Red LED blinker thread, times are in milliseconds.
  */
@@ -63,9 +64,9 @@ static msg_t Thread1(void *arg) {
 /*
  * 20ms Task
  */
-static WORKING_AREA(watask20ms, 256);
+static WORKING_AREA(watask20ms, 512);
 static msg_t task20ms(void *arg) {
-  systime_t time; 
+  systime_t time;
 
   (void)arg;
   chRegSetThreadName("task20ms");
@@ -73,16 +74,17 @@ static msg_t task20ms(void *arg) {
   while (TRUE) {
     time += MS2ST(20);
 
+    //palClearPad(GPIOA, GPIOA_TXD4);
     logCalc();
     lightCalc();
-    can_commCalc();
-    speedCalc();
+    //speedCalc();
     measCalc();
     cruiseCalc();
-    dspCalc();
     buttonCalc();
-
-
+    //brakeCalc();
+    mainTime(time);
+    //palSetPad(GPIOA, GPIOA_TXD4);
+    
     chThdSleepUntil(time);
   }
   return 0; /* Never executed.*/
@@ -132,8 +134,8 @@ int main(void) {
    */
   can_commInit();
   /*
-     * uart initialization.
-     */
+   * uart initialization.
+   */
   uart_commInit();
 
   /*
@@ -157,8 +159,8 @@ int main(void) {
   cruiseInit();
 
   /*
-     * Initializes Display module.
-     */
+   * Initializes Display module.
+   */
   chThdSleepMilliseconds(1000);
     dspInit();
 
@@ -166,6 +168,16 @@ int main(void) {
    * Display buttons initialization.
    */
   buttonInit();
+
+  /*
+   * Regenerative brake initialization.
+   */
+  //brakeInit();
+
+  /*
+   * Regenerative brake initialization.
+   */
+  safetyInit();
 
   /*
    * Creates the 20ms Task.

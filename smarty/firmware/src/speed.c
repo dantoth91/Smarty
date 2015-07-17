@@ -17,7 +17,7 @@
 
 static double rpm_buff[SEN_POINTS];
 
-static int rpm_index;
+static uint16_t rpm_index;
 
 static void speedWheelPeriodCb(ICUDriver *icup);
 static void speedWheelPeriodNumber(ICUDriver *icup);
@@ -39,34 +39,13 @@ static uint32_t speed_zero_period;
 static double rotation;
 static double old_rotation;
 static double speed;
+static double rpmasis;
 
 static void speedWheelPeriodCb(ICUDriver *icup) {
-    speed_last_period = icuGetPeriod(icup); //0.1 * ms
-}
-
-static void speedWheelPeriodNumber(ICUDriver *icup) {
-    (void)icup;
-    speed_period_num ++;
-    speed_zero_period = 0;
-}
-
-void speedInit(void){
-
-  /*
-   * Activates and starts the icu driver 1
-   */
-  icuStart(&ICUD1, &icucfg);
-  icuEnable(&ICUD1);
-
-  speed_period_num = 0;
-  old_rotation = 0;
-}
-
-void speedCalc(void){
   int i;
-  double rpmasis;
-
-  speed_zero_period ++;
+  
+  
+  speed_last_period = icuGetPeriod(icup); //0.1 * ms
 
   rotation = MSTOS / (speed_last_period * SEN_POINTS);
 
@@ -108,6 +87,69 @@ void speedCalc(void){
   }
 }
 
+static void speedWheelPeriodNumber(ICUDriver *icup) {
+    (void)icup;
+    speed_period_num ++;
+    speed_zero_period = 0;
+}
+
+void speedInit(void){
+
+  /*
+   * Activates and starts the icu driver 1
+   */
+  icuStart(&ICUD1, &icucfg);
+  icuEnable(&ICUD1);
+
+  speed_period_num = 0;
+  old_rotation = 0;
+}
+
+void speedCalc(void){
+  /*int i;
+
+  speed_zero_period ++;
+
+  rotation = MSTOS / (speed_last_period * SEN_POINTS);
+
+  rpm_index++;
+
+  if(rpm_index > (SEN_POINTS - 1)){
+    rpm_index = 0;
+  }
+
+  rpm_buff[rpm_index] = rotation;
+  rpmasis = 0;
+  
+  for (i = 0; i < SEN_POINTS; i++){
+    rpmasis += rpm_buff[i];
+  }
+
+  rotation = rpmasis / SEN_POINTS;
+
+  if(rotation < 0){
+    rotation = 0;
+  }
+
+  if(rotation > 3000){
+    rotation = 3000;
+  }
+
+  if ((rotation - old_rotation) > MAX_RPM_STEP)
+  {
+    rotation = old_rotation;
+  }
+
+  old_rotation = rotation;
+
+  speed = speedRPM_TO_KMPH(rotation);
+
+  if(speed_zero_period > SPEED_ZERO_PERIOD){
+    rotation = 0;
+    speed = 0;
+  }*/
+}
+
 uint32_t speedGetLastPeriod(void){
   uint32_t tmp;
 
@@ -146,6 +188,8 @@ uint32_t speedGetSpeed(void){
 
 uint32_t speedRPM_TO_KMPH(double rpm){
   uint32_t tmp;
+
+  chSysLock();
   tmp = rpm * WHEEL;
   tmp *= 60;
   tmp /= 100000;
@@ -156,12 +200,15 @@ uint32_t speedRPM_TO_KMPH(double rpm){
   }
   else
     tmp /= 10;
-
+  chSysUnlock();
+  
   return tmp;
 }
 
 uint32_t speedKMPH_TO_RPM(double kmph){
   uint32_t tmp;
+
+  chSysLock();
   tmp = kmph * 1000000;
   tmp /= 60;
   tmp /= (WHEEL / 10);
@@ -172,6 +219,7 @@ uint32_t speedKMPH_TO_RPM(double kmph){
   }
   else
     tmp /= 10;
+  chSysUnlock();
 
   return tmp;
 }
@@ -189,6 +237,7 @@ void cmd_speedvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp, "speed_period_num: %5d\r\n", speed_period_num);
     chprintf(chp, "rpm: %5d\r\n", rotation);
     chprintf(chp, "speed: %5d\r\n", speed);
+    chprintf(chp, "rpmasis: %5d\r\n", rpmasis);
     chThdSleepMilliseconds(1000);
   }
 }
