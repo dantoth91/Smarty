@@ -16,7 +16,7 @@ enum eepromItemNames
 
 static struct eepromItem 
 {
-  uint8_t id;
+  uint16_t id;
   uint16_t address;
   uint8_t size;
   enum eepromItemNames name;

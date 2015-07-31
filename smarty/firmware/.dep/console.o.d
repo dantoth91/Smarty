@@ -108,7 +108,7 @@
  include/light.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h \
  include/speed.h include/meas.h include/cruise.h include/dsp.h \
- include/button.h include/brake.h include/safety.h \
+ include/button.h include/brake.h include/safety.h include/calc.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/errno.h \
  c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/errno.h
 
@@ -359,6 +359,8 @@ include/button.h:
 include/brake.h:
 
 include/safety.h:
+
+include/calc.h:
 
 c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/errno.h:
 

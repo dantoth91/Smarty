@@ -92,6 +92,12 @@ void lightCalc(void){
       left_active = TRUE;
     }
   }
+
+  if (lightchanels.lights_disabled)
+  {
+    pwmDisableChannel(&PWMD4, 1);
+    pwmDisableChannel(&PWMD4, 2);
+  }
 }
 
 void lightFlashing (int chanel) {

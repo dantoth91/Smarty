@@ -28,6 +28,7 @@
 #include "button.h"
 #include "brake.h"
 #include "safety.h"
+#include "calc.h"
 
 /* libc stub */
 int _getpid(void) {return 1;}
@@ -50,7 +51,7 @@ int _kill(int pid, int sig) {
 static time_t unix_time;
 
 static SerialConfig ser_cfg = {
-  115200,
+  230400,
   0,
   0,
   0,
@@ -106,10 +107,11 @@ static const ShellCommand commands[] = {
   {"dbshow", cmdfrappans_dspmessages},
   {"lcsleep", cmd_lcSleep},
   {"dspvalues", cmd_dspvalues},
-  {"dspbites", cmd_dspbites},
   {"buttonvalues", cmd_buttonvalues},
   {"mainvalues", cmd_mainValues},
   {"safetyvalues", cmd_safetyvalues},
+  {"fan_speed", cmd_fan_speed},
+  {"calcvalues", cmd_calcvalues},
   {NULL, NULL}
 };
 

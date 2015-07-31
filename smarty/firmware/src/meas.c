@@ -16,6 +16,8 @@
 #define MIN_PERCENT             0
 #define MAX_PERCENT             9000
 
+#define NULL_AMPER_ADC          13630
+
 enum measStates
 {
   MEAS_START,
@@ -29,7 +31,6 @@ static int32_t measValue_2[MEAS2_NUM_CH +2];
 static adcsample_t samples_2[MEAS2_NUM_CH * ADC_GRP1_BUF_DEPTH];
 
 static void adcerrorcallback(ADCDriver *adcp, adcerror_t err);
-static void adcerrorcallback_2(ADCDriver *adcp, adcerror_t err);
 
 static uint16_t max_throttle;
 static uint16_t min_throttle;
@@ -46,6 +47,9 @@ static bool_t set_min_regen;
 static bool_t set_max_regen;
 
 static systime_t ido;
+static systime_t valtozo;
+
+static int curr_avg;
 
 /*
  * ADC conversion group.
@@ -87,12 +91,12 @@ static const ADCConversionGroup adcgrpcfg_2 = {
   0,                                                                       /* CR1 */
   ADC_CR2_SWSTART,                                                         /* CR2 */
   0,                                                                       /* SMPR1 |                       |                   */
-  ADC_SMPR2_SMP_AN4(ADC_SAMPLE_15) | ADC_SMPR2_SMP_AN5(ADC_SAMPLE_15) |    /* SMPR2 | AN6-PF6-SEN1          | AN5-PF7-THROTTLE  */
-  ADC_SMPR2_SMP_AN6(ADC_SAMPLE_15),                                        /* SMPR2 | AN4-PF68-REGEN_BRAKE   |                   */
-  ADC_SQR1_NUM_CH(MEAS2_NUM_CH),                                           /* SQR1  -----------Number of sensors---------- */
+  ADC_SMPR2_SMP_AN4(ADC_SAMPLE_15) | ADC_SMPR2_SMP_AN5(ADC_SAMPLE_15) |    /* SMPR2 | AN4-PF6-CURR          | AN5-PF7-THROTTLE  */
+  ADC_SMPR2_SMP_AN6(ADC_SAMPLE_15),                                        /* SMPR2 | AN6-PF8-REGEN_BRAKE   |                   */
+  ADC_SQR1_NUM_CH(MEAS2_NUM_CH),                                           /* SQR1  -----------Number of sensors----------      */
   0,                                                                       /* SQR2  |                       |                   */
-  ADC_SQR3_SQ3_N(ADC_CHANNEL_IN6) | ADC_SQR3_SQ2_N(ADC_CHANNEL_IN5) |      /* SQR3  | 3. IN6-REGEN_BREAK    | 1. IN4-SEN1       */
-  ADC_SQR3_SQ1_N(ADC_CHANNEL_IN4)                                          /* SQR3  | 2. IN5-THROTTLE       |                   */
+  ADC_SQR3_SQ3_N(ADC_CHANNEL_IN6) | ADC_SQR3_SQ2_N(ADC_CHANNEL_IN5) |      /* SQR3  | 3. IN6-REGEN_BREAK    |2. IN5-THROTTLE    */
+  ADC_SQR3_SQ1_N(ADC_CHANNEL_IN4)                                          /* SQR3  | 1. IN4-CURR           |                   */
 };
 
 void measInit(void){
@@ -130,7 +134,7 @@ void measInit(void){
 
 void measCalc(void){
   int ch;
-  int avg, i; 
+  int avg, i;
 
   /*
   * Starts the ADC conversion.
@@ -159,7 +163,8 @@ void measCalc(void){
             break;
           case MEAS_STEERING:
             break;
-          case MEAS_SEN1:
+          case MEAS_OVER_HEAT:
+            avg = avg > 500 ? 1 : 0;
             break;
           case MEAS_SEN2:
             break;
@@ -180,9 +185,21 @@ void measCalc(void){
         avg /= ADC_GRP1_BUF_DEPTH;
         switch(ch){
           case MEAS2_CURR1:
-            break;
-          case MEAS2_THROTTLE:
+            curr_avg = avg;
+            /*avg *= 10;
+            avg -= NULL_AMPER_ADC;
+            avg /= 11;
+            avg = avg < 0 ? 0 : avg;*/
+            
+            avg *= 928;
+            avg /= 100;
+            avg -= 12433;
+            avg /= 10;
 
+            avg = avg < 0 ? 0 : avg;
+            break;
+
+          case MEAS2_THROTTLE:
             if(set_max_throttle){ 
               max_throttle = avg;
               if(eepromWrite(MAX_THROTTLE, max_throttle) != 0){
@@ -235,6 +252,7 @@ void measCalc(void){
             avg = avg > MAX_PERCENT ? MAX_PERCENT : avg;
             avg = avg < MIN_PERCENT ? MIN_PERCENT : avg;
             break;
+
           default:
             break;
         }
@@ -277,8 +295,9 @@ void meas_regen_brakeSetMax(void){
   set_max_regen = TRUE;
 }
 
-void mainTime(systime_t maradek_time){
+void mainTime(systime_t maradek_time, uint8_t value){
   ido = maradek_time;
+  valtozo = value;
 }
 
 /*
@@ -299,7 +318,7 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       "BRAKE_PRESSURE1",
       "BRAKE_PRESSURE2",
       "MEAS_STEERING",
-      "SEN1",
+      "MEAS_OVER_HEAT",
       "SEN2",
       "SEN3"};
 
@@ -321,6 +340,7 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       for(ch = 0; ch < MEAS2_NUM_CH; ch++) {
           chprintf(chp, "%s: %15d\r\n", names2[ch], measValue_2[ch]);
       }
+      chprintf(chp, "curr_avg: %15d\r\n", curr_avg);
       chThdSleepMilliseconds(500);
   }
 }
@@ -379,10 +399,9 @@ void cmd_mainValues(BaseSequentialStream *chp, int argc, char *argv[]){
   (void)argv;
   chprintf(chp, "\x1B\x63");
   chprintf(chp, "\x1B[2J");
-  systime_t start_time = chTimeNow();
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
       //chprintf(chp, "chTimeNov(), beallitott, maradek: %15d, %15d, %15d\r\n", chTimeNow(), ido, ido - chTimeNow());
-      chprintf(chp, "start_time, chTimeNov(): %15d, %15d\r\n", start_time, chTimeNow());
+      chprintf(chp, "valtozo, chTimeNov(): %15d, %15d\r\n", valtozo, chTimeNow());
       chThdSleepMilliseconds(50);
   }
 }

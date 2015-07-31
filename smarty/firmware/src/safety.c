@@ -32,6 +32,7 @@ static bool_t relay[16];
 static bool_t fan_start;
 static uint8_t fan_start_period;
 static uint32_t fan_percent;
+static uint8_t fan;
 
 /*
  * GPT2 configuration.
@@ -104,16 +105,17 @@ static msg_t safety(void * arg) {
 
     if((bmsitems.custom_flag_1 >> 1) & 0x01)
     {
-      regen_brakeDisable();
+      regen_brakeEnable();
     }
     else
     {
-      regen_brakeEnable();
+      regen_brakeDisable();
     }
 
-    if(bmsitems.fan_speed != 0)
+    //if(bmsitems.fan_speed != 0)
+    if(fan != 0)
     {
-      if (fan_start)
+      /*if (fan_start)
       {
 
         fan_start_period ++;
@@ -121,14 +123,19 @@ static msg_t safety(void * arg) {
 
         palSetPad(GPIOG, GPIOG_PO4);
         palClearPad(GPIOD, GPIOD_TXD3);
-      }
+      }*/
       
-      else if ((bmsitems.fan_speed != 6) && (fan_start == FALSE))
+      //else if ((bmsitems.fan_speed != 6) && (fan_start == FALSE))
+      if (fan != 6)
       {
-        fan_percent = bmsitems.fan_speed == 1 ? 500  : \
+        /*fan_percent = bmsitems.fan_speed == 1 ? 500  : \
                       bmsitems.fan_speed == 2 ? 2500 : \
                       bmsitems.fan_speed == 3 ? 4500 : \
-                      bmsitems.fan_speed == 4 ? 6500 : 8500;
+                      bmsitems.fan_speed == 4 ? 6500 : 8500;*/
+        fan_percent = fan == 1 ? 500  : \
+                      fan == 2 ? 2500 : \
+                      fan == 3 ? 4500 : \
+                      fan == 4 ? 6500 : 8500;
         
         fanstate = FAN_ACTIVE;
         gptStartOneShot(&GPTD2, fan_percent);
@@ -197,4 +204,24 @@ void cmd_safetyvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       chprintf(chp, "\r\n");
       chThdSleepMilliseconds(100);
   }
+}
+
+void cmd_fan_speed(BaseSequentialStream *chp, int argc, char *argv[]){
+  
+  (void)argc;
+  (void)argv;
+
+  int16_t speed;
+
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+
+  speed = atol(argv[0]);
+
+  speed = speed < 0 ? 0 : speed;
+  speed = speed > 6 ? 6 : speed;
+
+  fan = speed;
+  
+  chprintf(chp, "speed: %5d\r\n", speed);
 }

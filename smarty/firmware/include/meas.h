@@ -15,7 +15,7 @@ enum measChannels
   MEAS_BRAKE_PRESSURE1,
   MEAS_BRAKE_PRESSURE2,
   MEAS_STEERING,
-  MEAS_SEN1,
+  MEAS_OVER_HEAT,
   MEAS_SEN2,
   MEAS_SEN3,
   MEAS_NUM_CH
@@ -43,7 +43,7 @@ void meas_throttleSetMax(void);
 void meas_regen_brakeSetMin(void);
 void meas_regen_brakeSetMax(void);
 
-void mainTime(systime_t maradek_time);
+void mainTime(systime_t maradek_time, uint8_t value);
 
 void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_getThrottle(BaseSequentialStream *chp, int argc, char *argv[]);

@@ -120,7 +120,8 @@ CSRC = $(PORTSRC) \
        scr/uart_comm.c \
        src/button.c \
        src/brake.c \
-       src/safety.c
+       src/safety.c \
+       src/calc.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

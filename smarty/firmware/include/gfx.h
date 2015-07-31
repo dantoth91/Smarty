@@ -23,7 +23,6 @@ void file_LoadImageControl(char * Datname, char * GCIName, int Mode);
 void media_VideoFrame(int X, int Y, int Framenumber);
 void putstr(char * InString);
 void WriteChars(char * charsout);
-//uint16_t bus_Read(uint16_t *bus);
 uint16_t bus_Read(void);
 void bus_In(void);
 

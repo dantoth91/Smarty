@@ -13,6 +13,7 @@
 #include "can_items.h"
 #include "speed.h"
 #include "meas.h"
+#include "calc.h"
 /*
  * #define CAN_MIN_EID         0x10
  * #define CAN_MAX_EID         0x1FFFFFF
@@ -199,7 +200,6 @@ static msg_t can_rx(void *p) {
           else if(messages == CAN_BMS_MESSAGES_3){
             bmsitems.average_temp        = rxmsg.data8[0];
             bmsitems.internal_temp       = rxmsg.data8[1];
-            
             bmsitems.low_cell_volt       = rxmsg.data8[3];
             bmsitems.low_cell_volt      += rxmsg.data8[2] << 8;
             bmsitems.high_cell_volt      = rxmsg.data8[5];
@@ -209,8 +209,8 @@ static msg_t can_rx(void *p) {
           }
 
           else if(messages == CAN_BMS_MESSAGES_4){
-            bmsitems.pack_current        = rxmsg.data8[0];
-            bmsitems.pack_current       += rxmsg.data8[1] << 8;
+            bmsitems.pack_current        = rxmsg.data8[1];
+            bmsitems.pack_current       += rxmsg.data8[0] << 8;
             bmsitems.total_pack_cycle    = rxmsg.data8[2];
             bmsitems.pack_ccl            = rxmsg.data8[3];
             bmsitems.pack_dcl            = rxmsg.data8[4];
@@ -314,14 +314,15 @@ static msg_t can_tx(void * p) {
     for(message_status = 0; message_status < CAN_NUM_MESS; message_status ++){
       switch(message_status){
         case CAN_MESSAGES_1:
-          /* Message 3 */
+          /* Message 1 */
           /* 
           * 16bit - Speed
           * 16bit - Cruise control pwm
           * 8bit  - Cruise control set
           * 8bit  - Cruise control status
+          * 8bit  - Engine OVT
           */
-
+          chSysLock();
           txmsg.EID = 0;
           txmsg.EID = CAN_SM_MESSAGES_1;
           txmsg.EID += CAN_SM_EID << 8;
@@ -330,20 +331,22 @@ static msg_t can_tx(void * p) {
           txmsg.data16[1] = cruiseGetPWM();
           txmsg.data8[4] = cruiseGet();
           txmsg.data8[5] = cruiseStatus();
+          txmsg.data8[6] = measGetValue(MEAS_OVER_HEAT);
           
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
           break;
 
         case CAN_MESSAGES_2:
-          /* Message 3 */
+          /* Message 2 */
           /* 
           * 16bit - Throttle pedal
           * 16bit - Brake pedal
           * 16bit - Brake pressure 1
           * 16bit - Brake pressure 2
           */
-
+          chSysLock();
           txmsg.EID = 0;
           txmsg.EID = CAN_SM_MESSAGES_2;
           txmsg.EID += CAN_SM_EID << 8;
@@ -355,26 +358,26 @@ static msg_t can_tx(void * p) {
           
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
           break;
 
         case CAN_MESSAGES_3:
           /* Message 3 */
           /* 
-          * 8bit  - Engine OVT
           * 16bit - Engine current
           * 16bit - 12V (UBAT)
           */
+          chSysLock();
           txmsg.EID = 0;
           txmsg.EID = CAN_SM_MESSAGES_3;
           txmsg.EID += CAN_SM_EID << 8;
 
-          txmsg.data8[0] = 0;
-          txmsg.data16[1] = measGetValue_2(MEAS2_CURR1);
-          txmsg.data16[2] = measGetValue(MEAS_UBAT);
-          txmsg.data16[2] = measGetValue(MEAS_UBAT);
-          
+          txmsg.data16[0] = calcGetValue(CALC_MOTOR_POWER);
+          txmsg.data16[1] = measGetValue(MEAS_UBAT);
+
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
           break;
 
         default:      
@@ -745,7 +748,7 @@ void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
 
       can_newdata = FALSE;      
     }
-    if(can_transmit){
+    /*if(can_transmit){
       chprintf(chp,"%-6s", "SM");
       chprintf(chp,"%3x %3x - %4x %4x %4x %4x %4x %4x %4x %4x\r\n", 
         txmsg.EID  >> 8,
@@ -761,7 +764,7 @@ void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
       );
 
       can_transmit = FALSE;      
-    }
+    }*/
     //chThdSleepMilliseconds(10);
   }
 }

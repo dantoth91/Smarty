@@ -25,6 +25,7 @@
 #include "button.h"
 #include "brake.h"
 #include "safety.h"
+#include "calc.h"
 
 
 /*===========================================================================*/
@@ -68,24 +69,36 @@ static WORKING_AREA(watask20ms, 512);
 static msg_t task20ms(void *arg) {
   systime_t time;
 
+  uint8_t seged;
+
   (void)arg;
   chRegSetThreadName("task20ms");
   time = chTimeNow();  
   while (TRUE) {
     time += MS2ST(20);
-
+    seged = 0;
     //palClearPad(GPIOA, GPIOA_TXD4);
     logCalc();
+    seged = 1;
     lightCalc();
-    //speedCalc();
+    seged = 2;
+    speedCalc();
+    seged = 3;
     measCalc();
+    seged = 4;
     cruiseCalc();
+    seged = 5;
     buttonCalc();
+    seged = 6;
     //brakeCalc();
-    mainTime(time);
+    calcCalc();
+    seged = 7;
+    //mainTime(time, seged);
+    seged = 8;
     //palSetPad(GPIOA, GPIOA_TXD4);
     
     chThdSleepUntil(time);
+    seged = 9;
   }
   return 0; /* Never executed.*/
 }

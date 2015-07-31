@@ -33,7 +33,7 @@ int32_t cruiseGetPWM(void);
 
 uint8_t cruiseGet(void);
 
-int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxU, int32_t MinU, double Kp, double Ki, double Kd, int32_t MaxP, int32_t MaxI, int32_t MaxD);
+int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxU, int32_t MinU, int16_t Kp, int16_t Ki, int16_t Kd, int32_t MaxP, int32_t MaxI, int32_t MaxD);
 
 void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]);

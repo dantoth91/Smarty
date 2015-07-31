@@ -6,9 +6,6 @@
 #ifndef CAN_COMM_H_INCLUDED
 #define CAN_COMM_H_INCLUDED
 
-/*uint8_t canTransmitData(CANTxFrame txmsg);
-uint8_t canReceiveData(CANRxFrame *rxmsg);*/
-
 extern struct moduluxItems mlitems;
 extern struct bmsItems bmsitems;
 extern struct bms_cellItem cellitems;

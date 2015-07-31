@@ -10,9 +10,9 @@
 #define SPEED_ICU_CLOCK (1000000L)
 
 #define SEN_POINTS          48
-#define WHEEL               1800     /* Kerék kerület mm-ben */
+#define WHEEL               1733     /* Kerék kerület mm-ben */
 #define MSTOS               60000000
-#define MAX_RPM_STEP        50
+#define MAX_RPM_STEP        150
 #define SPEED_ZERO_PERIOD   50
 
 static double rpm_buff[SEN_POINTS];
@@ -80,11 +80,6 @@ static void speedWheelPeriodCb(ICUDriver *icup) {
   old_rotation = rotation;
 
   speed = speedRPM_TO_KMPH(rotation);
-
-  if(speed_zero_period > SPEED_ZERO_PERIOD){
-    rotation = 0;
-    speed = 0;
-  }
 }
 
 static void speedWheelPeriodNumber(ICUDriver *icup) {
@@ -106,48 +101,11 @@ void speedInit(void){
 }
 
 void speedCalc(void){
-  /*int i;
-
   speed_zero_period ++;
-
-  rotation = MSTOS / (speed_last_period * SEN_POINTS);
-
-  rpm_index++;
-
-  if(rpm_index > (SEN_POINTS - 1)){
-    rpm_index = 0;
-  }
-
-  rpm_buff[rpm_index] = rotation;
-  rpmasis = 0;
-  
-  for (i = 0; i < SEN_POINTS; i++){
-    rpmasis += rpm_buff[i];
-  }
-
-  rotation = rpmasis / SEN_POINTS;
-
-  if(rotation < 0){
-    rotation = 0;
-  }
-
-  if(rotation > 3000){
-    rotation = 3000;
-  }
-
-  if ((rotation - old_rotation) > MAX_RPM_STEP)
-  {
-    rotation = old_rotation;
-  }
-
-  old_rotation = rotation;
-
-  speed = speedRPM_TO_KMPH(rotation);
-
   if(speed_zero_period > SPEED_ZERO_PERIOD){
     rotation = 0;
     speed = 0;
-  }*/
+  }
 }
 
 uint32_t speedGetLastPeriod(void){

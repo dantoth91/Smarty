@@ -197,6 +197,7 @@
  * Port B setup.
  * All input with pull-up except:
  * PB0 - AIN8           (analog - SEN5)
+ * PB1 - BUT7           (input)
  * PB3 - J_TDO          (alternate 0)
  * PB4 - J_RST          (alternate 0)
  * PB6 - Serial1 TX     (alternate 7)
@@ -205,6 +206,7 @@
  * PB9 - I2C SDA        (alternate 4)
  */
 #define VAL_GPIOB_MODER             (PIN_MODE_ANALOG(GPIOB_AIN8)        | \
+                                     PIN_MODE_INPUT(GPIOB_BUT7)         | \
                                      PIN_MODE_ALTERNATE(GPIOB_TXD1)     | \
                                      PIN_MODE_ALTERNATE(GPIOB_RXD1)     | \
                                      PIN_MODE_ALTERNATE(GPIOB_I2C1_C)   | \
@@ -328,8 +330,8 @@
  * Port F setup.
  * All input with pull-up except:
  * PF6  - BUT1                  (analog - CURR1)
- * PF7  - BUT2                  (analog - CURR2)
- * PF8  - BUT3                  (analog - CURR2)
+ * PF7  - BUT2                  (analog - THROTTLE_IN)
+ * PF8  - BUT3                  (analog - REGENERATIVE_BRAKE)
  */
 #define VAL_GPIOF_MODER             (PIN_MODE_ANALOG(GPIOF_BUT1)        | \
                                      PIN_MODE_ANALOG(GPIOF_BUT2)        | \
