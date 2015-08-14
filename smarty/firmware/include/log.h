@@ -25,5 +25,6 @@ enum logStates logGetState(void);
 systime_t logGetTime(void);
 
 void cmd_testlog(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_logvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 
 #endif

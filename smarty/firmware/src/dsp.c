@@ -54,6 +54,7 @@ enum dspMessages {
   DSP_x100_MOTOR_POWER,
   DSP_x10_MOTOR_POWER,
   DSP_x1_MOTOR_POWER,
+  DSP_REGEN_BRAKE,
   DSP_INDEX_RIGHT,
   DSP_INDEX_LEFT,
   DSP_TEMPOMAT,
@@ -71,41 +72,41 @@ static uint8_t bus_status;
 bool_t dsp_activ;
 uint8_t c;
 static bool_t bus_bit[8];
-static uint16_t danger;
+static uint16_t danger, motor_temp, discharge, over_charge;
 
 int db = 127;
 int db2 = 0;
 
 void dsp_LoadTop(void) {
 
-  media_SetSector(0, 39); // indexbal icon
+  media_SetSector(0, 57); // indexbal icon
   media_VideoFrame(433, 7, 0);
 
-  media_SetSector(0, 6604); // tempomat icon
+  media_SetSector(0, 17715); // tempomat icon
   media_VideoFrame(433, 61, 0);
 
-  media_SetSector(0, 65); //lámpa icon
+  media_SetSector(0, 83); //lámpa icon
   media_VideoFrame(433, 154, 0);
 
-  media_SetSector(0, 50); //indexjobb icon
+  media_SetSector(0, 68); //indexjobb icon
   media_VideoFrame(433, 230, 0);
 
-  media_SetSector(0, 6623); //túl fesz icon
+  media_SetSector(0, 17734); //túl fesz icon
   media_VideoFrame(375, 26, 0);
 
-  media_SetSector(0, 11); //figy icon
+  media_SetSector(0, 23); //figy icon
   media_VideoFrame(375, 80, 0);
 
-  media_SetSector(0, 76); //motor veszely icon
+  media_SetSector(0, 94); //motor veszely icon
   media_VideoFrame(375, 170, 0);
 
   media_SetSector(0, 0); //alfesz icon
   media_VideoFrame(375, 219, 0);
 
-  media_SetSector(0, 6404); //Átlag icon
+  media_SetSector(0, 17); //Átlag icon
   media_Image(340, 4);
 
-  media_SetSector(0, 6615); //Tempomat szöveg
+  media_SetSector(0, 17726); //Tempomat szöveg
   media_Image(340, 166);
 
 }
@@ -113,18 +114,18 @@ void dsp_LoadMidle(void) {
 
   gfx_Transparency(1);
   gfx_TransparentColour(BLUE);
-  media_SetSector(0, 87); // müszer icon
+  media_SetSector(0, 111); // müszer icon
   media_VideoFrame(148, 21, 0);
 
-  media_SetSector(0, 61); // km/h szöveg
+  media_SetSector(0, 79); // km/h szöveg
   media_Image(168, 204);
 
-  media_SetSector(0, 6410); // szam kicsi icon
+  media_SetSector(0, 17521); // szam kicsi icon
   media_VideoFrame(315, 244, 0);
-  media_SetSector(0, 6410);
+  media_SetSector(0, 17521);
   media_VideoFrame(315, 40, 0);
 
-  media_SetSector(0, 6449); // szam nagy icon
+  media_SetSector(0, 17560); // szam nagy icon
   media_VideoFrame(186, 155, 0);
 
 }
@@ -133,35 +134,38 @@ void dsp_LoadBottom(void) {
   draw_line(360, 0, 360, 272, WHITE);
   draw_line(145, 0, 145, 272, WHITE);
 
-  media_SetSector(0, 28); //  icon
+  media_SetSector(0, 46); //  ikonalsó icon
   media_VideoFrame(108, 5, 0);
 
-  media_SetSector(0, 28); //  icon
+  media_SetSector(0, 46); //  ikonalsó icon
   media_VideoFrame(108, 135, 1);
 
-  media_SetSector(0, 28); //  icon
+  media_SetSector(0, 46); //  ikonalsó icon
   media_VideoFrame(66, 135, 2);
 
-  media_SetSector(0, 6634);
+  media_SetSector(0, 17751); //zHom icon
   media_Image(65, 5);
 
-  media_SetSector(0, 6423); // szam icon
+  media_SetSector(0, 17534); // szamkozep icon
   media_VideoFrame(108, 79, 0);
-  media_SetSector(0, 6423);
+  media_SetSector(0, 17534); // szamkozep icon
   media_VideoFrame(108, 228, 0);
-  media_SetSector(0, 6423);
+  media_SetSector(0, 17534); // szamkozep icon
   media_VideoFrame(66, 79, 0);
-  media_SetSector(0, 6423);
+  media_SetSector(0, 17534); // szamkozep icon
   media_VideoFrame(66, 228, 0);
 
-  media_SetSector(0, 22); //keplet
+  media_SetSector(0, 40); //keplet (C.gif)
   media_VideoFrame(102, 105, 2);
-  media_SetSector(0, 22);
+  media_SetSector(0, 40); //keplet (C.gif)
   media_VideoFrame(65, 105, 1);
-  media_SetSector(0, 22);
+  media_SetSector(0, 40); //keplet (C.gif)
   media_VideoFrame(102, 249, 0);
-  media_SetSector(0, 22);
+  media_SetSector(0, 40); //keplet (C.gif)
   media_VideoFrame(65, 249, 0);
+
+  media_SetSector(0, 6428); // rotation.gif
+  media_VideoFrame(3, 0, 0);
 
 }
 
@@ -169,39 +173,38 @@ void dsp_RefreshMidle(int frame) {
 
   gfx_Transparency(1);
   gfx_TransparentColour(BLUE);
-  media_SetSector(0, 87); // müszer icon
+  media_SetSector(0, 111); // müszer icon
   media_VideoFrame(148, 21, frame / 5);
 
-  media_SetSector(0, 61); // km/h szöveg
+  media_SetSector(0, 79); // km/h szöveg
   media_Image(168, 204);
 
-  media_SetSector(0, 6410); // szam kicsi icon
+  media_SetSector(0, 17521); // szam kicsi icon
   media_VideoFrame(315, 244, 0);
-  media_SetSector(0, 6410);
+  media_SetSector(0, 17521);
   media_VideoFrame(315, 33, 0);
 
   if (frame / 100 != 0) {
-    media_SetSector(0, 6449); // szam nagy icon
+    media_SetSector(0, 17560); // szam nagy icon
     media_VideoFrame(186, 62, frame / 100);
   }
   else {
-    media_SetSector(0, 6449); // szam nagy icon
+    media_SetSector(0, 17560); // szam nagy icon
     media_VideoFrame(186, 62, 10);
   }
-  media_SetSector(0, 6449); // szam nagy icon
+  media_SetSector(0, 17560); // szam nagy icon
   media_VideoFrame(186, 112, (frame / 10) % 10);
-  media_SetSector(0, 6449); // szam nagy icon
+  media_SetSector(0, 17560); // szam nagy icon
   media_VideoFrame(186, 162, frame % 10);
 }
 
-int szamlalo;
 static uint32_t bus_num = 0;
 bool_t cruise_assis = FALSE;
 
 /*
  * Display Task
  */
-static WORKING_AREA(wadspTask, 512);
+static WORKING_AREA(wadspTask, 1024);
 static msg_t dspTask(void *arg) {
   systime_t time; 
 
@@ -210,6 +213,7 @@ static msg_t dspTask(void *arg) {
   time = chTimeNow();  
   while (TRUE) {
     int new_val;
+    uint32_t regen_assis;
 
     bus_num++;
     //bus_read = bus_read > 9999 ? 0 : bus_read;
@@ -219,12 +223,9 @@ static msg_t dspTask(void *arg) {
       bus_status = bus_Read();
     }
 
-    else if((bus_num % 4) == 2)
+    else if((bus_num % 2) == 0)
     {
       
-      szamlalo++;
-      szamlalo = szamlalo > 999 ? 0 : szamlalo;
-
       tasknumber++;
       switch (dspmessages) {
 
@@ -233,7 +234,7 @@ static msg_t dspTask(void *arg) {
           new_val = new_val == 0 ? 10 : new_val;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6449); // szam nagy icon
+            media_SetSector(0, 17560); // szam nagy icon
             media_VideoFrame(186, 62, new_val);
             //dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -254,7 +255,7 @@ static msg_t dspTask(void *arg) {
 
           if (dspValue[dspmessages] != new_val) {
 
-            media_SetSector(0, 6449); // szam nagy icon
+            media_SetSector(0, 17560); // szam nagy icon
             media_VideoFrame(186, 112, new_val);
             //dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -268,7 +269,7 @@ static msg_t dspTask(void *arg) {
           new_val = (uint16_t)(speedGetSpeed() % 10);
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6449); // szam nagy icon
+            media_SetSector(0, 17560); // szam nagy icon
             media_VideoFrame(186, 162, new_val);
             //dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -283,7 +284,7 @@ static msg_t dspTask(void *arg) {
           if (dspValue[dspmessages] != new_val) {
             gfx_Transparency(1);
             gfx_TransparentColour(BLUE);
-            media_SetSector(0, 87); // müszer icon
+            media_SetSector(0, 111); // müszer icon
             media_VideoFrame(148, 21, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -295,7 +296,7 @@ static msg_t dspTask(void *arg) {
         case DSP_x10_AVG_SPEED:
           new_val = 995;
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6410);
+            media_SetSector(0, 17521);
             media_VideoFrame(315, 0, new_val/100);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -307,7 +308,7 @@ static msg_t dspTask(void *arg) {
         case DSP_x1_AVG_SPEED:
           new_val = 995;
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6410);
+            media_SetSector(0, 17521);
             media_VideoFrame(315, 20, (new_val / 10) % 10);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -319,7 +320,7 @@ static msg_t dspTask(void *arg) {
         case DSP_x01_AVG_SPEED:
           new_val = 995;
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6410);
+            media_SetSector(0, 17521);
             media_VideoFrame(315, 40, new_val%10);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -332,7 +333,7 @@ static msg_t dspTask(void *arg) {
           new_val = (uint16_t)(cruiseGet() / 100);
           new_val = new_val == 0 ? 10 : new_val;
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6410);
+            media_SetSector(0, 17521);
             media_VideoFrame(315, 205, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -351,7 +352,7 @@ static msg_t dspTask(void *arg) {
           }
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6410);
+            media_SetSector(0, 17521);
             media_VideoFrame(315, 225, new_val);
             //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -364,7 +365,7 @@ static msg_t dspTask(void *arg) {
           new_val = cruiseGet() % 10;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6410);
+            media_SetSector(0, 17521);
             media_VideoFrame(315, 245, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -382,7 +383,7 @@ static msg_t dspTask(void *arg) {
             new_val = new_val / 1000;
           }
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(108, 39, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -401,7 +402,7 @@ static msg_t dspTask(void *arg) {
           }
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(108, 59, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -415,7 +416,7 @@ static msg_t dspTask(void *arg) {
           new_val = new_val % 10;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(108, 79, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -431,7 +432,7 @@ static msg_t dspTask(void *arg) {
           new_val = new_val == 0 ? 10 : new_val;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(66, 59, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -444,7 +445,7 @@ static msg_t dspTask(void *arg) {
           new_val = bmsitems.average_temp % 10;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(66, 79, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -459,7 +460,7 @@ static msg_t dspTask(void *arg) {
           new_val = new_val == 0 ? 10 : new_val;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(108, 168, new_val / 1000);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -477,7 +478,7 @@ static msg_t dspTask(void *arg) {
           }
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(108, 188, (new_val / 100) % 10);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -495,7 +496,7 @@ static msg_t dspTask(void *arg) {
           }
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(108, 208, (new_val / 10) % 10);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -508,7 +509,7 @@ static msg_t dspTask(void *arg) {
           new_val = 1234;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(108, 228, new_val  % 10);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -523,7 +524,7 @@ static msg_t dspTask(void *arg) {
           new_val = new_val == 0 ? 10 : new_val;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(66, 168, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -543,7 +544,7 @@ static msg_t dspTask(void *arg) {
           }
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(66, 188, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -563,7 +564,7 @@ static msg_t dspTask(void *arg) {
           }
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(66, 208, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -575,8 +576,26 @@ static msg_t dspTask(void *arg) {
         case DSP_x1_MOTOR_POWER:
           new_val = calcGetValue(CALC_MOTOR_POWER) % 10;
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6423); // szam icon
+            media_SetSector(0, 17534); // szam icon
             media_VideoFrame(66, 228, new_val);
+          //  dspstate = DSP_WAITING;
+            dspValue[dspmessages] = new_val;
+            break;
+          }
+          else
+            dspmessages++;
+
+        case DSP_REGEN_BRAKE:
+          regen_assis = measGetValue_2(MEAS2_REGEN_BRAKE);
+          regen_assis *= 29;
+          regen_assis = (int32_t)(regen_assis /1000);
+          regen_assis = regen_assis > 260 ? 260 : regen_assis;
+          new_val = regen_assis;
+
+          //new_val = map(measGetValue(MEAS2_REGEN_BRAKE), 0, 9000, 0, 260);
+          if (dspValue[dspmessages] != new_val) {
+            media_SetSector(0, 6428); // rotation.gif
+            media_VideoFrame(3, 0, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
             break;
@@ -590,7 +609,7 @@ static msg_t dspTask(void *arg) {
             new_val = 1;
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 50); //indexjobb icon
+            media_SetSector(0, 68); //indexjobb icon
             media_VideoFrame(433, 230, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -604,7 +623,7 @@ static msg_t dspTask(void *arg) {
           else
             new_val = 1;
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 39); // indexbal icon
+            media_SetSector(0, 57); // indexbal icon
             media_VideoFrame(433, 7, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -621,7 +640,7 @@ static msg_t dspTask(void *arg) {
           else
             new_val = 1;
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6604); // tempomat icon
+            media_SetSector(0, 17715); // tempomat icon
             media_VideoFrame(433, 61, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -636,9 +655,11 @@ static msg_t dspTask(void *arg) {
             new_val = 0;
           }
           else
+          {
             new_val = 1;
+          }
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 65); //lámpa icon
+            media_SetSector(0, 83); //lámpa icon
             media_VideoFrame(433, 154, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -650,16 +671,18 @@ static msg_t dspTask(void *arg) {
         case DSP_OVER_CHARGE:
           if((bmsitems.custom_flag_1 >> 1) & 0x01)
           {
-            new_val = 1;
+            new_val = 0;
           }
           else
           {
-            new_val = 0;
+            over_charge ++;
+            new_val = over_charge < 10 ? 1 : 2;
+            over_charge = over_charge > 20 ? 0 : over_charge;
           }
           
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 6623); //túl fesz icon
-            media_VideoFrame(375, 26, 1);
+            media_SetSector(0, 17734); //túl fesz icon
+            media_VideoFrame(375, 26, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
             break;
@@ -670,16 +693,18 @@ static msg_t dspTask(void *arg) {
         case DSP_DISCHARGE:
           if(bmsitems.pack_soc > 10)
           {
-            new_val = 1;
+            new_val = 0;
           }
           else
           {
-            new_val = 0;
+            discharge ++;
+            new_val = discharge < 10 ? 1 : 2;
+            discharge = discharge > 20 ? 0 : discharge;
           }
 
           if (dspValue[dspmessages] != new_val) {
             media_SetSector(0, 0); //alfesz icon
-            media_VideoFrame(375, 219, 1);
+            media_VideoFrame(375, 219, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
             break;
@@ -690,15 +715,17 @@ static msg_t dspTask(void *arg) {
         case DSP_MOTOR_TEMO:
           if(measGetValue(MEAS_OVER_HEAT))
           {
-            new_val = 0;
+            motor_temp ++;
+            new_val = motor_temp < 10 ? 1 : 2;
+            motor_temp = motor_temp > 20 ? 0 : motor_temp;
           }
           else
           {
-            new_val = 1;
+            new_val = 0;
           }
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 76); //motor veszely icon
+            media_SetSector(0, 94); //motor veszely icon
             media_VideoFrame(375, 170, new_val);
           //  dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;
@@ -711,18 +738,18 @@ static msg_t dspTask(void *arg) {
           if(bmsitems.custom_flag_1 & 0x01)
           {
             //DEACTIVE
-            new_val = 1;
+            new_val = 0;
           }
           else
           {
             //ACTIVE
             danger ++;
-            new_val = danger < 10 ? 0 : 1;
+            new_val = danger < 10 ? 1 : 2;
             danger = danger > 20 ? 0 : danger;
           }
 
           if (dspValue[dspmessages] != new_val) {
-            media_SetSector(0, 11); //figy icon
+            media_SetSector(0, 23); //figy icon
             media_VideoFrame(375, 80, new_val);
             //dspstate = DSP_WAITING;
             dspValue[dspmessages] = new_val;

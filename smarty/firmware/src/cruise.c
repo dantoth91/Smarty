@@ -46,12 +46,12 @@ static bool_t regen_on;
 
 static int32_t save_pwm;
 static int32_t pwm;
-static double P;
-static double I;
-static double D;
+static double p_tag;
+static double i_tag;
+static double d_tag;
 static int32_t result;
 static double eelozo;
-static double e;
+static double e_tag;
 static uint16_t cruise_on;
 static bool_t cruise_indicator;
 static uint32_t cruise_indicator_index;
@@ -101,11 +101,11 @@ void cruiseInit(void){
   cruise_disable_period = 0;
 
   pwm = 10000;
-  P = 2985;
-  I = 384000;
-  D = 0;
+  p_tag = 2985;
+  i_tag = 384000;
+  d_tag = 0;
 	eelozo = 0;
-	e = 0;
+	e_tag = 0;
 
   button_long_accel = FALSE;
   button_long_decelerat = FALSE;
@@ -203,13 +203,13 @@ void cruiseCalc(void){
     cruise_indicator = FALSE;
     cruise_indicator_index = FALSE;
     pwm = 10000 - measGetValue_2(MEAS2_THROTTLE);
-    P = 15;
-    I = measGetValue_2(MEAS2_THROTTLE) * 100;
-    D = 0;
+    p_tag = 15;
+    i_tag = measGetValue_2(MEAS2_THROTTLE) * 100;
+    d_tag = 0;
     eelozo = 0;
-    e = 0;
+    e_tag = 0;
 
-    pwm = bmsitems.pack_current > ACCEL_LIMIT_CURR ? pwm + (uint16_t)((bmsitems.pack_current - ACCEL_LIMIT_CURR) * 150) : \
+    pwm = bmsitems.pack_current > ACCEL_LIMIT_CURR ? pwm + (uint16_t)((bmsitems.pack_current - ACCEL_LIMIT_CURR) * 30) : \
                                                      pwm;
 
     pwm = pwm > 10000 ? 10000 : pwm;
@@ -292,42 +292,42 @@ uint8_t cruiseGet(void){
   return speedRPM_TO_KMPH(set);
 }
 
-int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxResult, int32_t MinResult, int16_t Kp, int16_t Ki, int16_t Kd, int32_t MaxP, int32_t MaxI, int32_t MaxD)
+int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxResult, int32_t MinResult, int16_t k_p, int16_t k_i, int16_t k_d, int32_t MaxP, int32_t MaxI, int32_t MaxD)
 {	 
-	e = Set - Input;
+	e_tag = Set - Input;
 
 	/* Proportional */
-	P = Kp * e;
-	if (P > MaxP){
-		P = MaxP;
+	p_tag = k_p * e_tag;
+	if (p_tag > MaxP){
+		p_tag = MaxP;
 	}
-	else if (P < (-1 * MaxP)){
-		P = -1 * MaxP;
+	else if (p_tag < (-1 * MaxP)){
+		p_tag = -1 * MaxP;
 	}
 	/* ----------- */
 
 	/* Integral */
-	I += (Ki * e);
-	if (I > MaxI){
-		I = MaxI;
+	i_tag += (k_i * e_tag);
+	if (i_tag > MaxI){
+		i_tag = MaxI;
 	}
-	else if (I < (-1 * MaxI)){
-		I = -1 * MaxI;
+	else if (i_tag < (-1 * MaxI)){
+		i_tag = -1 * MaxI;
 	}
 	/* ----------- */
 
 	/* Derivative */
-	D = Kd * ( e - eelozo);
-	if (D > MaxD){
-		D = MaxD;
+	d_tag = k_d * ( e_tag - eelozo);
+	if (d_tag > MaxD){
+		d_tag = MaxD;
 	}
-	else if (D < (-1 * MaxD)){
-		D = -1 * MaxD;
+	else if (d_tag < (-1 * MaxD)){
+		d_tag = -1 * MaxD;
 	}
 	/* ----------- */
 
 	/* Result */
-	result = (int32_t)(P + I + D);
+	result = (int32_t)(p_tag + i_tag + d_tag);
 
 	if (result > MaxResult){
 		result = MaxResult;
@@ -336,7 +336,7 @@ int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxResult, int32_t MinRes
 		result = MinResult;
 	}
 
-	eelozo = e;
+	eelozo = e_tag;
 
 	return result;
 }
@@ -350,9 +350,9 @@ void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
       chprintf(chp, "\x1B[%d;%dH", 0, 0);
 
-      chprintf(chp, "K_P: %15d - P: %15d\r\n", K_P, (int32_t)P);
-      chprintf(chp, "K_I: %15d - I: %15d\r\n", K_I, (int32_t)I);
-	    chprintf(chp, "K_D: %15d - D: %15d\r\n", K_D, (int32_t)D);
+      chprintf(chp, "K_P: %15d - P: %15d\r\n", K_P, (int32_t)p_tag);
+      chprintf(chp, "K_I: %15d - I: %15d\r\n", K_I, (int32_t)i_tag);
+	    chprintf(chp, "K_D: %15d - D: %15d\r\n", K_D, (int32_t)d_tag);
       chprintf(chp, "K_D: %15d - R: %15d\r\n", K_D, (int32_t)result);
       chprintf(chp, "pwm: %15d\r\n", pwm);
       chprintf(chp, "set rpm: %15d\r\n", set);

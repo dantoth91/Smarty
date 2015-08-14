@@ -15,11 +15,17 @@
 #include "sdcard.h"
 
 #include "log.h"
-#include "meas.h"
 #include "logItems.h"
 
-#include "can_items.h"
 #include "can_comm.h"
+#include "can_items.h"
+
+#include "meas.h"
+
+struct moduluxItems mlitems;
+struct bmsItems bmsitems;
+struct bms_cellItem cellitems;
+struct luxcontrolItem lcitems;
 
 #define LOG_WA_SIZE (2048)
 
@@ -36,11 +42,6 @@ static uint16_t size = 0;
 static uint32_t logPeriod = 0;
 static uint32_t szam = 0;
 
-struct moduluxItems mlitems;
-struct bmsItems bmsitems;
-struct bms_cellItem cellitems;
-struct luxcontrolItem lcitems;
-
 /*
  * Initializes log 
  */
@@ -52,6 +53,8 @@ void logInit(void){
   logPeriod = 0;
   size = 0;
 
+  logStart();
+  
   static WORKING_AREA(waLog, LOG_WA_SIZE);
   chThdCreateStatic(waLog, sizeof(waLog), LOWPRIO, logThread, NULL);
 }
@@ -369,4 +372,31 @@ void cmd_testlog(BaseSequentialStream *chp, int argc, char *argv[]) {
   }
   logStop();
   chprintf(chp, "\r\nLogging stopped\r\n");
+}
+
+void cmd_logvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
+  enum logStates state;
+  uint32_t old_logPeriod = 0;
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    if(old_logPeriod != logPeriod){
+      chprintf(chp, "\x1B[%d;%dH", 0, 0);
+      state = logGetState();
+      chprintf(chp, "\x1B[%d;%dH", 0, 0);
+      chprintf(chp, "Filename = %s Logtime = %D    \r\n", logFileName, chTimeNow() - logStartTime);
+      chprintf(chp, "logState = %s \r\n", 
+               state == LOG_RUNNING ? "LOG_RUNNING" : \
+               state == LOG_STOPPED ? "LOG_STOPPED" : \
+               state == LOG_STOPPING ? "LOG_STOPPING" : "LOG_DOWNLOADING");
+      chprintf(chp, "size: %d\r\n", size);
+      chprintf(chp, "logPeriod: %d\r\n", logPeriod);
+      chprintf(chp, "szam: %d\r\n", szam);
+      old_logPeriod = logPeriod;
+    }
+    chThdSleepMilliseconds(10);
+  }
 }

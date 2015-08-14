@@ -16,8 +16,6 @@
 #define MIN_PERCENT             0
 #define MAX_PERCENT             9000
 
-#define NULL_AMPER_ADC          13630
-
 enum measStates
 {
   MEAS_START,

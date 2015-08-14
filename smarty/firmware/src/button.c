@@ -34,7 +34,7 @@ static bool_t warning;
 static bool_t warning_active;
 
 static bool_t lamp_ok;
-static uint8_t seged;
+static uint8_t lamp_long;
 
 static uint16_t bus;
 static bool_t bus_bit[8];
@@ -46,6 +46,7 @@ void buttonInit(void){
 	cruise_minusz = FALSE;
 	cruise_minusz = FALSE;
 	lamp_ok = FALSE;
+	lamp_long = 0;
 	button_accel = FALSE;
 
 	bus = 0;
@@ -153,10 +154,8 @@ void buttonCalc(void){
 
 /* Index right */
 	if((palReadPad(GPIOA, GPIOA_BUT5) == 0) && index_right){
-		seged = 1;
 		if (index_right_active || index_left_active || warning_active)
 		{
-			seged = 2;
 			lightFlashing(0);
 			index_right = FALSE;
 			
@@ -169,13 +168,11 @@ void buttonCalc(void){
 			lightFlashing(1);
 			index_right = FALSE;
 			index_right_active = TRUE;
-			seged = 3;
 		}
 	}
 	else if(palReadPad(GPIOA, GPIOA_BUT5))
 	{
 		index_right = TRUE;
-		seged = 4;
 	}
 
 /* Index left */
@@ -224,17 +221,29 @@ void buttonCalc(void){
 	}
 
 /* Pos. Lamp */
-	if((bus_bit[4] == 0) && lamp_ok){
-		if (getLightFlashing(5))
+	if(bus_bit[4] == 0)
+	{
+		lamp_long++;
+		if (lamp_ok)
 		{
-			lightPosLampOff();
-			lamp_ok = FALSE;
+			if (getLightFlashing(5) || getLightFlashing(7))
+			{
+				lightPosLampOff();
+				lightLampDemoOff();
+				lamp_ok = FALSE;
+			}
+			else
+			{
+				lightPosLampOn();
+				lamp_ok = FALSE;
+			}
 		}
-		else
+		if (lamp_long > 100)
 		{
-			lightPosLampOn();
-			lamp_ok = FALSE;
+			lamp_long = 0;
+		    lightLampDemoOn();
 		}
+
 	}
 	else if(bus_bit[4])
 	{
@@ -258,7 +267,6 @@ void cmd_buttonvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       }
       chprintf(chp, "\r\n");
       chprintf(chp, "right: %d left: %d \r\n", index_right, index_left);
-      chprintf(chp, "seged: %d \r\n", seged);
       chprintf(chp, "\r\ncruise_ok: %d \r\n", cruise_ok);
 	  chprintf(chp, "cruise_plusz: %d \r\n", cruise_plusz);
 	  chprintf(chp, "cruise_minusz: %d \r\n", cruise_minusz);

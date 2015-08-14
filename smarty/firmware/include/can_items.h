@@ -66,3 +66,8 @@ static struct luxcontrolItem
   uint16_t volt_out[32];
   uint16_t pwm[32];
 };
+
+//extern struct moduluxItems mlitems;
+//extern struct bmsItems bmsitems;
+//extern struct bms_cellItem cellitems;
+//extern struct luxcontrolItem lcitems;

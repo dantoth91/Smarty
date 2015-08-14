@@ -9,11 +9,12 @@
 #include "shell.h"
 #include "chprintf.h"
 
-#include "can_comm.h"
 #include "can_items.h"
+#include "can_comm.h"
 #include "speed.h"
 #include "meas.h"
 #include "calc.h"
+#include "log.h"
 /*
  * #define CAN_MIN_EID         0x10
  * #define CAN_MAX_EID         0x1FFFFFF
@@ -374,6 +375,15 @@ static msg_t can_tx(void * p) {
 
           txmsg.data16[0] = calcGetValue(CALC_MOTOR_POWER);
           txmsg.data16[1] = measGetValue(MEAS_UBAT);
+          if(logGetState() == LOG_RUNNING)
+          {
+            txmsg.data8[4] = 1;
+          }
+          else
+          {
+            txmsg.data8[4] = 0;
+          }
+          
 
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
