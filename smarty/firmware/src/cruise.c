@@ -31,7 +31,7 @@
 #define ACCEL_LIMIT_CURR        400
 
 static int16_t K_P = 5;
-static int16_t K_I = 2;
+static int16_t K_I = 4;
 static int16_t K_D = 500;
 
 static int32_t MAX_Result = 1000000;
@@ -209,9 +209,10 @@ void cruiseCalc(void){
     eelozo = 0;
     e_tag = 0;
 
+    //Current limit
     pwm = bmsitems.pack_current > ACCEL_LIMIT_CURR ? pwm + (uint16_t)((bmsitems.pack_current - ACCEL_LIMIT_CURR) * 30) : \
                                                      pwm;
-
+    /* ============== */
     pwm = pwm > 10000 ? 10000 : pwm;
     pwm = pwm < 1000 ? 1000 : pwm;
 

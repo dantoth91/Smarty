@@ -25,6 +25,8 @@ void putstr(char * InString);
 void WriteChars(char * charsout);
 uint16_t bus_Read(void);
 void bus_In(void);
+uint16_t gfxGetDspAns(void);
+void gfxGetDspAnsZero(void);
 
 #endif
 

@@ -27,6 +27,11 @@
 #define BUS_READ                  (0xFFCF)
 #define BUS_IN                    (0xFFD3)
 
+/* Display answer message */
+#define DIAG_DSP_OK (0x06)
+
+static uint8_t dspAns;
+
 void gfx_Cls(void)
 {
   sdPut(&SD2, GFX_CLS >> 8);
@@ -158,19 +163,42 @@ void WriteChars(char * charsout)
 uint16_t bus_Read(void)
 {
   uint16_t bus;
-  //palClearPad(GPIOA, GPIOA_TXD4);
 
   sdPut(&SD2, BUS_READ >> 8);
   sdPut(&SD2, BUS_READ);
-  //chSequentialStreamRead(&SD2, &bus, 3);
-  //sdReadTimeout(&SD2, &bus, 3, 10);
-  sdReadTimeout(&SD2, &bus, 3, 10);
-  //palSetPad(GPIOA, GPIOA_TXD4);
-  return (uint8_t)bus;
+  bus = gfxGetDspAns();
+  if (bus == DIAG_DSP_OK)
+  {
+    sdReadTimeout(&SD2, &bus, 2, 10);
+  }
+  //else
+  //  bus = 0xFF;
+
+  return (uint16_t)bus;
 }
 
 void bus_In(void)
 {
   sdPut(&SD2, BUS_IN >> 8);
   sdPut(&SD2, BUS_IN);
+}
+
+uint16_t gfxGetDspAns(void)
+{
+  uint16_t ans;
+
+  sdReadTimeout(&SD2, &ans, 2, 10);
+
+  if (ans == DIAG_DSP_OK)
+  {
+    dspAns = DIAG_DSP_OK;
+  }
+  else
+    dspAns = ans;
+
+  return (uint16_t)dspAns;
+}
+
+void gfxGetDspAnsZero(void){
+    dspAns = 0;
 }
