@@ -213,7 +213,7 @@ static msg_t dspTask(void *arg) {
   chRegSetThreadName("dspTask");
   time = chTimeNow();  
   while (TRUE) {
-    int new_val;
+    int32_t new_val;
     uint32_t regen_assis;
 
     bus_num++;
@@ -565,8 +565,8 @@ static msg_t dspTask(void *arg) {
                 dspmessages++;
 
             case DSP_x1000_MOTOR_POWER:
-              new_val = calcGetValue(CALC_MOTOR_POWER) / 1000;
-              new_val /= 1000;
+              new_val = calcGetValue(CALC_MOTOR_POWER);
+              new_val = (uint32_t)(new_val / 1000);
               new_val = new_val == 0 ? 10 : new_val;
 
               if (dspValue[dspmessages] != new_val) {

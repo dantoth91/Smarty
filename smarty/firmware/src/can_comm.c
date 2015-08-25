@@ -101,14 +101,14 @@ static CANRxFrame rxmsg;
 /*          F2XX           |      F4XX              */
 /*  fPCLK   30             |      42                */
 /*  tPCLK   0,033333333    |      0,023809524       */
-/*  BRP[X]  4              |      6                 */
-/*  tq      0,166666667    |      0,166666667       */
+/*  BRP[X]  9              |      13                */
+/*  tq      0,333333333    |      0,333333333       */
 /*--------------------------------------------------*/
 
 static const CANConfig cancfg = {
   CAN_MCR_ABOM,
   CAN_BTR_SJW(0) | CAN_BTR_TS2(1) |
-  CAN_BTR_TS1(8) | CAN_BTR_BRP(6)
+  CAN_BTR_TS1(8) | CAN_BTR_BRP(13)
 };
 
 static uint16_t rx_id;

@@ -27,7 +27,7 @@ static uint16_t avg_motor[AVG_TMB];
 
 void calcCalc(void){
   int ch, i;
-  int calc;
+  int32_t calc;
   double motorasis;
 
   switch(calcstate){

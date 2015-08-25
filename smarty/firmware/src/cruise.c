@@ -27,8 +27,9 @@
 #define DECELERATE_RPM          200
 #define CRUISE_MAX_DIFERENT     500
 
-/*#define ACCEL_LIMIT_STEP        20*/
+/* Current limit */
 #define ACCEL_LIMIT_CURR        400
+#define CURR_MULTIPLIER         30
 
 static int16_t K_P = 5;
 static int16_t K_I = 4;
@@ -68,6 +69,7 @@ static bool_t button_long_accel;
 static bool_t button_long_decelerat;
 
 static int32_t accel_limit;
+
 
 static PWMConfig cruise_pwmcfg = {
   10000000,	/* 10MHz PWM clock frequency */
@@ -131,6 +133,9 @@ void cruiseCalc(void){
 
   eeprom_write_period ++;
 
+  accel_limit =  bmsitems.pack_dcl;
+  accel_limit *= 4;
+
 /* Cruise control "set" value save */
   if(eeprom_write_period == EEPROM_WRITE_PERIOD)
   {
@@ -176,10 +181,18 @@ void cruiseCalc(void){
       pwm = (int32_t)(cruisePID(speedGetRpm(), set, MAX_Result, MIN_Result, K_P, K_I, K_D, MAX_P, MAX_I, MAX_D) / 100);
     }
     pwm = 10000 - pwm;
+
+    /* Current limit */
+    pwm = bmsitems.pack_current > accel_limit ? pwm + (uint16_t)((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER) : \
+                                                     pwm;
+    /* ============== */
+
+    pwm = pwm > 10000 ? 10000 : pwm;
     pwm = pwm < 1000 ? 1000 : pwm;
 
     pwmEnableChannel(&PWMD5, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, pwm)); //10000 = 100%
 
+    /* Throttle pedal push - Cruise controll off */
     if(pwm > (10000 - measGetValue_2(MEAS2_THROTTLE)))
     {
       cruise_disable_period ++;
@@ -188,11 +201,14 @@ void cruiseCalc(void){
         cruise_on = FALSE;
       }
     }
+    /* ============== */
 
+    /* Brake pedal push - Cruise controll off */
     if(measGetValue_2(MEAS2_REGEN_BRAKE) > 500)
     {
       cruise_on = FALSE;
     }
+    /* ============== */
   }
 /* =========================== */
 /* Throttle pedal */
@@ -208,9 +224,9 @@ void cruiseCalc(void){
     d_tag = 0;
     eelozo = 0;
     e_tag = 0;
-
-    //Current limit
-    pwm = bmsitems.pack_current > ACCEL_LIMIT_CURR ? pwm + (uint16_t)((bmsitems.pack_current - ACCEL_LIMIT_CURR) * 30) : \
+    
+    /* Current limit */
+    pwm = bmsitems.pack_current > accel_limit ? pwm + (uint16_t)((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER) : \
                                                      pwm;
     /* ============== */
     pwm = pwm > 10000 ? 10000 : pwm;
