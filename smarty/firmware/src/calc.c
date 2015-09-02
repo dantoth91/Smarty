@@ -39,31 +39,19 @@ void calcCalc(void){
         switch(ch){
           case CALC_MOTOR_POWER:
 
-            //calc = measGetValue_2(MEAS2_CURR1);
-            //calc -= Modulux CURRENT
-            //calc *= bmsitems.pack_inst_volt;
-            //calc /= 100;
-
-            calc = bmsitems.pack_current;
-
-            calc = calc < 0 ? 0 : calc;
-            //calc -= Modulux CURRENT
+            /*
+             * Calculating Motor Power
+             * Power = bmsitems.pack_inst_volt * MEAS2_CURR1;
+             */
+            calc = measGetValue_2(MEAS2_CURR1);
             calc *= bmsitems.pack_inst_volt;
-            calc /= 100;
+            calc /= 10000;
 
-            motor_index++;
-            if(motor_index > (AVG_TMB - 1)){
-              motor_index = 0;
-            }
-            avg_motor[motor_index] = calc;
-            motorasis = 0;
-            for (i = 0; i < AVG_TMB; i++){
-              motorasis += avg_motor[i];
-            }
-            calc = motorasis / AVG_TMB;
-            if(calc < 0){
-              calc = 0;
-            }
+            break;
+          case CALC_SUN_POWER:
+            calc = bmsitems.pack_inst_volt * mlitems.sun_current;
+            calc /= 10000;
+
             break;
           default:
             break;
@@ -79,6 +67,7 @@ void calcCalc(void){
   }
 }
 
+
 int32_t calcGetValue(enum calcChannels ch){
 	  return calcValue[ch];
 }
@@ -88,7 +77,7 @@ void cmd_calcvalues(BaseSequentialStream *chp, int argc, char *argv[]){
 
   static const char * const names[] = {
 
-      "CALC_MOTOR_POWER"};
+      "CALC_MOTOR_POWER", "CALC_SUN_POWER"};
 
   (void)argc;
   (void)argv;

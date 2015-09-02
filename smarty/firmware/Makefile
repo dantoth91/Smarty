@@ -78,7 +78,7 @@ PROJECT = smarty
 
 # Imported source files and paths
 CHIBIOS = ../../../ChibiOS
-#CHIBIOS = ../../../ChibiOS_2.6.6
+#CHIBIOS = c:/ChibiStudio/chibios
 include os/board/board.mk
 #include $(CHIBIOS)/boards/ST_STM32F4_DISCOVERY/board.mk
 include $(CHIBIOS)/os/hal/platforms/STM32F4xx/platform.mk
@@ -102,7 +102,7 @@ CSRC = $(PORTSRC) \
        $(FATFSSRC) \
        $(CHIBIOS)/os/various/evtimer.c \
        $(CHIBIOS)/os/various/syscalls.c \
-       $(CHIBIOS)/os/various/shell2.c \
+       $(CHIBIOS)/os/various/shell.c \
        $(CHIBIOS)/os/various/chprintf.c \
        $(CHIBIOS)/os/various/chrtclib.c \
        src/main.c \

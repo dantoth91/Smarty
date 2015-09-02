@@ -39,5 +39,6 @@ void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_setcruisevalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_cruise(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_regen_brake(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_current_limit_switch(BaseSequentialStream *chp, int argc, char *argv[]);
 
 #endif

@@ -5,6 +5,7 @@
 
 #include "speed.h"
 #include "chprintf.h"
+#include "eepromitems.h"
 
 /* 10kHz ICU clock frequency.  (1MHz - 1000000L) */
 #define SPEED_ICU_CLOCK (1000000L)
@@ -18,6 +19,15 @@
 static double rpm_buff[SEN_POINTS];
 
 static uint16_t rpm_index;
+
+/*
+ * Variables for the distance measuring
+ */
+static uint8_t tick_counter;
+static double meter_counter;
+static uint32_t kmeter_counter;
+static uint32_t total_kmeter_counter;
+
 
 static void speedWheelPeriodCb(ICUDriver *icup);
 static void speedWheelPeriodNumber(ICUDriver *icup);
@@ -40,6 +50,7 @@ static double rotation;
 static double old_rotation;
 static double speed;
 static double rpmasis;
+
 
 static void speedWheelPeriodCb(ICUDriver *icup) {
   int i;
@@ -86,6 +97,7 @@ static void speedWheelPeriodNumber(ICUDriver *icup) {
     (void)icup;
     speed_period_num ++;
     speed_zero_period = 0;
+    DistanceMeas();
 }
 
 void speedInit(void){
@@ -98,6 +110,12 @@ void speedInit(void){
 
   speed_period_num = 0;
   old_rotation = 0;
+
+  kmeter_counter = 0;
+  total_kmeter_counter= 0;
+
+  eepromRead(KMETER_COUNTER, &kmeter_counter);
+  eepromRead(TOTAL_KMETER_COUNTER, &total_kmeter_counter);
 }
 
 void speedCalc(void){
@@ -182,6 +200,53 @@ uint32_t speedKMPH_TO_RPM(double kmph){
   return tmp;
 }
 
+/*
+ * Measure the Distance in KM
+ * Two counters: - Total Kmeter
+ *               - Nullable Kmeter
+ */
+void DistanceMeas(void)
+{
+  tick_counter++;
+  if((tick_counter % SEN_POINTS) == 0)
+  {
+    meter_counter += (double)(WHEEL / 1000);
+    tick_counter = 0;
+  }
+
+  if (meter_counter >= 1000)
+  {
+    kmeter_counter++;
+    total_kmeter_counter++;
+    meter_counter -= 1000;
+    //Until one plus KM save the values to the eeprom
+    chThdCreateStatic(wasave_kmeter_eeprom, sizeof(wasave_kmeter_eeprom), NORMALPRIO, save_kmeter_eeprom, NULL);
+  }
+}
+
+/*
+ * This task save the "kmeter_counter" and "total_kmeter_counter" to the eeprom
+ */
+static WORKING_AREA(wasave_kmeter_eeprom, 512);
+static msg_t save_kmeter_eeprom(void *arg) {
+  chSysLock();
+  eepromWrite(TOTAL_KMETER_COUNTER, total_kmeter_counter);
+  chThdSleepMilliseconds(10);
+  eepromWrite(KMETER_COUNTER, kmeter_counter);
+  chSysUnlock();
+  return 0;
+}
+
+uint32_t GetTotalKmeterDistance()
+{
+  return total_kmeter_counter;
+}
+uint32_t GetKmeterDistance()
+{
+  return kmeter_counter;
+}
+
+
 void cmd_speedvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
 
   (void)argc;
@@ -198,4 +263,62 @@ void cmd_speedvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
     chprintf(chp, "rpmasis: %5d\r\n", rpmasis);
     chThdSleepMilliseconds(1000);
   }
+}
+
+void cmd_distancevalues(BaseSequentialStream *chp, int argc, char *argv[])
+{
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    chprintf(chp, "\x1B[%d;%dH", 0, 0);
+
+    chprintf(chp, "tick_counter: %5d\r\n", tick_counter);
+    chprintf(chp, "meter_count: %5d\r\n", (uint16_t)meter_counter);
+    chprintf(chp, "kmeter_count: %5d\r\n", kmeter_counter);
+    chprintf(chp, "total_kmeter_count: %5d\r\n", total_kmeter_counter);
+
+    chThdSleepMilliseconds(200);
+  }
+}
+
+void cmd_set_total_kmeter(BaseSequentialStream *chp, int argc, char *argv[])
+{
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
+
+  total_kmeter_counter = atol(argv[0]);
+
+  if(eepromWrite(TOTAL_KMETER_COUNTER, total_kmeter_counter) != 0)
+  {
+    chprintf(chp, "EEPROM write error!\r\n");
+  }else
+  {
+    chprintf(chp, "Total KMeter has stored!\r\n");
+  }
+
+  chprintf(chp, "Total KMeter: %d\r\n", total_kmeter_counter);
+
+  chThdSleepMilliseconds(100);
+}
+
+void cmd_reset_kmeter(BaseSequentialStream *chp, int argc, char *argv[])
+{
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
+
+  kmeter_counter = 0;
+  if(eepromWrite(KMETER_COUNTER, kmeter_counter) != 0)
+  {
+    chprintf(chp, "EEPROM write error!\r\n");
+  }else
+  {
+    chprintf(chp, "KMeter has cleared!\r\n");
+  }
+  chprintf(chp, "KMeter: %d\r\n", kmeter_counter);
+
+  chThdSleepMilliseconds(100);
 }

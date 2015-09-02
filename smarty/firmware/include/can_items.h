@@ -9,10 +9,12 @@
 static struct moduluxItems
 {
   uint32_t id;
-  uint16_t onevire_1;
-  uint16_t onevire_2;
-  uint16_t onevire_3;
-  uint16_t onevire_4;
+  uint16_t MODULE1_TEMP;
+  uint16_t MODULE8_TEMP;
+  uint16_t MODULE6_TEMP;
+  uint16_t MODULE12_TEMP;
+  uint16_t MODULE2_TEMP;
+  uint16_t sun_current;
 };
 
 /* BMS data */
@@ -60,11 +62,11 @@ static struct luxcontrolItem
   uint8_t temp[32];
   uint8_t curr_in[32];
   uint8_t curr_out[32];
-  uint8_t efficiency[32];
   uint16_t status[32];
-  uint32_t volt_in[32];
+  uint16_t volt_in[32];
   uint16_t volt_out[32];
   uint16_t pwm[32];
+  uint16_t curr_in_from_pwm[32];
 };
 
 //extern struct moduluxItems mlitems;

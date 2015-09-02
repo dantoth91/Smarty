@@ -113,6 +113,10 @@ static const ShellCommand commands[] = {
   {"safetyvalues", cmd_safetyvalues},
   {"fan_speed", cmd_fan_speed},
   {"calcvalues", cmd_calcvalues},
+  {"set_current_limit", cmd_current_limit_switch},
+  {"distancevalues", cmd_distancevalues},
+  {"set_total_kmeter", cmd_set_total_kmeter},
+  {"reset_kmeter", cmd_reset_kmeter},
   {NULL, NULL}
 };
 

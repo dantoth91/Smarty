@@ -29,9 +29,10 @@
 
 /* Current limit */
 #define ACCEL_LIMIT_CURR        400
-#define CURR_MULTIPLIER         30
+#define CURR_MULTIPLIER         50       //30
+#define MAX_CURR_SUBSTRACT      5000
 
-static int16_t K_P = 5;
+static int16_t K_P = 30;
 static int16_t K_I = 4;
 static int16_t K_D = 500;
 
@@ -68,7 +69,12 @@ static bool_t eeprom_write;
 static bool_t button_long_accel;
 static bool_t button_long_decelerat;
 
+/*
+ * Current Limit Variables
+ */
 static int32_t accel_limit;
+static uint16_t substract;
+static bool current_limit_status = 1;
 
 
 static PWMConfig cruise_pwmcfg = {
@@ -134,7 +140,7 @@ void cruiseCalc(void){
   eeprom_write_period ++;
 
   accel_limit =  bmsitems.pack_dcl;
-  accel_limit *= 4;
+  accel_limit *= 5;
 
 /* Cruise control "set" value save */
   if(eeprom_write_period == EEPROM_WRITE_PERIOD)
@@ -183,8 +189,18 @@ void cruiseCalc(void){
     pwm = 10000 - pwm;
 
     /* Current limit */
-    pwm = bmsitems.pack_current > accel_limit ? pwm + (uint16_t)((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER) : \
+    //pwm = bmsitems.pack_current > accel_limit ? pwm + (uint16_t)((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER) : \
                                                      pwm;
+
+    if(bmsitems.pack_current > accel_limit && current_limit_status == 1)
+    {
+      substract = ((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER);
+      if (substract > MAX_CURR_SUBSTRACT)
+        substract = MAX_CURR_SUBSTRACT;
+      pwm = pwm + substract;
+    }
+
+
     /* ============== */
 
     pwm = pwm > 10000 ? 10000 : pwm;
@@ -225,9 +241,20 @@ void cruiseCalc(void){
     eelozo = 0;
     e_tag = 0;
     
+
     /* Current limit */
-    pwm = bmsitems.pack_current > accel_limit ? pwm + (uint16_t)((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER) : \
-                                                     pwm;
+    if(bmsitems.pack_current > accel_limit && current_limit_status == 1)
+    {
+      substract = ((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER);
+      if (substract > MAX_CURR_SUBSTRACT)
+        substract = MAX_CURR_SUBSTRACT;
+      pwm = pwm + substract;
+    }
+
+
+
+
+
     /* ============== */
     pwm = pwm > 10000 ? 10000 : pwm;
     pwm = pwm < 1000 ? 1000 : pwm;
@@ -305,6 +332,12 @@ int32_t cruiseGetPWM(void){
   return save_pwm;
 }
 
+uint16_t cruiseGetCurrLimitSubstract()
+{
+  return substract;
+}
+
+
 uint8_t cruiseGet(void){
   return speedRPM_TO_KMPH(set);
 }
@@ -372,6 +405,7 @@ void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
 	    chprintf(chp, "K_D: %15d - D: %15d\r\n", K_D, (int32_t)d_tag);
       chprintf(chp, "K_D: %15d - R: %15d\r\n", K_D, (int32_t)result);
       chprintf(chp, "pwm: %15d\r\n", pwm);
+      chprintf(chp, "Current limit substract: %15d\r\n", substract);
       chprintf(chp, "set rpm: %15d\r\n", set);
       chprintf(chp, "input rpm: %15d\r\n", speedGetRpm());
       chprintf(chp, "set - rpm: %15d\r\n", set - speedGetRpm());
@@ -492,6 +526,40 @@ ERROR:
   chprintf(chp, "       cruise off\r\n");
   return;
 
+  chThdSleepMilliseconds(100);
+}
+
+void cmd_current_limit_switch(BaseSequentialStream *chp, int argc, char *argv[])
+{
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
+
+  if ((argc == 1) && (strcmp(argv[0], "on") == 0)){
+    current_limit_status = 1;
+    chprintf(chp, "Current limit switch ON!\r\n");
+    chprintf(chp, "Discharge Current Limit: %d\r\n", bmsitems.pack_dcl);
+  }
+
+  else if ((argc == 1) && (strcmp(argv[0], "off") == 0)){
+    current_limit_status = 0;
+    chprintf(chp, "Current limit switch OFF!\r\n");
+  }
+  else{
+    goto ERROR;
+  }
+  return;
+
+
+ERROR:
+  if(current_limit_status)
+    chprintf(chp, "Current Limit Status: ON\r\n");
+  else
+    chprintf(chp, "Current Limit Status: OFF\r\n");
+
+  chprintf(chp, "Usage: set_current_limit on\r\n");
+  chprintf(chp, "       set_current_limit off\r\n");
+  return;
   chThdSleepMilliseconds(100);
 }
 

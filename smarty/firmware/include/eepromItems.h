@@ -10,6 +10,8 @@ enum eepromItemNames
   MAX_THROTTLE,
   MIN_REGEN_BRAKE,
   MAX_REGEN_BRAKE,
+  TOTAL_KMETER_COUNTER,
+  KMETER_COUNTER,
   LAST_ITEM,
   EEPROM_ITEMS_NUM
 };
@@ -39,6 +41,10 @@ static struct eepromItem eepromitems[] = {
   { 0x0013, 0x001C, 4, MIN_REGEN_BRAKE},
   /* Regenerative brake pedal max ADC */
   { 0x0014, 0x0020, 4, MAX_REGEN_BRAKE},
+  /* Total KMeter Counter */
+  { 0x0015, 0x0024, 4, TOTAL_KMETER_COUNTER},
+  /* KMeter counter */
+  { 0x0016, 0x0028, 4, KMETER_COUNTER},
 
   /* Last item, always should be 0xFFFF */
   { 0xFFFB, 0xFFFB, 4, LAST_ITEM}

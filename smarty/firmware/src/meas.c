@@ -8,13 +8,37 @@
 
 #include "chprintf.h"
 
-#define ADC_GRP1_BUF_DEPTH      8
+#define ADC_GRP1_BUF_DEPTH      16
 
 #define MIN_PWM                 0
 #define MAX_PWM                 9000
 
 #define MIN_PERCENT             0
 #define MAX_PERCENT             9000
+
+/*
+ * Motor Current Measuring defines
+ * 196 adc - 8.5A
+ */
+#define NULL_AMPER_ADC          2924
+#define CURRENT_PER_ADC         43.36734
+#define MOTOR_CURRENT_LENGTH    100
+
+/*
+ * NTC Measuring stuffs
+ */
+#define MEAS_NTCCAL_NUM 43
+#define MEAS_NTCCAL_START -55
+#define MEAS_NTCCAL_STEP 5
+const adcsample_t measNTCcalib[] = {
+  4054, 4036, 4011, 3978, 3934, 3877, 3804, 3713, 3602, 3469,
+  3313, 3136, 2939, 2726, 2503, 2275, 2048, 1828, 1618, 1424,
+  1245, 1085,  942,  816,  706,  611,  528,  458,  397,  344,
+   300,  261,  228,  199,  175,  153,  135,  120,  106,   94,
+    83,   74,   66
+} ;
+
+
 
 enum measStates
 {
@@ -48,6 +72,13 @@ static systime_t ido;
 static systime_t valtozo;
 
 static int curr_avg;
+
+/*
+ * Motor Current Meas Buffer
+ */
+static uint16_t Motor_current_index;
+static uint16_t Motor_current_avg[MOTOR_CURRENT_LENGTH];
+static uint32_t motor_curr;
 
 /*
  * ADC conversion group.
@@ -155,9 +186,11 @@ void measCalc(void){
             avg *=  5545;
             avg /= 12412;
             break;
-          case MEAS_BRAKE_PRESSURE1:
+          case MEAS_TEMP1:
+            avg = measInterpolateNTC(avg);
             break;
-          case MEAS_BRAKE_PRESSURE2:
+          case MEAS_TEMP2:
+            avg = measInterpolateNTC(avg);
             break;
           case MEAS_STEERING:
             break;
@@ -184,17 +217,28 @@ void measCalc(void){
         switch(ch){
           case MEAS2_CURR1:
             curr_avg = avg;
-            /*avg *= 10;
+            /*
+             * Motor Current Meas Buffer
+             */
+/*
+            Motor_current_index++;
+            if(Motor_current_index > (MOTOR_CURRENT_LENGTH - 1)){
+              Motor_current_index = 0;
+            }
+            Motor_current_avg[Motor_current_index] = avg;
+            motor_curr = 0;
+            for (i = 0; i < MOTOR_CURRENT_LENGTH; i++){
+              motor_curr += Motor_current_avg[i];
+            }
+            avg = motor_curr / MOTOR_CURRENT_LENGTH;
+*/
+            /*
+             * Motor Current Calculate
+             */
             avg -= NULL_AMPER_ADC;
-            avg /= 11;
-            avg = avg < 0 ? 0 : avg;*/
-            
-            avg *= 928;
-            avg /= 100;
-            avg -= 12433;
-            avg /= 10;
+            avg *= CURRENT_PER_ADC;
 
-            avg = avg < 0 ? 0 : avg;
+            //avg = avg < 0 ? 0 : avg;
             break;
 
           case MEAS2_THROTTLE:
@@ -297,6 +341,38 @@ void mainTime(systime_t maradek_time, uint8_t value){
   ido = maradek_time;
   valtozo = value;
 }
+
+
+/*
+ * Calculate the temperature from the ADC value
+ */
+int16_t measInterpolateNTC(adcsample_t rawvalue){
+  int16_t value = 0;
+  adcsample_t left, right;
+  int i;
+
+  if(rawvalue >= measNTCcalib[0]){
+    value = MEAS_NTCCAL_START;
+  }
+  else if(rawvalue < measNTCcalib[MEAS_NTCCAL_NUM - 1]){
+    value = MEAS_NTCCAL_START + (MEAS_NTCCAL_NUM - 1) * MEAS_NTCCAL_STEP;
+  }
+  else {
+    i = 0;
+    left = measNTCcalib[i];
+    right = measNTCcalib[i + 1];
+    while(rawvalue < right && i < MEAS_NTCCAL_NUM - 1){
+      i++;
+      left = right;
+      right = measNTCcalib[i + 1];
+    }
+    value = MEAS_NTCCAL_START +
+            i * MEAS_NTCCAL_STEP +
+            (MEAS_NTCCAL_STEP * (left - rawvalue)) / (left - right);
+  }
+  return value;
+}
+
 
 /*
  * ADC error callback. TODO: utilize

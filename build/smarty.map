@@ -7,7 +7,7 @@ c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-ea
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_cmpdf2.o)
                               ../../build/obj/speed.o (__aeabi_dcmplt)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_fixdfsi.o)
-                              ../../build/obj/cruise.o (__aeabi_d2iz)
+                              ../../build/obj/meas.o (__aeabi_d2iz)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_fixunsdfsi.o)
                               ../../build/obj/speed.o (__aeabi_d2uiz)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime.o)
@@ -41,7 +41,7 @@ c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-ea
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-sprintf.o)
                               c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime_r.o) (sprintf)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcasecmp.o)
-                              ../../build/obj/shell2.o (strcasecmp)
+                              ../../build/obj/shell.o (strcasecmp)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcmp.o)
                               ../../build/obj/console.o (strcmp)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcpy.o)
@@ -49,9 +49,9 @@ c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-ea
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strlen.o)
                               ../../build/obj/sdcard.o (strlen)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strpbrk.o)
-                              ../../build/obj/shell2.o (strpbrk)
+                              ../../build/obj/shell.o (strpbrk)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strspn.o)
-                              ../../build/obj/shell2.o (strspn)
+                              ../../build/obj/shell.o (strspn)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strtol.o)
                               c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-atol.o) (_strtol_r)
 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
@@ -610,11 +610,11 @@ Discarded input sections
                 0x00000000       0x20 ../../build/obj/syscalls.o
  .text._isatty_r
                 0x00000000       0x10 ../../build/obj/syscalls.o
- .text          0x00000000        0x0 ../../build/obj/shell2.o
- .data          0x00000000        0x0 ../../build/obj/shell2.o
- .bss           0x00000000        0x0 ../../build/obj/shell2.o
+ .text          0x00000000        0x0 ../../build/obj/shell.o
+ .data          0x00000000        0x0 ../../build/obj/shell.o
+ .bss           0x00000000        0x0 ../../build/obj/shell.o
  .text.shellCreateStatic
-                0x00000000       0x20 ../../build/obj/shell2.o
+                0x00000000       0x20 ../../build/obj/shell.o
  .text          0x00000000        0x0 ../../build/obj/chprintf.o
  .data          0x00000000        0x0 ../../build/obj/chprintf.o
  .bss           0x00000000        0x0 ../../build/obj/chprintf.o
@@ -935,7 +935,7 @@ LOAD ../../build/obj/ff.o
 LOAD ../../build/obj/ccsbcs.o
 LOAD ../../build/obj/evtimer.o
 LOAD ../../build/obj/syscalls.o
-LOAD ../../build/obj/shell2.o
+LOAD ../../build/obj/shell.o
 LOAD ../../build/obj/chprintf.o
 LOAD ../../build/obj/chrtclib.o
 LOAD ../../build/obj/main.o
@@ -980,7 +980,7 @@ destructors     0x080001ac        0x0
  *(SORT(.fini_array.*))
                 0x080001ac                PROVIDE (__fini_array_end, .)
 
-.text           0x080001b0    0x20e58
+.text           0x080001b0    0x219c8
  *(.text.startup.*)
  *(.text)
  .text          0x080001b0      0x370 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_addsubdf3.o)
@@ -2481,840 +2481,875 @@ destructors     0x080001ac        0x0
  .text._sbrk_r  0x08014310       0x20 ../../build/obj/syscalls.o
                 0x08014310                _sbrk_r
  .text.chprintf
-                0x08014330       0x20 ../../build/obj/shell2.o
+                0x08014330       0x20 ../../build/obj/shell.o
  .text.cmd_systime
-                0x08014350       0x30 ../../build/obj/shell2.o
+                0x08014350       0x30 ../../build/obj/shell.o
  .text.cmd_info
-                0x08014380       0xc0 ../../build/obj/shell2.o
+                0x08014380       0xc0 ../../build/obj/shell.o
  .text.list_commands
-                0x08014440       0x50 ../../build/obj/shell2.o
- .text.cmdexec  0x08014490       0x50 ../../build/obj/shell2.o
+                0x08014440       0x20 ../../build/obj/shell.o
+ .text.cmdexec  0x08014460       0x50 ../../build/obj/shell.o
  .text._strtok.clone.0
-                0x080144e0       0x50 ../../build/obj/shell2.o
+                0x080144b0       0x50 ../../build/obj/shell.o
  .text.shellInit
-                0x08014530       0x10 ../../build/obj/shell2.o
-                0x08014530                shellInit
+                0x08014500       0x10 ../../build/obj/shell.o
+                0x08014500                shellInit
  .text.shellExit
-                0x08014540       0x20 ../../build/obj/shell2.o
-                0x08014540                shellExit
+                0x08014510       0x20 ../../build/obj/shell.o
+                0x08014510                shellExit
  .text.shellCreate
-                0x08014560       0x20 ../../build/obj/shell2.o
-                0x08014560                shellCreate
+                0x08014530       0x20 ../../build/obj/shell.o
+                0x08014530                shellCreate
  .text.shellGetLine
-                0x08014580       0xb0 ../../build/obj/shell2.o
-                0x08014580                shellGetLine
+                0x08014550       0xb0 ../../build/obj/shell.o
+                0x08014550                shellGetLine
  .text.shell_thread
-                0x08014630      0x1f0 ../../build/obj/shell2.o
- .text.ltoa     0x08014820       0x70 ../../build/obj/chprintf.o
+                0x08014600      0x1c0 ../../build/obj/shell.o
+ .text.ltoa     0x080147c0       0x70 ../../build/obj/chprintf.o
  .text.chvprintf
-                0x08014890      0x360 ../../build/obj/chprintf.o
-                0x08014890                chvprintf
+                0x08014830      0x360 ../../build/obj/chprintf.o
+                0x08014830                chvprintf
  .text.stm32_rtc_bcd2tm.clone.0
-                0x08014bf0       0xb0 ../../build/obj/chrtclib.o
+                0x08014b90       0xb0 ../../build/obj/chrtclib.o
  .text.stm32_rtc_tm2bcd.clone.1
-                0x08014ca0      0x120 ../../build/obj/chrtclib.o
+                0x08014c40      0x120 ../../build/obj/chrtclib.o
  .text.rtcGetTimeTm
-                0x08014dc0       0x30 ../../build/obj/chrtclib.o
-                0x08014dc0                rtcGetTimeTm
+                0x08014d60       0x30 ../../build/obj/chrtclib.o
+                0x08014d60                rtcGetTimeTm
  .text.rtcGetTimeUnixSec
-                0x08014df0       0x30 ../../build/obj/chrtclib.o
-                0x08014df0                rtcGetTimeUnixSec
+                0x08014d90       0x30 ../../build/obj/chrtclib.o
+                0x08014d90                rtcGetTimeUnixSec
  .text.rtcSetTimeUnixSec
-                0x08014e20       0x40 ../../build/obj/chrtclib.o
-                0x08014e20                rtcSetTimeUnixSec
- .text.Thread1  0x08014e60       0x50 ../../build/obj/main.o
+                0x08014dc0       0x40 ../../build/obj/chrtclib.o
+                0x08014dc0                rtcSetTimeUnixSec
+ .text.Thread1  0x08014e00       0x50 ../../build/obj/main.o
  .text.task20ms
-                0x08014eb0       0x40 ../../build/obj/main.o
- .text.main     0x08014ef0       0xa0 ../../build/obj/main.o
-                0x08014ef0                main
+                0x08014e50       0x40 ../../build/obj/main.o
+ .text.main     0x08014e90       0xa0 ../../build/obj/main.o
+                0x08014e90                main
  .text.chprintf
-                0x08014f90       0x20 ../../build/obj/console.o
+                0x08014f30       0x20 ../../build/obj/console.o
  .text.cmd_clear
-                0x08014fb0       0x30 ../../build/obj/console.o
-                0x08014fb0                cmd_clear
+                0x08014f50       0x30 ../../build/obj/console.o
+                0x08014f50                cmd_clear
  .text.cmd_alarm
-                0x08014fe0       0xd0 ../../build/obj/console.o
-                0x08014fe0                cmd_alarm
+                0x08014f80       0xd0 ../../build/obj/console.o
+                0x08014f80                cmd_alarm
  .text.cmd_date
-                0x080150b0       0xf0 ../../build/obj/console.o
-                0x080150b0                cmd_date
+                0x08015050       0xf0 ../../build/obj/console.o
+                0x08015050                cmd_date
  .text.cmd_test
-                0x080151a0       0x60 ../../build/obj/console.o
-                0x080151a0                cmd_test
+                0x08015140       0x60 ../../build/obj/console.o
+                0x08015140                cmd_test
  .text.cmd_threads
-                0x08015200       0x70 ../../build/obj/console.o
-                0x08015200                cmd_threads
- .text.cmd_mem  0x08015270       0x60 ../../build/obj/console.o
-                0x08015270                cmd_mem
+                0x080151a0       0x70 ../../build/obj/console.o
+                0x080151a0                cmd_threads
+ .text.cmd_mem  0x08015210       0x60 ../../build/obj/console.o
+                0x08015210                cmd_mem
  .text.consoleInit
-                0x080152d0       0x30 ../../build/obj/console.o
-                0x080152d0                consoleInit
+                0x08015270       0x30 ../../build/obj/console.o
+                0x08015270                consoleInit
  .text.consoleStart
-                0x08015300       0x40 ../../build/obj/console.o
-                0x08015300                consoleStart
+                0x080152a0       0x40 ../../build/obj/console.o
+                0x080152a0                consoleStart
  .text.func_sleep
-                0x08015340       0x40 ../../build/obj/console.o
-                0x08015340                func_sleep
+                0x080152e0       0x40 ../../build/obj/console.o
+                0x080152e0                func_sleep
  .text.cmd_sleep
-                0x08015380       0x30 ../../build/obj/console.o
-                0x08015380                cmd_sleep
+                0x08015320       0x30 ../../build/obj/console.o
+                0x08015320                cmd_sleep
  .text.chprintf
-                0x080153b0       0x20 ../../build/obj/eeprom.o
+                0x08015350       0x20 ../../build/obj/eeprom.o
  .text.eepromInit
-                0x080153d0       0x10 ../../build/obj/eeprom.o
-                0x080153d0                eepromInit
+                0x08015370       0x10 ../../build/obj/eeprom.o
+                0x08015370                eepromInit
  .text.eepromGetItembyName
-                0x080153e0       0x80 ../../build/obj/eeprom.o
-                0x080153e0                eepromGetItembyName
+                0x08015380       0xa0 ../../build/obj/eeprom.o
+                0x08015380                eepromGetItembyName
  .text.eepromWrite
-                0x08015460       0xa0 ../../build/obj/eeprom.o
-                0x08015460                eepromWrite
+                0x08015420       0xa0 ../../build/obj/eeprom.o
+                0x08015420                eepromWrite
  .text.eepromRead
-                0x08015500       0x60 ../../build/obj/eeprom.o
-                0x08015500                eepromRead
+                0x080154c0       0x60 ../../build/obj/eeprom.o
+                0x080154c0                eepromRead
  .text.cmd_eepromTest
-                0x08015560       0x90 ../../build/obj/eeprom.o
-                0x08015560                cmd_eepromTest
+                0x08015520       0x90 ../../build/obj/eeprom.o
+                0x08015520                cmd_eepromTest
  .text.cmd_eepromAllData
-                0x080155f0      0x180 ../../build/obj/eeprom.o
-                0x080155f0                cmd_eepromAllData
+                0x080155b0      0x210 ../../build/obj/eeprom.o
+                0x080155b0                cmd_eepromAllData
  .text.chprintf
-                0x08015770       0x20 ../../build/obj/sdcard.o
+                0x080157c0       0x20 ../../build/obj/sdcard.o
  .text.scan_files.clone.0
-                0x08015790       0xa0 ../../build/obj/sdcard.o
+                0x080157e0       0xa0 ../../build/obj/sdcard.o
  .text.sdc_lld_is_card_inserted
-                0x08015830       0x10 ../../build/obj/sdcard.o
-                0x08015830                sdc_lld_is_card_inserted
+                0x08015880       0x10 ../../build/obj/sdcard.o
+                0x08015880                sdc_lld_is_card_inserted
  .text.sdc_lld_is_write_protected
-                0x08015840       0x10 ../../build/obj/sdcard.o
-                0x08015840                sdc_lld_is_write_protected
+                0x08015890       0x10 ../../build/obj/sdcard.o
+                0x08015890                sdc_lld_is_write_protected
  .text.sdcardInit
-                0x08015850       0x20 ../../build/obj/sdcard.o
-                0x08015850                sdcardInit
+                0x080158a0       0x20 ../../build/obj/sdcard.o
+                0x080158a0                sdcardInit
  .text.sdcardMount
-                0x08015870       0x60 ../../build/obj/sdcard.o
-                0x08015870                sdcardMount
+                0x080158c0       0x60 ../../build/obj/sdcard.o
+                0x080158c0                sdcardMount
  .text.sdcardUMount
-                0x080158d0       0x30 ../../build/obj/sdcard.o
-                0x080158d0                sdcardUMount
+                0x08015920       0x30 ../../build/obj/sdcard.o
+                0x08015920                sdcardUMount
  .text.sdcardIsMounted
-                0x08015900       0x10 ../../build/obj/sdcard.o
-                0x08015900                sdcardIsMounted
+                0x08015950       0x10 ../../build/obj/sdcard.o
+                0x08015950                sdcardIsMounted
  .text.cmd_tree
-                0x08015910       0x80 ../../build/obj/sdcard.o
-                0x08015910                cmd_tree
+                0x08015960       0x80 ../../build/obj/sdcard.o
+                0x08015960                cmd_tree
  .text.cmd_mountsd
-                0x08015990       0x80 ../../build/obj/sdcard.o
-                0x08015990                cmd_mountsd
+                0x080159e0       0x80 ../../build/obj/sdcard.o
+                0x080159e0                cmd_mountsd
  .text.cmd_umountsd
-                0x08015a10       0x40 ../../build/obj/sdcard.o
-                0x08015a10                cmd_umountsd
- .text.cmd_cat  0x08015a50       0x90 ../../build/obj/sdcard.o
-                0x08015a50                cmd_cat
+                0x08015a60       0x40 ../../build/obj/sdcard.o
+                0x08015a60                cmd_umountsd
+ .text.cmd_cat  0x08015aa0       0x90 ../../build/obj/sdcard.o
+                0x08015aa0                cmd_cat
  .text.cmd_sdiotest
-                0x08015ae0      0x580 ../../build/obj/sdcard.o
-                0x08015ae0                cmd_sdiotest
+                0x08015b30      0x580 ../../build/obj/sdcard.o
+                0x08015b30                cmd_sdiotest
  .text.chprintf
-                0x08016060       0x20 ../../build/obj/log.o
- .text.logInit  0x08016080       0x70 ../../build/obj/log.o
-                0x08016080                logInit
+                0x080160b0       0x20 ../../build/obj/log.o
+ .text.logInit  0x080160d0       0x70 ../../build/obj/log.o
+                0x080160d0                logInit
  .text.twodigit
-                0x080160f0       0x40 ../../build/obj/log.o
-                0x080160f0                twodigit
+                0x08016140       0x40 ../../build/obj/log.o
+                0x08016140                twodigit
  .text.logThread
-                0x08016130      0x260 ../../build/obj/log.o
- .text.logCalc  0x08016390      0x5c0 ../../build/obj/log.o
-                0x08016390                logCalc
+                0x08016180      0x290 ../../build/obj/log.o
+ .text.logCalc  0x08016410      0x5e0 ../../build/obj/log.o
+                0x08016410                logCalc
  .text.logGetState
-                0x08016950       0x20 ../../build/obj/log.o
-                0x08016950                logGetState
+                0x080169f0       0x20 ../../build/obj/log.o
+                0x080169f0                logGetState
  .text.cmd_testlog
-                0x08016970      0x180 ../../build/obj/log.o
-                0x08016970                cmd_testlog
+                0x08016a10      0x180 ../../build/obj/log.o
+                0x08016a10                cmd_testlog
  .text.cmd_logvalues
-                0x08016af0      0x110 ../../build/obj/log.o
-                0x08016af0                cmd_logvalues
+                0x08016b90      0x110 ../../build/obj/log.o
+                0x08016b90                cmd_logvalues
  .text.chprintf
-                0x08016c00       0x20 ../../build/obj/can_comm.o
- .text.can_tx   0x08016c20      0x160 ../../build/obj/can_comm.o
- .text.can_rx   0x08016d80      0x4a0 ../../build/obj/can_comm.o
+                0x08016ca0       0x20 ../../build/obj/can_comm.o
+ .text.can_tx   0x08016cc0      0x1d0 ../../build/obj/can_comm.o
+ .text.can_rx   0x08016e90      0x4a0 ../../build/obj/can_comm.o
  .text.can_commInit
-                0x08017220       0xb0 ../../build/obj/can_comm.o
-                0x08017220                can_commInit
+                0x08017330       0xb0 ../../build/obj/can_comm.o
+                0x08017330                can_commInit
  .text.cmd_can_commvalues
-                0x080172d0       0x90 ../../build/obj/can_comm.o
-                0x080172d0                cmd_can_commvalues
+                0x080173e0       0x90 ../../build/obj/can_comm.o
+                0x080173e0                cmd_can_commvalues
  .text.cmd_canmppttest
-                0x08017360      0x140 ../../build/obj/can_comm.o
-                0x08017360                cmd_canmppttest
+                0x08017470      0x140 ../../build/obj/can_comm.o
+                0x08017470                cmd_canmppttest
  .text.cmd_canall
-                0x080174a0      0x1c0 ../../build/obj/can_comm.o
-                0x080174a0                cmd_canall
+                0x080175b0      0x1c0 ../../build/obj/can_comm.o
+                0x080175b0                cmd_canall
  .text.cmd_candata_lc
-                0x08017660      0x1d0 ../../build/obj/can_comm.o
-                0x08017660                cmd_candata_lc
+                0x08017770      0x1d0 ../../build/obj/can_comm.o
+                0x08017770                cmd_candata_lc
  .text.cmd_candata_ml
-                0x08017830       0xc0 ../../build/obj/can_comm.o
-                0x08017830                cmd_candata_ml
+                0x08017940       0xe0 ../../build/obj/can_comm.o
+                0x08017940                cmd_candata_ml
  .text.cmd_candata_bms
-                0x080178f0      0x210 ../../build/obj/can_comm.o
-                0x080178f0                cmd_candata_bms
+                0x08017a20      0x210 ../../build/obj/can_comm.o
+                0x08017a20                cmd_candata_bms
  .text.cmd_candata_cell
-                0x08017b00      0x170 ../../build/obj/can_comm.o
-                0x08017b00                cmd_candata_cell
+                0x08017c30      0x170 ../../build/obj/can_comm.o
+                0x08017c30                cmd_candata_cell
  .text.cmd_lcSleep
-                0x08017c70       0x10 ../../build/obj/can_comm.o
-                0x08017c70                cmd_lcSleep
+                0x08017da0       0x10 ../../build/obj/can_comm.o
+                0x08017da0                cmd_lcSleep
  .text.cmd_canmonitor
-                0x08017c80      0x100 ../../build/obj/can_comm.o
-                0x08017c80                cmd_canmonitor
+                0x08017db0      0x100 ../../build/obj/can_comm.o
+                0x08017db0                cmd_canmonitor
  .text.chprintf
-                0x08017d80       0x20 ../../build/obj/light.o
+                0x08017eb0       0x20 ../../build/obj/light.o
  .text.lightInit
-                0x08017da0       0x50 ../../build/obj/light.o
-                0x08017da0                lightInit
+                0x08017ed0       0x50 ../../build/obj/light.o
+                0x08017ed0                lightInit
  .text.lightCalc
-                0x08017df0      0x1f0 ../../build/obj/light.o
-                0x08017df0                lightCalc
+                0x08017f20      0x1f0 ../../build/obj/light.o
+                0x08017f20                lightCalc
  .text.lightFlashing
-                0x08017fe0       0x60 ../../build/obj/light.o
-                0x08017fe0                lightFlashing
+                0x08018110       0x60 ../../build/obj/light.o
+                0x08018110                lightFlashing
  .text.lightBrakeOn
-                0x08018040       0x20 ../../build/obj/light.o
-                0x08018040                lightBrakeOn
+                0x08018170       0x20 ../../build/obj/light.o
+                0x08018170                lightBrakeOn
  .text.lightBrakeOff
-                0x08018060       0x30 ../../build/obj/light.o
-                0x08018060                lightBrakeOff
+                0x08018190       0x30 ../../build/obj/light.o
+                0x08018190                lightBrakeOff
  .text.lightPosLampOn
-                0x08018090       0x50 ../../build/obj/light.o
-                0x08018090                lightPosLampOn
+                0x080181c0       0x50 ../../build/obj/light.o
+                0x080181c0                lightPosLampOn
  .text.lightPosLampOff
-                0x080180e0       0x30 ../../build/obj/light.o
-                0x080180e0                lightPosLampOff
+                0x08018210       0x30 ../../build/obj/light.o
+                0x08018210                lightPosLampOff
  .text.lightLampDemoOn
-                0x08018110       0x10 ../../build/obj/light.o
-                0x08018110                lightLampDemoOn
+                0x08018240       0x10 ../../build/obj/light.o
+                0x08018240                lightLampDemoOn
  .text.lightLampDemoOff
-                0x08018120       0x10 ../../build/obj/light.o
-                0x08018120                lightLampDemoOff
+                0x08018250       0x10 ../../build/obj/light.o
+                0x08018250                lightLampDemoOff
  .text.getLightFlashing
-                0x08018130       0x80 ../../build/obj/light.o
-                0x08018130                getLightFlashing
+                0x08018260       0x80 ../../build/obj/light.o
+                0x08018260                getLightFlashing
  .text.cmd_lightvalues
-                0x080181b0       0xa0 ../../build/obj/light.o
-                0x080181b0                cmd_lightvalues
+                0x080182e0       0xa0 ../../build/obj/light.o
+                0x080182e0                cmd_lightvalues
  .text.cmd_lightblink
-                0x08018250      0x210 ../../build/obj/light.o
-                0x08018250                cmd_lightblink
+                0x08018380      0x210 ../../build/obj/light.o
+                0x08018380                cmd_lightblink
  .text.cmd_getLight
-                0x08018460       0xb0 ../../build/obj/light.o
-                0x08018460                cmd_getLight
- .text.speedWheelPeriodNumber
-                0x08018510       0x20 ../../build/obj/speed.o
+                0x08018590       0xb0 ../../build/obj/light.o
+                0x08018590                cmd_getLight
+ .text.save_kmeter_eeprom
+                0x08018640       0x40 ../../build/obj/speed.o
  .text.chprintf
-                0x08018530       0x20 ../../build/obj/speed.o
+                0x08018680       0x20 ../../build/obj/speed.o
  .text.speedInit
-                0x08018550       0x40 ../../build/obj/speed.o
-                0x08018550                speedInit
+                0x080186a0       0x60 ../../build/obj/speed.o
+                0x080186a0                speedInit
  .text.speedCalc
-                0x08018590       0x30 ../../build/obj/speed.o
-                0x08018590                speedCalc
+                0x08018700       0x30 ../../build/obj/speed.o
+                0x08018700                speedCalc
  .text.speedGetRpm
-                0x080185c0       0x20 ../../build/obj/speed.o
-                0x080185c0                speedGetRpm
+                0x08018730       0x20 ../../build/obj/speed.o
+                0x08018730                speedGetRpm
  .text.speedGetSpeed
-                0x080185e0       0x20 ../../build/obj/speed.o
-                0x080185e0                speedGetSpeed
+                0x08018750       0x20 ../../build/obj/speed.o
+                0x08018750                speedGetSpeed
  .text.speedRPM_TO_KMPH
-                0x08018600       0x60 ../../build/obj/speed.o
-                0x08018600                speedRPM_TO_KMPH
+                0x08018770       0x60 ../../build/obj/speed.o
+                0x08018770                speedRPM_TO_KMPH
  .text.speedWheelPeriodCb
-                0x08018660      0x150 ../../build/obj/speed.o
+                0x080187d0      0x150 ../../build/obj/speed.o
  .text.speedKMPH_TO_RPM
-                0x080187b0       0x70 ../../build/obj/speed.o
-                0x080187b0                speedKMPH_TO_RPM
+                0x08018920       0x70 ../../build/obj/speed.o
+                0x08018920                speedKMPH_TO_RPM
+ .text.DistanceMeas
+                0x08018990       0xc0 ../../build/obj/speed.o
+                0x08018990                DistanceMeas
+ .text.speedWheelPeriodNumber
+                0x08018a50       0x20 ../../build/obj/speed.o
+ .text.GetTotalKmeterDistance
+                0x08018a70       0x10 ../../build/obj/speed.o
+                0x08018a70                GetTotalKmeterDistance
+ .text.GetKmeterDistance
+                0x08018a80       0x10 ../../build/obj/speed.o
+                0x08018a80                GetKmeterDistance
  .text.cmd_speedvalues
-                0x08018820       0xb0 ../../build/obj/speed.o
-                0x08018820                cmd_speedvalues
+                0x08018a90       0xb0 ../../build/obj/speed.o
+                0x08018a90                cmd_speedvalues
+ .text.cmd_distancevalues
+                0x08018b40       0xa0 ../../build/obj/speed.o
+                0x08018b40                cmd_distancevalues
+ .text.cmd_set_total_kmeter
+                0x08018be0       0x80 ../../build/obj/speed.o
+                0x08018be0                cmd_set_total_kmeter
+ .text.cmd_reset_kmeter
+                0x08018c60       0x70 ../../build/obj/speed.o
+                0x08018c60                cmd_reset_kmeter
  .text.adcerrorcallback
-                0x080188d0       0x10 ../../build/obj/meas.o
+                0x08018cd0       0x10 ../../build/obj/meas.o
  .text.chprintf
-                0x080188e0       0x20 ../../build/obj/meas.o
+                0x08018ce0       0x20 ../../build/obj/meas.o
  .text.measInit
-                0x08018900       0xb0 ../../build/obj/meas.o
-                0x08018900                measInit
- .text.measCalc
-                0x080189b0      0x4f0 ../../build/obj/meas.o
-                0x080189b0                measCalc
+                0x08018d00       0xb0 ../../build/obj/meas.o
+                0x08018d00                measInit
  .text.measGetValue
-                0x08018ea0       0x10 ../../build/obj/meas.o
-                0x08018ea0                measGetValue
+                0x08018db0       0x10 ../../build/obj/meas.o
+                0x08018db0                measGetValue
  .text.measGetValue_2
-                0x08018eb0       0x10 ../../build/obj/meas.o
-                0x08018eb0                measGetValue_2
+                0x08018dc0       0x10 ../../build/obj/meas.o
+                0x08018dc0                measGetValue_2
+ .text.measInterpolateNTC
+                0x08018dd0       0x90 ../../build/obj/meas.o
+                0x08018dd0                measInterpolateNTC
+ .text.measCalc
+                0x08018e60      0x730 ../../build/obj/meas.o
+                0x08018e60                measCalc
  .text.cmd_measvalues
-                0x08018ec0      0x110 ../../build/obj/meas.o
-                0x08018ec0                cmd_measvalues
+                0x08019590      0x110 ../../build/obj/meas.o
+                0x08019590                cmd_measvalues
  .text.cmd_getThrottle
-                0x08018fd0       0x90 ../../build/obj/meas.o
-                0x08018fd0                cmd_getThrottle
+                0x080196a0       0x90 ../../build/obj/meas.o
+                0x080196a0                cmd_getThrottle
  .text.cmd_getRegenBrake
-                0x08019060       0x90 ../../build/obj/meas.o
-                0x08019060                cmd_getRegenBrake
+                0x08019730       0x90 ../../build/obj/meas.o
+                0x08019730                cmd_getRegenBrake
  .text.cmd_mainValues
-                0x080190f0       0x50 ../../build/obj/meas.o
-                0x080190f0                cmd_mainValues
+                0x080197c0       0x50 ../../build/obj/meas.o
+                0x080197c0                cmd_mainValues
  .text.chprintf
-                0x08019140       0x20 ../../build/obj/cruise.o
+                0x08019810       0x20 ../../build/obj/cruise.o
  .text.cruiseInit
-                0x08019160      0x120 ../../build/obj/cruise.o
-                0x08019160                cruiseInit
+                0x08019830      0x120 ../../build/obj/cruise.o
+                0x08019830                cruiseInit
  .text.cruiseEnable
-                0x08019280       0x20 ../../build/obj/cruise.o
-                0x08019280                cruiseEnable
+                0x08019950       0x20 ../../build/obj/cruise.o
+                0x08019950                cruiseEnable
  .text.cruiseDisable
-                0x080192a0       0x10 ../../build/obj/cruise.o
-                0x080192a0                cruiseDisable
+                0x08019970       0x10 ../../build/obj/cruise.o
+                0x08019970                cruiseDisable
  .text.regen_brakeEnable
-                0x080192b0       0x10 ../../build/obj/cruise.o
-                0x080192b0                regen_brakeEnable
+                0x08019980       0x10 ../../build/obj/cruise.o
+                0x08019980                regen_brakeEnable
  .text.regen_brakeDisable
-                0x080192c0       0x10 ../../build/obj/cruise.o
-                0x080192c0                regen_brakeDisable
+                0x08019990       0x10 ../../build/obj/cruise.o
+                0x08019990                regen_brakeDisable
  .text.cruiseStatus
-                0x080192d0       0x10 ../../build/obj/cruise.o
-                0x080192d0                cruiseStatus
+                0x080199a0       0x10 ../../build/obj/cruise.o
+                0x080199a0                cruiseStatus
  .text.cruiseAccel
-                0x080192e0       0x10 ../../build/obj/cruise.o
-                0x080192e0                cruiseAccel
+                0x080199b0       0x10 ../../build/obj/cruise.o
+                0x080199b0                cruiseAccel
  .text.cruiseAccelOk
-                0x080192f0       0x30 ../../build/obj/cruise.o
-                0x080192f0                cruiseAccelOk
+                0x080199c0       0x30 ../../build/obj/cruise.o
+                0x080199c0                cruiseAccelOk
  .text.cruiseDecelerat
-                0x08019320       0x10 ../../build/obj/cruise.o
-                0x08019320                cruiseDecelerat
+                0x080199f0       0x10 ../../build/obj/cruise.o
+                0x080199f0                cruiseDecelerat
  .text.cruiseDeceleratOk
-                0x08019330       0x30 ../../build/obj/cruise.o
-                0x08019330                cruiseDeceleratOk
+                0x08019a00       0x30 ../../build/obj/cruise.o
+                0x08019a00                cruiseDeceleratOk
  .text.cruiseIncrease
-                0x08019360       0x60 ../../build/obj/cruise.o
-                0x08019360                cruiseIncrease
+                0x08019a30       0x60 ../../build/obj/cruise.o
+                0x08019a30                cruiseIncrease
  .text.cruiseReduction
-                0x080193c0       0x30 ../../build/obj/cruise.o
-                0x080193c0                cruiseReduction
+                0x08019a90       0x30 ../../build/obj/cruise.o
+                0x08019a90                cruiseReduction
  .text.cruiseGetPWM
-                0x080193f0       0x10 ../../build/obj/cruise.o
-                0x080193f0                cruiseGetPWM
+                0x08019ac0       0x10 ../../build/obj/cruise.o
+                0x08019ac0                cruiseGetPWM
+ .text.cruiseGetCurrLimitSubstract
+                0x08019ad0       0x10 ../../build/obj/cruise.o
+                0x08019ad0                cruiseGetCurrLimitSubstract
  .text.cruiseGet
-                0x08019400       0x20 ../../build/obj/cruise.o
-                0x08019400                cruiseGet
+                0x08019ae0       0x20 ../../build/obj/cruise.o
+                0x08019ae0                cruiseGet
  .text.cruisePID
-                0x08019420      0x1c0 ../../build/obj/cruise.o
-                0x08019420                cruisePID
+                0x08019b00      0x1c0 ../../build/obj/cruise.o
+                0x08019b00                cruisePID
  .text.cruiseCalc
-                0x080195e0      0x390 ../../build/obj/cruise.o
-                0x080195e0                cruiseCalc
+                0x08019cc0      0x3e0 ../../build/obj/cruise.o
+                0x08019cc0                cruiseCalc
  .text.cmd_cruisevalues
-                0x08019970      0x1a0 ../../build/obj/cruise.o
-                0x08019970                cmd_cruisevalues
+                0x0801a0a0      0x1c0 ../../build/obj/cruise.o
+                0x0801a0a0                cmd_cruisevalues
  .text.cmd_setcruisevalues
-                0x08019b10      0x1a0 ../../build/obj/cruise.o
-                0x08019b10                cmd_setcruisevalues
+                0x0801a260      0x1a0 ../../build/obj/cruise.o
+                0x0801a260                cmd_setcruisevalues
  .text.cmd_cruise
-                0x08019cb0       0xb0 ../../build/obj/cruise.o
-                0x08019cb0                cmd_cruise
+                0x0801a400       0xb0 ../../build/obj/cruise.o
+                0x0801a400                cmd_cruise
+ .text.cmd_current_limit_switch
+                0x0801a4b0       0xd0 ../../build/obj/cruise.o
+                0x0801a4b0                cmd_current_limit_switch
  .text.cmd_regen_brake
-                0x08019d60       0xa0 ../../build/obj/cruise.o
-                0x08019d60                cmd_regen_brake
+                0x0801a580       0xa0 ../../build/obj/cruise.o
+                0x0801a580                cmd_regen_brake
  .text.chprintf
-                0x08019e00       0x20 ../../build/obj/dsp.o
- .text.dspTask  0x08019e20      0xb30 ../../build/obj/dsp.o
+                0x0801a620       0x20 ../../build/obj/dsp.o
+ .text.dspTask  0x0801a640      0xc00 ../../build/obj/dsp.o
  .text.dsp_LoadTop
-                0x0801a950       0xd0 ../../build/obj/dsp.o
-                0x0801a950                dsp_LoadTop
+                0x0801b240       0xd0 ../../build/obj/dsp.o
+                0x0801b240                dsp_LoadTop
  .text.dsp_LoadMidle
-                0x0801aa20       0x80 ../../build/obj/dsp.o
-                0x0801aa20                dsp_LoadMidle
+                0x0801b310       0x80 ../../build/obj/dsp.o
+                0x0801b310                dsp_LoadMidle
  .text.dsp_LoadBottom
-                0x0801aaa0      0x130 ../../build/obj/dsp.o
-                0x0801aaa0                dsp_LoadBottom
- .text.dspInit  0x0801abd0       0x60 ../../build/obj/dsp.o
-                0x0801abd0                dspInit
+                0x0801b390      0x130 ../../build/obj/dsp.o
+                0x0801b390                dsp_LoadBottom
+ .text.dspInit  0x0801b4c0       0x60 ../../build/obj/dsp.o
+                0x0801b4c0                dspInit
  .text.dspGetValue
-                0x0801ac30       0x10 ../../build/obj/dsp.o
-                0x0801ac30                dspGetValue
+                0x0801b520       0x10 ../../build/obj/dsp.o
+                0x0801b520                dspGetValue
  .text.cmd_dspvalues
-                0x0801ac40      0x190 ../../build/obj/dsp.o
-                0x0801ac40                cmd_dspvalues
+                0x0801b530      0x190 ../../build/obj/dsp.o
+                0x0801b530                cmd_dspvalues
  .text.cmdfrappans_dspmessages
-                0x0801add0      0x150 ../../build/obj/dsp.o
-                0x0801add0                cmdfrappans_dspmessages
- .text.gfx_Cls  0x0801af20       0x30 ../../build/obj/gfx.o
-                0x0801af20                gfx_Cls
+                0x0801b6c0      0x150 ../../build/obj/dsp.o
+                0x0801b6c0                cmdfrappans_dspmessages
+ .text.gfx_Cls  0x0801b810       0x30 ../../build/obj/gfx.o
+                0x0801b810                gfx_Cls
  .text.file_Mount
-                0x0801af50       0x30 ../../build/obj/gfx.o
-                0x0801af50                file_Mount
+                0x0801b840       0x30 ../../build/obj/gfx.o
+                0x0801b840                file_Mount
  .text.media_Image
-                0x0801af80       0x60 ../../build/obj/gfx.o
-                0x0801af80                media_Image
+                0x0801b870       0x60 ../../build/obj/gfx.o
+                0x0801b870                media_Image
  .text.media_SetSector
-                0x0801afe0       0x60 ../../build/obj/gfx.o
-                0x0801afe0                media_SetSector
+                0x0801b8d0       0x60 ../../build/obj/gfx.o
+                0x0801b8d0                media_SetSector
  .text.media_VideoFrame
-                0x0801b040       0x80 ../../build/obj/gfx.o
-                0x0801b040                media_VideoFrame
+                0x0801b930       0x80 ../../build/obj/gfx.o
+                0x0801b930                media_VideoFrame
  .text.draw_line
-                0x0801b0c0       0xc0 ../../build/obj/gfx.o
-                0x0801b0c0                draw_line
+                0x0801b9b0       0xc0 ../../build/obj/gfx.o
+                0x0801b9b0                draw_line
  .text.gfx_BGcolour
-                0x0801b180       0x40 ../../build/obj/gfx.o
-                0x0801b180                gfx_BGcolour
+                0x0801ba70       0x40 ../../build/obj/gfx.o
+                0x0801ba70                gfx_BGcolour
  .text.gfx_Transparency
-                0x0801b1c0       0x40 ../../build/obj/gfx.o
-                0x0801b1c0                gfx_Transparency
+                0x0801bab0       0x40 ../../build/obj/gfx.o
+                0x0801bab0                gfx_Transparency
  .text.gfx_TransparentColour
-                0x0801b200       0x40 ../../build/obj/gfx.o
-                0x0801b200                gfx_TransparentColour
- .text.bus_In   0x0801b240       0x30 ../../build/obj/gfx.o
-                0x0801b240                bus_In
+                0x0801baf0       0x40 ../../build/obj/gfx.o
+                0x0801baf0                gfx_TransparentColour
+ .text.bus_In   0x0801bb30       0x30 ../../build/obj/gfx.o
+                0x0801bb30                bus_In
  .text.gfxGetDspAns
-                0x0801b270       0x40 ../../build/obj/gfx.o
-                0x0801b270                gfxGetDspAns
+                0x0801bb60       0x40 ../../build/obj/gfx.o
+                0x0801bb60                gfxGetDspAns
  .text.bus_Read
-                0x0801b2b0       0x50 ../../build/obj/gfx.o
-                0x0801b2b0                bus_Read
+                0x0801bba0       0x50 ../../build/obj/gfx.o
+                0x0801bba0                bus_Read
  .text.gfxGetDspAnsZero
-                0x0801b300       0x10 ../../build/obj/gfx.o
-                0x0801b300                gfxGetDspAnsZero
+                0x0801bbf0       0x10 ../../build/obj/gfx.o
+                0x0801bbf0                gfxGetDspAnsZero
  .text.uart_commInit
-                0x0801b310       0x10 ../../build/obj/uart_comm.o
-                0x0801b310                uart_commInit
+                0x0801bc00       0x10 ../../build/obj/uart_comm.o
+                0x0801bc00                uart_commInit
  .text.chprintf
-                0x0801b320       0x20 ../../build/obj/button.o
+                0x0801bc10       0x20 ../../build/obj/button.o
  .text.buttonInit
-                0x0801b340       0x50 ../../build/obj/button.o
-                0x0801b340                buttonInit
+                0x0801bc30       0x50 ../../build/obj/button.o
+                0x0801bc30                buttonInit
  .text.buttonCalc
-                0x0801b390      0x3a0 ../../build/obj/button.o
-                0x0801b390                buttonCalc
+                0x0801bc80      0x3a0 ../../build/obj/button.o
+                0x0801bc80                buttonCalc
  .text.cmd_buttonvalues
-                0x0801b730      0x1a0 ../../build/obj/button.o
-                0x0801b730                cmd_buttonvalues
+                0x0801c020      0x1a0 ../../build/obj/button.o
+                0x0801c020                cmd_buttonvalues
  .text.chprintf
-                0x0801b8d0       0x20 ../../build/obj/brake.o
+                0x0801c1c0       0x20 ../../build/obj/brake.o
  .text.cmd_brakevalues
-                0x0801b8f0       0x60 ../../build/obj/brake.o
-                0x0801b8f0                cmd_brakevalues
+                0x0801c1e0       0x60 ../../build/obj/brake.o
+                0x0801c1e0                cmd_brakevalues
  .text.chprintf
-                0x0801b950       0x20 ../../build/obj/safety.o
+                0x0801c240       0x20 ../../build/obj/safety.o
  .text.safetyFanTimerCb
-                0x0801b970       0x70 ../../build/obj/safety.o
- .text.safety   0x0801b9e0      0x170 ../../build/obj/safety.o
+                0x0801c260       0x70 ../../build/obj/safety.o
+ .text.safety   0x0801c2d0      0x170 ../../build/obj/safety.o
  .text.safetyInit
-                0x0801bb50       0x70 ../../build/obj/safety.o
-                0x0801bb50                safetyInit
+                0x0801c440       0x70 ../../build/obj/safety.o
+                0x0801c440                safetyInit
  .text.cmd_safetyvalues
-                0x0801bbc0      0x160 ../../build/obj/safety.o
-                0x0801bbc0                cmd_safetyvalues
+                0x0801c4b0      0x160 ../../build/obj/safety.o
+                0x0801c4b0                cmd_safetyvalues
  .text.cmd_fan_speed
-                0x0801bd20       0x50 ../../build/obj/safety.o
-                0x0801bd20                cmd_fan_speed
+                0x0801c610       0x50 ../../build/obj/safety.o
+                0x0801c610                cmd_fan_speed
  .text.chprintf
-                0x0801bd70       0x20 ../../build/obj/calc.o
+                0x0801c660       0x20 ../../build/obj/calc.o
  .text.calcCalc
-                0x0801bd90       0xd0 ../../build/obj/calc.o
-                0x0801bd90                calcCalc
+                0x0801c680       0x80 ../../build/obj/calc.o
+                0x0801c680                calcCalc
  .text.calcGetValue
-                0x0801be60       0x10 ../../build/obj/calc.o
-                0x0801be60                calcGetValue
+                0x0801c700       0x10 ../../build/obj/calc.o
+                0x0801c700                calcGetValue
  .text.cmd_calcvalues
-                0x0801be70       0x80 ../../build/obj/calc.o
-                0x0801be70                cmd_calcvalues
+                0x0801c710       0x90 ../../build/obj/calc.o
+                0x0801c710                cmd_calcvalues
  *(.rodata)
- .rodata        0x0801bef0       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime_r.o)
- *fill*         0x0801bf2c        0x4 00
- .rodata        0x0801bf30       0x60 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktime.o)
- .rodata        0x0801bf90       0x68 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktm_r.o)
- *fill*         0x0801bff8        0x8 00
- .rodata        0x0801c000       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
- .rodata        0x0801c020      0x104 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-ctype_.o)
-                0x0801c020                _ctype_
- *fill*         0x0801c124        0xc 00
- .rodata        0x0801c130      0x128 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mprec.o)
-                0x0801c140                __mprec_tens
-                0x0801c208                __mprec_bigtens
-                0x0801c230                __mprec_tinytens
- *fill*         0x0801c258        0x8 00
- .rodata        0x0801c260       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfiprintf.o)
+ .rodata        0x0801c7a0       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime_r.o)
+ *fill*         0x0801c7dc        0x4 00
+ .rodata        0x0801c7e0       0x60 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktime.o)
+ .rodata        0x0801c840       0x68 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktm_r.o)
+ *fill*         0x0801c8a8        0x8 00
+ .rodata        0x0801c8b0       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
+ .rodata        0x0801c8d0      0x104 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-ctype_.o)
+                0x0801c8d0                _ctype_
+ *fill*         0x0801c9d4        0xc 00
+ .rodata        0x0801c9e0      0x128 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mprec.o)
+                0x0801c9f0                __mprec_tens
+                0x0801cab8                __mprec_bigtens
+                0x0801cae0                __mprec_tinytens
+ *fill*         0x0801cb08        0x8 00
+ .rodata        0x0801cb10       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfiprintf.o)
  *(.rodata.*)
  .rodata.str1.4
-                0x0801c280        0x5 ../../build/obj/chsys.o
+                0x0801cb30        0x5 ../../build/obj/chsys.o
                                   0x8 (size before relaxing)
- *fill*         0x0801c285        0xb 00
+ *fill*         0x0801cb35        0xb 00
  .rodata.ch_debug
-                0x0801c290       0x18 ../../build/obj/chregistry.o
-                0x0801c290                ch_debug
- *fill*         0x0801c2a8        0x8 00
- .rodata.wa     0x0801c2b0       0x14 ../../build/obj/test.o
-                0x0801c2b0                wa
- *fill*         0x0801c2c4        0xc 00
+                0x0801cb40       0x18 ../../build/obj/chregistry.o
+                0x0801cb40                ch_debug
+ *fill*         0x0801cb58        0x8 00
+ .rodata.wa     0x0801cb60       0x14 ../../build/obj/test.o
+                0x0801cb60                wa
+ *fill*         0x0801cb74        0xc 00
  .rodata.str1.4
-                0x0801c2d0      0x1bc ../../build/obj/test.o
+                0x0801cb80      0x1bc ../../build/obj/test.o
                                 0x1d0 (size before relaxing)
- *fill*         0x0801c48c        0x4 00
+ *fill*         0x0801cd3c        0x4 00
  .rodata.patterns
-                0x0801c490       0x30 ../../build/obj/test.o
+                0x0801cd40       0x30 ../../build/obj/test.o
  .rodata.testthd1
-                0x0801c4c0       0x10 ../../build/obj/testthd.o
-                0x0801c4c0                testthd1
+                0x0801cd70       0x10 ../../build/obj/testthd.o
+                0x0801cd70                testthd1
  .rodata.testthd2
-                0x0801c4d0       0x10 ../../build/obj/testthd.o
-                0x0801c4d0                testthd2
+                0x0801cd80       0x10 ../../build/obj/testthd.o
+                0x0801cd80                testthd2
  .rodata.testthd3
-                0x0801c4e0       0x10 ../../build/obj/testthd.o
-                0x0801c4e0                testthd3
+                0x0801cd90       0x10 ../../build/obj/testthd.o
+                0x0801cd90                testthd3
  .rodata.testthd4
-                0x0801c4f0       0x10 ../../build/obj/testthd.o
-                0x0801c4f0                testthd4
+                0x0801cda0       0x10 ../../build/obj/testthd.o
+                0x0801cda0                testthd4
  .rodata.patternthd
-                0x0801c500       0x14 ../../build/obj/testthd.o
-                0x0801c500                patternthd
- *fill*         0x0801c514        0xc 00
+                0x0801cdb0       0x14 ../../build/obj/testthd.o
+                0x0801cdb0                patternthd
+ *fill*         0x0801cdc4        0xc 00
  .rodata.str1.4
-                0x0801c520       0x78 ../../build/obj/testthd.o
+                0x0801cdd0       0x78 ../../build/obj/testthd.o
                                  0x80 (size before relaxing)
- *fill*         0x0801c598        0x8 00
+ *fill*         0x0801ce48        0x8 00
  .rodata.testsem1
-                0x0801c5a0       0x10 ../../build/obj/testsem.o
-                0x0801c5a0                testsem1
+                0x0801ce50       0x10 ../../build/obj/testsem.o
+                0x0801ce50                testsem1
  .rodata.testsem2
-                0x0801c5b0       0x10 ../../build/obj/testsem.o
-                0x0801c5b0                testsem2
+                0x0801ce60       0x10 ../../build/obj/testsem.o
+                0x0801ce60                testsem2
  .rodata.testsem3
-                0x0801c5c0       0x10 ../../build/obj/testsem.o
-                0x0801c5c0                testsem3
+                0x0801ce70       0x10 ../../build/obj/testsem.o
+                0x0801ce70                testsem3
  .rodata.testsem4
-                0x0801c5d0       0x10 ../../build/obj/testsem.o
-                0x0801c5d0                testsem4
+                0x0801ce80       0x10 ../../build/obj/testsem.o
+                0x0801ce80                testsem4
  .rodata.patternsem
-                0x0801c5e0       0x14 ../../build/obj/testsem.o
-                0x0801c5e0                patternsem
- *fill*         0x0801c5f4        0xc 00
+                0x0801ce90       0x14 ../../build/obj/testsem.o
+                0x0801ce90                patternsem
+ *fill*         0x0801cea4        0xc 00
  .rodata.str1.4
-                0x0801c600       0x6d ../../build/obj/testsem.o
+                0x0801ceb0       0x6d ../../build/obj/testsem.o
                                  0x8c (size before relaxing)
- *fill*         0x0801c66d        0x3 00
+ *fill*         0x0801cf1d        0x3 00
  .rodata.testmtx5
-                0x0801c670       0x10 ../../build/obj/testmtx.o
-                0x0801c670                testmtx5
+                0x0801cf20       0x10 ../../build/obj/testmtx.o
+                0x0801cf20                testmtx5
  .rodata.testmtx6
-                0x0801c680       0x10 ../../build/obj/testmtx.o
-                0x0801c680                testmtx6
+                0x0801cf30       0x10 ../../build/obj/testmtx.o
+                0x0801cf30                testmtx6
  .rodata.testmtx7
-                0x0801c690       0x10 ../../build/obj/testmtx.o
-                0x0801c690                testmtx7
+                0x0801cf40       0x10 ../../build/obj/testmtx.o
+                0x0801cf40                testmtx7
  .rodata.testmtx8
-                0x0801c6a0       0x10 ../../build/obj/testmtx.o
-                0x0801c6a0                testmtx8
+                0x0801cf50       0x10 ../../build/obj/testmtx.o
+                0x0801cf50                testmtx8
  .rodata.str1.4
-                0x0801c6b0       0xf0 ../../build/obj/testmtx.o
+                0x0801cf60       0xf0 ../../build/obj/testmtx.o
                                 0x10c (size before relaxing)
  .rodata.patternmtx
-                0x0801c7a0       0x24 ../../build/obj/testmtx.o
-                0x0801c7a0                patternmtx
- *fill*         0x0801c7c4        0xc 00
+                0x0801d050       0x24 ../../build/obj/testmtx.o
+                0x0801d050                patternmtx
+ *fill*         0x0801d074        0xc 00
  .rodata.testmtx1
-                0x0801c7d0       0x10 ../../build/obj/testmtx.o
-                0x0801c7d0                testmtx1
+                0x0801d080       0x10 ../../build/obj/testmtx.o
+                0x0801d080                testmtx1
  .rodata.testmtx2
-                0x0801c7e0       0x10 ../../build/obj/testmtx.o
-                0x0801c7e0                testmtx2
+                0x0801d090       0x10 ../../build/obj/testmtx.o
+                0x0801d090                testmtx2
  .rodata.testmtx3
-                0x0801c7f0       0x10 ../../build/obj/testmtx.o
-                0x0801c7f0                testmtx3
+                0x0801d0a0       0x10 ../../build/obj/testmtx.o
+                0x0801d0a0                testmtx3
  .rodata.testmtx4
-                0x0801c800       0x10 ../../build/obj/testmtx.o
-                0x0801c800                testmtx4
+                0x0801d0b0       0x10 ../../build/obj/testmtx.o
+                0x0801d0b0                testmtx4
  .rodata.testmsg1
-                0x0801c810       0x10 ../../build/obj/testmsg.o
-                0x0801c810                testmsg1
+                0x0801d0c0       0x10 ../../build/obj/testmsg.o
+                0x0801d0c0                testmsg1
  .rodata.str1.4
-                0x0801c820        0xf ../../build/obj/testmsg.o
+                0x0801d0d0        0xf ../../build/obj/testmsg.o
                                  0x14 (size before relaxing)
- *fill*         0x0801c82f        0x1 00
+ *fill*         0x0801d0df        0x1 00
  .rodata.patternmsg
-                0x0801c830        0x8 ../../build/obj/testmsg.o
-                0x0801c830                patternmsg
- *fill*         0x0801c838        0x8 00
+                0x0801d0e0        0x8 ../../build/obj/testmsg.o
+                0x0801d0e0                patternmsg
+ *fill*         0x0801d0e8        0x8 00
  .rodata.patternmbox
-                0x0801c840        0x8 ../../build/obj/testmbox.o
-                0x0801c840                patternmbox
- *fill*         0x0801c848        0x8 00
+                0x0801d0f0        0x8 ../../build/obj/testmbox.o
+                0x0801d0f0                patternmbox
+ *fill*         0x0801d0f8        0x8 00
  .rodata.str1.4
-                0x0801c850       0x20 ../../build/obj/testmbox.o
+                0x0801d100       0x20 ../../build/obj/testmbox.o
                                  0x28 (size before relaxing)
  .rodata.testmbox1
-                0x0801c870       0x10 ../../build/obj/testmbox.o
-                0x0801c870                testmbox1
+                0x0801d120       0x10 ../../build/obj/testmbox.o
+                0x0801d120                testmbox1
  .rodata.patternevt
-                0x0801c880       0x10 ../../build/obj/testevt.o
-                0x0801c880                patternevt
+                0x0801d130       0x10 ../../build/obj/testevt.o
+                0x0801d130                patternevt
  .rodata.testevt2
-                0x0801c890       0x10 ../../build/obj/testevt.o
-                0x0801c890                testevt2
+                0x0801d140       0x10 ../../build/obj/testevt.o
+                0x0801d140                testevt2
  .rodata.str1.4
-                0x0801c8a0       0x51 ../../build/obj/testevt.o
+                0x0801d150       0x51 ../../build/obj/testevt.o
                                  0x5c (size before relaxing)
- *fill*         0x0801c8f1        0xf 00
+ *fill*         0x0801d1a1        0xf 00
  .rodata.testevt1
-                0x0801c900       0x10 ../../build/obj/testevt.o
-                0x0801c900                testevt1
+                0x0801d1b0       0x10 ../../build/obj/testevt.o
+                0x0801d1b0                testevt1
  .rodata.evhndl
-                0x0801c910        0xc ../../build/obj/testevt.o
- *fill*         0x0801c91c        0x4 00
+                0x0801d1c0        0xc ../../build/obj/testevt.o
+ *fill*         0x0801d1cc        0x4 00
  .rodata.testevt3
-                0x0801c920       0x10 ../../build/obj/testevt.o
-                0x0801c920                testevt3
+                0x0801d1d0       0x10 ../../build/obj/testevt.o
+                0x0801d1d0                testevt3
  .rodata.patternheap
-                0x0801c930        0x8 ../../build/obj/testheap.o
-                0x0801c930                patternheap
- *fill*         0x0801c938        0x8 00
+                0x0801d1e0        0x8 ../../build/obj/testheap.o
+                0x0801d1e0                patternheap
+ *fill*         0x0801d1e8        0x8 00
  .rodata.str1.4
-                0x0801c940       0x28 ../../build/obj/testheap.o
- *fill*         0x0801c968        0x8 00
+                0x0801d1f0       0x28 ../../build/obj/testheap.o
+ *fill*         0x0801d218        0x8 00
  .rodata.testheap1
-                0x0801c970       0x10 ../../build/obj/testheap.o
-                0x0801c970                testheap1
+                0x0801d220       0x10 ../../build/obj/testheap.o
+                0x0801d220                testheap1
  .rodata.str1.4
-                0x0801c980       0x1c ../../build/obj/testpools.o
- *fill*         0x0801c99c        0x4 00
+                0x0801d230       0x1c ../../build/obj/testpools.o
+ *fill*         0x0801d24c        0x4 00
  .rodata.patternpools
-                0x0801c9a0        0x8 ../../build/obj/testpools.o
-                0x0801c9a0                patternpools
- *fill*         0x0801c9a8        0x8 00
+                0x0801d250        0x8 ../../build/obj/testpools.o
+                0x0801d250                patternpools
+ *fill*         0x0801d258        0x8 00
  .rodata.testpools1
-                0x0801c9b0       0x10 ../../build/obj/testpools.o
-                0x0801c9b0                testpools1
+                0x0801d260       0x10 ../../build/obj/testpools.o
+                0x0801d260                testpools1
  .rodata.testdyn1
-                0x0801c9c0       0x10 ../../build/obj/testdyn.o
-                0x0801c9c0                testdyn1
+                0x0801d270       0x10 ../../build/obj/testdyn.o
+                0x0801d270                testdyn1
  .rodata.testdyn2
-                0x0801c9d0       0x10 ../../build/obj/testdyn.o
-                0x0801c9d0                testdyn2
+                0x0801d280       0x10 ../../build/obj/testdyn.o
+                0x0801d280                testdyn2
  .rodata.testdyn3
-                0x0801c9e0       0x10 ../../build/obj/testdyn.o
-                0x0801c9e0                testdyn3
+                0x0801d290       0x10 ../../build/obj/testdyn.o
+                0x0801d290                testdyn3
  .rodata.str1.4
-                0x0801c9f0       0x8e ../../build/obj/testdyn.o
+                0x0801d2a0       0x8e ../../build/obj/testdyn.o
                                  0xa4 (size before relaxing)
- *fill*         0x0801ca7e        0x2 00
+ *fill*         0x0801d32e        0x2 00
  .rodata.patterndyn
-                0x0801ca80       0x10 ../../build/obj/testdyn.o
-                0x0801ca80                patterndyn
+                0x0801d330       0x10 ../../build/obj/testdyn.o
+                0x0801d330                patterndyn
  .rodata.testqueues1
-                0x0801ca90       0x10 ../../build/obj/testqueues.o
-                0x0801ca90                testqueues1
+                0x0801d340       0x10 ../../build/obj/testqueues.o
+                0x0801d340                testqueues1
  .rodata.testqueues2
-                0x0801caa0       0x10 ../../build/obj/testqueues.o
-                0x0801caa0                testqueues2
+                0x0801d350       0x10 ../../build/obj/testqueues.o
+                0x0801d350                testqueues2
  .rodata.str1.4
-                0x0801cab0       0x2e ../../build/obj/testqueues.o
+                0x0801d360       0x2e ../../build/obj/testqueues.o
                                  0x38 (size before relaxing)
- *fill*         0x0801cade        0x2 00
+ *fill*         0x0801d38e        0x2 00
  .rodata.patternqueues
-                0x0801cae0        0xc ../../build/obj/testqueues.o
-                0x0801cae0                patternqueues
- *fill*         0x0801caec        0x4 00
+                0x0801d390        0xc ../../build/obj/testqueues.o
+                0x0801d390                patternqueues
+ *fill*         0x0801d39c        0x4 00
  .rodata.testbmk8
-                0x0801caf0       0x10 ../../build/obj/testbmk.o
-                0x0801caf0                testbmk8
+                0x0801d3a0       0x10 ../../build/obj/testbmk.o
+                0x0801d3a0                testbmk8
  .rodata.testbmk9
-                0x0801cb00       0x10 ../../build/obj/testbmk.o
-                0x0801cb00                testbmk9
+                0x0801d3b0       0x10 ../../build/obj/testbmk.o
+                0x0801d3b0                testbmk9
  .rodata.testbmk10
-                0x0801cb10       0x10 ../../build/obj/testbmk.o
-                0x0801cb10                testbmk10
+                0x0801d3c0       0x10 ../../build/obj/testbmk.o
+                0x0801d3c0                testbmk10
  .rodata.testbmk11
-                0x0801cb20       0x10 ../../build/obj/testbmk.o
-                0x0801cb20                testbmk11
+                0x0801d3d0       0x10 ../../build/obj/testbmk.o
+                0x0801d3d0                testbmk11
  .rodata.testbmk12
-                0x0801cb30       0x10 ../../build/obj/testbmk.o
-                0x0801cb30                testbmk12
+                0x0801d3e0       0x10 ../../build/obj/testbmk.o
+                0x0801d3e0                testbmk12
  .rodata.testbmk13
-                0x0801cb40       0x10 ../../build/obj/testbmk.o
-                0x0801cb40                testbmk13
+                0x0801d3f0       0x10 ../../build/obj/testbmk.o
+                0x0801d3f0                testbmk13
  .rodata.str1.4
-                0x0801cb50      0x2c5 ../../build/obj/testbmk.o
+                0x0801d400      0x2c5 ../../build/obj/testbmk.o
                                 0x2c8 (size before relaxing)
- *fill*         0x0801ce15        0xb 00
+ *fill*         0x0801d6c5        0xb 00
  .rodata.patternbmk
-                0x0801ce20       0x38 ../../build/obj/testbmk.o
-                0x0801ce20                patternbmk
- *fill*         0x0801ce58        0x8 00
+                0x0801d6d0       0x38 ../../build/obj/testbmk.o
+                0x0801d6d0                patternbmk
+ *fill*         0x0801d708        0x8 00
  .rodata.testbmk1
-                0x0801ce60       0x10 ../../build/obj/testbmk.o
-                0x0801ce60                testbmk1
+                0x0801d710       0x10 ../../build/obj/testbmk.o
+                0x0801d710                testbmk1
  .rodata.testbmk2
-                0x0801ce70       0x10 ../../build/obj/testbmk.o
-                0x0801ce70                testbmk2
+                0x0801d720       0x10 ../../build/obj/testbmk.o
+                0x0801d720                testbmk2
  .rodata.testbmk3
-                0x0801ce80       0x10 ../../build/obj/testbmk.o
-                0x0801ce80                testbmk3
+                0x0801d730       0x10 ../../build/obj/testbmk.o
+                0x0801d730                testbmk3
  .rodata.testbmk4
-                0x0801ce90       0x10 ../../build/obj/testbmk.o
-                0x0801ce90                testbmk4
+                0x0801d740       0x10 ../../build/obj/testbmk.o
+                0x0801d740                testbmk4
  .rodata.testbmk5
-                0x0801cea0       0x10 ../../build/obj/testbmk.o
-                0x0801cea0                testbmk5
+                0x0801d750       0x10 ../../build/obj/testbmk.o
+                0x0801d750                testbmk5
  .rodata.testbmk6
-                0x0801ceb0       0x10 ../../build/obj/testbmk.o
-                0x0801ceb0                testbmk6
+                0x0801d760       0x10 ../../build/obj/testbmk.o
+                0x0801d760                testbmk6
  .rodata.testbmk7
-                0x0801cec0       0x10 ../../build/obj/testbmk.o
-                0x0801cec0                testbmk7
+                0x0801d770       0x10 ../../build/obj/testbmk.o
+                0x0801d770                testbmk7
  .rodata.sdc_vmt
-                0x0801ced0       0x20 ../../build/obj/sdc.o
- .rodata.vmt    0x0801cef0       0x20 ../../build/obj/serial.o
+                0x0801d780       0x20 ../../build/obj/sdc.o
+ .rodata.vmt    0x0801d7a0       0x20 ../../build/obj/serial.o
  .rodata.zero_status
-                0x0801cf10        0x4 ../../build/obj/usb.o
- *fill*         0x0801cf14        0xc 00
+                0x0801d7c0        0x4 ../../build/obj/usb.o
+ *fill*         0x0801d7c4        0xc 00
  .rodata.active_status
-                0x0801cf20        0x4 ../../build/obj/usb.o
- *fill*         0x0801cf24        0xc 00
+                0x0801d7d0        0x4 ../../build/obj/usb.o
+ *fill*         0x0801d7d4        0xc 00
  .rodata.halted_status
-                0x0801cf30        0x4 ../../build/obj/usb.o
- *fill*         0x0801cf34        0xc 00
+                0x0801d7e0        0x4 ../../build/obj/usb.o
+ *fill*         0x0801d7e4        0xc 00
  .rodata._stm32_dma_streams
-                0x0801cf40       0xc0 ../../build/obj/stm32_dma.o
-                0x0801cf40                _stm32_dma_streams
+                0x0801d7f0       0xc0 ../../build/obj/stm32_dma.o
+                0x0801d7f0                _stm32_dma_streams
  .rodata.fsparams
-                0x0801d000        0xc ../../build/obj/usb_lld.o
- *fill*         0x0801d00c        0x4 00
+                0x0801d8b0        0xc ../../build/obj/usb_lld.o
+ *fill*         0x0801d8bc        0x4 00
  .rodata.ep0config
-                0x0801d010       0x24 ../../build/obj/usb_lld.o
- *fill*         0x0801d034        0xc 00
+                0x0801d8c0       0x24 ../../build/obj/usb_lld.o
+ *fill*         0x0801d8e4        0xc 00
  .rodata.default_config
-                0x0801d040        0xc ../../build/obj/serial_lld.o
- *fill*         0x0801d04c        0x4 00
+                0x0801d8f0        0xc ../../build/obj/serial_lld.o
+ *fill*         0x0801d8fc        0x4 00
  .rodata.pal_default_config
-                0x0801d050       0xfc ../../build/obj/board.o
-                0x0801d050                pal_default_config
- *fill*         0x0801d14c        0x4 00
+                0x0801d900       0xfc ../../build/obj/board.o
+                0x0801d900                pal_default_config
+ *fill*         0x0801d9fc        0x4 00
  .rodata.str1.4
-                0x0801d150       0x48 ../../build/obj/ff.o
- *fill*         0x0801d198        0x8 00
+                0x0801da00       0x48 ../../build/obj/ff.o
+ *fill*         0x0801da48        0x8 00
  .rodata.excvt.5091
-                0x0801d1a0       0x80 ../../build/obj/ff.o
+                0x0801da50       0x80 ../../build/obj/ff.o
  .rodata.tbl_upper.4836
-                0x0801d220      0x1e0 ../../build/obj/ccsbcs.o
- .rodata.Tbl    0x0801d400      0x100 ../../build/obj/ccsbcs.o
+                0x0801dad0      0x1e0 ../../build/obj/ccsbcs.o
+ .rodata.Tbl    0x0801dcb0      0x100 ../../build/obj/ccsbcs.o
  .rodata.tbl_lower.4835
-                0x0801d500      0x1e0 ../../build/obj/ccsbcs.o
+                0x0801ddb0      0x1e0 ../../build/obj/ccsbcs.o
  .rodata.str1.4
-                0x0801d6e0      0x215 ../../build/obj/shell2.o
-                                0x29c (size before relaxing)
- *fill*         0x0801d8f5        0xb 00
+                0x0801df90      0x16d ../../build/obj/shell.o
+                                0x1f4 (size before relaxing)
+ *fill*         0x0801e0fd        0x3 00
  .rodata.str1.4
-                0x0801d900        0x7 ../../build/obj/chprintf.o
+                0x0801e100        0x7 ../../build/obj/chprintf.o
                                   0x8 (size before relaxing)
- *fill*         0x0801d907        0x9 00
+ *fill*         0x0801e107        0x9 00
  .rodata.str1.4
-                0x0801d910       0x11 ../../build/obj/main.o
+                0x0801e110       0x11 ../../build/obj/main.o
                                  0x14 (size before relaxing)
- *fill*         0x0801d921        0xf 00
+ *fill*         0x0801e121        0xf 00
  .rodata.commands
-                0x0801d930      0x168 ../../build/obj/console.o
- *fill*         0x0801da98        0x8 00
+                0x0801e130      0x188 ../../build/obj/console.o
+ *fill*         0x0801e2b8        0x8 00
+ .rodata.states.10213
+                0x0801e2c0       0x3c ../../build/obj/console.o
+ *fill*         0x0801e2fc        0x4 00
+ .rodata.str1.4
+                0x0801e300      0x539 ../../build/obj/console.o
+                                0x54c (size before relaxing)
+ *fill*         0x0801e839        0x7 00
  .rodata.shell_cfg1
-                0x0801daa0        0x8 ../../build/obj/console.o
- *fill*         0x0801daa8        0x8 00
+                0x0801e840        0x8 ../../build/obj/console.o
+ *fill*         0x0801e848        0x8 00
  .rodata.str1.4
-                0x0801dab0      0x4db ../../build/obj/console.o
-                                0x504 (size before relaxing)
- *fill*         0x0801df8b        0x5 00
- .rodata.states.10185
-                0x0801df90       0x3c ../../build/obj/console.o
- *fill*         0x0801dfcc        0x4 00
- .rodata.str1.4
-                0x0801dfd0      0x13e ../../build/obj/eeprom.o
-                                0x158 (size before relaxing)
- *fill*         0x0801e10e        0x2 00
+                0x0801e850      0x13e ../../build/obj/eeprom.o
+                                0x15c (size before relaxing)
+ *fill*         0x0801e98e        0x2 00
  .rodata.i2ccfg
-                0x0801e110        0xc ../../build/obj/eeprom.o
- *fill*         0x0801e11c        0x4 00
+                0x0801e990        0xc ../../build/obj/eeprom.o
+ *fill*         0x0801e99c        0x4 00
+ .rodata.names.8307
+                0x0801e9a0       0x18 ../../build/obj/eeprom.o
+ *fill*         0x0801e9b8        0x8 00
  .rodata.sdccfg
-                0x0801e120        0x4 ../../build/obj/sdcard.o
- *fill*         0x0801e124        0xc 00
+                0x0801e9c0        0x4 ../../build/obj/sdcard.o
+ *fill*         0x0801e9c4        0xc 00
  .rodata.str1.4
-                0x0801e130      0x4a0 ../../build/obj/sdcard.o
+                0x0801e9d0      0x4a0 ../../build/obj/sdcard.o
                                 0x4a4 (size before relaxing)
  .rodata.str1.4
-                0x0801e5d0     0x11bd ../../build/obj/log.o
-                               0x11e4 (size before relaxing)
- *fill*         0x0801f78d        0x3 00
+                0x0801ee70     0x1249 ../../build/obj/log.o
+                               0x1270 (size before relaxing)
+ *fill*         0x080200b9        0x7 00
  .rodata.cancfg
-                0x0801f790        0x8 ../../build/obj/can_comm.o
- *fill*         0x0801f798        0x8 00
+                0x080200c0        0x8 ../../build/obj/can_comm.o
+ *fill*         0x080200c8        0x8 00
  .rodata.str1.4
-                0x0801f7a0      0xcfc ../../build/obj/can_comm.o
-                                0xd18 (size before relaxing)
- *fill*         0x0802049c        0x4 00
+                0x080200d0      0xd10 ../../build/obj/can_comm.o
+                                0xd2c (size before relaxing)
  .rodata.str1.4
-                0x080204a0      0x328 ../../build/obj/light.o
+                0x08020de0      0x328 ../../build/obj/light.o
                                 0x340 (size before relaxing)
- *fill*         0x080207c8        0x8 00
+ *fill*         0x08021108        0x8 00
  .rodata.str1.4
-                0x080207d0       0x5f ../../build/obj/speed.o
-                                 0x78 (size before relaxing)
- *fill*         0x0802082f        0x1 00
+                0x08021110      0x125 ../../build/obj/speed.o
+                                0x140 (size before relaxing)
+ *fill*         0x08021235        0xb 00
+ .rodata.measNTCcalib
+                0x08021240       0x58 ../../build/obj/meas.o
+                0x08021240                measNTCcalib
+ *fill*         0x08021298        0x8 00
  .rodata.adcgrpcfg
-                0x08020830       0x28 ../../build/obj/meas.o
- *fill*         0x08020858        0x8 00
+                0x080212a0       0x28 ../../build/obj/meas.o
+ *fill*         0x080212c8        0x8 00
  .rodata.adcgrpcfg_2
-                0x08020860       0x28 ../../build/obj/meas.o
- *fill*         0x08020888        0x8 00
+                0x080212d0       0x28 ../../build/obj/meas.o
+ *fill*         0x080212f8        0x8 00
  .rodata.str1.4
-                0x08020890      0x19b ../../build/obj/meas.o
+                0x08021300      0x19b ../../build/obj/meas.o
                                 0x1cc (size before relaxing)
- *fill*         0x08020a2b        0x5 00
+ *fill*         0x0802149b        0x5 00
  .rodata.str1.4
-                0x08020a30      0x23d ../../build/obj/cruise.o
-                                0x264 (size before relaxing)
- *fill*         0x08020c6d        0x3 00
+                0x080214a0      0x32d ../../build/obj/cruise.o
+                                0x354 (size before relaxing)
+ *fill*         0x080217cd        0x3 00
  .rodata.str1.4
-                0x08020c70      0x19c ../../build/obj/dsp.o
+                0x080217d0      0x19c ../../build/obj/dsp.o
                                 0x1b8 (size before relaxing)
- *fill*         0x08020e0c        0x4 00
+ *fill*         0x0802196c        0x4 00
  .rodata.str1.4
-                0x08020e10       0xe7 ../../build/obj/button.o
+                0x08021970       0xe7 ../../build/obj/button.o
                                 0x108 (size before relaxing)
  .rodata.str1.4
                 0x00000000       0x2c ../../build/obj/brake.o
- *fill*         0x08020ef7        0x9 00
+ *fill*         0x08021a57        0x9 00
  .rodata.gpt2cfg
-                0x08020f00        0xc ../../build/obj/safety.o
- *fill*         0x08020f0c        0x4 00
+                0x08021a60        0xc ../../build/obj/safety.o
+ *fill*         0x08021a6c        0x4 00
  .rodata.str1.4
-                0x08020f10       0x5f ../../build/obj/safety.o
+                0x08021a70       0x57 ../../build/obj/safety.o
                                  0x8c (size before relaxing)
- *fill*         0x08020f6f        0x1 00
+ *fill*         0x08021ac7        0x9 00
  .rodata.str1.4
-                0x08020f70       0x11 ../../build/obj/calc.o
-                                 0x44 (size before relaxing)
- *fill*         0x08020f81        0xf 00
+                0x08021ad0       0x23 ../../build/obj/calc.o
+                                 0x54 (size before relaxing)
+ *fill*         0x08021af3        0xd 00
  .rodata.str1.4
-                0x08020f90       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime_r.o)
+                0x08021b00       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime_r.o)
  .rodata.str1.4
                 0x00000000        0x4 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-impure.o)
  .rodata.str1.4
-                0x08020fb0       0x3a c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
+                0x08021b20       0x3a c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
                                  0x44 (size before relaxing)
- *fill*         0x08020fea        0x6 00
+ *fill*         0x08021b5a        0x6 00
  .rodata.str1.4
-                0x08020ff0       0x10 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
+                0x08021b60       0x10 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
                                  0x14 (size before relaxing)
  .rodata.str1.4
-                0x08021000        0x8 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-locale.o)
+                0x08021b70        0x8 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-locale.o)
                                  0x14 (size before relaxing)
  .rodata.str1.4
                 0x00000000       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfiprintf.o)
@@ -3324,22 +3359,22 @@ destructors     0x080001ac        0x0
  .glue_7        0x00000000        0x0 linker stubs
  *(.gcc*)
 
-.vfp11_veneer   0x08021008        0x0
+.vfp11_veneer   0x08021b78        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x08021008        0x0
+.v4_bx          0x08021b78        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM.exidx      0x08021008        0x8
-                0x08021008                PROVIDE (__exidx_start, .)
+.ARM.exidx      0x08021b78        0x8
+                0x08021b78                PROVIDE (__exidx_start, .)
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x08021008        0x8 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_divdi3.o)
- .ARM.exidx     0x08021010        0x0 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_udivdi3.o)
+ .ARM.exidx     0x08021b78        0x8 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_divdi3.o)
+ .ARM.exidx     0x08021b80        0x0 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_udivdi3.o)
                                   0x8 (size before relaxing)
-                0x08021010                PROVIDE (__exidx_end, .)
+                0x08021b80                PROVIDE (__exidx_end, .)
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
@@ -3347,11 +3382,11 @@ destructors     0x080001ac        0x0
 .eh_frame
  *(.eh_frame)
 
-.textalign      0x08021010        0x0
-                0x08021010                . = ALIGN (0x8)
-                0x08021010                . = ALIGN (0x4)
-                0x08021010                _etext = .
-                0x08021010                _textdata = _etext
+.textalign      0x08021b80        0x0
+                0x08021b80                . = ALIGN (0x8)
+                0x08021b80                . = ALIGN (0x4)
+                0x08021b80                _etext = .
+                0x08021b80                _textdata = _etext
 
 .stacks         0x20000000      0x800
                 0x20000000                . = ALIGN (0x8)
@@ -3368,7 +3403,7 @@ destructors     0x080001ac        0x0
                 0x20000800                __process_stack_end__ = .
                 0x20000800                __main_thread_stack_end__ = .
 
-.data           0x20000800     0x1870 load address 0x08021010
+.data           0x20000800     0x18ac load address 0x08021b80
                 0x20000800                . = ALIGN (0x4)
                 0x20000800                PROVIDE (_data, .)
  *(.data)
@@ -3395,407 +3430,421 @@ destructors     0x080001ac        0x0
  .data.oq       0x20000e34       0x24 ../../build/obj/testqueues.o
  .data.iq       0x20000e58       0x24 ../../build/obj/testqueues.o
  .data.local_commands
-                0x20000e7c       0x18 ../../build/obj/shell2.o
+                0x20000e7c       0x18 ../../build/obj/shell.o
  .data.ser_cfg  0x20000e94        0xc ../../build/obj/console.o
  .data.eepromitems
-                0x20000ea0       0x24 ../../build/obj/eeprom.o
+                0x20000ea0       0x30 ../../build/obj/eeprom.o
  .data.logFileName
-                0x20000ec4       0x18 ../../build/obj/log.o
-                0x20000ec4                logFileName
+                0x20000ed0       0x18 ../../build/obj/log.o
+                0x20000ed0                logFileName
  .data.logitems
-                0x20000edc     0x1070 ../../build/obj/log.o
- .data.pwmcfg   0x20001f4c       0x34 ../../build/obj/light.o
- .data.icucfg   0x20001f80       0x1c ../../build/obj/speed.o
- .data.K_D      0x20001f9c        0x2 ../../build/obj/cruise.o
- .data.K_I      0x20001f9e        0x2 ../../build/obj/cruise.o
- .data.K_P      0x20001fa0        0x2 ../../build/obj/cruise.o
- *fill*         0x20001fa2        0x2 00
+                0x20000ee8     0x10a0 ../../build/obj/log.o
+ .data.pwmcfg   0x20001f88       0x34 ../../build/obj/light.o
+ .data.icucfg   0x20001fbc       0x1c ../../build/obj/speed.o
+ .data.K_D      0x20001fd8        0x2 ../../build/obj/cruise.o
+ .data.K_P      0x20001fda        0x2 ../../build/obj/cruise.o
+ .data.K_I      0x20001fdc        0x2 ../../build/obj/cruise.o
+ .data.current_limit_status
+                0x20001fde        0x1 ../../build/obj/cruise.o
+ *fill*         0x20001fdf        0x1 00
  .data.cruise_pwmcfg
-                0x20001fa4       0x34 ../../build/obj/cruise.o
- .data.db       0x20001fd8        0x4 ../../build/obj/dsp.o
-                0x20001fd8                db
+                0x20001fe0       0x34 ../../build/obj/cruise.o
+ .data.db       0x20002014        0x4 ../../build/obj/dsp.o
+                0x20002014                db
  .data.dspValue
-                0x20001fdc       0x88 ../../build/obj/dsp.o
+                0x20002018       0x88 ../../build/obj/dsp.o
  .data.diag_ser_SD2_cfg
-                0x20002064        0xc ../../build/obj/uart_comm.o
+                0x200020a0        0xc ../../build/obj/uart_comm.o
  *(.ramtext)
-                0x20002070                . = ALIGN (0x4)
-                0x20002070                PROVIDE (_edata, .)
+                0x200020ac                . = ALIGN (0x4)
+                0x200020ac                PROVIDE (_edata, .)
 
-.bss            0x20002070     0x5a48 load address 0x08022880
-                0x20002070                . = ALIGN (0x4)
-                0x20002070                PROVIDE (_bss_start, .)
+.bss            0x200020ac     0x5c2c load address 0x0802342c
+                0x200020ac                . = ALIGN (0x4)
+                0x200020ac                PROVIDE (_bss_start, .)
  *(.bss)
- .bss           0x20002070       0x34 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mallocr.o)
-                0x20002070                __malloc_top_pad
-                0x20002074                __malloc_current_mallinfo
-                0x2000209c                __malloc_max_sbrked_mem
-                0x200020a0                __malloc_max_total_mem
- .bss           0x200020a4        0x8 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-tzvars.o)
-                0x200020a4                _daylight
-                0x200020a8                _timezone
+ .bss           0x200020ac       0x34 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mallocr.o)
+                0x200020ac                __malloc_top_pad
+                0x200020b0                __malloc_current_mallinfo
+                0x200020d8                __malloc_max_sbrked_mem
+                0x200020dc                __malloc_max_total_mem
+ .bss           0x200020e0        0x8 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-tzvars.o)
+                0x200020e0                _daylight
+                0x200020e4                _timezone
  *(.bss.*)
  .bss.mainthread.4642
-                0x200020ac       0x48 ../../build/obj/chsys.o
- *fill*         0x200020f4        0x4 00
+                0x200020e8       0x48 ../../build/obj/chsys.o
  .bss._idle_thread_wa
-                0x200020f8       0xe0 ../../build/obj/chsys.o
-                0x200020f8                _idle_thread_wa
- .bss.vtlist    0x200021d8       0x10 ../../build/obj/chvt.o
-                0x200021d8                vtlist
- .bss.rlist     0x200021e8       0x1c ../../build/obj/chschd.o
-                0x200021e8                rlist
- .bss.endmem    0x20002204        0x4 ../../build/obj/chmemcore.o
- .bss.nextmem   0x20002208        0x4 ../../build/obj/chmemcore.o
- *fill*         0x2000220c        0x4 00
+                0x20002130       0xe0 ../../build/obj/chsys.o
+                0x20002130                _idle_thread_wa
+ .bss.vtlist    0x20002210       0x10 ../../build/obj/chvt.o
+                0x20002210                vtlist
+ .bss.rlist     0x20002220       0x1c ../../build/obj/chschd.o
+                0x20002220                rlist
+ .bss.endmem    0x2000223c        0x4 ../../build/obj/chmemcore.o
+ .bss.nextmem   0x20002240        0x4 ../../build/obj/chmemcore.o
+ *fill*         0x20002244        0x4 00
  .bss.default_heap
-                0x20002210       0x20 ../../build/obj/chheap.o
- .bss.test      0x20002230      0x690 ../../build/obj/test.o
-                0x20002230                test
+                0x20002248       0x20 ../../build/obj/chheap.o
+ .bss.test      0x20002268      0x690 ../../build/obj/test.o
+                0x20002268                test
  .bss.failpoint
-                0x200028c0        0x4 ../../build/obj/test.o
+                0x200028f8        0x4 ../../build/obj/test.o
  .bss.local_fail
-                0x200028c4        0x1 ../../build/obj/test.o
+                0x200028fc        0x1 ../../build/obj/test.o
  .bss.test_timer_done
-                0x200028c5        0x1 ../../build/obj/test.o
-                0x200028c5                test_timer_done
- *fill*         0x200028c6        0x2 00
- .bss.tokp      0x200028c8        0x4 ../../build/obj/test.o
+                0x200028fd        0x1 ../../build/obj/test.o
+                0x200028fd                test_timer_done
+ *fill*         0x200028fe        0x2 00
+ .bss.tokp      0x20002900        0x4 ../../build/obj/test.o
  .bss.global_fail
-                0x200028cc        0x1 ../../build/obj/test.o
- *fill*         0x200028cd        0x3 00
- .bss.vt        0x200028d0       0x14 ../../build/obj/test.o
- .bss.threads   0x200028e4       0x14 ../../build/obj/test.o
-                0x200028e4                threads
- .bss.chp       0x200028f8        0x4 ../../build/obj/test.o
+                0x20002904        0x1 ../../build/obj/test.o
+ *fill*         0x20002905        0x3 00
+ .bss.vt        0x20002908       0x14 ../../build/obj/test.o
+ .bss.threads   0x2000291c       0x14 ../../build/obj/test.o
+                0x2000291c                threads
+ .bss.chp       0x20002930        0x4 ../../build/obj/test.o
  .bss.tokens_buffer
-                0x200028fc       0x10 ../../build/obj/test.o
- *fill*         0x2000290c        0x4 00
+                0x20002934       0x10 ../../build/obj/test.o
+ *fill*         0x20002944        0x4 00
  .bss.test_heap
-                0x20002910       0x20 ../../build/obj/testheap.o
- .bss.mp1       0x20002930        0xc ../../build/obj/testdyn.o
- *fill*         0x2000293c        0x4 00
- .bss.heap1     0x20002940       0x20 ../../build/obj/testdyn.o
- .bss.ib.4789   0x20002960       0x10 ../../build/obj/testbmk.o
- .bss.mtx1      0x20002970       0x10 ../../build/obj/testbmk.o
- .bss.vt2.4803  0x20002980       0x14 ../../build/obj/testbmk.o
- .bss.vt1.4802  0x20002994       0x14 ../../build/obj/testbmk.o
- .bss.iq.4790   0x200029a8       0x24 ../../build/obj/testbmk.o
- .bss.sem1      0x200029cc        0xc ../../build/obj/testbmk.o
+                0x20002948       0x20 ../../build/obj/testheap.o
+ .bss.mp1       0x20002968        0xc ../../build/obj/testdyn.o
+ *fill*         0x20002974        0x4 00
+ .bss.heap1     0x20002978       0x20 ../../build/obj/testdyn.o
+ .bss.ib.4789   0x20002998       0x10 ../../build/obj/testbmk.o
+ .bss.mtx1      0x200029a8       0x10 ../../build/obj/testbmk.o
+ .bss.vt2.4803  0x200029b8       0x14 ../../build/obj/testbmk.o
+ .bss.vt1.4802  0x200029cc       0x14 ../../build/obj/testbmk.o
+ .bss.iq.4790   0x200029e0       0x24 ../../build/obj/testbmk.o
+ .bss.sem1      0x20002a04        0xc ../../build/obj/testbmk.o
  .bss.measurement_offset
-                0x200029d8        0x4 ../../build/obj/tm.o
+                0x20002a10        0x4 ../../build/obj/tm.o
  .bss.dma_isr_redir
-                0x200029dc       0x80 ../../build/obj/stm32_dma.o
+                0x20002a14       0x80 ../../build/obj/stm32_dma.o
  .bss.dma_streams_mask
-                0x20002a5c        0x4 ../../build/obj/stm32_dma.o
- .bss.ADCD2     0x20002a60       0x34 ../../build/obj/adc_lld.o
-                0x20002a60                ADCD2
- .bss.ADCD3     0x20002a94       0x34 ../../build/obj/adc_lld.o
-                0x20002a94                ADCD3
- .bss.CAND1     0x20002ac8       0x38 ../../build/obj/can_lld.o
-                0x20002ac8                CAND1
- .bss.SDCD1     0x20002b00       0x48 ../../build/obj/sdc_lld.o
-                0x20002b00                SDCD1
- .bss.u         0x20002b48      0x200 ../../build/obj/sdc_lld.o
- .bss.I2CD1     0x20002d48       0x38 ../../build/obj/i2c_lld.o
-                0x20002d48                I2CD1
- .bss.USBD1     0x20002d80      0x1b8 ../../build/obj/usb_lld.o
-                0x20002d80                USBD1
+                0x20002a94        0x4 ../../build/obj/stm32_dma.o
+ .bss.ADCD2     0x20002a98       0x34 ../../build/obj/adc_lld.o
+                0x20002a98                ADCD2
+ .bss.ADCD3     0x20002acc       0x34 ../../build/obj/adc_lld.o
+                0x20002acc                ADCD3
+ .bss.CAND1     0x20002b00       0x38 ../../build/obj/can_lld.o
+                0x20002b00                CAND1
+ .bss.SDCD1     0x20002b38       0x48 ../../build/obj/sdc_lld.o
+                0x20002b38                SDCD1
+ .bss.u         0x20002b80      0x200 ../../build/obj/sdc_lld.o
+ .bss.I2CD1     0x20002d80       0x38 ../../build/obj/i2c_lld.o
+                0x20002d80                I2CD1
+ .bss.USBD1     0x20002db8      0x1b8 ../../build/obj/usb_lld.o
+                0x20002db8                USBD1
  .bss.ep0_state
-                0x20002f38       0x14 ../../build/obj/usb_lld.o
+                0x20002f70       0x14 ../../build/obj/usb_lld.o
  .bss.ep0setup_buffer
-                0x20002f4c        0x8 ../../build/obj/usb_lld.o
- .bss.RTCD1     0x20002f54        0x4 ../../build/obj/rtc_lld.o
-                0x20002f54                RTCD1
- .bss.dummytx   0x20002f58        0x2 ../../build/obj/spi_lld.o
- *fill*         0x20002f5a        0x2 00
- .bss.SPID2     0x20002f5c       0x30 ../../build/obj/spi_lld.o
-                0x20002f5c                SPID2
- .bss.GPTD2     0x20002f8c       0x10 ../../build/obj/gpt_lld.o
-                0x20002f8c                GPTD2
- .bss.ICUD1     0x20002f9c       0x18 ../../build/obj/icu_lld.o
-                0x20002f9c                ICUD1
- .bss.PWMD4     0x20002fb4       0x14 ../../build/obj/pwm_lld.o
-                0x20002fb4                PWMD4
- .bss.PWMD5     0x20002fc8       0x14 ../../build/obj/pwm_lld.o
-                0x20002fc8                PWMD5
- .bss.SD1       0x20002fdc       0x78 ../../build/obj/serial_lld.o
-                0x20002fdc                SD1
- .bss.SD2       0x20003054       0x78 ../../build/obj/serial_lld.o
-                0x20003054                SD2
- .bss.Fsid      0x200030cc        0x2 ../../build/obj/ff.o
- *fill*         0x200030ce        0x2 00
- .bss.FatFs     0x200030d0        0x4 ../../build/obj/ff.o
+                0x20002f84        0x8 ../../build/obj/usb_lld.o
+ .bss.RTCD1     0x20002f8c        0x4 ../../build/obj/rtc_lld.o
+                0x20002f8c                RTCD1
+ .bss.dummytx   0x20002f90        0x2 ../../build/obj/spi_lld.o
+ *fill*         0x20002f92        0x2 00
+ .bss.SPID2     0x20002f94       0x30 ../../build/obj/spi_lld.o
+                0x20002f94                SPID2
+ .bss.GPTD2     0x20002fc4       0x10 ../../build/obj/gpt_lld.o
+                0x20002fc4                GPTD2
+ .bss.ICUD1     0x20002fd4       0x18 ../../build/obj/icu_lld.o
+                0x20002fd4                ICUD1
+ .bss.PWMD4     0x20002fec       0x14 ../../build/obj/pwm_lld.o
+                0x20002fec                PWMD4
+ .bss.PWMD5     0x20003000       0x14 ../../build/obj/pwm_lld.o
+                0x20003000                PWMD5
+ .bss.SD1       0x20003014       0x78 ../../build/obj/serial_lld.o
+                0x20003014                SD1
+ .bss.SD2       0x2000308c       0x78 ../../build/obj/serial_lld.o
+                0x2000308c                SD2
+ .bss.Fsid      0x20003104        0x2 ../../build/obj/ff.o
+ *fill*         0x20003106        0x2 00
+ .bss.FatFs     0x20003108        0x4 ../../build/obj/ff.o
  .bss.shell_terminated
-                0x200030d4        0x4 ../../build/obj/shell2.o
-                0x200030d4                shell_terminated
+                0x2000310c        0x4 ../../build/obj/shell.o
+                0x2000310c                shell_terminated
  .bss.waThread1
-                0x200030d8      0x150 ../../build/obj/main.o
+                0x20003110      0x150 ../../build/obj/main.o
  .bss.watask20ms
-                0x20003228      0x2d0 ../../build/obj/main.o
+                0x20003260      0x2d0 ../../build/obj/main.o
  .bss.unix_time
-                0x200034f8        0x4 ../../build/obj/console.o
+                0x20003530        0x4 ../../build/obj/console.o
  .bss.consoleThread
-                0x200034fc        0x4 ../../build/obj/console.o
-                0x200034fc                consoleThread
+                0x20003534        0x4 ../../build/obj/console.o
+                0x20003534                consoleThread
  .bss.alarmspec
-                0x20003500        0x4 ../../build/obj/console.o
+                0x20003538        0x4 ../../build/obj/console.o
  .bss.sdcard_fbuff
-                0x20003504      0x400 ../../build/obj/sdcard.o
-                0x20003504                sdcard_fbuff
+                0x2000353c      0x400 ../../build/obj/sdcard.o
+                0x2000353c                sdcard_fbuff
  .bss.sdcard_fs_ready
-                0x20003904        0x1 ../../build/obj/sdcard.o
- *fill*         0x20003905        0x3 00
+                0x2000393c        0x1 ../../build/obj/sdcard.o
+ *fill*         0x2000393d        0x3 00
  .bss.sdcard_filesystem
-                0x20003908      0x230 ../../build/obj/sdcard.o
- .bss.inbuf     0x20003b38     0x1004 ../../build/obj/sdcard.o
- .bss.lfn.8936  0x20004b3c      0x100 ../../build/obj/sdcard.o
- .bss.outbuf    0x20004c3c     0x1004 ../../build/obj/sdcard.o
+                0x20003940      0x230 ../../build/obj/sdcard.o
+ .bss.inbuf     0x20003b70     0x1004 ../../build/obj/sdcard.o
+ .bss.lfn.8936  0x20004b74      0x100 ../../build/obj/sdcard.o
+ .bss.outbuf    0x20004c74     0x1004 ../../build/obj/sdcard.o
  .bss.logPeriod
-                0x20005c40        0x4 ../../build/obj/log.o
- .bss.bmsitems  0x20005c44       0x2c ../../build/obj/log.o
-                0x20005c44                bmsitems
- .bss.waLog.9856
-                0x20005c70      0x8d0 ../../build/obj/log.o
- .bss.lcitems   0x20006540      0x240 ../../build/obj/log.o
-                0x20006540                lcitems
- .bss.logState  0x20006780        0x1 ../../build/obj/log.o
-                0x20006780                logState
- *fill*         0x20006781        0x3 00
- .bss.mlitems   0x20006784        0xc ../../build/obj/log.o
-                0x20006784                mlitems
- .bss.size      0x20006790        0x2 ../../build/obj/log.o
- .bss.logStopRequest
-                0x20006792        0x1 ../../build/obj/log.o
-                0x20006792                logStopRequest
- *fill*         0x20006793        0x1 00
- .bss.logStartTime
-                0x20006794        0x4 ../../build/obj/log.o
-                0x20006794                logStartTime
- .bss.logStartRequest
-                0x20006798        0x1 ../../build/obj/log.o
-                0x20006798                logStartRequest
+                0x20005c78        0x4 ../../build/obj/log.o
+ .bss.bmsitems  0x20005c7c       0x2c ../../build/obj/log.o
+                0x20005c7c                bmsitems
+ .bss.lcitems   0x20005ca8      0x220 ../../build/obj/log.o
+                0x20005ca8                lcitems
+ .bss.waLog.9863
+                0x20005ec8      0x8d0 ../../build/obj/log.o
+ .bss.logState  0x20006798        0x1 ../../build/obj/log.o
+                0x20006798                logState
  *fill*         0x20006799        0x3 00
- .bss.szam      0x2000679c        0x4 ../../build/obj/log.o
+ .bss.mlitems   0x2000679c       0x10 ../../build/obj/log.o
+                0x2000679c                mlitems
+ .bss.size      0x200067ac        0x2 ../../build/obj/log.o
+ .bss.logStopRequest
+                0x200067ae        0x1 ../../build/obj/log.o
+                0x200067ae                logStopRequest
+ *fill*         0x200067af        0x1 00
+ .bss.logStartTime
+                0x200067b0        0x4 ../../build/obj/log.o
+                0x200067b0                logStartTime
+ .bss.logStartRequest
+                0x200067b4        0x1 ../../build/obj/log.o
+                0x200067b4                logStartRequest
+ *fill*         0x200067b5        0x3 00
+ .bss.szam      0x200067b8        0x4 ../../build/obj/log.o
  .bss.logFileObject
-                0x200067a0      0x224 ../../build/obj/log.o
-                0x200067a0                logFileObject
+                0x200067bc      0x224 ../../build/obj/log.o
+                0x200067bc                logFileObject
  .bss.cellitems
-                0x200069c4      0x154 ../../build/obj/log.o
-                0x200069c4                cellitems
+                0x200069e0      0x154 ../../build/obj/log.o
+                0x200069e0                cellitems
+ *fill*         0x20006b34        0x4 00
  .bss.can_tx_wa
-                0x20006b18      0x1d0 ../../build/obj/can_comm.o
- .bss.rx_id     0x20006ce8        0x2 ../../build/obj/can_comm.o
- *fill*         0x20006cea        0x2 00
- .bss.txmsg     0x20006cec       0x10 ../../build/obj/can_comm.o
- *fill*         0x20006cfc        0x4 00
+                0x20006b38      0x1d0 ../../build/obj/can_comm.o
+ .bss.rx_id     0x20006d08        0x2 ../../build/obj/can_comm.o
+ *fill*         0x20006d0a        0x2 00
+ .bss.txmsg     0x20006d0c       0x10 ../../build/obj/can_comm.o
+ *fill*         0x20006d1c        0x4 00
  .bss.can_rx_wa
-                0x20006d00      0x1d0 ../../build/obj/can_comm.o
+                0x20006d20      0x1d0 ../../build/obj/can_comm.o
  .bss.message_status
-                0x20006ed0        0x4 ../../build/obj/can_comm.o
- .bss.sender    0x20006ed4        0x1 ../../build/obj/can_comm.o
- .bss.canstate  0x20006ed5        0x1 ../../build/obj/can_comm.o
-                0x20006ed5                canstate
+                0x20006ef0        0x4 ../../build/obj/can_comm.o
+ .bss.sender    0x20006ef4        0x1 ../../build/obj/can_comm.o
+ .bss.canstate  0x20006ef5        0x1 ../../build/obj/can_comm.o
+                0x20006ef5                canstate
  .bss.can_newdata
-                0x20006ed6        0x1 ../../build/obj/can_comm.o
- *fill*         0x20006ed7        0x1 00
- .bss.messages  0x20006ed8        0x2 ../../build/obj/can_comm.o
- *fill*         0x20006eda        0x2 00
- .bss.rxmsg     0x20006edc       0x14 ../../build/obj/can_comm.o
+                0x20006ef6        0x1 ../../build/obj/can_comm.o
+ *fill*         0x20006ef7        0x1 00
+ .bss.messages  0x20006ef8        0x2 ../../build/obj/can_comm.o
+ *fill*         0x20006efa        0x2 00
+ .bss.rxmsg     0x20006efc       0x14 ../../build/obj/can_comm.o
  .bss.can_transmit
-                0x20006ef0        0x1 ../../build/obj/can_comm.o
- *fill*         0x20006ef1        0x1 00
+                0x20006f10        0x1 ../../build/obj/can_comm.o
+ *fill*         0x20006f11        0x1 00
  .bss.demo_time
-                0x20006ef2        0x2 ../../build/obj/light.o
+                0x20006f12        0x2 ../../build/obj/light.o
  .bss.lightchanels
-                0x20006ef4        0x8 ../../build/obj/light.o
- .bss.period    0x20006efc        0x4 ../../build/obj/light.o
- .bss.flashing  0x20006f00        0x1 ../../build/obj/light.o
+                0x20006f14        0x8 ../../build/obj/light.o
+ .bss.period    0x20006f1c        0x4 ../../build/obj/light.o
+ .bss.flashing  0x20006f20        0x1 ../../build/obj/light.o
  .bss.left_active
-                0x20006f01        0x1 ../../build/obj/light.o
+                0x20006f21        0x1 ../../build/obj/light.o
  .bss.demo_period
-                0x20006f02        0x2 ../../build/obj/light.o
+                0x20006f22        0x2 ../../build/obj/light.o
  .bss.right_active
-                0x20006f04        0x1 ../../build/obj/light.o
- *fill*         0x20006f05        0x3 00
- .bss.rpmasis   0x20006f08        0x8 ../../build/obj/speed.o
+                0x20006f24        0x1 ../../build/obj/light.o
+ *fill*         0x20006f25        0x3 00
+ .bss.kmeter_counter
+                0x20006f28        0x4 ../../build/obj/speed.o
+ *fill*         0x20006f2c        0x4 00
+ .bss.rpmasis   0x20006f30        0x8 ../../build/obj/speed.o
  .bss.old_rotation
-                0x20006f10        0x8 ../../build/obj/speed.o
- .bss.rotation  0x20006f18        0x8 ../../build/obj/speed.o
+                0x20006f38        0x8 ../../build/obj/speed.o
+ .bss.total_kmeter_counter
+                0x20006f40        0x4 ../../build/obj/speed.o
+ *fill*         0x20006f44        0x4 00
+ .bss.rotation  0x20006f48        0x8 ../../build/obj/speed.o
+ .bss.meter_counter
+                0x20006f50        0x8 ../../build/obj/speed.o
+ .bss.wasave_kmeter_eeprom
+                0x20006f58      0x2d0 ../../build/obj/speed.o
  .bss.rpm_index
-                0x20006f20        0x2 ../../build/obj/speed.o
- *fill*         0x20006f22        0x6 00
- .bss.rpm_buff  0x20006f28      0x180 ../../build/obj/speed.o
- .bss.speed     0x200070a8        0x8 ../../build/obj/speed.o
+                0x20007228        0x2 ../../build/obj/speed.o
+ .bss.tick_counter
+                0x2000722a        0x1 ../../build/obj/speed.o
+ *fill*         0x2000722b        0x5 00
+ .bss.rpm_buff  0x20007230      0x180 ../../build/obj/speed.o
+ .bss.speed     0x200073b0        0x8 ../../build/obj/speed.o
  .bss.speed_last_period
-                0x200070b0        0x4 ../../build/obj/speed.o
+                0x200073b8        0x4 ../../build/obj/speed.o
  .bss.speed_period_num
-                0x200070b4        0x4 ../../build/obj/speed.o
+                0x200073bc        0x4 ../../build/obj/speed.o
  .bss.speed_zero_period
-                0x200070b8        0x4 ../../build/obj/speed.o
- .bss.measValue
-                0x200070bc       0x24 ../../build/obj/meas.o
+                0x200073c0        0x4 ../../build/obj/speed.o
  .bss.max_throttle
-                0x200070e0        0x2 ../../build/obj/meas.o
+                0x200073c4        0x2 ../../build/obj/meas.o
+ *fill*         0x200073c6        0x2 00
+ .bss.measValue
+                0x200073c8       0x24 ../../build/obj/meas.o
  .bss.set_min_throttle
-                0x200070e2        0x1 ../../build/obj/meas.o
+                0x200073ec        0x1 ../../build/obj/meas.o
  .bss.set_max_regen
-                0x200070e3        0x1 ../../build/obj/meas.o
+                0x200073ed        0x1 ../../build/obj/meas.o
  .bss.measstate
-                0x200070e4        0x1 ../../build/obj/meas.o
-                0x200070e4                measstate
- *fill*         0x200070e5        0x1 00
+                0x200073ee        0x1 ../../build/obj/meas.o
+                0x200073ee                measstate
+ *fill*         0x200073ef        0x1 00
  .bss.min_regen_brake
-                0x200070e6        0x2 ../../build/obj/meas.o
+                0x200073f0        0x2 ../../build/obj/meas.o
+ *fill*         0x200073f2        0x2 00
  .bss.measValue_2
-                0x200070e8       0x14 ../../build/obj/meas.o
+                0x200073f4       0x14 ../../build/obj/meas.o
  .bss.samples_2
-                0x200070fc       0x30 ../../build/obj/meas.o
+                0x20007408       0x60 ../../build/obj/meas.o
  .bss.set_min_regen
-                0x2000712c        0x1 ../../build/obj/meas.o
- *fill*         0x2000712d        0x1 00
+                0x20007468        0x1 ../../build/obj/meas.o
+ *fill*         0x20007469        0x1 00
  .bss.min_throttle
-                0x2000712e        0x2 ../../build/obj/meas.o
+                0x2000746a        0x2 ../../build/obj/meas.o
  .bss.set_max_throttle
-                0x20007130        0x1 ../../build/obj/meas.o
- *fill*         0x20007131        0x1 00
+                0x2000746c        0x1 ../../build/obj/meas.o
+ *fill*         0x2000746d        0x1 00
  .bss.regen_brake
-                0x20007132        0x2 ../../build/obj/meas.o
- .bss.samples   0x20007134       0x70 ../../build/obj/meas.o
- .bss.throttle  0x200071a4        0x2 ../../build/obj/meas.o
- *fill*         0x200071a6        0x2 00
- .bss.curr_avg  0x200071a8        0x4 ../../build/obj/meas.o
- .bss.valtozo   0x200071ac        0x4 ../../build/obj/meas.o
+                0x2000746e        0x2 ../../build/obj/meas.o
+ .bss.samples   0x20007470       0xe0 ../../build/obj/meas.o
+ .bss.throttle  0x20007550        0x2 ../../build/obj/meas.o
+ *fill*         0x20007552        0x2 00
+ .bss.curr_avg  0x20007554        0x4 ../../build/obj/meas.o
+ .bss.valtozo   0x20007558        0x4 ../../build/obj/meas.o
  .bss.max_regen_brake
-                0x200071b0        0x2 ../../build/obj/meas.o
- .bss.old_set   0x200071b2        0x2 ../../build/obj/cruise.o
- .bss.regen_on  0x200071b4        0x1 ../../build/obj/cruise.o
- *fill*         0x200071b5        0x3 00
- .bss.eelozo    0x200071b8        0x8 ../../build/obj/cruise.o
- .bss.brake_pwm
-                0x200071c0        0x4 ../../build/obj/cruise.o
- .bss.pwm       0x200071c4        0x4 ../../build/obj/cruise.o
- .bss.eeprom_write_period
-                0x200071c8        0x4 ../../build/obj/cruise.o
- .bss.cruise_indicator_index
-                0x200071cc        0x4 ../../build/obj/cruise.o
- .bss.set       0x200071d0        0x2 ../../build/obj/cruise.o
- .bss.button_long_decelerat
-                0x200071d2        0x1 ../../build/obj/cruise.o
- *fill*         0x200071d3        0x1 00
+                0x2000755c        0x2 ../../build/obj/meas.o
+ .bss.old_set   0x2000755e        0x2 ../../build/obj/cruise.o
+ .bss.regen_on  0x20007560        0x1 ../../build/obj/cruise.o
+ *fill*         0x20007561        0x7 00
+ .bss.eelozo    0x20007568        0x8 ../../build/obj/cruise.o
  .bss.cruise_on
-                0x200071d4        0x2 ../../build/obj/cruise.o
- *fill*         0x200071d6        0x2 00
- .bss.d_tag     0x200071d8        0x8 ../../build/obj/cruise.o
- .bss.p_tag     0x200071e0        0x8 ../../build/obj/cruise.o
- .bss.result    0x200071e8        0x4 ../../build/obj/cruise.o
+                0x20007570        0x2 ../../build/obj/cruise.o
+ *fill*         0x20007572        0x2 00
+ .bss.brake_pwm
+                0x20007574        0x4 ../../build/obj/cruise.o
+ .bss.pwm       0x20007578        0x4 ../../build/obj/cruise.o
+ .bss.eeprom_write_period
+                0x2000757c        0x4 ../../build/obj/cruise.o
+ .bss.cruise_indicator_index
+                0x20007580        0x4 ../../build/obj/cruise.o
+ .bss.set       0x20007584        0x2 ../../build/obj/cruise.o
+ .bss.button_long_decelerat
+                0x20007586        0x1 ../../build/obj/cruise.o
+ *fill*         0x20007587        0x1 00
+ .bss.d_tag     0x20007588        0x8 ../../build/obj/cruise.o
+ .bss.p_tag     0x20007590        0x8 ../../build/obj/cruise.o
+ .bss.result    0x20007598        0x4 ../../build/obj/cruise.o
  .bss.cruise_indicator
-                0x200071ec        0x1 ../../build/obj/cruise.o
- *fill*         0x200071ed        0x1 00
+                0x2000759c        0x1 ../../build/obj/cruise.o
+ *fill*         0x2000759d        0x1 00
  .bss.cruise_disable_period
-                0x200071ee        0x2 ../../build/obj/cruise.o
+                0x2000759e        0x2 ../../build/obj/cruise.o
+ .bss.substract
+                0x200075a0        0x2 ../../build/obj/cruise.o
  .bss.button_long_accel
-                0x200071f0        0x1 ../../build/obj/cruise.o
- *fill*         0x200071f1        0x7 00
- .bss.i_tag     0x200071f8        0x8 ../../build/obj/cruise.o
- .bss.e_tag     0x20007200        0x8 ../../build/obj/cruise.o
+                0x200075a2        0x1 ../../build/obj/cruise.o
+ *fill*         0x200075a3        0x5 00
+ .bss.i_tag     0x200075a8        0x8 ../../build/obj/cruise.o
+ .bss.e_tag     0x200075b0        0x8 ../../build/obj/cruise.o
  .bss.eeprom_write
-                0x20007208        0x1 ../../build/obj/cruise.o
- *fill*         0x20007209        0x3 00
+                0x200075b8        0x1 ../../build/obj/cruise.o
+ *fill*         0x200075b9        0x3 00
  .bss.accel_limit
-                0x2000720c        0x4 ../../build/obj/cruise.o
- .bss.save_pwm  0x20007210        0x4 ../../build/obj/cruise.o
- .bss.bus_num   0x20007214        0x4 ../../build/obj/dsp.o
- .bss.danger    0x20007218        0x2 ../../build/obj/dsp.o
- .bss.valasz    0x2000721a        0x1 ../../build/obj/dsp.o
- *fill*         0x2000721b        0x1 00
+                0x200075bc        0x4 ../../build/obj/cruise.o
+ .bss.save_pwm  0x200075c0        0x4 ../../build/obj/cruise.o
+ .bss.bus_num   0x200075c4        0x4 ../../build/obj/dsp.o
+ .bss.danger    0x200075c8        0x2 ../../build/obj/dsp.o
+ .bss.valasz    0x200075ca        0x1 ../../build/obj/dsp.o
+ *fill*         0x200075cb        0x1 00
  .bss.over_charge
-                0x2000721c        0x2 ../../build/obj/dsp.o
+                0x200075cc        0x2 ../../build/obj/dsp.o
  .bss.discharge
-                0x2000721e        0x2 ../../build/obj/dsp.o
+                0x200075ce        0x2 ../../build/obj/dsp.o
  .bss.tasknumber
-                0x20007220        0x4 ../../build/obj/dsp.o
+                0x200075d0        0x4 ../../build/obj/dsp.o
  .bss.bus_status
-                0x20007224        0x1 ../../build/obj/dsp.o
+                0x200075d4        0x1 ../../build/obj/dsp.o
  .bss.dsp_activ
-                0x20007225        0x1 ../../build/obj/dsp.o
-                0x20007225                dsp_activ
+                0x200075d5        0x1 ../../build/obj/dsp.o
+                0x200075d5                dsp_activ
  .bss.motor_temp
-                0x20007226        0x2 ../../build/obj/dsp.o
+                0x200075d6        0x2 ../../build/obj/dsp.o
  .bss.wadspTask
-                0x20007228      0x4d0 ../../build/obj/dsp.o
- .bss.bus_bit   0x200076f8        0x8 ../../build/obj/dsp.o
+                0x200075d8      0x4d0 ../../build/obj/dsp.o
+ .bss.bus_bit   0x20007aa8        0x8 ../../build/obj/dsp.o
  .bss.dspmessages
-                0x20007700        0x1 ../../build/obj/dsp.o
-                0x20007700                dspmessages
- .bss.dspstate  0x20007701        0x1 ../../build/obj/dsp.o
-                0x20007701                dspstate
- .bss.dspAns    0x20007702        0x1 ../../build/obj/gfx.o
- *fill*         0x20007703        0x1 00
+                0x20007ab0        0x1 ../../build/obj/dsp.o
+                0x20007ab0                dspmessages
+ .bss.dspstate  0x20007ab1        0x1 ../../build/obj/dsp.o
+                0x20007ab1                dspstate
+ .bss.dspAns    0x20007ab2        0x1 ../../build/obj/gfx.o
+ *fill*         0x20007ab3        0x1 00
  .bss.cruise_long_plusz
-                0x20007704        0x2 ../../build/obj/button.o
- *fill*         0x20007706        0x2 00
- .bss.bus_bit   0x20007708        0x8 ../../build/obj/button.o
+                0x20007ab4        0x2 ../../build/obj/button.o
+ *fill*         0x20007ab6        0x2 00
+ .bss.bus_bit   0x20007ab8        0x8 ../../build/obj/button.o
  .bss.index_left
-                0x20007710        0x1 ../../build/obj/button.o
+                0x20007ac0        0x1 ../../build/obj/button.o
  .bss.button_decelerat
-                0x20007711        0x1 ../../build/obj/button.o
- .bss.bus       0x20007712        0x2 ../../build/obj/button.o
- .bss.warning   0x20007714        0x1 ../../build/obj/button.o
- .bss.lamp_ok   0x20007715        0x1 ../../build/obj/button.o
+                0x20007ac1        0x1 ../../build/obj/button.o
+ .bss.bus       0x20007ac2        0x2 ../../build/obj/button.o
+ .bss.warning   0x20007ac4        0x1 ../../build/obj/button.o
+ .bss.lamp_ok   0x20007ac5        0x1 ../../build/obj/button.o
  .bss.button_accel
-                0x20007716        0x1 ../../build/obj/button.o
+                0x20007ac6        0x1 ../../build/obj/button.o
  .bss.warning_active
-                0x20007717        0x1 ../../build/obj/button.o
+                0x20007ac7        0x1 ../../build/obj/button.o
  .bss.cruise_minusz
-                0x20007718        0x1 ../../build/obj/button.o
- *fill*         0x20007719        0x1 00
+                0x20007ac8        0x1 ../../build/obj/button.o
+ *fill*         0x20007ac9        0x1 00
  .bss.cruise_long_minusz
-                0x2000771a        0x2 ../../build/obj/button.o
+                0x20007aca        0x2 ../../build/obj/button.o
  .bss.cruise_ok
-                0x2000771c        0x1 ../../build/obj/button.o
+                0x20007acc        0x1 ../../build/obj/button.o
  .bss.cruise_plusz
-                0x2000771d        0x1 ../../build/obj/button.o
+                0x20007acd        0x1 ../../build/obj/button.o
  .bss.index_right
-                0x2000771e        0x1 ../../build/obj/button.o
+                0x20007ace        0x1 ../../build/obj/button.o
  .bss.index_right_active
-                0x2000771f        0x1 ../../build/obj/button.o
+                0x20007acf        0x1 ../../build/obj/button.o
  .bss.lamp_long
-                0x20007720        0x1 ../../build/obj/button.o
+                0x20007ad0        0x1 ../../build/obj/button.o
  .bss.index_left_active
-                0x20007721        0x1 ../../build/obj/button.o
- *fill*         0x20007722        0x2 00
- .bss.brake     0x20007724        0x4 ../../build/obj/brake.o
- .bss.fan       0x20007728        0x1 ../../build/obj/safety.o
- *fill*         0x20007729        0x3 00
- .bss.relay     0x2000772c       0x10 ../../build/obj/safety.o
+                0x20007ad1        0x1 ../../build/obj/button.o
+ *fill*         0x20007ad2        0x2 00
+ .bss.brake     0x20007ad4        0x4 ../../build/obj/brake.o
+ .bss.fan       0x20007ad8        0x1 ../../build/obj/safety.o
+ *fill*         0x20007ad9        0x3 00
+ .bss.relay     0x20007adc       0x10 ../../build/obj/safety.o
  .bss.fan_percent
-                0x2000773c        0x4 ../../build/obj/safety.o
+                0x20007aec        0x4 ../../build/obj/safety.o
  .bss.safety_wa
-                0x20007740      0x1d0 ../../build/obj/safety.o
+                0x20007af0      0x1d0 ../../build/obj/safety.o
  .bss.fan_start
-                0x20007910        0x1 ../../build/obj/safety.o
+                0x20007cc0        0x1 ../../build/obj/safety.o
  .bss.fan_start_period
-                0x20007911        0x1 ../../build/obj/safety.o
- .bss.fanstate  0x20007912        0x1 ../../build/obj/safety.o
-                0x20007912                fanstate
- *fill*         0x20007913        0x1 00
- .bss.motor_index
-                0x20007914        0x4 ../../build/obj/calc.o
+                0x20007cc1        0x1 ../../build/obj/safety.o
+ .bss.fanstate  0x20007cc2        0x1 ../../build/obj/safety.o
+                0x20007cc2                fanstate
+ *fill*         0x20007cc3        0x1 00
  .bss.calcValue
-                0x20007918        0xc ../../build/obj/calc.o
- .bss.avg_motor
-                0x20007924      0x190 ../../build/obj/calc.o
+                0x20007cc4       0x10 ../../build/obj/calc.o
  .bss.calcstate
-                0x20007ab4        0x1 ../../build/obj/calc.o
-                0x20007ab4                calcstate
+                0x20007cd4        0x1 ../../build/obj/calc.o
+                0x20007cd4                calcstate
  *(COMMON)
-                0x20007ab8                . = ALIGN (0x4)
- *fill*         0x20007ab5        0x3 00
-                0x20007ab8                PROVIDE (_bss_end, .)
-                0x20007ab8                PROVIDE (end, .)
-                0x20007ab8                _end = .
-                0x20007ab8                __heap_base__ = _end
+                0x20007cd8                . = ALIGN (0x4)
+ *fill*         0x20007cd5        0x3 00
+                0x20007cd8                PROVIDE (_bss_end, .)
+                0x20007cd8                PROVIDE (end, .)
+                0x20007cd8                _end = .
+                0x20007cd8                __heap_base__ = _end
                 0x2001c000                __heap_end__ = __ram_end__
 START GROUP
 LOAD c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a
@@ -3803,7 +3852,7 @@ LOAD c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-no
 END GROUP
 OUTPUT(../../build/smarty.elf elf32-littlearm)
 
-.debug_abbrev   0x00000000     0xbe13
+.debug_abbrev   0x00000000     0xbefe
  .debug_abbrev  0x00000000       0xe1 ../../build/obj/crt0.o
  .debug_abbrev  0x000000e1       0xae ../../build/obj/vectors.o
  .debug_abbrev  0x0000018f       0x41 ../../build/obj/chcore.o
@@ -3884,28 +3933,28 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_abbrev  0x000086ab       0xa7 ../../build/obj/ccsbcs.o
  .debug_abbrev  0x00008752      0x15c ../../build/obj/evtimer.o
  .debug_abbrev  0x000088ae      0x1ea ../../build/obj/syscalls.o
- .debug_abbrev  0x00008a98      0x322 ../../build/obj/shell2.o
+ .debug_abbrev  0x00008a98      0x322 ../../build/obj/shell.o
  .debug_abbrev  0x00008dba      0x204 ../../build/obj/chprintf.o
  .debug_abbrev  0x00008fbe      0x18d ../../build/obj/chrtclib.o
  .debug_abbrev  0x0000914b      0x1a1 ../../build/obj/main.o
  .debug_abbrev  0x000092ec      0x32e ../../build/obj/console.o
- .debug_abbrev  0x0000961a      0x272 ../../build/obj/eeprom.o
- .debug_abbrev  0x0000988c      0x3fc ../../build/obj/sdcard.o
- .debug_abbrev  0x00009c88      0x406 ../../build/obj/log.o
- .debug_abbrev  0x0000a08e      0x348 ../../build/obj/can_comm.o
- .debug_abbrev  0x0000a3d6      0x2bb ../../build/obj/light.o
- .debug_abbrev  0x0000a691      0x25d ../../build/obj/speed.o
- .debug_abbrev  0x0000a8ee      0x39c ../../build/obj/meas.o
- .debug_abbrev  0x0000ac8a      0x36e ../../build/obj/cruise.o
- .debug_abbrev  0x0000aff8      0x30f ../../build/obj/dsp.o
- .debug_abbrev  0x0000b307      0x1fc ../../build/obj/gfx.o
- .debug_abbrev  0x0000b503      0x17b ../../build/obj/uart_comm.o
- .debug_abbrev  0x0000b67e      0x1dd ../../build/obj/button.o
- .debug_abbrev  0x0000b85b      0x161 ../../build/obj/brake.o
- .debug_abbrev  0x0000b9bc      0x267 ../../build/obj/safety.o
- .debug_abbrev  0x0000bc23      0x1f0 ../../build/obj/calc.o
+ .debug_abbrev  0x0000961a      0x265 ../../build/obj/eeprom.o
+ .debug_abbrev  0x0000987f      0x3fc ../../build/obj/sdcard.o
+ .debug_abbrev  0x00009c7b      0x406 ../../build/obj/log.o
+ .debug_abbrev  0x0000a081      0x348 ../../build/obj/can_comm.o
+ .debug_abbrev  0x0000a3c9      0x2bb ../../build/obj/light.o
+ .debug_abbrev  0x0000a684      0x311 ../../build/obj/speed.o
+ .debug_abbrev  0x0000a995      0x3c4 ../../build/obj/meas.o
+ .debug_abbrev  0x0000ad59      0x372 ../../build/obj/cruise.o
+ .debug_abbrev  0x0000b0cb      0x30f ../../build/obj/dsp.o
+ .debug_abbrev  0x0000b3da      0x1fc ../../build/obj/gfx.o
+ .debug_abbrev  0x0000b5d6      0x17b ../../build/obj/uart_comm.o
+ .debug_abbrev  0x0000b751      0x1ea ../../build/obj/button.o
+ .debug_abbrev  0x0000b93b      0x161 ../../build/obj/brake.o
+ .debug_abbrev  0x0000ba9c      0x267 ../../build/obj/safety.o
+ .debug_abbrev  0x0000bd03      0x1fb ../../build/obj/calc.o
 
-.debug_info     0x00000000    0x3daab
+.debug_info     0x00000000    0x3e197
  .debug_info    0x00000000      0x342 ../../build/obj/crt0.o
  .debug_info    0x00000342      0x1f5 ../../build/obj/vectors.o
  .debug_info    0x00000537       0x92 ../../build/obj/chcore.o
@@ -3986,28 +4035,28 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_info    0x0002a983      0x181 ../../build/obj/ccsbcs.o
  .debug_info    0x0002ab04      0x639 ../../build/obj/evtimer.o
  .debug_info    0x0002b13d     0x1458 ../../build/obj/syscalls.o
- .debug_info    0x0002c595      0xcd1 ../../build/obj/shell2.o
- .debug_info    0x0002d266      0x510 ../../build/obj/chprintf.o
- .debug_info    0x0002d776      0x6c4 ../../build/obj/chrtclib.o
- .debug_info    0x0002de3a      0x7f9 ../../build/obj/main.o
- .debug_info    0x0002e633     0x154c ../../build/obj/console.o
- .debug_info    0x0002fb7f      0xc78 ../../build/obj/eeprom.o
- .debug_info    0x000307f7     0x1597 ../../build/obj/sdcard.o
- .debug_info    0x00031d8e     0x2241 ../../build/obj/log.o
- .debug_info    0x00033fcf     0x1bad ../../build/obj/can_comm.o
- .debug_info    0x00035b7c      0xa57 ../../build/obj/light.o
- .debug_info    0x000365d3      0xac5 ../../build/obj/speed.o
- .debug_info    0x00037098     0x140f ../../build/obj/meas.o
- .debug_info    0x000384a7      0xf9b ../../build/obj/cruise.o
- .debug_info    0x00039442     0x1019 ../../build/obj/dsp.o
- .debug_info    0x0003a45b      0xbf5 ../../build/obj/gfx.o
- .debug_info    0x0003b050      0x918 ../../build/obj/uart_comm.o
- .debug_info    0x0003b968      0x784 ../../build/obj/button.o
- .debug_info    0x0003c0ec      0x42c ../../build/obj/brake.o
- .debug_info    0x0003c518      0xe9f ../../build/obj/safety.o
- .debug_info    0x0003d3b7      0x6f4 ../../build/obj/calc.o
+ .debug_info    0x0002c595      0xcc2 ../../build/obj/shell.o
+ .debug_info    0x0002d257      0x510 ../../build/obj/chprintf.o
+ .debug_info    0x0002d767      0x6c4 ../../build/obj/chrtclib.o
+ .debug_info    0x0002de2b      0x810 ../../build/obj/main.o
+ .debug_info    0x0002e63b     0x158d ../../build/obj/console.o
+ .debug_info    0x0002fbc8      0xc8a ../../build/obj/eeprom.o
+ .debug_info    0x00030852     0x1597 ../../build/obj/sdcard.o
+ .debug_info    0x00031de9     0x2285 ../../build/obj/log.o
+ .debug_info    0x0003406e     0x1c2c ../../build/obj/can_comm.o
+ .debug_info    0x00035c9a      0xa57 ../../build/obj/light.o
+ .debug_info    0x000366f1      0xdc1 ../../build/obj/speed.o
+ .debug_info    0x000374b2     0x14f4 ../../build/obj/meas.o
+ .debug_info    0x000389a6     0x106d ../../build/obj/cruise.o
+ .debug_info    0x00039a13     0x101f ../../build/obj/dsp.o
+ .debug_info    0x0003aa32      0xbf5 ../../build/obj/gfx.o
+ .debug_info    0x0003b627      0x918 ../../build/obj/uart_comm.o
+ .debug_info    0x0003bf3f      0x7b5 ../../build/obj/button.o
+ .debug_info    0x0003c6f4      0x42c ../../build/obj/brake.o
+ .debug_info    0x0003cb20      0xe9f ../../build/obj/safety.o
+ .debug_info    0x0003d9bf      0x7d8 ../../build/obj/calc.o
 
-.debug_line     0x00000000    0x14f97
+.debug_line     0x00000000    0x151ce
  .debug_line    0x00000000      0x17f ../../build/obj/crt0.o
  .debug_line    0x0000017f       0xf0 ../../build/obj/vectors.o
  .debug_line    0x0000026f       0x5e ../../build/obj/chcore.o
@@ -4088,28 +4137,28 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_line    0x0000e588       0xd4 ../../build/obj/ccsbcs.o
  .debug_line    0x0000e65c      0x1cb ../../build/obj/evtimer.o
  .debug_line    0x0000e827      0x425 ../../build/obj/syscalls.o
- .debug_line    0x0000ec4c      0x446 ../../build/obj/shell2.o
- .debug_line    0x0000f092      0x35b ../../build/obj/chprintf.o
- .debug_line    0x0000f3ed      0x3dd ../../build/obj/chrtclib.o
- .debug_line    0x0000f7ca      0x28e ../../build/obj/main.o
- .debug_line    0x0000fa58      0x5fc ../../build/obj/console.o
- .debug_line    0x00010054      0x41c ../../build/obj/eeprom.o
- .debug_line    0x00010470      0x698 ../../build/obj/sdcard.o
- .debug_line    0x00010b08      0x80d ../../build/obj/log.o
- .debug_line    0x00011315      0x8be ../../build/obj/can_comm.o
- .debug_line    0x00011bd3      0x579 ../../build/obj/light.o
- .debug_line    0x0001214c      0x409 ../../build/obj/speed.o
- .debug_line    0x00012555      0x5e3 ../../build/obj/meas.o
- .debug_line    0x00012b38      0x6fe ../../build/obj/cruise.o
- .debug_line    0x00013236      0x79b ../../build/obj/dsp.o
- .debug_line    0x000139d1      0x46b ../../build/obj/gfx.o
- .debug_line    0x00013e3c      0x2c9 ../../build/obj/uart_comm.o
- .debug_line    0x00014105      0x461 ../../build/obj/button.o
- .debug_line    0x00014566      0x298 ../../build/obj/brake.o
- .debug_line    0x000147fe      0x489 ../../build/obj/safety.o
- .debug_line    0x00014c87      0x310 ../../build/obj/calc.o
+ .debug_line    0x0000ec4c      0x438 ../../build/obj/shell.o
+ .debug_line    0x0000f084      0x35b ../../build/obj/chprintf.o
+ .debug_line    0x0000f3df      0x3dd ../../build/obj/chrtclib.o
+ .debug_line    0x0000f7bc      0x299 ../../build/obj/main.o
+ .debug_line    0x0000fa55      0x607 ../../build/obj/console.o
+ .debug_line    0x0001005c      0x433 ../../build/obj/eeprom.o
+ .debug_line    0x0001048f      0x698 ../../build/obj/sdcard.o
+ .debug_line    0x00010b27      0x811 ../../build/obj/log.o
+ .debug_line    0x00011338      0x8f4 ../../build/obj/can_comm.o
+ .debug_line    0x00011c2c      0x579 ../../build/obj/light.o
+ .debug_line    0x000121a5      0x510 ../../build/obj/speed.o
+ .debug_line    0x000126b5      0x637 ../../build/obj/meas.o
+ .debug_line    0x00012cec      0x749 ../../build/obj/cruise.o
+ .debug_line    0x00013435      0x7a0 ../../build/obj/dsp.o
+ .debug_line    0x00013bd5      0x46b ../../build/obj/gfx.o
+ .debug_line    0x00014040      0x2c9 ../../build/obj/uart_comm.o
+ .debug_line    0x00014309      0x484 ../../build/obj/button.o
+ .debug_line    0x0001478d      0x298 ../../build/obj/brake.o
+ .debug_line    0x00014a25      0x489 ../../build/obj/safety.o
+ .debug_line    0x00014eae      0x320 ../../build/obj/calc.o
 
-.debug_loc      0x00000000    0x1af44
+.debug_loc      0x00000000    0x1b54c
  .debug_loc     0x00000000       0x72 ../../build/obj/crt0.o
  .debug_loc     0x00000072       0xfb ../../build/obj/chcore_v7m.o
  .debug_loc     0x0000016d      0x102 ../../build/obj/nvic.o
@@ -4177,28 +4226,28 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_loc     0x00014dc5       0xc4 ../../build/obj/ccsbcs.o
  .debug_loc     0x00014e89      0x13f ../../build/obj/evtimer.o
  .debug_loc     0x00014fc8      0x248 ../../build/obj/syscalls.o
- .debug_loc     0x00015210      0x7b3 ../../build/obj/shell2.o
- .debug_loc     0x000159c3      0x8b3 ../../build/obj/chprintf.o
- .debug_loc     0x00016276      0x2a9 ../../build/obj/chrtclib.o
- .debug_loc     0x0001651f       0xb0 ../../build/obj/main.o
- .debug_loc     0x000165cf      0x52a ../../build/obj/console.o
- .debug_loc     0x00016af9      0x4af ../../build/obj/eeprom.o
- .debug_loc     0x00016fa8      0x8c9 ../../build/obj/sdcard.o
- .debug_loc     0x00017871      0x7b3 ../../build/obj/log.o
- .debug_loc     0x00018024      0x697 ../../build/obj/can_comm.o
- .debug_loc     0x000186bb      0x31d ../../build/obj/light.o
- .debug_loc     0x000189d8      0x33f ../../build/obj/speed.o
- .debug_loc     0x00018d17      0xad3 ../../build/obj/meas.o
- .debug_loc     0x000197ea      0x4ae ../../build/obj/cruise.o
- .debug_loc     0x00019c98      0x5f5 ../../build/obj/dsp.o
- .debug_loc     0x0001a28d      0x4d7 ../../build/obj/gfx.o
- .debug_loc     0x0001a764      0x1c3 ../../build/obj/button.o
- .debug_loc     0x0001a927       0xaf ../../build/obj/brake.o
- .debug_loc     0x0001a9d6      0x3c7 ../../build/obj/safety.o
- .debug_loc     0x0001ad9d      0x1a7 ../../build/obj/calc.o
+ .debug_loc     0x00015210      0x77c ../../build/obj/shell.o
+ .debug_loc     0x0001598c      0x8b3 ../../build/obj/chprintf.o
+ .debug_loc     0x0001623f      0x2a9 ../../build/obj/chrtclib.o
+ .debug_loc     0x000164e8       0xb0 ../../build/obj/main.o
+ .debug_loc     0x00016598      0x52a ../../build/obj/console.o
+ .debug_loc     0x00016ac2      0x531 ../../build/obj/eeprom.o
+ .debug_loc     0x00016ff3      0x8c9 ../../build/obj/sdcard.o
+ .debug_loc     0x000178bc      0x7a1 ../../build/obj/log.o
+ .debug_loc     0x0001805d      0x6b2 ../../build/obj/can_comm.o
+ .debug_loc     0x0001870f      0x31d ../../build/obj/light.o
+ .debug_loc     0x00018a2c      0x4fb ../../build/obj/speed.o
+ .debug_loc     0x00018f27      0xe01 ../../build/obj/meas.o
+ .debug_loc     0x00019d28      0x533 ../../build/obj/cruise.o
+ .debug_loc     0x0001a25b      0x642 ../../build/obj/dsp.o
+ .debug_loc     0x0001a89d      0x4d7 ../../build/obj/gfx.o
+ .debug_loc     0x0001ad74      0x1c3 ../../build/obj/button.o
+ .debug_loc     0x0001af37       0xaf ../../build/obj/brake.o
+ .debug_loc     0x0001afe6      0x3c7 ../../build/obj/safety.o
+ .debug_loc     0x0001b3ad      0x19f ../../build/obj/calc.o
 
 .debug_pubnames
-                0x00000000     0x36f4
+                0x00000000     0x37e0
  .debug_pubnames
                 0x00000000       0x56 ../../build/obj/crt0.o
  .debug_pubnames
@@ -4340,7 +4389,7 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_pubnames
                 0x00002867       0x6c ../../build/obj/syscalls.o
  .debug_pubnames
-                0x000028d3       0x7a ../../build/obj/shell2.o
+                0x000028d3       0x7a ../../build/obj/shell.o
  .debug_pubnames
                 0x0000294d       0x2f ../../build/obj/chprintf.o
  .debug_pubnames
@@ -4360,28 +4409,28 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_pubnames
                 0x00002ecb      0x100 ../../build/obj/light.o
  .debug_pubnames
-                0x00002fcb       0xbe ../../build/obj/speed.o
+                0x00002fcb      0x145 ../../build/obj/speed.o
  .debug_pubnames
-                0x00003089      0x129 ../../build/obj/meas.o
+                0x00003110      0x151 ../../build/obj/meas.o
  .debug_pubnames
-                0x000031b2      0x195 ../../build/obj/cruise.o
+                0x00003261      0x1d2 ../../build/obj/cruise.o
  .debug_pubnames
-                0x00003347      0x115 ../../build/obj/dsp.o
+                0x00003433      0x115 ../../build/obj/dsp.o
  .debug_pubnames
-                0x0000345c      0x147 ../../build/obj/gfx.o
+                0x00003548      0x147 ../../build/obj/gfx.o
  .debug_pubnames
-                0x000035a3       0x24 ../../build/obj/uart_comm.o
+                0x0000368f       0x24 ../../build/obj/uart_comm.o
  .debug_pubnames
-                0x000035c7       0x45 ../../build/obj/button.o
+                0x000036b3       0x45 ../../build/obj/button.o
  .debug_pubnames
-                0x0000360c       0x42 ../../build/obj/brake.o
+                0x000036f8       0x42 ../../build/obj/brake.o
  .debug_pubnames
-                0x0000364e       0x55 ../../build/obj/safety.o
+                0x0000373a       0x55 ../../build/obj/safety.o
  .debug_pubnames
-                0x000036a3       0x51 ../../build/obj/calc.o
+                0x0000378f       0x51 ../../build/obj/calc.o
 
 .debug_pubtypes
-                0x00000000     0x88ce
+                0x00000000     0x89a0
  .debug_pubtypes
                 0x00000000       0x44 ../../build/obj/crt0.o
  .debug_pubtypes
@@ -4543,7 +4592,7 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_pubtypes
                 0x00005ace      0x39c ../../build/obj/syscalls.o
  .debug_pubtypes
-                0x00005e6a      0x251 ../../build/obj/shell2.o
+                0x00005e6a      0x251 ../../build/obj/shell.o
  .debug_pubtypes
                 0x000060bb       0xce ../../build/obj/chprintf.o
  .debug_pubtypes
@@ -4551,39 +4600,39 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_pubtypes
                 0x00006222      0x1c3 ../../build/obj/main.o
  .debug_pubtypes
-                0x000063e5      0x367 ../../build/obj/console.o
+                0x000063e5      0x383 ../../build/obj/console.o
  .debug_pubtypes
-                0x0000674c      0x26d ../../build/obj/eeprom.o
+                0x00006768      0x26d ../../build/obj/eeprom.o
  .debug_pubtypes
-                0x000069b9      0x2e5 ../../build/obj/sdcard.o
+                0x000069d5      0x2e5 ../../build/obj/sdcard.o
  .debug_pubtypes
-                0x00006c9e      0x322 ../../build/obj/log.o
+                0x00006cba      0x322 ../../build/obj/log.o
  .debug_pubtypes
-                0x00006fc0      0x466 ../../build/obj/can_comm.o
+                0x00006fdc      0x466 ../../build/obj/can_comm.o
  .debug_pubtypes
-                0x00007426      0x193 ../../build/obj/light.o
+                0x00007442      0x193 ../../build/obj/light.o
  .debug_pubtypes
-                0x000075b9      0x174 ../../build/obj/speed.o
+                0x000075d5      0x1b3 ../../build/obj/speed.o
  .debug_pubtypes
-                0x0000772d      0x33d ../../build/obj/meas.o
+                0x00007788      0x33d ../../build/obj/meas.o
  .debug_pubtypes
-                0x00007a6a      0x1d0 ../../build/obj/cruise.o
+                0x00007ac5      0x1ec ../../build/obj/cruise.o
  .debug_pubtypes
-                0x00007c3a      0x294 ../../build/obj/dsp.o
+                0x00007cb1      0x294 ../../build/obj/dsp.o
  .debug_pubtypes
-                0x00007ece      0x21e ../../build/obj/gfx.o
+                0x00007f45      0x21e ../../build/obj/gfx.o
  .debug_pubtypes
-                0x000080ec      0x22f ../../build/obj/uart_comm.o
+                0x00008163      0x22f ../../build/obj/uart_comm.o
  .debug_pubtypes
-                0x0000831b      0x113 ../../build/obj/button.o
+                0x00008392      0x12f ../../build/obj/button.o
  .debug_pubtypes
-                0x0000842e       0xea ../../build/obj/brake.o
+                0x000084c1       0xea ../../build/obj/brake.o
  .debug_pubtypes
-                0x00008518      0x291 ../../build/obj/safety.o
+                0x000085ab      0x291 ../../build/obj/safety.o
  .debug_pubtypes
-                0x000087a9      0x125 ../../build/obj/calc.o
+                0x0000883c      0x164 ../../build/obj/calc.o
 
-.debug_aranges  0x00000000     0x2240
+.debug_aranges  0x00000000     0x2290
  .debug_aranges
                 0x00000000       0x38 ../../build/obj/crt0.o
  .debug_aranges
@@ -4725,7 +4774,7 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_aranges
                 0x000019c8       0x50 ../../build/obj/syscalls.o
  .debug_aranges
-                0x00001a18       0x78 ../../build/obj/shell2.o
+                0x00001a18       0x78 ../../build/obj/shell.o
  .debug_aranges
                 0x00001a90       0x30 ../../build/obj/chprintf.o
  .debug_aranges
@@ -4745,27 +4794,27 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_aranges
                 0x00001db0       0x88 ../../build/obj/light.o
  .debug_aranges
-                0x00001e38       0x78 ../../build/obj/speed.o
+                0x00001e38       0xb0 ../../build/obj/speed.o
  .debug_aranges
-                0x00001eb0       0x98 ../../build/obj/meas.o
+                0x00001ee8       0xa0 ../../build/obj/meas.o
  .debug_aranges
-                0x00001f48       0xc8 ../../build/obj/cruise.o
+                0x00001f88       0xd8 ../../build/obj/cruise.o
  .debug_aranges
-                0x00002010       0x78 ../../build/obj/dsp.o
+                0x00002060       0x78 ../../build/obj/dsp.o
  .debug_aranges
-                0x00002088       0xa8 ../../build/obj/gfx.o
+                0x000020d8       0xa8 ../../build/obj/gfx.o
  .debug_aranges
-                0x00002130       0x20 ../../build/obj/uart_comm.o
+                0x00002180       0x20 ../../build/obj/uart_comm.o
  .debug_aranges
-                0x00002150       0x38 ../../build/obj/button.o
+                0x000021a0       0x38 ../../build/obj/button.o
  .debug_aranges
-                0x00002188       0x38 ../../build/obj/brake.o
+                0x000021d8       0x38 ../../build/obj/brake.o
  .debug_aranges
-                0x000021c0       0x48 ../../build/obj/safety.o
+                0x00002210       0x48 ../../build/obj/safety.o
  .debug_aranges
-                0x00002208       0x38 ../../build/obj/calc.o
+                0x00002258       0x38 ../../build/obj/calc.o
 
-.debug_ranges   0x00000000     0x3f48
+.debug_ranges   0x00000000     0x4020
  .debug_ranges  0x00000000       0x58 ../../build/obj/crt0.o
  .debug_ranges  0x00000058       0x10 ../../build/obj/vectors.o
  .debug_ranges  0x00000068       0x10 ../../build/obj/chcore.o
@@ -4836,7 +4885,7 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_ranges  0x00002fe8       0x18 ../../build/obj/ccsbcs.o
  .debug_ranges  0x00003000       0x50 ../../build/obj/evtimer.o
  .debug_ranges  0x00003050       0x40 ../../build/obj/syscalls.o
- .debug_ranges  0x00003090       0xd0 ../../build/obj/shell2.o
+ .debug_ranges  0x00003090       0xd0 ../../build/obj/shell.o
  .debug_ranges  0x00003160       0x60 ../../build/obj/chprintf.o
  .debug_ranges  0x000031c0       0x40 ../../build/obj/chrtclib.o
  .debug_ranges  0x00003200       0x38 ../../build/obj/main.o
@@ -4844,20 +4893,20 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_ranges  0x000032b0       0x40 ../../build/obj/eeprom.o
  .debug_ranges  0x000032f0      0x2c0 ../../build/obj/sdcard.o
  .debug_ranges  0x000035b0      0x148 ../../build/obj/log.o
- .debug_ranges  0x000036f8       0xc8 ../../build/obj/can_comm.o
- .debug_ranges  0x000037c0       0xc0 ../../build/obj/light.o
- .debug_ranges  0x00003880       0x98 ../../build/obj/speed.o
- .debug_ranges  0x00003918      0x1b0 ../../build/obj/meas.o
- .debug_ranges  0x00003ac8      0x1a0 ../../build/obj/cruise.o
- .debug_ranges  0x00003c68      0x118 ../../build/obj/dsp.o
- .debug_ranges  0x00003d80       0x98 ../../build/obj/gfx.o
- .debug_ranges  0x00003e18       0x10 ../../build/obj/uart_comm.o
- .debug_ranges  0x00003e28       0x98 ../../build/obj/button.o
- .debug_ranges  0x00003ec0       0x28 ../../build/obj/brake.o
- .debug_ranges  0x00003ee8       0x38 ../../build/obj/safety.o
- .debug_ranges  0x00003f20       0x28 ../../build/obj/calc.o
+ .debug_ranges  0x000036f8       0xd8 ../../build/obj/can_comm.o
+ .debug_ranges  0x000037d0       0xc0 ../../build/obj/light.o
+ .debug_ranges  0x00003890       0xd0 ../../build/obj/speed.o
+ .debug_ranges  0x00003960      0x1b0 ../../build/obj/meas.o
+ .debug_ranges  0x00003b10      0x1b0 ../../build/obj/cruise.o
+ .debug_ranges  0x00003cc0      0x118 ../../build/obj/dsp.o
+ .debug_ranges  0x00003dd8       0x98 ../../build/obj/gfx.o
+ .debug_ranges  0x00003e70       0x10 ../../build/obj/uart_comm.o
+ .debug_ranges  0x00003e80       0x98 ../../build/obj/button.o
+ .debug_ranges  0x00003f18       0x28 ../../build/obj/brake.o
+ .debug_ranges  0x00003f40       0x38 ../../build/obj/safety.o
+ .debug_ranges  0x00003f78       0xa8 ../../build/obj/calc.o
 
-.debug_str      0x00000000     0x89f2
+.debug_str      0x00000000     0x8c0d
  .debug_str     0x00000000      0x1d2 ../../build/obj/crt0.o
                                 0x20c (size before relaxing)
  .debug_str     0x000001d2      0x147 ../../build/obj/vectors.o
@@ -5018,46 +5067,46 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
                                 0x32b (size before relaxing)
  .debug_str     0x00005b81      0x48e ../../build/obj/syscalls.o
                                 0x907 (size before relaxing)
- .debug_str     0x0000600f      0x13a ../../build/obj/shell2.o
-                                0x4fd (size before relaxing)
- .debug_str     0x00006149       0xb8 ../../build/obj/chprintf.o
+ .debug_str     0x0000600f      0x139 ../../build/obj/shell.o
+                                0x4fc (size before relaxing)
+ .debug_str     0x00006148       0xb8 ../../build/obj/chprintf.o
                                 0x229 (size before relaxing)
- .debug_str     0x00006201       0xba ../../build/obj/chrtclib.o
+ .debug_str     0x00006200       0xba ../../build/obj/chrtclib.o
                                 0x334 (size before relaxing)
- .debug_str     0x000062bb       0xc4 ../../build/obj/main.o
-                                0x444 (size before relaxing)
- .debug_str     0x0000637f       0xca ../../build/obj/console.o
-                                0x878 (size before relaxing)
- .debug_str     0x00006449       0x87 ../../build/obj/eeprom.o
-                                0x648 (size before relaxing)
- .debug_str     0x000064d0      0x1ac ../../build/obj/sdcard.o
+ .debug_str     0x000062ba       0xee ../../build/obj/main.o
+                                0x47d (size before relaxing)
+ .debug_str     0x000063a8       0xca ../../build/obj/console.o
+                                0x8c5 (size before relaxing)
+ .debug_str     0x00006472       0x87 ../../build/obj/eeprom.o
+                                0x66c (size before relaxing)
+ .debug_str     0x000064f9      0x1ac ../../build/obj/sdcard.o
                                 0x8c6 (size before relaxing)
- .debug_str     0x0000667c     0x12cb ../../build/obj/log.o
-                               0x1a36 (size before relaxing)
- .debug_str     0x00007947      0x29f ../../build/obj/can_comm.o
-                                0xc83 (size before relaxing)
- .debug_str     0x00007be6      0x148 ../../build/obj/light.o
+ .debug_str     0x000066a5     0x137c ../../build/obj/log.o
+                               0x1af3 (size before relaxing)
+ .debug_str     0x00007a21      0x2bd ../../build/obj/can_comm.o
+                                0xcce (size before relaxing)
+ .debug_str     0x00007cde      0x148 ../../build/obj/light.o
                                 0x44d (size before relaxing)
- .debug_str     0x00007d2e      0x112 ../../build/obj/speed.o
-                                0x472 (size before relaxing)
- .debug_str     0x00007e40      0x1dd ../../build/obj/meas.o
-                                0x91b (size before relaxing)
- .debug_str     0x0000801d      0x263 ../../build/obj/cruise.o
-                                0x797 (size before relaxing)
- .debug_str     0x00008280      0x38d ../../build/obj/dsp.o
-                                0xa1d (size before relaxing)
- .debug_str     0x0000860d      0x13c ../../build/obj/gfx.o
+ .debug_str     0x00007e26      0x1a8 ../../build/obj/speed.o
+                                0x63a (size before relaxing)
+ .debug_str     0x00007fce      0x237 ../../build/obj/meas.o
+                                0x990 (size before relaxing)
+ .debug_str     0x00008205      0x29b ../../build/obj/cruise.o
+                                0x838 (size before relaxing)
+ .debug_str     0x000084a0      0x388 ../../build/obj/dsp.o
+                                0xa18 (size before relaxing)
+ .debug_str     0x00008828      0x13c ../../build/obj/gfx.o
                                 0x550 (size before relaxing)
- .debug_str     0x00008749       0x2f ../../build/obj/uart_comm.o
+ .debug_str     0x00008964       0x2f ../../build/obj/uart_comm.o
                                 0x43e (size before relaxing)
- .debug_str     0x00008778       0xf9 ../../build/obj/button.o
-                                0x36f (size before relaxing)
- .debug_str     0x00008871       0x30 ../../build/obj/brake.o
+ .debug_str     0x00008993       0xf9 ../../build/obj/button.o
+                                0x398 (size before relaxing)
+ .debug_str     0x00008a8c       0x30 ../../build/obj/brake.o
                                 0x1eb (size before relaxing)
- .debug_str     0x000088a1       0xc6 ../../build/obj/safety.o
+ .debug_str     0x00008abc       0xc6 ../../build/obj/safety.o
                                 0x6ad (size before relaxing)
- .debug_str     0x00008967       0x8b ../../build/obj/calc.o
-                                0x3c7 (size before relaxing)
+ .debug_str     0x00008b82       0x8b ../../build/obj/calc.o
+                                0x4b9 (size before relaxing)
 
 .comment        0x00000000       0x2a
  .comment       0x00000000       0x2a ../../build/obj/crt0.o
@@ -5141,7 +5190,7 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .comment       0x00000000       0x2b ../../build/obj/ccsbcs.o
  .comment       0x00000000       0x2b ../../build/obj/evtimer.o
  .comment       0x00000000       0x2b ../../build/obj/syscalls.o
- .comment       0x00000000       0x2b ../../build/obj/shell2.o
+ .comment       0x00000000       0x2b ../../build/obj/shell.o
  .comment       0x00000000       0x2b ../../build/obj/chprintf.o
  .comment       0x00000000       0x2b ../../build/obj/chrtclib.o
  .comment       0x00000000       0x2b ../../build/obj/main.o
@@ -5325,7 +5374,7 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .ARM.attributes
                 0x00000f1f       0x31 ../../build/obj/syscalls.o
  .ARM.attributes
-                0x00000f50       0x31 ../../build/obj/shell2.o
+                0x00000f50       0x31 ../../build/obj/shell.o
  .ARM.attributes
                 0x00000f81       0x31 ../../build/obj/chprintf.o
  .ARM.attributes
@@ -5465,7 +5514,7 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .ARM.attributes
                 0x00001a7f       0x29 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_udivdi3.o)
 
-.debug_frame    0x00000000     0x6a60
+.debug_frame    0x00000000     0x6b88
  .debug_frame   0x00000000       0x50 ../../build/obj/crt0.o
  .debug_frame   0x00000050       0x20 ../../build/obj/vectors.o
  .debug_frame   0x00000070       0x20 ../../build/obj/chcore.o
@@ -5536,66 +5585,66 @@ OUTPUT(../../build/smarty.elf elf32-littlearm)
  .debug_frame   0x00004504       0x30 ../../build/obj/ccsbcs.o
  .debug_frame   0x00004534       0x64 ../../build/obj/evtimer.o
  .debug_frame   0x00004598       0xa4 ../../build/obj/syscalls.o
- .debug_frame   0x0000463c      0x180 ../../build/obj/shell2.o
+ .debug_frame   0x0000463c      0x180 ../../build/obj/shell.o
  .debug_frame   0x000047bc       0x90 ../../build/obj/chprintf.o
  .debug_frame   0x0000484c       0xf8 ../../build/obj/chrtclib.o
  .debug_frame   0x00004944       0x68 ../../build/obj/main.o
  .debug_frame   0x000049ac      0x188 ../../build/obj/console.o
- .debug_frame   0x00004b34       0xe4 ../../build/obj/eeprom.o
- .debug_frame   0x00004c18      0x1d4 ../../build/obj/sdcard.o
- .debug_frame   0x00004dec      0x190 ../../build/obj/log.o
- .debug_frame   0x00004f7c      0x210 ../../build/obj/can_comm.o
- .debug_frame   0x0000518c      0x188 ../../build/obj/light.o
- .debug_frame   0x00005314      0x160 ../../build/obj/speed.o
- .debug_frame   0x00005474      0x1a0 ../../build/obj/meas.o
- .debug_frame   0x00005614      0x278 ../../build/obj/cruise.o
- .debug_frame   0x0000588c      0x178 ../../build/obj/dsp.o
- .debug_frame   0x00005a04      0x248 ../../build/obj/gfx.o
- .debug_frame   0x00005c4c       0x20 ../../build/obj/uart_comm.o
- .debug_frame   0x00005c6c       0x9c ../../build/obj/button.o
- .debug_frame   0x00005d08       0x78 ../../build/obj/brake.o
- .debug_frame   0x00005d80       0xf0 ../../build/obj/safety.o
- .debug_frame   0x00005e70       0x90 ../../build/obj/calc.o
- .debug_frame   0x00005f00       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime.o)
- .debug_frame   0x00005f30       0x38 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime_r.o)
- .debug_frame   0x00005f68       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-atol.o)
- .debug_frame   0x00005f98       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-lcltime_r.o)
- .debug_frame   0x00005fb8       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-malloc.o)
- .debug_frame   0x00005fe8       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mallocr.o)
- .debug_frame   0x00006024       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memcmp.o)
- .debug_frame   0x00006050       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memcpy.o)
- .debug_frame   0x00006080       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memset.o)
- .debug_frame   0x000060ac       0x64 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktime.o)
- .debug_frame   0x00006110       0x64 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktm_r.o)
- .debug_frame   0x00006174       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mlock.o)
- .debug_frame   0x000061a4       0x68 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-reent.o)
- .debug_frame   0x0000620c       0x64 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-sprintf.o)
- .debug_frame   0x00006270       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcasecmp.o)
- .debug_frame   0x0000629c       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcmp.o)
- .debug_frame   0x000062cc       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcpy.o)
- .debug_frame   0x000062ec       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strlen.o)
- .debug_frame   0x0000630c       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strpbrk.o)
- .debug_frame   0x00006338       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strspn.o)
- .debug_frame   0x00006364       0x54 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strtol.o)
- .debug_frame   0x000063b8       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
- .debug_frame   0x000063f4       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-tzlock.o)
- .debug_frame   0x00006424       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-div.o)
- .debug_frame   0x00006454       0x68 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
- .debug_frame   0x000064bc       0x50 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-freer.o)
- .debug_frame   0x0000650c       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-gettzinfo.o)
- .debug_frame   0x0000652c       0x98 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-locale.o)
- .debug_frame   0x000065c4       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memchr.o)
- .debug_frame   0x000065f0      0x244 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mprec.o)
- .debug_frame   0x00006834       0x28 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-s_fpclassify.o)
- .debug_frame   0x0000685c       0x68 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfiprintf.o)
- .debug_frame   0x000068c4       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-callocr.o)
- .debug_frame   0x000068f0       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memmove.o)
- .debug_frame   0x0000691c       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-reallocr.o)
- .debug_frame   0x00006958       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_udivsi3.o)
- .debug_frame   0x00006978       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_divsi3.o)
- .debug_frame   0x00006998       0x50 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(bpabi.o)
- .debug_frame   0x000069e8       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_divdi3.o)
- .debug_frame   0x00006a24       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_udivdi3.o)
+ .debug_frame   0x00004b34       0xe8 ../../build/obj/eeprom.o
+ .debug_frame   0x00004c1c      0x1d4 ../../build/obj/sdcard.o
+ .debug_frame   0x00004df0      0x190 ../../build/obj/log.o
+ .debug_frame   0x00004f80      0x210 ../../build/obj/can_comm.o
+ .debug_frame   0x00005190      0x188 ../../build/obj/light.o
+ .debug_frame   0x00005318      0x23c ../../build/obj/speed.o
+ .debug_frame   0x00005554      0x1c0 ../../build/obj/meas.o
+ .debug_frame   0x00005714      0x2a8 ../../build/obj/cruise.o
+ .debug_frame   0x000059bc      0x178 ../../build/obj/dsp.o
+ .debug_frame   0x00005b34      0x248 ../../build/obj/gfx.o
+ .debug_frame   0x00005d7c       0x20 ../../build/obj/uart_comm.o
+ .debug_frame   0x00005d9c       0x9c ../../build/obj/button.o
+ .debug_frame   0x00005e38       0x78 ../../build/obj/brake.o
+ .debug_frame   0x00005eb0       0xf0 ../../build/obj/safety.o
+ .debug_frame   0x00005fa0       0x88 ../../build/obj/calc.o
+ .debug_frame   0x00006028       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime.o)
+ .debug_frame   0x00006058       0x38 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-asctime_r.o)
+ .debug_frame   0x00006090       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-atol.o)
+ .debug_frame   0x000060c0       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-lcltime_r.o)
+ .debug_frame   0x000060e0       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-malloc.o)
+ .debug_frame   0x00006110       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mallocr.o)
+ .debug_frame   0x0000614c       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memcmp.o)
+ .debug_frame   0x00006178       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memcpy.o)
+ .debug_frame   0x000061a8       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memset.o)
+ .debug_frame   0x000061d4       0x64 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktime.o)
+ .debug_frame   0x00006238       0x64 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktm_r.o)
+ .debug_frame   0x0000629c       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mlock.o)
+ .debug_frame   0x000062cc       0x68 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-reent.o)
+ .debug_frame   0x00006334       0x64 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-sprintf.o)
+ .debug_frame   0x00006398       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcasecmp.o)
+ .debug_frame   0x000063c4       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcmp.o)
+ .debug_frame   0x000063f4       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcpy.o)
+ .debug_frame   0x00006414       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strlen.o)
+ .debug_frame   0x00006434       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strpbrk.o)
+ .debug_frame   0x00006460       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strspn.o)
+ .debug_frame   0x0000648c       0x54 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strtol.o)
+ .debug_frame   0x000064e0       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
+ .debug_frame   0x0000651c       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-tzlock.o)
+ .debug_frame   0x0000654c       0x30 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-div.o)
+ .debug_frame   0x0000657c       0x68 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
+ .debug_frame   0x000065e4       0x50 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-freer.o)
+ .debug_frame   0x00006634       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-gettzinfo.o)
+ .debug_frame   0x00006654       0x98 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-locale.o)
+ .debug_frame   0x000066ec       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memchr.o)
+ .debug_frame   0x00006718      0x244 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mprec.o)
+ .debug_frame   0x0000695c       0x28 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-s_fpclassify.o)
+ .debug_frame   0x00006984       0x68 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfiprintf.o)
+ .debug_frame   0x000069ec       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-callocr.o)
+ .debug_frame   0x00006a18       0x2c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memmove.o)
+ .debug_frame   0x00006a44       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-reallocr.o)
+ .debug_frame   0x00006a80       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_udivsi3.o)
+ .debug_frame   0x00006aa0       0x20 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_divsi3.o)
+ .debug_frame   0x00006ac0       0x50 c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(bpabi.o)
+ .debug_frame   0x00006b10       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_divdi3.o)
+ .debug_frame   0x00006b4c       0x3c c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_udivdi3.o)
 
 Cross Reference Table
 
@@ -5608,8 +5657,13 @@ BusFaultVector                                    ../../build/obj/vectors.o
 CAND1                                             ../../build/obj/can_lld.o
                                                   ../../build/obj/can_comm.o
 DebugMonitorVector                                ../../build/obj/vectors.o
+DistanceMeas                                      ../../build/obj/speed.o
 GPTD2                                             ../../build/obj/gpt_lld.o
                                                   ../../build/obj/safety.o
+GetKmeterDistance                                 ../../build/obj/speed.o
+                                                  ../../build/obj/can_comm.o
+GetTotalKmeterDistance                            ../../build/obj/speed.o
+                                                  ../../build/obj/can_comm.o
 HardFaultVector                                   ../../build/obj/vectors.o
 I2CD1                                             ../../build/obj/i2c_lld.o
                                                   ../../build/obj/eeprom.o
@@ -5787,13 +5841,12 @@ __aeabi_cdcmple                                   c:/program files (x86)/codesou
 __aeabi_cdrcmple                                  c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_cmpdf2.o)
 __aeabi_d2iz                                      c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_fixdfsi.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
-                                                  ../../build/obj/calc.o
                                                   ../../build/obj/cruise.o
+                                                  ../../build/obj/meas.o
 __aeabi_d2uiz                                     c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_fixunsdfsi.o)
                                                   ../../build/obj/speed.o
 __aeabi_dadd                                      c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_addsubdf3.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
-                                                  ../../build/obj/calc.o
                                                   ../../build/obj/cruise.o
                                                   ../../build/obj/speed.o
 __aeabi_dcmpeq                                    c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_cmpdf2.o)
@@ -5801,6 +5854,7 @@ __aeabi_dcmpeq                                    c:/program files (x86)/codesou
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
 __aeabi_dcmpge                                    c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_cmpdf2.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
+                                                  ../../build/obj/speed.o
 __aeabi_dcmpgt                                    c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_cmpdf2.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
                                                   ../../build/obj/cruise.o
@@ -5814,12 +5868,12 @@ __aeabi_dcmplt                                    c:/program files (x86)/codesou
 __aeabi_ddiv                                      c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_muldivdf3.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mprec.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
-                                                  ../../build/obj/calc.o
                                                   ../../build/obj/speed.o
 __aeabi_dmul                                      c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_muldivdf3.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mprec.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
                                                   ../../build/obj/cruise.o
+                                                  ../../build/obj/meas.o
                                                   ../../build/obj/speed.o
 __aeabi_drsub                                     c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_addsubdf3.o)
 __aeabi_dsub                                      c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_addsubdf3.o)
@@ -5829,8 +5883,8 @@ __aeabi_dsub                                      c:/program files (x86)/codesou
 __aeabi_f2d                                       c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_addsubdf3.o)
 __aeabi_i2d                                       c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_arm_addsubdf3.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
-                                                  ../../build/obj/calc.o
                                                   ../../build/obj/cruise.o
+                                                  ../../build/obj/meas.o
 __aeabi_idiv                                      c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_divsi3.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-div.o)
 __aeabi_idiv0                                     c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2\libgcc.a(_dvmd_tls.o)
@@ -6155,6 +6209,7 @@ atol                                              c:/program files (x86)/codesou
                                                   ../../build/obj/safety.o
                                                   ../../build/obj/dsp.o
                                                   ../../build/obj/cruise.o
+                                                  ../../build/obj/speed.o
                                                   ../../build/obj/can_comm.o
                                                   ../../build/obj/console.o
 bmsitems                                          ../../build/obj/log.o
@@ -6248,7 +6303,7 @@ chEvtAddEvents                                    ../../build/obj/chevents.o
 chEvtBroadcastFlags                               ../../build/obj/chevents.o
                                                   ../../build/obj/testevt.o
 chEvtBroadcastFlagsI                              ../../build/obj/chevents.o
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
                                                   ../../build/obj/evtimer.o
                                                   ../../build/obj/serial_lld.o
                                                   ../../build/obj/can_lld.o
@@ -6527,7 +6582,7 @@ chThdAddRef                                       ../../build/obj/chdynamic.o
                                                   ../../build/obj/testdyn.o
 chThdCreateFromHeap                               ../../build/obj/chdynamic.o
                                                   ../../build/obj/console.o
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
                                                   ../../build/obj/testdyn.o
 chThdCreateFromMemoryPool                         ../../build/obj/chdynamic.o
                                                   ../../build/obj/testdyn.o
@@ -6538,10 +6593,11 @@ chThdCreateI                                      ../../build/obj/chthreads.o
 chThdCreateStatic                                 ../../build/obj/chthreads.o
                                                   ../../build/obj/safety.o
                                                   ../../build/obj/dsp.o
+                                                  ../../build/obj/speed.o
                                                   ../../build/obj/can_comm.o
                                                   ../../build/obj/log.o
                                                   ../../build/obj/main.o
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
                                                   ../../build/obj/testbmk.o
                                                   ../../build/obj/testqueues.o
                                                   ../../build/obj/testevt.o
@@ -6553,7 +6609,7 @@ chThdCreateStatic                                 ../../build/obj/chthreads.o
 chThdExit                                         ../../build/obj/chthreads.o
                                                   ../../build/obj/chcore_v7m.o
 chThdExitS                                        ../../build/obj/chthreads.o
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
 chThdRelease                                      ../../build/obj/chdynamic.o
                                                   ../../build/obj/console.o
                                                   ../../build/obj/testdyn.o
@@ -6627,7 +6683,7 @@ chvprintf                                         ../../build/obj/chprintf.o
                                                   ../../build/obj/sdcard.o
                                                   ../../build/obj/eeprom.o
                                                   ../../build/obj/console.o
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
 cleanup_glue                                      c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-reent.o)
 clust2sect                                        ../../build/obj/ff.o
 cmd_alarm                                         ../../build/obj/console.o
@@ -6660,8 +6716,12 @@ cmd_cruise                                        ../../build/obj/cruise.o
                                                   ../../build/obj/console.o
 cmd_cruisevalues                                  ../../build/obj/cruise.o
                                                   ../../build/obj/console.o
+cmd_current_limit_switch                          ../../build/obj/cruise.o
+                                                  ../../build/obj/console.o
 cmd_date                                          ../../build/obj/console.o
 cmd_debug                                         ../../build/obj/sdcard.o
+cmd_distancevalues                                ../../build/obj/speed.o
+                                                  ../../build/obj/console.o
 cmd_dspvalues                                     ../../build/obj/dsp.o
                                                   ../../build/obj/console.o
 cmd_eepromAllData                                 ../../build/obj/eeprom.o
@@ -6693,9 +6753,13 @@ cmd_mountsd                                       ../../build/obj/sdcard.o
                                                   ../../build/obj/console.o
 cmd_regen_brake                                   ../../build/obj/cruise.o
                                                   ../../build/obj/console.o
+cmd_reset_kmeter                                  ../../build/obj/speed.o
+                                                  ../../build/obj/console.o
 cmd_safetyvalues                                  ../../build/obj/safety.o
                                                   ../../build/obj/console.o
 cmd_sdiotest                                      ../../build/obj/sdcard.o
+                                                  ../../build/obj/console.o
+cmd_set_total_kmeter                              ../../build/obj/speed.o
                                                   ../../build/obj/console.o
 cmd_setcruisevalues                               ../../build/obj/cruise.o
                                                   ../../build/obj/console.o
@@ -6734,6 +6798,8 @@ cruiseEnable                                      ../../build/obj/cruise.o
 cruiseGet                                         ../../build/obj/cruise.o
                                                   ../../build/obj/dsp.o
                                                   ../../build/obj/can_comm.o
+cruiseGetCurrLimitSubstract                       ../../build/obj/cruise.o
+                                                  ../../build/obj/log.o
 cruiseGetPWM                                      ../../build/obj/cruise.o
                                                   ../../build/obj/can_comm.o
                                                   ../../build/obj/log.o
@@ -6798,9 +6864,11 @@ eepromInit                                        ../../build/obj/eeprom.o
 eepromRead                                        ../../build/obj/eeprom.o
                                                   ../../build/obj/cruise.o
                                                   ../../build/obj/meas.o
+                                                  ../../build/obj/speed.o
 eepromWrite                                       ../../build/obj/eeprom.o
                                                   ../../build/obj/cruise.o
                                                   ../../build/obj/meas.o
+                                                  ../../build/obj/speed.o
 errno                                             c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-reent.o)
                                                   ../../build/obj/console.o
 evtStart                                          ../../build/obj/evtimer.o
@@ -7012,12 +7080,15 @@ measGetValue                                      ../../build/obj/meas.o
                                                   ../../build/obj/can_comm.o
                                                   ../../build/obj/log.o
 measGetValue_2                                    ../../build/obj/meas.o
+                                                  ../../build/obj/calc.o
                                                   ../../build/obj/dsp.o
                                                   ../../build/obj/cruise.o
                                                   ../../build/obj/can_comm.o
                                                   ../../build/obj/log.o
 measInit                                          ../../build/obj/meas.o
                                                   ../../build/obj/main.o
+measInterpolateNTC                                ../../build/obj/meas.o
+measNTCcalib                                      ../../build/obj/meas.o
 meas_regen_brakeSetMax                            ../../build/obj/meas.o
 meas_regen_brakeSetMin                            ../../build/obj/meas.o
 meas_throttleSetMax                               ../../build/obj/meas.o
@@ -7050,6 +7121,7 @@ memset                                            c:/program files (x86)/codesou
 mktime                                            c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mktime.o)
                                                   ../../build/obj/chrtclib.o
 mlitems                                           ../../build/obj/log.o
+                                                  ../../build/obj/calc.o
                                                   ../../build/obj/can_comm.o
 mmcsdGetCapacity                                  ../../build/obj/mmcsd.o
                                                   ../../build/obj/sdc.o
@@ -7144,7 +7216,7 @@ rlist                                             ../../build/obj/chschd.o
                                                   ../../build/obj/log.o
                                                   ../../build/obj/console.o
                                                   ../../build/obj/main.o
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
                                                   ../../build/obj/usb_lld.o
                                                   ../../build/obj/i2c_lld.o
                                                   ../../build/obj/sdc_lld.o
@@ -7300,14 +7372,14 @@ sduRequestsHook                                   ../../build/obj/serial_usb.o
 sduStart                                          ../../build/obj/serial_usb.o
 sduStop                                           ../../build/obj/serial_usb.o
 setlocale                                         c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-locale.o)
-shellCreate                                       ../../build/obj/shell2.o
+shellCreate                                       ../../build/obj/shell.o
                                                   ../../build/obj/console.o
-shellCreateStatic                                 ../../build/obj/shell2.o
-shellExit                                         ../../build/obj/shell2.o
-shellGetLine                                      ../../build/obj/shell2.o
-shellInit                                         ../../build/obj/shell2.o
+shellCreateStatic                                 ../../build/obj/shell.o
+shellExit                                         ../../build/obj/shell.o
+shellGetLine                                      ../../build/obj/shell.o
+shellInit                                         ../../build/obj/shell.o
                                                   ../../build/obj/console.o
-shell_terminated                                  ../../build/obj/shell2.o
+shell_terminated                                  ../../build/obj/shell.o
 speedCalc                                         ../../build/obj/speed.o
                                                   ../../build/obj/main.o
 speedGetLastPeriod                                ../../build/obj/speed.o
@@ -7370,7 +7442,7 @@ sprintf                                           c:/program files (x86)/codesou
 stm32_clock_init                                  ../../build/obj/hal_lld.o
                                                   ../../build/obj/board.o
 strcasecmp                                        c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcasecmp.o)
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
 strcmp                                            c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strcmp.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-locale.o)
                                                   ../../build/obj/dsp.o
@@ -7386,9 +7458,9 @@ strlen                                            c:/program files (x86)/codesou
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
                                                   ../../build/obj/sdcard.o
 strpbrk                                           c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strpbrk.o)
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
 strspn                                            c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strspn.o)
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
 strtol                                            c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-strtol.o)
                                                   c:/program files (x86)/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-atol.o)
 test                                              ../../build/obj/test.o
@@ -7552,7 +7624,7 @@ vtlist                                            ../../build/obj/chvt.o
                                                   ../../build/obj/log.o
                                                   ../../build/obj/sdcard.o
                                                   ../../build/obj/main.o
-                                                  ../../build/obj/shell2.o
+                                                  ../../build/obj/shell.o
                                                   ../../build/obj/testevt.o
                                                   ../../build/obj/testmtx.o
                                                   ../../build/obj/testsem.o

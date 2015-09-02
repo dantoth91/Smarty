@@ -34,10 +34,12 @@
 #define CAN_SM_MESSAGES_1   0x01
 #define CAN_SM_MESSAGES_2   0x02
 #define CAN_SM_MESSAGES_3   0x03
+#define CAN_SM_MESSAGES_4   0x04
 
 #define CAN_ML_MIN              0x20
 #define CAN_ML_MAX              0x2F
 #define CAN_ML_ONEVIRE_MESSAGE  0x01
+#define CAN_ML_CURRENT_MESSAGE  0x02
 
 #define CAN_RPY_MIN         0x30
 #define CAN_RPY_MAX         0x3F
@@ -78,6 +80,7 @@ enum canMessages
   CAN_MESSAGES_1,
   CAN_MESSAGES_2,
   CAN_MESSAGES_3,
+  CAN_MESSAGES_4,
   CAN_MESSAGES_LAST,
   CAN_NUM_MESS
 }canmessages;
@@ -243,10 +246,15 @@ static msg_t can_rx(void *p) {
           sender = 3;
           if(messages == CAN_ML_ONEVIRE_MESSAGE){
             mlitems.id        = (rx_id - CAN_ML_MIN) + 1;
-            mlitems.onevire_1 = rxmsg.data16[0];
-            mlitems.onevire_2 = rxmsg.data16[1];
-            mlitems.onevire_3 = rxmsg.data16[2];
-            mlitems.onevire_4 = rxmsg.data16[3];
+            mlitems.MODULE1_TEMP = rxmsg.data16[0];
+            mlitems.MODULE8_TEMP = rxmsg.data16[1];
+            mlitems.MODULE6_TEMP = rxmsg.data16[2];
+            mlitems.MODULE12_TEMP = rxmsg.data16[3];
+          }
+          if(messages == CAN_ML_CURRENT_MESSAGE){
+            mlitems.id        = (rx_id - CAN_ML_MIN) + 2;
+            mlitems.sun_current = rxmsg.data16[0];
+            mlitems.MODULE2_TEMP = rxmsg.data16[2];
           }
           canstate = CAN_WAIT;
           break;
@@ -265,7 +273,6 @@ static msg_t can_rx(void *p) {
                 lcitems.temp[i]       = rxmsg.data8[0];
                 lcitems.curr_in[i]    = rxmsg.data8[1];
                 lcitems.curr_out[i]   = rxmsg.data8[2];
-                lcitems.efficiency[i] = rxmsg.data8[3];
                 lcitems.volt_in[i]    = rxmsg.data16[2];
                 lcitems.volt_out[i]   = rxmsg.data16[3];
               }
@@ -278,6 +285,7 @@ static msg_t can_rx(void *p) {
               {
                 lcitems.status[i] = rxmsg.data16[0];
                 lcitems.pwm[i]    = rxmsg.data16[1];
+                lcitems.curr_in_from_pwm[i]    = rxmsg.data16[2];
               }
             }
           }
@@ -354,8 +362,8 @@ static msg_t can_tx(void * p) {
 
           txmsg.data16[0] = measGetValue_2(MEAS2_THROTTLE);
           txmsg.data16[1] = measGetValue_2(MEAS2_REGEN_BRAKE);
-          txmsg.data16[2] = measGetValue(MEAS_BRAKE_PRESSURE1);
-          txmsg.data16[3] = measGetValue(MEAS_BRAKE_PRESSURE2);
+          txmsg.data16[2] = measGetValue(MEAS_TEMP1);
+          txmsg.data16[3] = measGetValue(MEAS_TEMP2);
           
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
@@ -367,6 +375,9 @@ static msg_t can_tx(void * p) {
           /* 
           * 16bit - Engine current
           * 16bit - 12V (UBAT)
+          * 8bit - LOG state
+          * 8bit - NULL
+          * 16bit - Motor Current
           */
           chSysLock();
           txmsg.EID = 0;
@@ -383,7 +394,28 @@ static msg_t can_tx(void * p) {
           {
             txmsg.data8[4] = 0;
           }
-          
+
+          txmsg.data16[3] = measGetValue_2(MEAS2_CURR1);
+
+          can_transmit = TRUE;
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
+          break;
+
+        case CAN_MESSAGES_4:
+          /* Message 4 */
+          /*
+          * 32bit - Total KMeter
+          * 32bit - Nullable Kmeter
+          */
+          chSysLock();
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_4;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data32[0] = GetTotalKmeterDistance();
+          txmsg.data32[1] = GetKmeterDistance();
+
 
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
@@ -572,11 +604,11 @@ void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]) {
       chprintf(chp,"lcitems.temp[%d]       (NTC)    : %15d \r\n", db, lcitems.temp[db]);
       chprintf(chp,"lcitems.curr_in[%d]    (IN_CUR) : %15d \r\n", db, lcitems.curr_in[db]);
       chprintf(chp,"lcitems.curr_out[%d]   (OUT_CUR): %15d \r\n", db, lcitems.curr_out[db]);
-      chprintf(chp,"lcitems.efficiency[%d] (EFF)    : %15d \r\n", db, lcitems.efficiency[db]);
       chprintf(chp,"lcitems.status[%d]     (STATUS) : %15d \r\n", db, lcitems.status[db]);
       chprintf(chp,"lcitems.volt_in[%d]    (VIN)    : %15d \r\n", db, lcitems.volt_in[db]);
       chprintf(chp,"lcitems.volt_out[%d]   (VOUT)   : %15d \r\n", db, lcitems.volt_out[db]);
       chprintf(chp,"lcitems.pwm[%d]        (PWM)    : %15d \r\n", db, lcitems.pwm[db]);
+      chprintf(chp,"lcitems.curr_in_from_pwm[%d]    : %15d \r\n", db, lcitems.curr_in_from_pwm[db]);
     }   
 
     else{
@@ -604,10 +636,12 @@ void cmd_candata_ml(BaseSequentialStream *chp, int argc, char *argv[]) {
     if (argc == 1){
       chprintf(chp,"---------- Modulux 1/1 ------------\r\n");
       chprintf(chp,"id        (ID)     : %15x \r\n", mlitems.id);
-      chprintf(chp,"onevire_1 (DS18B20): %15d \r\n", mlitems.onevire_1);
-      chprintf(chp,"onevire_2 (DS18B20): %15d \r\n", mlitems.onevire_2);
-      chprintf(chp,"onevire_3 (DS18B20): %15d \r\n", mlitems.onevire_3);
-      chprintf(chp,"onevire_4 (DS18B20): %15d \r\n", mlitems.onevire_4);
+      chprintf(chp,"Module 1 Temp: %15d \r\n", mlitems.MODULE1_TEMP);
+      chprintf(chp,"Module 8 Temp: %15d \r\n", mlitems.MODULE8_TEMP);
+      chprintf(chp,"Module 6 Temp: %15d \r\n", mlitems.MODULE6_TEMP);
+      chprintf(chp,"Module 12 Temp: %15d \r\n", mlitems.MODULE12_TEMP);
+      chprintf(chp,"Module 2 Temp: %15d \r\n", mlitems.MODULE2_TEMP);
+      chprintf(chp,"SUNMODULES CURRENT: %15d \r\n", mlitems.sun_current);
     } 
     else{
       chprintf(chp, "This not good parameters!\r\n");

@@ -85,13 +85,13 @@ void dsp_LoadTop(void) {
   media_SetSector(0, 17715); // tempomat icon
   media_VideoFrame(433, 61, 0);
 
-  media_SetSector(0, 83); //lámpa icon
+  media_SetSector(0, 83); //lĂˇmpa icon
   media_VideoFrame(433, 154, 0);
 
   media_SetSector(0, 68); //indexjobb icon
   media_VideoFrame(433, 230, 0);
 
-  media_SetSector(0, 17734); //túl fesz icon
+  media_SetSector(0, 17734); //tĂşl fesz icon
   media_VideoFrame(375, 26, 0);
 
   media_SetSector(0, 23); //figy icon
@@ -103,10 +103,10 @@ void dsp_LoadTop(void) {
   media_SetSector(0, 0); //alfesz icon
   media_VideoFrame(375, 219, 0);
 
-  media_SetSector(0, 17); //Átlag icon
+  media_SetSector(0, 17); //Ă�tlag icon
   media_Image(340, 4);
 
-  media_SetSector(0, 17726); //Tempomat szöveg
+  media_SetSector(0, 17726); //Tempomat szĂ¶veg
   media_Image(340, 166);
 
 }
@@ -114,10 +114,10 @@ void dsp_LoadMidle(void) {
 
   gfx_Transparency(1);
   gfx_TransparentColour(BLUE);
-  media_SetSector(0, 111); // müszer icon
+  media_SetSector(0, 111); // mĂĽszer icon
   media_VideoFrame(148, 21, 0);
 
-  media_SetSector(0, 79); // km/h szöveg
+  media_SetSector(0, 79); // km/h szĂ¶veg
   media_Image(168, 204);
 
   media_SetSector(0, 17521); // szam kicsi icon
@@ -134,13 +134,13 @@ void dsp_LoadBottom(void) {
   draw_line(360, 0, 360, 272, WHITE);
   draw_line(145, 0, 145, 272, WHITE);
 
-  media_SetSector(0, 46); //  ikonalsó icon
+  media_SetSector(0, 46); //  ikonalsĂł icon
   media_VideoFrame(108, 5, 0);
 
-  media_SetSector(0, 46); //  ikonalsó icon
+  media_SetSector(0, 46); //  ikonalsĂł icon
   media_VideoFrame(108, 135, 1);
 
-  media_SetSector(0, 46); //  ikonalsó icon
+  media_SetSector(0, 46); //  ikonalsĂł icon
   media_VideoFrame(66, 135, 2);
 
   media_SetSector(0, 17751); //zHom icon
@@ -173,10 +173,10 @@ void dsp_RefreshMidle(int frame) {
 
   gfx_Transparency(1);
   gfx_TransparentColour(BLUE);
-  media_SetSector(0, 111); // müszer icon
+  media_SetSector(0, 111); // mĂĽszer icon
   media_VideoFrame(148, 21, frame / 5);
 
-  media_SetSector(0, 79); // km/h szöveg
+  media_SetSector(0, 79); // km/h szĂ¶veg
   media_Image(168, 204);
 
   media_SetSector(0, 17521); // szam kicsi icon
@@ -310,7 +310,7 @@ static msg_t dspTask(void *arg) {
                 gfxGetDspAns();
                 gfx_TransparentColour(BLUE);
                 gfxGetDspAns();
-                media_SetSector(0, 111); // müszer icon
+                media_SetSector(0, 111); // mĂĽszer icon
                 gfxGetDspAns();
                 media_VideoFrame(148, 21, new_val);
                 dspstate = DSP_WAITING;
@@ -493,15 +493,15 @@ static msg_t dspTask(void *arg) {
                 dspmessages++;
 
             case DSP_x1000_SUN_POWER:
-              new_val = 10;
+              new_val = calcGetValue(CALC_SUN_POWER);
 
-              new_val = new_val == 0 ? 10 : new_val;
+//              new_val = new_val == 0 ? 10 : new_val;
 
               if (dspValue[dspmessages] != new_val) {
                 media_SetSector(0, 17534); // szam icon
                 gfxGetDspAns();
-                //media_VideoFrame(108, 168, new_val / 1000);
-                media_VideoFrame(108, 168, new_val);
+                media_VideoFrame(108, 168, new_val / 1000);
+                //media_VideoFrame(108, 168, new_val);
                 dspstate = DSP_WAITING;
                 dspValue[dspmessages] = new_val;
                 break;
@@ -510,18 +510,19 @@ static msg_t dspTask(void *arg) {
                 dspmessages++;
 
             case DSP_x100_SUN_POWER:
-              new_val = 10;
-
+              new_val = calcGetValue(CALC_SUN_POWER);
+              /*
               if (dspValue[DSP_x1000_SUN_POWER] == 10)
               {
                 new_val = new_val == 0 ? 10 : new_val;
               }
+              */
 
               if (dspValue[dspmessages] != new_val) {
                 media_SetSector(0, 17534); // szam icon
                 gfxGetDspAns();
-                //media_VideoFrame(108, 188, (new_val / 100) % 10);
-                media_VideoFrame(108, 188, new_val);
+                media_VideoFrame(108, 188, (new_val / 100) % 10);
+                //media_VideoFrame(108, 188, new_val);
                 dspstate = DSP_WAITING;
                 dspValue[dspmessages] = new_val;
                 break;
@@ -530,18 +531,18 @@ static msg_t dspTask(void *arg) {
                 dspmessages++;
 
             case DSP_x10_SUN_POWER:
-              new_val = 10;
-
+              new_val = calcGetValue(CALC_SUN_POWER);
+              /*
               if (dspValue[DSP_x100_SUN_POWER] == 10)
               {
                 new_val = new_val == 0 ? 10 : new_val;
               }
-
+               */
               if (dspValue[dspmessages] != new_val) {
                 media_SetSector(0, 17534); // szam icon
                 gfxGetDspAns();
-                //media_VideoFrame(108, 208, (new_val / 10) % 10);
-                media_VideoFrame(108, 208, new_val);
+                media_VideoFrame(108, 208, (new_val / 10) % 10);
+                //media_VideoFrame(108, 208, new_val);
                 dspstate = DSP_WAITING;
                 dspValue[dspmessages] = new_val;
                 break;
@@ -550,13 +551,13 @@ static msg_t dspTask(void *arg) {
                 dspmessages++;
 
             case DSP_x1_SUN_POWER:
-              new_val = 0;
+              new_val = calcGetValue(CALC_SUN_POWER);
 
               if (dspValue[dspmessages] != new_val) {
                 media_SetSector(0, 17534); // szam icon
                 gfxGetDspAns();
-                //media_VideoFrame(108, 228, new_val  % 10);
-                media_VideoFrame(108, 228, new_val);
+                media_VideoFrame(108, 228, new_val  % 10);
+                //media_VideoFrame(108, 228, new_val);
                 dspstate = DSP_WAITING;
                 dspValue[dspmessages] = new_val;
                 break;
@@ -566,6 +567,9 @@ static msg_t dspTask(void *arg) {
 
             case DSP_x1000_MOTOR_POWER:
               new_val = calcGetValue(CALC_MOTOR_POWER);
+              if (new_val < 0)
+                new_val = 0;
+
               new_val = (uint32_t)(new_val / 1000);
               new_val = new_val == 0 ? 10 : new_val;
 
@@ -582,6 +586,8 @@ static msg_t dspTask(void *arg) {
 
             case DSP_x100_MOTOR_POWER:
               new_val = calcGetValue(CALC_MOTOR_POWER);
+              if (new_val < 0)
+                new_val = 0;
               new_val /= 100;
               new_val = new_val % 10;
 
@@ -603,6 +609,8 @@ static msg_t dspTask(void *arg) {
 
             case DSP_x10_MOTOR_POWER:
               new_val = calcGetValue(CALC_MOTOR_POWER);
+              if (new_val < 0)
+                new_val = 0;
               new_val /= 10;
               new_val = new_val % 10;
 
@@ -624,6 +632,8 @@ static msg_t dspTask(void *arg) {
 
             case DSP_x1_MOTOR_POWER:
               new_val = calcGetValue(CALC_MOTOR_POWER) % 10;
+              if (new_val < 0)
+                new_val = 0;
               if (dspValue[dspmessages] != new_val) {
                 media_SetSector(0, 17534); // szam icon
                 gfxGetDspAns();
@@ -713,7 +723,7 @@ static msg_t dspTask(void *arg) {
                 new_val = 1;
               }
               if (dspValue[dspmessages] != new_val) {
-                media_SetSector(0, 83); //lámpa icon
+                media_SetSector(0, 83); //lĂˇmpa icon
                 gfxGetDspAns();
                 media_VideoFrame(433, 154, new_val);
                 dspstate = DSP_WAITING;
@@ -736,7 +746,7 @@ static msg_t dspTask(void *arg) {
               }
               
               if (dspValue[dspmessages] != new_val) {
-                media_SetSector(0, 17734); //túl fesz icon
+                media_SetSector(0, 17734); //tĂşl fesz icon
                 gfxGetDspAns();
                 media_VideoFrame(375, 26, new_val);
                 dspstate = DSP_WAITING;

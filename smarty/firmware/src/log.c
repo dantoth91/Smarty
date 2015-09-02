@@ -105,14 +105,14 @@ void logCalc(void){
   
   if (logGetState() == LOG_RUNNING){
 
-    
+
     chSysLock();
     logitems[NUM].value = logPeriod;
     logitems[TIME].value = chTimeNow() - logStartTime;
     /* Analog meas */
     logitems[UBAT].value = measGetValue(MEAS_UBAT);
-    logitems[BRAKE_P1].value = measGetValue(MEAS_BRAKE_PRESSURE1);
-    logitems[BRAKE_P2].value = measGetValue(MEAS_BRAKE_PRESSURE2);
+    logitems[TEMP1].value = measGetValue(MEAS_TEMP1);
+    logitems[TEMP2].value = measGetValue(MEAS_TEMP2);
     logitems[STEERING_SEN].value = measGetValue(MEAS_STEERING);
     logitems[CURR1].value = measGetValue_2(MEAS2_CURR1);
     logitems[THROTTLE].value = measGetValue_2(MEAS2_THROTTLE);
@@ -120,13 +120,16 @@ void logCalc(void){
     /* Cruise control */
     logitems[CRUISE_SWITCH].value = cruiseStatus();
     logitems[CRUISE_SET].value = cruiseGetPWM();
+    logitems[CRUISE_SUBSTRACT].value = cruiseGetCurrLimitSubstract();
     logitems[SPEED_KMPH].value = speedGetSpeed();
     logitems[SPEED_RPM].value = speedGetRpm();
     /* Modulux */
-    logitems[SOLARCELL_TEMP_1].value = mlitems.onevire_1;
-    logitems[SOLARCELL_TEMP_2].value = mlitems.onevire_2;
-    logitems[SOLARCELL_TEMP_3].value = mlitems.onevire_3;
-    logitems[SOLARCELL_TEMP_4].value = mlitems.onevire_4;
+    logitems[SOLAR_TEMP_MODULE_1].value = mlitems.MODULE1_TEMP;
+    logitems[SOLAR_TEMP_MODULE_8].value = mlitems.MODULE8_TEMP;
+    logitems[SOLAR_TEMP_MODULE_6].value = mlitems.MODULE6_TEMP;
+    logitems[SOLAR_TEMP_MODULE_12].value = mlitems.MODULE12_TEMP;
+    logitems[SOLAR_TEMP_MODULE_2].value = mlitems.MODULE2_TEMP;
+    logitems[SOLARCELL_CURRENT].value = mlitems.sun_current;
     /* BMS */
     logitems[BMS_CUSTOM_FLAG_1].value = bmsitems.custom_flag_1;
     logitems[BMS_PACK_INST_VOLT].value = bmsitems.pack_inst_volt;
@@ -167,11 +170,11 @@ void logCalc(void){
       logitems[i].value = lcitems.temp[db];
       logitems[i+1].value = lcitems.curr_in[db];
       logitems[i+2].value = lcitems.curr_out[db];
-      logitems[i+3].value = lcitems.efficiency[db];
-      logitems[i+4].value = lcitems.status[db];
-      logitems[i+5].value = lcitems.volt_in[db];
-      logitems[i+6].value = lcitems.volt_out[db];
-      logitems[i+7].value = lcitems.pwm[db];
+      logitems[i+3].value = lcitems.status[db];
+      logitems[i+4].value = lcitems.volt_in[db];
+      logitems[i+5].value = lcitems.volt_out[db];
+      logitems[i+6].value = lcitems.pwm[db];
+      logitems[i+7].value = lcitems.curr_in_from_pwm[db];
     }
     chSysUnlock();
   }

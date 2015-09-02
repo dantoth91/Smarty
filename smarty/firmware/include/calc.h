@@ -12,6 +12,7 @@
 enum calcChannels
 {
   CALC_MOTOR_POWER,
+  CALC_SUN_POWER,
   CALC_NUM_CH
 };
 
