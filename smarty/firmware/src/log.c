@@ -21,6 +21,7 @@
 #include "can_items.h"
 
 #include "meas.h"
+#include "nmea.h"
 
 struct moduluxItems mlitems;
 struct bmsItems bmsitems;
@@ -102,6 +103,7 @@ void logStop(void){
 void logCalc(void){
   uint16_t i, db;
   size = LOG_ITEMS_NUM;
+  nmeaPosition_t pos;
   
   if (logGetState() == LOG_RUNNING){
 
@@ -123,6 +125,16 @@ void logCalc(void){
     logitems[CRUISE_SUBSTRACT].value = cruiseGetCurrLimitSubstract();
     logitems[SPEED_KMPH].value = speedGetSpeed();
     logitems[SPEED_RPM].value = speedGetRpm();
+    logitems[AVG_SPEED].value = calcAvgSpeed();
+    /* GPS */
+    nmeaGetCurrentPosition(&pos);
+    logitems[GPS_LON].value = (int32_t)(pos.Lon * 100000000.0);
+    logitems[GPS_LAT].value = (int32_t)(pos.Lat * 100000000.0);
+    logitems[GPS_ALT].value = (int16_t)(pos.Alt);
+    logitems[GPS_VEL].value = (int16_t)(pos.Vel * 100.0);
+    logitems[GPS_SVS].value = pos.Svs;
+    logitems[GPS_TIME].value = pos.Tof;
+
     /* Modulux */
     logitems[SOLAR_TEMP_MODULE_1].value = mlitems.MODULE1_TEMP;
     logitems[SOLAR_TEMP_MODULE_8].value = mlitems.MODULE8_TEMP;
@@ -402,4 +414,8 @@ void cmd_logvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
     }
     chThdSleepMilliseconds(10);
   }
+}
+
+void cmd_logstop(BaseSequentialStream *chp, int argc, char *argv[]) {
+  logStop();
 }

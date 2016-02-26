@@ -21,6 +21,14 @@ enum logItemNames
   CRUISE_SUBSTRACT,
   SPEED_KMPH,
   SPEED_RPM,
+  AVG_SPEED,
+  /* GPS */
+  GPS_LON,
+  GPS_LAT,
+  GPS_ALT,
+  GPS_VEL,
+  GPS_SVS,
+  GPS_TIME,
   /* Modulux */
   SOLAR_TEMP_MODULE_1,
   SOLAR_TEMP_MODULE_8,
@@ -306,6 +314,14 @@ static struct logItem logitems[] = {
   { CRUISE_SUBSTRACT,       "CRUISE_SUBSTRACT;",        "1;",       0},
   { SPEED_KMPH,             "SPEED_KMPH;",              "1;",       0},
   { SPEED_RPM,              "SPEED_RPM;",               "1;",       0},
+  { AVG_SPEED,              "AVG_SPEED;",               "10;",      0},
+  /* GPS */
+  { GPS_LON,                "GPS_LON;",                 "1;",       0},
+  { GPS_LAT,                "GPS_LAT;",                 "1;",       0},
+  { GPS_ALT,                "GPS_ALT;",                 "1;",       0},
+  { GPS_VEL,                "GPS_VEL;",                 "1;",       0},
+  { GPS_SVS,                "GPS_SVS;",                 "1;",       0},
+  { GPS_TIME,               "GPS_UNIX_TIME;",           "1;",       0},
   /* Modulux */
   { SOLAR_TEMP_MODULE_1,    "SOLAR_TEMP_MODULE_1;",     "10;",      0},
   { SOLAR_TEMP_MODULE_8,    "SOLAR_TEMP_MODULE_8;",     "10;",      0},
@@ -562,5 +578,5 @@ static struct logItem logitems[] = {
   { LC_15_PWM,              "LC_15_PWM;",               "1;",       0},
   { LC_15_CURRIN_FROM_PWM,  "LC_15_CURRIN_FROM_PWM;",   "1000;",    0},
 
-  { END,                    "END;",                     "END;",     0}
+  { END,                    "END;",                     "END;",     1}
 };

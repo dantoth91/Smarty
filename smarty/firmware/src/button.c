@@ -34,7 +34,11 @@ static bool_t warning;
 static bool_t warning_active;
 
 static bool_t lamp_ok;
-static uint8_t lamp_long;
+static bool_t rear_camera_en;
+static bool_t rear_camera_ok;
+static bool_t long_lamp;
+static uint8_t lamp_long_lamp;
+static uint8_t lamp_long_show;
 
 static uint16_t bus;
 static bool_t bus_bit[8];
@@ -46,8 +50,15 @@ void buttonInit(void){
 	cruise_minusz = FALSE;
 	cruise_minusz = FALSE;
 	lamp_ok = FALSE;
-	lamp_long = 0;
+	long_lamp = FALSE;
+	rear_camera_en = FALSE;
+	rear_camera_ok = FALSE;
+	lamp_long_lamp = 0;
+	lamp_long_show = 0;
 	button_accel = FALSE;
+
+	/* Off PO3 */
+	palClearPad(GPIOG, GPIOG_PO3);
 
 	bus = 0;
 }
@@ -223,31 +234,63 @@ void buttonCalc(void){
 /* Pos. Lamp */
 	if(bus_bit[4] == 0)
 	{
-		lamp_long++;
-		if (lamp_ok)
+		lamp_long_lamp++;
+		lamp_long_show++;
+
+		if(rear_camera_en)
 		{
-			if (getLightFlashing(5) || getLightFlashing(7))
+			if (rear_camera_ok)
 			{
-				lightPosLampOff();
-				lightLampDemoOff();
-				lamp_ok = FALSE;
+				rear_camera_ok = FALSE;
+				/* Off */
+				palClearPad(GPIOG, GPIOG_PO3);
 			}
 			else
 			{
-				lightPosLampOn();
-				lamp_ok = FALSE;
+				rear_camera_ok = TRUE;
+				/* On */
+				palSetPad(GPIOG, GPIOG_PO3);
 			}
-		}
-		if (lamp_long > 100)
-		{
-			lamp_long = 0;
-		    lightLampDemoOn();
+			rear_camera_en = FALSE;
 		}
 
+		if (lamp_long_lamp > 75)
+		{
+			if (lamp_ok)
+			{
+				if (getLightFlashing(5) || getLightFlashing(7))
+				{
+					lightPosLampOff();
+					lightLampDemoOff();
+					lamp_ok = FALSE;
+				}
+				else
+				{
+					lightPosLampOn();
+					lamp_ok = FALSE;
+				}
+			}
+			rear_camera_ok = FALSE;
+			/* Off */
+			palClearPad(GPIOG, GPIOG_PO3);
+			lamp_long_lamp = 0;
+		}
+			
+		if (lamp_long_show > 150)
+		{
+			long_lamp = FALSE;
+			lamp_long_show = 0;
+		    lightLampDemoOn();
+		    rear_camera_ok = FALSE;
+		    palSetPad(GPIOG, GPIOG_PO3);
+		}
 	}
 	else if(bus_bit[4])
 	{
 		lamp_ok = TRUE;
+		rear_camera_en = TRUE;
+		lamp_long_lamp = 0;
+		lamp_long_show = 0;
 	}
 }
 

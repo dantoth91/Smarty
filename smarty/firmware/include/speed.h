@@ -30,4 +30,9 @@ static msg_t save_kmeter_eeprom(void *arg);
 uint32_t GetTotalKmeterDistance();
 uint32_t GetKmeterDistance();
 
+double GetTotalMeter();
+void TotalMeterZero();
+
+void cmd_reset_meter(BaseSequentialStream *chp, int argc, char *argv[]);
+
 #endif

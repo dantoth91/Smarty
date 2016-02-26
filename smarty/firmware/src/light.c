@@ -10,7 +10,7 @@
 #include "chprintf.h"
 #include "can_comm.h"
 
-#define LIGHTS_PERIOD   30
+#define LIGHTS_PERIOD   16
 
 static struct lightChanels 
 {

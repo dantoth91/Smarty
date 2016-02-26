@@ -25,6 +25,7 @@ static uint16_t rpm_index;
  */
 static uint8_t tick_counter;
 static double meter_counter;
+static double total_meter;
 static uint32_t kmeter_counter;
 static uint32_t total_kmeter_counter;
 
@@ -207,10 +208,13 @@ uint32_t speedKMPH_TO_RPM(double kmph){
  */
 void DistanceMeas(void)
 {
+  double wheel_meter = WHEEL;
+  
   tick_counter++;
   if((tick_counter % SEN_POINTS) == 0)
   {
-    meter_counter += (double)(WHEEL / 1000);
+    meter_counter += (double)(wheel_meter / 1000);
+    total_meter += (double)(wheel_meter / 1000);
     tick_counter = 0;
   }
 
@@ -246,6 +250,21 @@ uint32_t GetKmeterDistance()
   return kmeter_counter;
 }
 
+double GetTotalMeter()
+{
+  double tmp;
+
+  chSysLock();
+  tmp = total_meter;
+  chSysUnlock();
+
+  return total_meter;
+}
+
+void TotalMeterZero()
+{
+  return total_meter = 0;
+}
 
 void cmd_speedvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
 
@@ -276,6 +295,7 @@ void cmd_distancevalues(BaseSequentialStream *chp, int argc, char *argv[])
 
     chprintf(chp, "tick_counter: %5d\r\n", tick_counter);
     chprintf(chp, "meter_count: %5d\r\n", (uint16_t)meter_counter);
+    chprintf(chp, "total_meter: %5d\r\n", (uint16_t)total_meter);
     chprintf(chp, "kmeter_count: %5d\r\n", kmeter_counter);
     chprintf(chp, "total_kmeter_count: %5d\r\n", total_kmeter_counter);
 
@@ -321,4 +341,21 @@ void cmd_reset_kmeter(BaseSequentialStream *chp, int argc, char *argv[])
   chprintf(chp, "KMeter: %d\r\n", kmeter_counter);
 
   chThdSleepMilliseconds(100);
+}
+
+void cmd_reset_meter(BaseSequentialStream *chp, int argc, char *argv[])
+{
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
+
+  TotalMeterZero();
+  if(eepromWrite(TOTAL_METER, total_meter) != 0)
+  {
+    chprintf(chp, "EEPROM write error!\r\n");
+  }else
+  {
+    chprintf(chp, "Total meter has cleared!\r\n");
+  }
+  chprintf(chp, "Total Meter: %d\r\n", (uint16_t)total_meter);
 }

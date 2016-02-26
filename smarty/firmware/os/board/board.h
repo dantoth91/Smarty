@@ -89,7 +89,7 @@
 #define GPIOD_TXD2              5
 #define GPIOD_RXD2              6
 #define GPIOD_TXD3              8
-#define GPIOD_RXD3              6
+#define GPIOD_RXD3              9
 #define GPIOD_POX_ST           11
 #define GPIOD_PO5              12
 #define GPIOD_PO6              13
@@ -279,7 +279,8 @@
  * PD3 - SD Card installed      (input) 
  * PD5 - TXD2                   (alternate 7) 
  * PD6 - RXD2                   (alternate 7)
- * PD6 - TXD3                   (output) This is used as a normal LED.)
+ * PD8 - TXD3                   (alternate 7)
+ * PD9 - RXD3                   (alternate 7)
  * PD12 - PO5 Rear light        (alternate 2)
  * PD13 - PO6 Right front light (alternate 2)
  * PD14 - PO7 Left front light  (alternate 2)
@@ -291,7 +292,8 @@
                                      PIN_MODE_ALTERNATE(GPIOD_SD_CMD)    | \
                                      PIN_MODE_ALTERNATE(GPIOD_TXD2)      | \
                                      PIN_MODE_ALTERNATE(GPIOD_RXD2)      | \
-                                     PIN_MODE_OUTPUT(GPIOD_TXD3)         | \
+                                     PIN_MODE_ALTERNATE(GPIOD_TXD3)      | \
+                                     PIN_MODE_ALTERNATE(GPIOD_RXD3)      | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO5)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO6)       | \
                                      PIN_MODE_ALTERNATE(GPIOD_PO7)       | \
@@ -306,7 +308,9 @@
                                      PIN_AFIO_AF(GPIOD_TXD2, 7)       | \
                                      PIN_AFIO_AF(GPIOD_RXD2,7 ))
 
-#define VAL_GPIOD_AFRH              (PIN_AFIO_AF(GPIOD_PO5, 2)        | \
+#define VAL_GPIOD_AFRH              (PIN_AFIO_AF(GPIOD_TXD3, 7)       | \
+                                     PIN_AFIO_AF(GPIOD_RXD3, 7)       | \
+                                     PIN_AFIO_AF(GPIOD_PO5, 2)        | \
                                      PIN_AFIO_AF(GPIOD_PO6, 2)        | \
                                      PIN_AFIO_AF(GPIOD_PO7, 2)        | \
                                      PIN_AFIO_AF(GPIOD_PO8, 2))
@@ -346,9 +350,11 @@
 /*
  * Port G setup.
  * All input with pull-up.
+ * PG4 - PO3 Rear camera (output)
  * PG5 - PO4 Fan (output)
  */
-#define VAL_GPIOG_MODER             (PIN_MODE_OUTPUT(GPIOG_PO4))
+#define VAL_GPIOG_MODER             (PIN_MODE_OUTPUT(GPIOG_PO3)         | \
+                                     PIN_MODE_OUTPUT(GPIOG_PO4))
 #define VAL_GPIOG_OTYPER            0x00000000
 #define VAL_GPIOG_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOG_PUPDR             0xFFFFFFFF

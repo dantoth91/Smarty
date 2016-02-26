@@ -26,6 +26,7 @@
 #include "brake.h"
 #include "safety.h"
 #include "calc.h"
+#include "nmea.h"
 
 
 /*===========================================================================*/
@@ -181,6 +182,16 @@ int main(void) {
    * Regenerative brake initialization.
    */
   safetyInit();
+
+  /*
+   * Calculate modul initialization.
+   */
+  calcInit();
+
+  /*
+   * Initializes GPS module.
+   */
+  nmeaInit();
 
   /*
    * Creates the 20ms Task.

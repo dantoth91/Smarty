@@ -35,6 +35,7 @@
 #define CAN_SM_MESSAGES_2   0x02
 #define CAN_SM_MESSAGES_3   0x03
 #define CAN_SM_MESSAGES_4   0x04
+#define CAN_SM_MESSAGES_5   0x05
 
 #define CAN_ML_MIN              0x20
 #define CAN_ML_MAX              0x2F
@@ -81,6 +82,7 @@ enum canMessages
   CAN_MESSAGES_2,
   CAN_MESSAGES_3,
   CAN_MESSAGES_4,
+  CAN_MESSAGES_5,
   CAN_MESSAGES_LAST,
   CAN_NUM_MESS
 }canmessages;
@@ -416,6 +418,23 @@ static msg_t can_tx(void * p) {
           txmsg.data32[0] = GetTotalKmeterDistance();
           txmsg.data32[1] = GetKmeterDistance();
 
+
+          can_transmit = TRUE;
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
+          break;
+
+        case CAN_MESSAGES_5:
+          /* Message 4 */
+          /*
+          * 16bit - Average speed
+          */
+          chSysLock();
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_5;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data16[0] = calcAvgSpeed();
 
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));

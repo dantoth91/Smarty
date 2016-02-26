@@ -101,9 +101,9 @@ uint8_t eepromRead(enum eepromItemNames name, uint32_t *buff){
 
 void cmd_eepromTest(BaseSequentialStream *chp, int argc, char *argv[]) {
   
-  int addr = 0x0010;
-  //uint32_t tx = rand() % 1000000000;
-  int16_t tx = 824;
+  int addr = 0xFFFB;
+  //uint32_t tx = rand() % 10000;
+  int16_t tx = 900;
   uint32_t value = 0;
 
   chprintf(chp, "\x1B\x63");
@@ -138,6 +138,9 @@ void cmd_eepromAllData(BaseSequentialStream *chp, int argc, char *argv[]) {
       "MAX_THROTTLE",
       "MIN_REGEN_BRAKE",
       "MAX_REGEN_BRAKE",
+      "TOTAL_KMETER_COUNTER",
+      "KMETER_COUNTER",
+      "TOTAL_METER",
       "LAST_ITEM"};
 
   (void)argc;

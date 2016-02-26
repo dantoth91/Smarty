@@ -11,6 +11,7 @@
 
 #include "chprintf.h"
 #include "speed.h"
+//#include "console.h"
 
 #define AVG_TMB      200
 
@@ -22,13 +23,25 @@ enum calcStates
 
 static int32_t calcValue[CALC_NUM_CH +2];
 
-static int motor_index;
-static uint16_t avg_motor[AVG_TMB];
+static bool_t avg_speed_enable;
+static uint32_t avg_speed_period;
+static double avg_speed;
+static uint32_t time_values;
+
+static time_t time_unix;
+
+static int32_t calc;
+
+void calcInit(void){
+  avg_speed_enable = FALSE;
+  avg_speed_period = 0;
+  avg_speed = 0;
+}
 
 void calcCalc(void){
   int ch, i;
-  int32_t calc;
   double motorasis;
+  avg_speed_period++;
 
   switch(calcstate){
     case CALC_START:
@@ -53,11 +66,43 @@ void calcCalc(void){
             calc /= 10000;
 
             break;
+
+          case CALC_AVG_SPEED:
+
+            if((speedGetSpeed() > 10) && (avg_speed_enable == FALSE)){
+              avg_speed_enable = TRUE;
+              avg_speed_period = 0;
+              time_unix = rtcGetTimeUnixSec(&RTCD1);
+              TotalMeterZero();
+            }
+
+            if (avg_speed_enable){
+              if((avg_speed_period % 50) == 0)
+              {
+                avg_speed = GetTotalMeter();
+                time_values = (uint32_t)(rtcGetTimeUnixSec(&RTCD1) - time_unix);
+                avg_speed /= (double)time_values;
+                avg_speed *= 36;
+                //calc = (int32_t)(avg_speed * 36);
+                //calc = (int32_t)(avg_speed * 100);
+                //calc = 50;
+                calc = (int32_t)avg_speed;
+              }
+            }
+
+            if (avg_speed_period > 60000)
+            {
+              avg_speed = 0;
+              avg_speed_enable = FALSE;
+            }
+
+            break;
+
           default:
             break;
         }
         chSysLock();
-        calcValue[ch] = (int16_t)calc;
+        calcValue[ch] = (int32_t)calc;
         chSysUnlock();
       }
       break;
@@ -67,9 +112,17 @@ void calcCalc(void){
   }
 }
 
-
 int32_t calcGetValue(enum calcChannels ch){
-	  return calcValue[ch];
+  return calcValue[ch];
+}
+
+uint32_t calcAvgSpeed(void){
+  uint32_t tmp;
+
+  chSysLock();
+  tmp = (uint32_t)avg_speed;
+  chSysUnlock();
+  return tmp;
 }
 
 void cmd_calcvalues(BaseSequentialStream *chp, int argc, char *argv[]){
@@ -77,7 +130,7 @@ void cmd_calcvalues(BaseSequentialStream *chp, int argc, char *argv[]){
 
   static const char * const names[] = {
 
-      "CALC_MOTOR_POWER", "CALC_SUN_POWER"};
+      "CALC_MOTOR_POWER", "CALC_SUN_POWER", "AVG_SPEED"};
 
   (void)argc;
   (void)argv;
@@ -89,6 +142,9 @@ void cmd_calcvalues(BaseSequentialStream *chp, int argc, char *argv[]){
           chprintf(chp, "%s: %15d\r\n", names[ch], calcValue[ch]);
       }
       chprintf(chp, "rpm: %15d\r\n", speedGetRpm());
+      chprintf(chp, "avg_speed: %15d\r\n", (uint16_t)avg_speed);
+      chprintf(chp, "time_values: %15d\r\n", time_values);
+      chprintf(chp, "calcAvgSpeed(): %15d\r\n", calcAvgSpeed());
       chThdSleepMilliseconds(500);
   }
 }

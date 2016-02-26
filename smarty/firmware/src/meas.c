@@ -5,6 +5,7 @@
 
 #include "meas.h"
 #include "eeprom.h"
+#include "calc.h"
 
 #include "chprintf.h"
 
@@ -137,18 +138,18 @@ void measInit(void){
   adcStart(&ADCD2, NULL);
   measstate = MEAS_START;
 
-  if(eepromRead(MAX_THROTTLE, &max_throttle) != 0){
-    max_throttle = 2600;
-  }
-  if(eepromRead(MIN_THROTTLE, &min_throttle) != 0){
-    min_throttle = 1111;
-  }
-
   if(eepromRead(MAX_REGEN_BRAKE, &max_regen_brake) != 0){
     max_regen_brake = 100;
   }
   if(eepromRead(MIN_REGEN_BRAKE, &min_regen_brake) != 0){
     min_regen_brake = 0;
+  }
+
+  if(eepromRead(MAX_THROTTLE, &max_throttle) != 0){
+    max_throttle = 2600;
+  }
+  if(eepromRead(MIN_THROTTLE, &min_throttle) != 0){
+    min_throttle = 1111;
   }
 
   throttle = 0;
@@ -242,7 +243,7 @@ void measCalc(void){
             break;
 
           case MEAS2_THROTTLE:
-            if(set_max_throttle){ 
+            if(set_max_throttle){
               max_throttle = avg;
               if(eepromWrite(MAX_THROTTLE, max_throttle) != 0){
                 max_throttle = avg;
@@ -250,7 +251,7 @@ void measCalc(void){
               set_max_throttle = FALSE;
             }
 
-            if(set_min_throttle){ 
+            if(set_min_throttle){
               min_throttle = avg;
               if(eepromWrite(MIN_THROTTLE, min_throttle) != 0){
                 min_throttle = avg;
@@ -415,6 +416,13 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
           chprintf(chp, "%s: %15d\r\n", names2[ch], measValue_2[ch]);
       }
       chprintf(chp, "curr_avg: %15d\r\n", curr_avg);
+      chprintf(chp, "CALC_AVG_SPEED: %15d\r\n", calcGetValue(CALC_AVG_SPEED));
+      chprintf(chp, "curr_avg: %15d\r\n", curr_avg);
+      chprintf(chp, "\r\n");
+      chprintf(chp, "min_throttle: %15d\r\n", min_throttle);
+      chprintf(chp, "max_throttle: %15d\r\n", max_throttle);
+      chprintf(chp, "min_regen_brake: %15d\r\n", min_regen_brake);
+      chprintf(chp, "max_regen_brake: %15d\r\n", max_regen_brake);
       chThdSleepMilliseconds(500);
   }
 }
@@ -475,7 +483,8 @@ void cmd_mainValues(BaseSequentialStream *chp, int argc, char *argv[]){
   chprintf(chp, "\x1B[2J");
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
       //chprintf(chp, "chTimeNov(), beallitott, maradek: %15d, %15d, %15d\r\n", chTimeNow(), ido, ido - chTimeNow());
-      chprintf(chp, "valtozo, chTimeNov(): %15d, %15d\r\n", valtozo, chTimeNow());
+      chprintf(chp,
+       "valtozo, chTimeNov(): %15d, %15d\r\n", valtozo, chTimeNow());
       chThdSleepMilliseconds(50);
   }
 }

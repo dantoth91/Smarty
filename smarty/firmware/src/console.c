@@ -29,6 +29,7 @@
 #include "brake.h"
 #include "safety.h"
 #include "calc.h"
+#include "nmea.h"
 
 /* libc stub */
 int _getpid(void) {return 1;}
@@ -83,6 +84,7 @@ static const ShellCommand commands[] = {
   {"sdiotest", cmd_sdiotest},
   {"testlog", cmd_testlog},
   {"logvalues", cmd_logvalues},
+  {"logstop", cmd_logstop},
   {"eepromtest", cmd_eepromTest},
   {"eepromall", cmd_eepromAllData},
   {"canvalues", cmd_can_commvalues},
@@ -117,6 +119,8 @@ static const ShellCommand commands[] = {
   {"distancevalues", cmd_distancevalues},
   {"set_total_kmeter", cmd_set_total_kmeter},
   {"reset_kmeter", cmd_reset_kmeter},
+  {"reset_meter", cmd_reset_meter},
+  {"gpsvalues", cmd_nmeatest},
   {NULL, NULL}
 };
 
