@@ -102,6 +102,7 @@ static const ShellCommand commands[] = {
   {"measvalues", cmd_measvalues},
   {"throttle", cmd_getThrottle},
   {"brake", cmd_getRegenBrake},
+  {"steering", cmd_getSteeringAngle},
   {"brakevalues", cmd_brakevalues},
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},

@@ -13,6 +13,8 @@ enum eepromItemNames
   TOTAL_KMETER_COUNTER,
   KMETER_COUNTER,
   TOTAL_METER,
+  MIN_STR_ANGLE,
+  MAX_STR_ANGLE,
   LAST_ITEM,
   EEPROM_ITEMS_NUM
 };
@@ -48,6 +50,10 @@ static struct eepromItem eepromitems[] = {
   { 0x0016, 0x0028, 4, KMETER_COUNTER},
   /* Total meter counter */
   { 0x0017, 0x003C, 4, TOTAL_METER},
+  /* Steering angle min ADC */
+  { 0x0018, 0x0040, 4, MIN_STR_ANGLE},
+  /* Steering angle max ADC */
+  { 0x0019, 0x0044, 4, MAX_STR_ANGLE},
 
   /* Last item, always should be 0xFFFF */
   { 0xFFFB, 0xFFFB, 4, LAST_ITEM}

@@ -43,6 +43,9 @@ void meas_throttleSetMax(void);
 void meas_regen_brakeSetMin(void);
 void meas_regen_brakeSetMax(void);
 
+void meas_str_angleSetMin(void);
+void meas_str_angleSetMax(void);
+
 void mainTime(systime_t maradek_time, uint8_t value);
 
 int16_t measInterpolateNTC(adcsample_t rawvalue);
@@ -50,6 +53,7 @@ int16_t measInterpolateNTC(adcsample_t rawvalue);
 void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_getThrottle(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_getRegenBrake(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_getSteeringAngle(BaseSequentialStream *chp, int argc, char *argv[]);
 
 void cmd_mainValues(BaseSequentialStream *chp, int argc, char *argv[]);
 

@@ -17,6 +17,9 @@
 #define MIN_PERCENT             0
 #define MAX_PERCENT             9000
 
+#define MIN_STR                 0
+#define MAX_STR                 200
+
 /*
  * Motor Current Measuring defines
  * 196 adc - 8.5A
@@ -63,11 +66,18 @@ static uint16_t max_regen_brake;
 static uint16_t min_regen_brake;
 static uint16_t regen_brake;
 
+static uint16_t max_str_angle;
+static uint16_t min_str_angle;
+static uint16_t str_angle;
+
 static bool_t set_min_throttle;
 static bool_t set_max_throttle;
 
 static bool_t set_min_regen;
 static bool_t set_max_regen;
+
+static bool_t set_min_str_angle;
+static bool_t set_max_str_angle;
 
 static systime_t ido;
 static systime_t valtozo;
@@ -154,12 +164,16 @@ void measInit(void){
 
   throttle = 0;
   regen_brake = 0;
+  str_angle = 0;
 
   set_min_throttle = FALSE;
   set_max_throttle = FALSE;
 
   set_min_regen = FALSE;
   set_max_regen = FALSE;
+
+  set_min_str_angle = FALSE;
+  set_max_str_angle = FALSE;
 }
 
 void measCalc(void){
@@ -194,6 +208,30 @@ void measCalc(void){
             avg = measInterpolateNTC(avg);
             break;
           case MEAS_STEERING:
+            if(set_max_str_angle){
+              max_str_angle = avg;
+              if(eepromWrite(MAX_STR_ANGLE, max_str_angle) != 0){
+                max_str_angle = avg;
+              }
+              set_max_str_angle = FALSE;
+            }
+
+            if(set_min_str_angle){
+              min_str_angle = avg;
+              if(eepromWrite(MIN_STR_ANGLE, min_str_angle) != 0){
+                min_str_angle = avg;
+              }
+              set_min_str_angle = FALSE;
+            }
+
+            avg = avg > max_str_angle ? max_str_angle : avg;
+            avg = avg < min_str_angle ? min_str_angle : avg;
+
+            str_angle = map(avg, min_str_angle, max_str_angle, MIN_STR, MAX_STR);
+            avg = str_angle;
+
+            avg = avg > MAX_STR ? MAX_STR : avg;
+            avg = avg < MIN_STR ? MIN_STR: avg;
             break;
           case MEAS_OVER_HEAT:
             avg = avg > 500 ? 1 : 0;
@@ -338,6 +376,13 @@ void meas_regen_brakeSetMax(void){
   set_max_regen = TRUE;
 }
 
+void meas_str_angleSetMin(void){
+  set_min_str_angle = TRUE;
+}
+void meas_str_angleSetMax(void){
+  set_max_str_angle = TRUE;
+}
+
 void mainTime(systime_t maradek_time, uint8_t value){
   ido = maradek_time;
   valtozo = value;
@@ -465,6 +510,30 @@ void cmd_getRegenBrake(BaseSequentialStream *chp, int argc, char *argv[]) {
 
   else if ((argc == 1) && (strcmp(argv[0], "set_max") == 0)){
     meas_regen_brakeSetMax();
+    chprintf(chp, "Set regen. brake pedal max. value!\r\n");
+  }
+
+  else{
+    chprintf(chp, "Usage: brake set_min\r\n");
+    chprintf(chp, "                set_max\r\n");  
+  }
+  return;
+}
+
+void cmd_getSteeringAngle(BaseSequentialStream *chp, int argc, char *argv[]) {
+  
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+
+  if ((argc == 1) && (strcmp(argv[0], "set_min") == 0)){
+    meas_str_angleSetMin();
+    chprintf(chp, "Set regen. brake pedal min. value!\r\n");
+  }
+
+  else if ((argc == 1) && (strcmp(argv[0], "set_max") == 0)){
+    meas_str_angleSetMax();
     chprintf(chp, "Set regen. brake pedal max. value!\r\n");
   }
 

@@ -141,8 +141,10 @@ void cmd_eepromAllData(BaseSequentialStream *chp, int argc, char *argv[]) {
       "TOTAL_KMETER_COUNTER",
       "KMETER_COUNTER",
       "TOTAL_METER",
+      "MIN_STR_ANGLE",
+      "MAX_STR_ANGLE",
       "LAST_ITEM"};
-
+      
   (void)argc;
   (void)argv;
   chprintf(chp, "\x1B\x63");
