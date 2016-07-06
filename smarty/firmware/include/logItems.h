@@ -15,6 +15,10 @@ enum logItemNames
   CURR1,
   THROTTLE,
   REGEN_BRAKE,
+  CHP_E_B,
+  CHP_E_J,
+  CHP_H_B,
+  CHP_H_J,
   /* Cruise control */
   CRUISE_SWITCH,
   CRUISE_SET,
@@ -308,6 +312,10 @@ static struct logItem logitems[] = {
   { CURR1,                  "MOTOR_CURR;",              "1;",       0},
   { THROTTLE,               "THROTTLE;",                "1;",       0},
   { REGEN_BRAKE,            "REGEN_BRAKE;",             "1;",       0},
+  { CHP_E_B,                "CHP_E_B;",                 "1;",       0},
+  { CHP_E_J,                "CHP_E_J;",                 "1;",       0},
+  { CHP_H_B,                "CHP_H_B;",                 "1;",       0},
+  { CHP_H_J,                "CHP_H_J;",                 "1;",       0},
   /* Cruise control */
   { CRUISE_SWITCH,          "CRUISE_SWITCH;",           "1;",       0},
   { CRUISE_SET,             "CRUISE_SET;",              "10;",      0},

@@ -10,6 +10,7 @@ extern struct moduluxItems mlitems;
 extern struct bmsItems bmsitems;
 extern struct bms_cellItem cellitems;
 extern struct luxcontrolItem lcitems;
+extern struct IOTCItem IOTCitems;
 
 void can_commInit(void);
 

@@ -162,6 +162,13 @@ void measInit(void){
     min_throttle = 1111;
   }
 
+  if(eepromRead(MAX_STR_ANGLE, &max_str_angle) != 0){
+    max_str_angle = 0;
+  }
+  if(eepromRead(MIN_STR_ANGLE, &min_str_angle) != 0){
+    min_str_angle = 0;
+  }
+
   throttle = 0;
   regen_brake = 0;
   str_angle = 0;
@@ -236,9 +243,9 @@ void measCalc(void){
           case MEAS_OVER_HEAT:
             avg = avg > 500 ? 1 : 0;
             break;
-          case MEAS_SEN2:
+          case MEAS_CHP_B:
             break;
-          case MEAS_SEN3:
+          case MEAS_CHP_J:
             break;
           default:
             break;

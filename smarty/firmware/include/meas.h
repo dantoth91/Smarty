@@ -16,8 +16,8 @@ enum measChannels
   MEAS_TEMP2,
   MEAS_STEERING,
   MEAS_OVER_HEAT,
-  MEAS_SEN2,
-  MEAS_SEN3,
+  MEAS_CHP_B,
+  MEAS_CHP_J,
   MEAS_NUM_CH
 };
 

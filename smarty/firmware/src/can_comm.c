@@ -36,6 +36,7 @@
 #define CAN_SM_MESSAGES_3   0x03
 #define CAN_SM_MESSAGES_4   0x04
 #define CAN_SM_MESSAGES_5   0x05
+#define CAN_SM_MESSAGES_6   0x06
 
 #define CAN_ML_MIN              0x20
 #define CAN_ML_MAX              0x2F
@@ -51,6 +52,14 @@
 #define CAN_LC_MESSAGES_2   0x02
 #define CAN_LC_MESSAGES_3   0x03
 
+#define CAN_IOTC_MIN          0x60
+#define CAN_IOTC_MAX          0x6F
+#define CAN_IOTC_MESSAGES_1   0x01
+#define CAN_IOTC_MESSAGES_2   0x02
+#define CAN_IOTC_MESSAGES_3   0x03
+#define CAN_IOTC_MESSAGES_4   0x04
+#define CAN_IOTC_MESSAGES_5   0x05
+
 #define CAN_MAX_ADR         0x1FFFFFF
 
 enum canState
@@ -60,6 +69,7 @@ enum canState
   CAN_ML,
   CAN_RPY,
   CAN_LC,
+  CAN_IOTC,
   CAN_WAIT,
   CAN_NUM_CH
 }canstate;
@@ -83,6 +93,7 @@ enum canMessages
   CAN_MESSAGES_3,
   CAN_MESSAGES_4,
   CAN_MESSAGES_5,
+  CAN_MESSAGES_6,
   CAN_MESSAGES_LAST,
   CAN_NUM_MESS
 }canmessages;
@@ -166,6 +177,10 @@ static msg_t can_rx(void *p) {
       }
       else if(rx_id >= CAN_LC_MIN && rx_id <= CAN_LC_MAX){
         canstate = CAN_LC;
+        rxmsg.EID = 0;
+      }
+      else if(rx_id >= CAN_IOTC_MIN && rx_id <= CAN_IOTC_MAX){
+        canstate = CAN_IOTC;
         rxmsg.EID = 0;
       }
       else{
@@ -293,6 +308,55 @@ static msg_t can_rx(void *p) {
           }
 
           else if(messages == CAN_LC_MESSAGES_3){            
+          }
+          canstate = CAN_WAIT;
+          break;
+
+        case CAN_IOTC:
+          sender = 6;
+          if(messages == CAN_IOTC_MESSAGES_1){
+            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_1[i] = rxmsg.data16[0];
+              }
+            }
+          }
+
+          if(messages == CAN_IOTC_MESSAGES_2){
+            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_2[i] = rxmsg.data16[0];
+              }
+            }
+          }
+
+          if(messages == CAN_IOTC_MESSAGES_3){
+            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_3[i] = rxmsg.data16[0];
+              }
+            }
+          }
+
+          if(messages == CAN_IOTC_MESSAGES_4){
+            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_4[i] = rxmsg.data16[0];
+              }
+            }
+          }
+
+          if(messages == CAN_IOTC_MESSAGES_5){
+            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_5[i] = rxmsg.data16[0];
+              }
+            }
           }
           canstate = CAN_WAIT;
           break;
@@ -435,6 +499,26 @@ static msg_t can_tx(void * p) {
           txmsg.EID += CAN_SM_EID << 8;
 
           txmsg.data16[0] = calcAvgSpeed();
+          txmsg.data16[1] = measGetValue(MEAS_STEERING);
+
+          can_transmit = TRUE;
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
+          break;
+
+        case CAN_MESSAGES_6:
+          /* Message 4 */
+          /*
+          * 16bit - CHP_J
+          * 16bit - CHP_B
+          */
+          chSysLock();
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_6;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data16[0] = measGetValue(MEAS_CHP_B);
+          txmsg.data16[1] = measGetValue(MEAS_CHP_J);
 
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
@@ -477,6 +561,11 @@ void can_commInit(void){
   for (i = 0; i < (sizeof(lcitems.id) / 4); ++i)
   {
     lcitems.id[i] = i + 64;
+  }
+
+  for (i = 0; i < (sizeof(IOTCitems.id) / 4); ++i)
+  {
+    IOTCitems.id[i] = i;
   }
 }
 

@@ -83,6 +83,8 @@ static const ShellCommand commands[] = {
   {"cat", cmd_cat},
   {"sdiotest", cmd_sdiotest},
   {"testlog", cmd_testlog},
+  {"test_fast_log", cmd_testFastLog},
+  {"fastlog", cmd_fast_log},
   {"logvalues", cmd_logvalues},
   {"logstop", cmd_logstop},
   {"eepromtest", cmd_eepromTest},

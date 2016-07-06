@@ -27,6 +27,7 @@ struct moduluxItems mlitems;
 struct bmsItems bmsitems;
 struct bms_cellItem cellitems;
 struct luxcontrolItem lcitems;
+struct IOTCItem IOTCitems;
 
 #define LOG_WA_SIZE (2048)
 
@@ -37,11 +38,14 @@ bool_t logStopRequest;
 systime_t logStartTime;
 
 char logFileName[] = "0:ml_yymmdd_hhmmss.mega";
+char fastLogFileName[] = "0:ml_susp_yymmdd_hhmmss.mega";
 
 static msg_t logThread(void *arg);
 static uint16_t size = 0;
 static uint32_t logPeriod = 0;
 static uint32_t szam = 0;
+
+bool_t fastLog;
 
 /*
  * Initializes log 
@@ -52,7 +56,8 @@ void logInit(void){
   logStopRequest = FALSE;
   logStartTime = 0;
   logPeriod = 0;
-  size = 0;
+  size = LOG_ITEMS_NUM;
+  fastLog = FALSE;
 
   logStart();
   
@@ -83,6 +88,22 @@ void logStart(void){
   logStartTime = chTimeNow();
   logPeriod = 0;
   logStartRequest = TRUE;
+  fastLog = FALSE;
+  chSysUnlock();
+}
+
+void logFastStart(void){
+  chSysLock();
+  logState = LOG_STOPPED;
+  logStopRequest = FALSE;
+  logStartTime = 0;
+  logPeriod = 0;
+  size = LOG_ITEMS_NUM;
+
+  logStartTime = chTimeNow();
+  logPeriod = 0;
+  logStartRequest = TRUE;
+  fastLog = TRUE;
   chSysUnlock();
 }
 
@@ -105,7 +126,7 @@ void logCalc(void){
   size = LOG_ITEMS_NUM;
   nmeaPosition_t pos;
   
-  if (logGetState() == LOG_RUNNING){
+  if ((logGetState() == LOG_RUNNING) && (fastLog == FALSE)){
 
 
     chSysLock();
@@ -119,6 +140,10 @@ void logCalc(void){
     logitems[CURR1].value = measGetValue_2(MEAS2_CURR1);
     logitems[THROTTLE].value = measGetValue_2(MEAS2_THROTTLE);
     logitems[REGEN_BRAKE].value = measGetValue_2(MEAS2_REGEN_BRAKE);
+    logitems[CHP_E_B].value = measGetValue(MEAS_CHP_B);
+    logitems[CHP_E_J].value = measGetValue(MEAS_CHP_J);
+    logitems[CHP_H_B].value = IOTCitems.ain_1;
+    logitems[CHP_H_J].value = IOTCitems.ain_2;
     /* Cruise control */
     logitems[CRUISE_SWITCH].value = cruiseStatus();
     logitems[CRUISE_SET].value = cruiseGetPWM();
@@ -190,6 +215,22 @@ void logCalc(void){
     }
     chSysUnlock();
   }
+
+  else if ((logGetState() == LOG_RUNNING) && (fastLog == TRUE)){
+
+
+    chSysLock();
+    logitems[NUM].value = logPeriod;
+    logitems[TIME].value = chTimeNow() - logStartTime;
+    nmeaGetCurrentPosition(&pos);
+    logitems[GPS_TIME].value = pos.Tof;
+    logitems[STEERING_SEN].value = measGetValue(MEAS_STEERING);
+    logitems[CHP_E_B].value = measGetValue(MEAS_CHP_B);
+    logitems[CHP_E_J].value = measGetValue(MEAS_CHP_J);
+    logitems[CHP_H_B].value = IOTCitems.ain_1;
+    logitems[CHP_H_J].value = IOTCitems.ain_2;
+    chSysUnlock();
+  }
 }
 
 /*
@@ -222,14 +263,29 @@ static msg_t logThread(void *arg) {
           if (sdcardIsMounted()) {
             rtcGetTimeTm(&RTCD1, &timp);
             /* Adjust file name */
-            twodigit(timp.tm_year - 100, &logFileName[5]);
-            twodigit(timp.tm_mon + 1, &logFileName[7]);
-            twodigit(timp.tm_mday, &logFileName[9]);
-            twodigit(timp.tm_hour, &logFileName[12]);
-            twodigit(timp.tm_min, &logFileName[14]);
-            twodigit(timp.tm_sec, &logFileName[16]);
+            if (fastLog == FALSE)
+            {
+              twodigit(timp.tm_year - 100, &logFileName[5]);
+              twodigit(timp.tm_mon + 1, &logFileName[7]);
+              twodigit(timp.tm_mday, &logFileName[9]);
+              twodigit(timp.tm_hour, &logFileName[12]);
+              twodigit(timp.tm_min, &logFileName[14]);
+              twodigit(timp.tm_sec, &logFileName[16]);
 
-            err = f_open(&logFileObject, logFileName, FA_WRITE | FA_OPEN_ALWAYS);
+              err = f_open(&logFileObject, logFileName, FA_WRITE | FA_OPEN_ALWAYS);
+            }
+
+            else
+            {
+              twodigit(timp.tm_year - 100, &fastLogFileName[10]);
+              twodigit(timp.tm_mon + 1, &fastLogFileName[12]);
+              twodigit(timp.tm_mday, &fastLogFileName[14]);
+              twodigit(timp.tm_hour, &fastLogFileName[17]);
+              twodigit(timp.tm_min, &fastLogFileName[19]);
+              twodigit(timp.tm_sec, &fastLogFileName[21]);
+
+              err = f_open(&logFileObject, fastLogFileName, FA_WRITE | FA_OPEN_ALWAYS);
+            }
             if (err == FR_OK) {
               chSysLock();
               logStartTime = chTimeNow();
@@ -246,9 +302,9 @@ static msg_t logThread(void *arg) {
           chSysUnlock();
         }
 
-        else if (logPeriod == 0)
+        else if (logPeriod == 0 && fastLog == FALSE)
         {
-          for (i = 0; i < LOG_ITEMS_NUM; ++i)
+          for (i = 0; i < size; ++i)
           {
             err = f_printf (&logFileObject, "%s", logitems[i].name);
             if (err == EOF){
@@ -260,7 +316,7 @@ static msg_t logThread(void *arg) {
               isStopRequest = TRUE;
             }
 
-          for (i = 0; i < LOG_ITEMS_NUM; ++i)
+          for (i = 0; i < size; ++i)
           {
             err = f_printf (&logFileObject, "%s", logitems[i].convert);
             if (err == EOF){
@@ -274,9 +330,9 @@ static msg_t logThread(void *arg) {
           szam = EOF;
           logPeriod += 1;
         }         
-        else if (logPeriod > 0)
+        else if (logPeriod > 0  && fastLog == FALSE)
         {
-          for (i = 0; i < LOG_ITEMS_NUM; ++i)
+          for (i = 0; i < size; ++i)
           {
             err = f_printf (&logFileObject, "%d;", logitems[i].value);
             if (err == EOF){
@@ -289,7 +345,131 @@ static msg_t logThread(void *arg) {
           }
           logPeriod += 1;
         }
+
+        else if (logPeriod == 0 && fastLog == TRUE)
+        {
+          err = f_printf (&logFileObject, "%s", logitems[NUM].name);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[TIME].name);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[GPS_TIME].name);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[STEERING_SEN].name);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[CHP_E_B].name);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[CHP_E_J].name);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[CHP_H_B].name);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[CHP_H_J].name);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+
+          err = f_puts ("\r\n", &logFileObject);
+          if (err == EOF){
+              isStopRequest = TRUE;
+            }
+
+          err = f_printf (&logFileObject, "%s", logitems[NUM].convert);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[TIME].convert);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[GPS_TIME].convert);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[STEERING_SEN].convert);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[CHP_E_B].convert);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[CHP_E_J].convert);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[CHP_H_B].convert);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%s", logitems[CHP_H_J].convert);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
           
+          err = f_puts ("\r\n", &logFileObject);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          szam = EOF;
+          logPeriod += 1;
+        }
+
+        else if (logPeriod > 0  && fastLog == TRUE)
+        {
+          err = f_printf (&logFileObject, "%d;", logitems[NUM].value);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%d;", logitems[TIME].value);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%d;", logitems[GPS_TIME].value);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%d;", logitems[STEERING_SEN].value);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%d;", logitems[CHP_E_B].value);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%d;", logitems[CHP_E_J].value);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%d;", logitems[CHP_H_B].value);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          err = f_printf (&logFileObject, "%d;", logitems[CHP_H_J].value);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+
+
+          err = f_puts ("\r\n", &logFileObject);
+          if (err == EOF){
+            isStopRequest = TRUE;
+          }
+          logPeriod += 1;
+        }
+
         err = f_sync(&logFileObject);
         if (err != FR_OK){
           isStopRequest = TRUE;
@@ -313,8 +493,13 @@ static msg_t logThread(void *arg) {
       default:
         break;
     }
-    chThdSleepMilliseconds(500);
 
+    if (fastLog){
+      chThdSleepMilliseconds(20);
+    }
+    else{
+      chThdSleepMilliseconds(500);
+    }
   }
   return 0; /* Never executed.*/
 }
@@ -359,6 +544,14 @@ systime_t logGetTime(void){
   return ret;  
 }
 
+void fastLogMod(void){
+  chSysLock();
+  logStop();
+  fastLog = TRUE;
+  logFastStart();
+  chSysUnlock();
+}
+
 void cmd_testlog(BaseSequentialStream *chp, int argc, char *argv[]) {
   enum logStates state;
   uint32_t old_logPeriod = 0;
@@ -367,6 +560,36 @@ void cmd_testlog(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "\x1B\x63");
   chprintf(chp, "\x1B[2J");
   logStart();
+  chprintf(chp, "Logging starting...\r\n");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    if(old_logPeriod != logPeriod){
+      chprintf(chp, "\x1B[%d;%dH", 0, 0);
+      state = logGetState();
+      chprintf(chp, "\x1B[%d;%dH", 0, 0);
+      chprintf(chp, "Filename = %s Logtime = %D    \r\n", logFileName, chTimeNow() - logStartTime);
+      chprintf(chp, "logState = %s \r\n", 
+               state == LOG_RUNNING ? "LOG_RUNNING" : \
+               state == LOG_STOPPED ? "LOG_STOPPED" : \
+               state == LOG_STOPPING ? "LOG_STOPPING" : "LOG_DOWNLOADING");
+      chprintf(chp, "size: %d\r\n", size);
+      chprintf(chp, "logPeriod: %d\r\n", logPeriod);
+      chprintf(chp, "szam: %d\r\n", szam);
+      old_logPeriod = logPeriod;
+    }
+    chThdSleepMilliseconds(10);
+  }
+  logStop();
+  chprintf(chp, "\r\nLogging stopped\r\n");
+}
+
+void cmd_testFastLog(BaseSequentialStream *chp, int argc, char *argv[]) {
+  enum logStates state;
+  uint32_t old_logPeriod = 0;
+  (void)argc;
+  (void)argv;
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  fastLogMod();
   chprintf(chp, "Logging starting...\r\n");
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
     if(old_logPeriod != logPeriod){
@@ -418,4 +641,11 @@ void cmd_logvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
 
 void cmd_logstop(BaseSequentialStream *chp, int argc, char *argv[]) {
   logStop();
+}
+
+void cmd_fast_log(BaseSequentialStream *chp, int argc, char *argv[]) {
+  logStop();
+  fastLogMod();
+  chprintf(chp, "\x1B[%d;%dH", 0, 0);
+  chprintf(chp, "Fast log mod active!\r\n");
 }

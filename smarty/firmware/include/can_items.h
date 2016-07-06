@@ -65,11 +65,23 @@ static struct luxcontrolItem
   uint16_t status[32];
   uint16_t volt_in[32];
   uint16_t volt_out[32];
-  uint16_t pwm[32];
+  uint16_t pwm[32]; 
   uint16_t curr_in_from_pwm[32];
+};
+
+/* IOTC data */
+static struct IOTCItem 
+{
+  uint32_t id[32];
+  uint16_t ain_1[32];
+  uint16_t ain_2[32];
+  uint16_t ain_3[32];
+  uint16_t ain_4[32];
+  uint16_t ain_5[32];
 };
 
 //extern struct moduluxItems mlitems;
 //extern struct bmsItems bmsitems;
 //extern struct bms_cellItem cellitems;
 //extern struct luxcontrolItem lcitems;
+//extern struct IOTClItem IOTCitems;
