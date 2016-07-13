@@ -315,48 +315,53 @@ static msg_t can_rx(void *p) {
         case CAN_IOTC:
           sender = 6;
           if(messages == CAN_IOTC_MESSAGES_1){
-            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
               if (rx_id == IOTCitems.id[i])
               {
                 IOTCitems.ain_1[i] = rxmsg.data16[0];
               }
-            }
+            }*/
+            IOTCitems.ain_1 = rxmsg.data16[0];
           }
 
           if(messages == CAN_IOTC_MESSAGES_2){
-            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
               if (rx_id == IOTCitems.id[i])
               {
                 IOTCitems.ain_2[i] = rxmsg.data16[0];
               }
-            }
+            }*/
+            IOTCitems.ain_2 = rxmsg.data16[0];
           }
 
           if(messages == CAN_IOTC_MESSAGES_3){
-            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
               if (rx_id == IOTCitems.id[i])
               {
                 IOTCitems.ain_3[i] = rxmsg.data16[0];
               }
-            }
+            }*/
+            IOTCitems.ain_3 = rxmsg.data16[0];
           }
 
           if(messages == CAN_IOTC_MESSAGES_4){
-            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
               if (rx_id == IOTCitems.id[i])
               {
                 IOTCitems.ain_4[i] = rxmsg.data16[0];
               }
-            }
+            }*/
+            IOTCitems.ain_4 = rxmsg.data16[0];
           }
 
           if(messages == CAN_IOTC_MESSAGES_5){
-            for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
               if (rx_id == IOTCitems.id[i])
               {
                 IOTCitems.ain_5[i] = rxmsg.data16[0];
               }
-            }
+            }*/
+            IOTCitems.ain_5 = rxmsg.data16[0];
           }
           canstate = CAN_WAIT;
           break;
@@ -531,7 +536,7 @@ static msg_t can_tx(void * p) {
       }
       chThdSleepMilliseconds(5);
       }
-    chThdSleepMilliseconds(200);
+    chThdSleepMilliseconds(100);
   }
   return 0;
 }
@@ -563,10 +568,10 @@ void can_commInit(void){
     lcitems.id[i] = i + 64;
   }
 
-  for (i = 0; i < (sizeof(IOTCitems.id) / 4); ++i)
+  /*for (i = 0; i < (sizeof(IOTCitems.id) / 4); ++i)
   {
     IOTCitems.id[i] = i;
-  }
+  }*/
 }
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]) {

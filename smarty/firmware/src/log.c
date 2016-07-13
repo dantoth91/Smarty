@@ -142,8 +142,8 @@ void logCalc(void){
     logitems[REGEN_BRAKE].value = measGetValue_2(MEAS2_REGEN_BRAKE);
     logitems[CHP_E_B].value = measGetValue(MEAS_CHP_B);
     logitems[CHP_E_J].value = measGetValue(MEAS_CHP_J);
-    logitems[CHP_H_B].value = IOTCitems.ain_1;
-    logitems[CHP_H_J].value = IOTCitems.ain_2;
+    logitems[CHP_H_B].value = IOTCitems.ain_4;
+    logitems[CHP_H_J].value = IOTCitems.ain_5;
     /* Cruise control */
     logitems[CRUISE_SWITCH].value = cruiseStatus();
     logitems[CRUISE_SET].value = cruiseGetPWM();

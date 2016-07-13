@@ -32,6 +32,9 @@
 #define CURR_MULTIPLIER         50       //30
 #define MAX_CURR_SUBSTRACT      5000
 
+#define CURRENT_MIN_SPEED       20
+#define CURRENT_MAX_THROTTLE    6000
+
 static int16_t K_P = 30;
 static int16_t K_I = 4;
 static int16_t K_D = 500;
@@ -194,11 +197,18 @@ void cruiseCalc(void){
 
     if(bmsitems.pack_current > accel_limit && current_limit_status == 1)
     {
-      substract = ((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER);
-      if (substract > MAX_CURR_SUBSTRACT)
-        substract = MAX_CURR_SUBSTRACT;
-      pwm = pwm + substract;
+      if (speedGetSpeed() > CURRENT_MIN_SPEED)
+      {
+        substract = ((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER);
+        if (substract > MAX_CURR_SUBSTRACT)
+          substract = MAX_CURR_SUBSTRACT;
+        pwm = pwm + substract;
+      }
     }
+    if (speedGetSpeed() < CURRENT_MIN_SPEED)
+      {
+        pwm = pwm < CURRENT_MAX_THROTTLE ? CURRENT_MAX_THROTTLE : pwm;
+      }
 
 
     /* ============== */
@@ -245,13 +255,18 @@ void cruiseCalc(void){
     /* Current limit */
     if(bmsitems.pack_current > accel_limit && current_limit_status == 1)
     {
-      substract = ((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER);
-      if (substract > MAX_CURR_SUBSTRACT)
-        substract = MAX_CURR_SUBSTRACT;
-      pwm = pwm + substract;
+      if (speedGetSpeed() > CURRENT_MIN_SPEED)
+      {
+        substract = ((bmsitems.pack_current - accel_limit) * CURR_MULTIPLIER);
+        if (substract > MAX_CURR_SUBSTRACT)
+          substract = MAX_CURR_SUBSTRACT;
+        pwm = pwm + substract;
+      }
     }
-
-
+    if (speedGetSpeed() < CURRENT_MIN_SPEED)
+    {
+       pwm = pwm < CURRENT_MAX_THROTTLE ? CURRENT_MAX_THROTTLE : pwm;
+    }
 
 
 

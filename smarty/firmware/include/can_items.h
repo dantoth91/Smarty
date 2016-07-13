@@ -70,7 +70,7 @@ static struct luxcontrolItem
 };
 
 /* IOTC data */
-static struct IOTCItem 
+/*static struct IOTCItem 
 {
   uint32_t id[32];
   uint16_t ain_1[32];
@@ -78,6 +78,15 @@ static struct IOTCItem
   uint16_t ain_3[32];
   uint16_t ain_4[32];
   uint16_t ain_5[32];
+};*/
+static struct IOTCItem 
+{
+  uint32_t id;
+  uint16_t ain_1;
+  uint16_t ain_2;
+  uint16_t ain_3;
+  uint16_t ain_4;
+  uint16_t ain_5;
 };
 
 //extern struct moduluxItems mlitems;
