@@ -793,7 +793,7 @@ static msg_t dspTask(void *arg) {
                 dspmessages++;
 
             case DSP_MOTOR_TEMO:
-              if(measGetValue(MEAS_OVER_HEAT))
+              if(measGetValue(MEAS_IS_IN_DRIVE))
               {
                 motor_temp ++;
                 new_val = motor_temp < 10 ? 1 : 2;

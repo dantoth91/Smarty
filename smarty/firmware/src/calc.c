@@ -41,6 +41,7 @@ void calcInit(void){
 void calcCalc(void){
   int ch, i;
   double motorasis;
+  double temp = 0;
   avg_speed_period++;
 
   switch(calcstate){
@@ -56,9 +57,13 @@ void calcCalc(void){
              * Calculating Motor Power
              * Power = bmsitems.pack_inst_volt * MEAS2_CURR1;
              */
+            temp = (double)measGetValue_2(MEAS2_CURR1) / 100;
+            temp *= (bmsitems.pack_inst_volt / 10);
+            calc = (int32_t)(temp);
+            /*
             calc = measGetValue_2(MEAS2_CURR1);
             calc *= bmsitems.pack_inst_volt;
-            calc /= 10000;
+            calc /= 1000;*/
 
             break;
           case CALC_SUN_POWER:

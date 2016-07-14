@@ -33,7 +33,7 @@
 #define MAX_CURR_SUBSTRACT      5000
 
 #define CURRENT_MIN_SPEED       20
-#define CURRENT_MAX_THROTTLE    6000
+#define CURRENT_MAX_THROTTLE    7000
 
 static int16_t K_P = 30;
 static int16_t K_I = 4;
@@ -205,10 +205,10 @@ void cruiseCalc(void){
         pwm = pwm + substract;
       }
     }
-    if (speedGetSpeed() < CURRENT_MIN_SPEED)
-      {
+    if (speedGetSpeed() < CURRENT_MIN_SPEED && current_limit_status == 1)
+    {
         pwm = pwm < CURRENT_MAX_THROTTLE ? CURRENT_MAX_THROTTLE : pwm;
-      }
+    }
 
 
     /* ============== */
@@ -253,7 +253,7 @@ void cruiseCalc(void){
     
 
     /* Current limit */
-    if(bmsitems.pack_current > accel_limit && current_limit_status == 1)
+    if(bmsitems.pack_current > accel_limit && current_limit_status == 1 && measGetValue(MEAS_IS_IN_DRIVE) == 1)
     {
       if (speedGetSpeed() > CURRENT_MIN_SPEED)
       {
@@ -263,7 +263,7 @@ void cruiseCalc(void){
         pwm = pwm + substract;
       }
     }
-    if (speedGetSpeed() < CURRENT_MIN_SPEED)
+    if (speedGetSpeed() < CURRENT_MIN_SPEED && current_limit_status == 1 && measGetValue(MEAS_IS_IN_DRIVE) == 1)
     {
        pwm = pwm < CURRENT_MAX_THROTTLE ? CURRENT_MAX_THROTTLE : pwm;
     }

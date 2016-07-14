@@ -23,9 +23,22 @@
 /*
  * Motor Current Measuring defines
  * 196 adc - 8.5A
+ *
+ * 2904
+ * 23 adc - 1 A
+ *
+ * 2880
+ * 47 adc - 2 A
+ *
+ * 2856
+ * 71 adc - 3 A
+ *
+ * 2833
+ * 94 adc - 4 A
  */
-#define NULL_AMPER_ADC          2924
-#define CURRENT_PER_ADC         43.36734
+#define NULL_AMPER_ADC          2927
+#define CURRENT_PER_ADC         23.5
+//#define CURRENT_PER_ADC         43.36734
 #define MOTOR_CURRENT_LENGTH    100
 
 /*
@@ -240,7 +253,7 @@ void measCalc(void){
             avg = avg > MAX_STR ? MAX_STR : avg;
             avg = avg < MIN_STR ? MIN_STR: avg;
             break;
-          case MEAS_OVER_HEAT:
+          case MEAS_IS_IN_DRIVE:
             avg = avg > 500 ? 1 : 0;
             break;
           case MEAS_CHP_B:
@@ -281,8 +294,10 @@ void measCalc(void){
             /*
              * Motor Current Calculate
              */
+            double temp = 0;
             avg -= NULL_AMPER_ADC;
-            avg *= CURRENT_PER_ADC;
+            temp = (double)avg / CURRENT_PER_ADC;
+            avg =  (int)(temp * 100);
 
             //avg = avg < 0 ? 0 : avg;
             break;
@@ -445,7 +460,7 @@ void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
       "BRAKE_PRESSURE1",
       "BRAKE_PRESSURE2",
       "MEAS_STEERING",
-      "MEAS_OVER_HEAT",
+      "MEAS_IS_IN_DRIVE",
       "SEN2",
       "SEN3"};
 

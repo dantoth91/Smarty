@@ -411,7 +411,7 @@ static msg_t can_tx(void * p) {
           txmsg.data16[1] = cruiseGetPWM();
           txmsg.data8[4] = cruiseGet();
           txmsg.data8[5] = cruiseStatus();
-          txmsg.data8[6] = measGetValue(MEAS_OVER_HEAT);
+          txmsg.data8[6] = measGetValue(MEAS_IS_IN_DRIVE);
           
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
@@ -455,7 +455,7 @@ static msg_t can_tx(void * p) {
           txmsg.EID = CAN_SM_MESSAGES_3;
           txmsg.EID += CAN_SM_EID << 8;
 
-          txmsg.data16[0] = calcGetValue(CALC_MOTOR_POWER);
+          txmsg.data16[0] = (int16_t)calcGetValue(CALC_MOTOR_POWER);
           txmsg.data16[1] = measGetValue(MEAS_UBAT);
           if(logGetState() == LOG_RUNNING)
           {
