@@ -1,14 +1,14 @@
 ../../build/obj/uart.o: ../../../ChibiOS/os/hal/src/uart.c \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \
- c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h \
- c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h \
- c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\stdint.h \
- c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\machine\_default_types.h \
- c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\sys\features.h \
- c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\sys\_intsup.h \
- c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\sys\_stdint.h \
- c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\lib\gcc\arm-none-eabi\4.9.3\include\stdbool.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\stdint.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\_default_types.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\features.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_intsup.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_stdint.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdbool.h \
  ../../../ChibiOS/os/kernel/include/chlists.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chcore.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/STM32F4xx/cmparams.h \
@@ -88,21 +88,21 @@ os/chconf.h:
 
 ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h:
 
-c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h:
 
-c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h:
 
-c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\stdint.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\stdint.h:
 
-c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\machine\_default_types.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\_default_types.h:
 
-c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\sys\features.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\features.h:
 
-c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\sys\_intsup.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_intsup.h:
 
-c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\arm-none-eabi\include\sys\_stdint.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_stdint.h:
 
-c:\program\ files\ (x86)\gnu\ tools\ arm\ embedded\4.9\ 2015q2\lib\gcc\arm-none-eabi\4.9.3\include\stdbool.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdbool.h:
 
 ../../../ChibiOS/os/kernel/include/chlists.h:
 
