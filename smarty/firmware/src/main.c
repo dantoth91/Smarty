@@ -166,7 +166,7 @@ int main(void) {
    * Initializes Display module.
    */
   chThdSleepMilliseconds(1000);
-    dspInit();
+  dspInit();
 
   /*
    * Display buttons initialization.

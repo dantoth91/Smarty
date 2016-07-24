@@ -22,6 +22,7 @@ void DistanceMeas(void);
 void cmd_distancevalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_set_total_kmeter(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_reset_kmeter(BaseSequentialStream *chp, int argc, char *argv[]);
+uint16_t GetMeterCounter();
 
 void cmd_speedvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 

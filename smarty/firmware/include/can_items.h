@@ -89,6 +89,15 @@ static struct IOTCItem
   uint16_t ain_5;
 };
 
+static struct TirePressureStructure{
+  uint8_t id[6];
+  uint8_t pressure[6];
+  uint16_t temperature[6];
+  uint8_t Flags[6];
+  uint8_t TirePressureThresholdDetection[6];
+};
+#define NUM_OF_SENSORS 6
+
 //extern struct moduluxItems mlitems;
 //extern struct bmsItems bmsitems;
 //extern struct bms_cellItem cellitems;

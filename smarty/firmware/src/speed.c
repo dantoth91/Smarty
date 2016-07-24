@@ -261,6 +261,10 @@ double GetTotalMeter()
   return total_meter;
 }
 
+uint16_t GetMeterCounter(){
+  return (uint16_t)meter_counter;
+}
+
 void TotalMeterZero()
 {
   return total_meter = 0;

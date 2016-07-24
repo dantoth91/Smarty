@@ -60,6 +60,7 @@ void calcCalc(void){
             temp = (double)measGetValue_2(MEAS2_CURR1) / 100;
             temp *= (bmsitems.pack_inst_volt / 10);
             calc = (int32_t)(temp);
+            calc -= 20;     //kompenzáció
             /*
             calc = measGetValue_2(MEAS2_CURR1);
             calc *= bmsitems.pack_inst_volt;

@@ -110,7 +110,6 @@ static const ShellCommand commands[] = {
   {"setcruisevalues", cmd_setcruisevalues},
   {"cruise", cmd_cruise},
   {"regen_brake", cmd_regen_brake},
-  {"dbshow", cmdfrappans_dspmessages},
   {"lcsleep", cmd_lcSleep},
   {"dspvalues", cmd_dspvalues},
   {"buttonvalues", cmd_buttonvalues},
@@ -124,6 +123,7 @@ static const ShellCommand commands[] = {
   {"reset_kmeter", cmd_reset_kmeter},
   {"reset_meter", cmd_reset_meter},
   {"gpsvalues", cmd_nmeatest},
+  {"candata_tire", cmd_candata_tire},
   {NULL, NULL}
 };
 

@@ -20,6 +20,7 @@ void regen_brakeDisable(void);
 
 bool_t cruiseStatus(void);
 bool_t cruiseIndicator(void);
+bool_t GetCurrentLimitIsOn();
 
 void cruiseAccel();
 void cruiseAccelOk();

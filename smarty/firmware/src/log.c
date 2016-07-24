@@ -28,6 +28,7 @@ struct bmsItems bmsitems;
 struct bms_cellItem cellitems;
 struct luxcontrolItem lcitems;
 struct IOTCItem IOTCitems;
+struct TirePressureStructure TirePressures;
 
 #define LOG_WA_SIZE (2048)
 

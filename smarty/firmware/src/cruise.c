@@ -35,7 +35,8 @@
 #define CURRENT_MIN_SPEED       20
 #define CURRENT_MAX_THROTTLE    7000
 
-static int16_t K_P = 30;
+
+static int16_t K_P = 200;
 static int16_t K_I = 4;
 static int16_t K_D = 500;
 
@@ -48,6 +49,7 @@ static int32_t MAX_D = 1000000;
 
 static int32_t brake_pwm;
 static bool_t regen_on;
+static bool_t CurrentLimitIsOn = false;
 
 static int32_t save_pwm;
 static int32_t pwm;
@@ -203,7 +205,11 @@ void cruiseCalc(void){
         if (substract > MAX_CURR_SUBSTRACT)
           substract = MAX_CURR_SUBSTRACT;
         pwm = pwm + substract;
+        CurrentLimitIsOn = true;
       }
+    }else
+    {
+      CurrentLimitIsOn = false;
     }
     if (speedGetSpeed() < CURRENT_MIN_SPEED && current_limit_status == 1)
     {
@@ -261,7 +267,10 @@ void cruiseCalc(void){
         if (substract > MAX_CURR_SUBSTRACT)
           substract = MAX_CURR_SUBSTRACT;
         pwm = pwm + substract;
+        CurrentLimitIsOn = true;
       }
+    }else{
+      CurrentLimitIsOn = false;
     }
     if (speedGetSpeed() < CURRENT_MIN_SPEED && current_limit_status == 1 && measGetValue(MEAS_IS_IN_DRIVE) == 1)
     {
@@ -355,6 +364,10 @@ uint16_t cruiseGetCurrLimitSubstract()
 
 uint8_t cruiseGet(void){
   return speedRPM_TO_KMPH(set);
+}
+
+bool_t GetCurrentLimitIsOn(){
+  return CurrentLimitIsOn;
 }
 
 int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxResult, int32_t MinResult, int16_t k_p, int16_t k_i, int16_t k_d, int32_t MaxP, int32_t MaxI, int32_t MaxD)

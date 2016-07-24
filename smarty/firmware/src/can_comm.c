@@ -15,6 +15,7 @@
 #include "meas.h"
 #include "calc.h"
 #include "log.h"
+
 /*
  * #define CAN_MIN_EID         0x10
  * #define CAN_MAX_EID         0x1FFFFFF
@@ -60,6 +61,11 @@
 #define CAN_IOTC_MESSAGES_4   0x04
 #define CAN_IOTC_MESSAGES_5   0x05
 
+#define CAN_TIREP_MIN          0xF000
+#define CAN_TIREP_MAX          0xFFF4
+#define CAN_TIREP_MESSAGES_1   0x33
+
+
 #define CAN_MAX_ADR         0x1FFFFFF
 
 enum canState
@@ -70,6 +76,7 @@ enum canState
   CAN_RPY,
   CAN_LC,
   CAN_IOTC,
+  CAN_TIREP,
   CAN_WAIT,
   CAN_NUM_CH
 }canstate;
@@ -138,6 +145,7 @@ static uint32_t bms_asis;
 
 static int8_t sender;
 
+
 /*
  * Receiver thread.
  */
@@ -181,6 +189,10 @@ static msg_t can_rx(void *p) {
       }
       else if(rx_id >= CAN_IOTC_MIN && rx_id <= CAN_IOTC_MAX){
         canstate = CAN_IOTC;
+        rxmsg.EID = 0;
+      }
+      else if(rx_id >= CAN_TIREP_MIN && rx_id <= CAN_TIREP_MAX){
+        canstate = CAN_TIREP;
         rxmsg.EID = 0;
       }
       else{
@@ -363,6 +375,21 @@ static msg_t can_rx(void *p) {
             }*/
             IOTCitems.ain_5 = rxmsg.data16[0];
           }
+          canstate = CAN_WAIT;
+          break;
+        case CAN_TIREP:
+          for(i = 0; i < NUM_OF_SENSORS; i++){
+            if(TirePressures.id[i] == rxmsg.data8[0])
+            {
+              TirePressures.pressure[i] = rxmsg.data8[1];
+              TirePressures.temperature[i] = rxmsg.data8[2];
+              TirePressures.temperature[i] |= (uint16_t)(rxmsg.data8[3] << 8);
+              TirePressures.Flags[i] = rxmsg.data8[4];
+              TirePressures.TirePressureThresholdDetection[i] = rxmsg.data8[7];
+            }
+          }
+
+
           canstate = CAN_WAIT;
           break;
 
@@ -567,6 +594,12 @@ void can_commInit(void){
   {
     lcitems.id[i] = i + 64;
   }
+  TirePressures.id[0] = 0x01;
+  TirePressures.id[1] = 0x02;
+  TirePressures.id[2] = 0x11;
+  TirePressures.id[3] = 0x12;
+  TirePressures.id[4] = 0x21;
+  TirePressures.id[5] = 0x22;
 
   /*for (i = 0; i < (sizeof(IOTCitems.id) / 4); ++i)
   {
@@ -872,6 +905,29 @@ void cmd_candata_cell(BaseSequentialStream *chp, int argc, char *argv[]) {
 void cmd_lcSleep(BaseSequentialStream *chp, int argc, char *argv[]){
   //message_status = CAN_MESSAGES_1;
   chprintf(chp,"Sleep 1. LC!\r\n");
+}
+
+void cmd_candata_tire(BaseSequentialStream *chp, int argc, char *argv[]) {
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    chprintf(chp, "\x1B\x63");
+    chprintf(chp, "\x1B[2J");
+
+    chprintf(chp, "TIRE PRESSURE MONITOR SYSTEM\r\n");
+    int i;
+    for(i = 0; i < NUM_OF_SENSORS; i++){
+      chprintf(chp,"id            : 0x%02x \r\n", TirePressures.id[i]);
+      chprintf(chp,"Pressure      : 0x%02x \r\n", TirePressures.pressure[i]);
+      chprintf(chp,"Temperature   : 0x%04x \r\n", TirePressures.temperature[i]);
+      chprintf(chp,"Flags         : 0x%02x \r\n", TirePressures.Flags[i]);
+      chprintf(chp,"TPTD          : 0x%02x \r\n", TirePressures.TirePressureThresholdDetection[i]);
+      chprintf(chp,"\r\n");
+    }
+
+    chThdSleepMilliseconds(1000);
+  }
+
 }
 
 void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
