@@ -55,18 +55,19 @@ static struct bms_cellItem
   uint16_t cell_resistant[34];
 };
 
-/* LuxControl data */
-static struct luxcontrolItem 
-{
-  uint32_t id[32];
-  uint8_t temp[32];
-  uint8_t curr_in[32];
-  uint8_t curr_out[32];
-  uint16_t status[32];
-  uint16_t volt_in[32];
-  uint16_t volt_out[32];
-  uint16_t pwm[32]; 
-  uint16_t curr_in_from_pwm[32];
+
+#define NULL_AMPER_ADC   2040
+#define AMP_PER_ADC      43.3
+
+/* CCL Items  */
+static struct CCLItem{
+  uint8_t id[6];
+  uint16_t current_adc1[6];
+  uint16_t current_adc2[6];
+  uint16_t current_adc3[6];
+  uint8_t temp1[6];
+  uint8_t temp2[6];
+  uint8_t temp3[6];
 };
 
 /* IOTC data */
@@ -88,7 +89,7 @@ static struct IOTCItem
   uint16_t ain_4;
   uint16_t ain_5;
 };
-
+/* Tire Pressure Items */
 static struct TirePressureStructure{
   uint8_t id[6];
   uint8_t pressure[6];

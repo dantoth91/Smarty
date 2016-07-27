@@ -26,9 +26,9 @@
 struct moduluxItems mlitems;
 struct bmsItems bmsitems;
 struct bms_cellItem cellitems;
-struct luxcontrolItem lcitems;
 struct IOTCItem IOTCitems;
 struct TirePressureStructure TirePressures;
+struct CCLItem CCLItems;
 
 #define LOG_WA_SIZE (2048)
 
@@ -196,23 +196,30 @@ void logCalc(void){
     logitems[BMS_FAN_SPEED].value = bmsitems.fan_speed;
     logitems[BMS_PACK_OPEN_VOLT].value = bmsitems.pack_open_voltage;
     
-    for (i = 43, db = 0; db < 34; i+=3, db++)
+    for (i = CELL_1_VOLT, db = 0; db < 34; i+=3, db++)
     {
       logitems[i].value = cellitems.cell_voltage[db];
       logitems[i+1].value = cellitems.cell_resistant[db];
       logitems[i+2].value = cellitems.open_voltage[db];
     }
 
-    for (i = 145, db = 0; db < 15; i+=8, db++)
+    for (i = CCL_1_CURRENT1, db = 0; db < 6; i+=6, db++)
     {
-      logitems[i].value = lcitems.temp[db];
-      logitems[i+1].value = lcitems.curr_in[db];
-      logitems[i+2].value = lcitems.curr_out[db];
-      logitems[i+3].value = lcitems.status[db];
-      logitems[i+4].value = lcitems.volt_in[db];
-      logitems[i+5].value = lcitems.volt_out[db];
-      logitems[i+6].value = lcitems.pwm[db];
-      logitems[i+7].value = lcitems.curr_in_from_pwm[db];
+      logitems[i].value   = CCLItems.current_adc1[db];
+      logitems[i+1].value = CCLItems.current_adc2[db];
+      logitems[i+2].value = CCLItems.current_adc3[db];
+      logitems[i+3].value = CCLItems.temp1[db];
+      logitems[i+4].value = CCLItems.temp2[db];
+      logitems[i+5].value = CCLItems.temp3[db];
+    }
+
+    for (i = TP_1_ID, db = 0; db < 6; i+=5, db++)
+    {
+      logitems[i].value   = TirePressures.id[db];
+      logitems[i+1].value   = TirePressures.pressure[db];
+      logitems[i+2].value   = TirePressures.temperature[db];
+      logitems[i+3].value   = TirePressures.Flags[db];
+      logitems[i+4].value   = TirePressures.TirePressureThresholdDetection[db];
     }
     chSysUnlock();
   }

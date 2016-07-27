@@ -47,11 +47,10 @@
 #define CAN_RPY_MIN         0x30
 #define CAN_RPY_MAX         0x3F
 
-#define CAN_LC_MIN          0x40
-#define CAN_LC_MAX          0x5F
-#define CAN_LC_MESSAGES_1   0x01
-#define CAN_LC_MESSAGES_2   0x02
-#define CAN_LC_MESSAGES_3   0x03
+#define CAN_CCL_MIN          0x41
+#define CAN_CCL_MAX          0x46
+#define CAN_CCL_MESSAGES_1   0x01
+#define CAN_CCL_MESSAGES_2   0x02
 
 #define CAN_IOTC_MIN          0x60
 #define CAN_IOTC_MAX          0x6F
@@ -73,8 +72,8 @@ enum canState
   CAN_BMS,
   CAN_SM,
   CAN_ML,
-  CAN_RPY,
-  CAN_LC,
+  CAN_DC,
+  CAN_CCL,
   CAN_IOTC,
   CAN_TIREP,
   CAN_WAIT,
@@ -180,11 +179,11 @@ static msg_t can_rx(void *p) {
         rxmsg.EID = 0;
       }
       else if(rx_id >= CAN_RPY_MIN && rx_id <= CAN_RPY_MAX){
-        canstate = CAN_RPY;
+        canstate = CAN_DC;
         rxmsg.EID = 0;
       }
-      else if(rx_id >= CAN_LC_MIN && rx_id <= CAN_LC_MAX){
-        canstate = CAN_LC;
+      else if(rx_id >= CAN_CCL_MIN && rx_id <= CAN_CCL_MAX){
+        canstate = CAN_CCL;
         rxmsg.EID = 0;
       }
       else if(rx_id >= CAN_IOTC_MIN && rx_id <= CAN_IOTC_MAX){
@@ -288,38 +287,24 @@ static msg_t can_rx(void *p) {
           canstate = CAN_WAIT;
           break;
 
-        case CAN_RPY:
+        case CAN_DC:
           sender = 4;
           canstate = CAN_WAIT;
           break;
 
-        case CAN_LC:
+        case CAN_CCL:
           sender = 5;
-          if(messages == CAN_LC_MESSAGES_1){
-            for(i = 0; i < (sizeof(lcitems.id) / 4); i++){
-              if (rx_id == lcitems.id[i])
-              {
-                lcitems.temp[i]       = rxmsg.data8[0];
-                lcitems.curr_in[i]    = rxmsg.data8[1];
-                lcitems.curr_out[i]   = rxmsg.data8[2];
-                lcitems.volt_in[i]    = rxmsg.data16[2];
-                lcitems.volt_out[i]   = rxmsg.data16[3];
-              }
-            }
+          if(messages == CAN_CCL_MESSAGES_1){
+            uint8_t i = (rx_id & 0x07) - 1;
+            CCLItems.current_adc1[i] = rxmsg.data16[0];
+            CCLItems.current_adc2[i] = rxmsg.data16[1];
+            CCLItems.current_adc3[i] = rxmsg.data16[2];
           }
-
-          else if(messages == CAN_LC_MESSAGES_2){
-            for(i = 0; i < (sizeof(lcitems.id) / 4); i++){
-              if (rx_id == lcitems.id[i])
-              {
-                lcitems.status[i] = rxmsg.data16[0];
-                lcitems.pwm[i]    = rxmsg.data16[1];
-                lcitems.curr_in_from_pwm[i]    = rxmsg.data16[2];
-              }
-            }
-          }
-
-          else if(messages == CAN_LC_MESSAGES_3){            
+          else if(messages == CAN_CCL_MESSAGES_2){
+            uint8_t i = (rx_id & 0x07) - 1;
+            CCLItems.temp1[i] = rxmsg.data8[0];
+            CCLItems.temp2[i] = rxmsg.data8[1];
+            CCLItems.temp3[i] = rxmsg.data8[2];
           }
           canstate = CAN_WAIT;
           break;
@@ -590,10 +575,11 @@ void can_commInit(void){
     cellitems.id[i] = i;
   }
 
-  for (i = 0; i < (sizeof(lcitems.id) / 4); ++i)
+  for (i = 0; i < sizeof(CCLItems.id); ++i)
   {
-    lcitems.id[i] = i + 64;
+    CCLItems.id[i] = 0x41 + i;
   }
+
   TirePressures.id[0] = 0x01;
   TirePressures.id[1] = 0x02;
   TirePressures.id[2] = 0x11;
@@ -707,7 +693,15 @@ void cmd_canall(BaseSequentialStream *chp, int argc, char *argv[]) {
   }
 }
 
-void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]) {
+uint16_t CurrentCalculateFromAdc(uint16_t adc){
+  double temp;
+  temp = adc - NULL_AMPER_ADC;
+  temp /= AMP_PER_ADC;
+  temp = -temp;
+  return (int)(temp * 10);
+}
+
+void cmd_candata_ccl(BaseSequentialStream *chp, int argc, char *argv[]) {
   
   (void)argc;
   (void)argv;
@@ -739,27 +733,33 @@ void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]) {
         break;
       }
 
-      db = db > (sizeof(lcitems.id) / 4) ? (sizeof(lcitems.id) / 4) : db;
+      db = db > sizeof(CCLItems.id) ? sizeof(CCLItems.id) : db;
       db = db < 1 ? 1 : db;
+
+      uint16_t current1 = CurrentCalculateFromAdc(CCLItems.current_adc1[db]);
+      uint16_t current2 = CurrentCalculateFromAdc(CCLItems.current_adc2[db]);
+      uint16_t current3 = CurrentCalculateFromAdc(CCLItems.current_adc3[db]);
 
       chprintf(chp,"------------------------------------------------\r\n");
       chprintf(chp,"|                <-  (EXIT)  ->                |\r\n");
       chprintf(chp,"|               (a)  (ENTER) (d)               |\r\n");
-      chprintf(chp,"--------------- LuxControl %d/%d ---------------\r\n", db, sizeof(lcitems.id) / 4);
-      chprintf(chp,"lcitems.id[%d]         (ID)     : %15x \r\n", db, lcitems.id[db]);
-      chprintf(chp,"lcitems.temp[%d]       (NTC)    : %15d \r\n", db, lcitems.temp[db]);
-      chprintf(chp,"lcitems.curr_in[%d]    (IN_CUR) : %15d \r\n", db, lcitems.curr_in[db]);
-      chprintf(chp,"lcitems.curr_out[%d]   (OUT_CUR): %15d \r\n", db, lcitems.curr_out[db]);
-      chprintf(chp,"lcitems.status[%d]     (STATUS) : %15d \r\n", db, lcitems.status[db]);
-      chprintf(chp,"lcitems.volt_in[%d]    (VIN)    : %15d \r\n", db, lcitems.volt_in[db]);
-      chprintf(chp,"lcitems.volt_out[%d]   (VOUT)   : %15d \r\n", db, lcitems.volt_out[db]);
-      chprintf(chp,"lcitems.pwm[%d]        (PWM)    : %15d \r\n", db, lcitems.pwm[db]);
-      chprintf(chp,"lcitems.curr_in_from_pwm[%d]    : %15d \r\n", db, lcitems.curr_in_from_pwm[db]);
+      chprintf(chp,"--------- ChargeConrollerModule %d/%d ---------\r\n", db, sizeof(CCLItems.id));
+      chprintf(chp,"CCLItems.id[%d]             (ID)     : %15x \r\n", db, CCLItems.id[db]);
+      chprintf(chp,"CCLItems.current_adc1[%d]   (ADC)    : %15d \r\n", db, CCLItems.current_adc1[db]);
+      chprintf(chp,"CCLItems.current_adc2[%d]   (ADC)    : %15d \r\n", db, CCLItems.current_adc2[db]);
+      chprintf(chp,"CCLItems.current_adc3[%d]   (ADC)    : %15d \r\n", db, CCLItems.current_adc3[db]);
+      chprintf(chp,"CCLItems.temp1[%d]          (NTC)    : %15d \r\n", db, CCLItems.temp1[db]);
+      chprintf(chp,"CCLItems.temp2[%d]          (NTC)    : %15d \r\n", db, CCLItems.temp2[db]);
+      chprintf(chp,"CCLItems.temp3[%d]          (NTC)    : %15d \r\n", db, CCLItems.temp3[db]);
+      chprintf(chp,"current1[%d]                (CURRENT): %15d \r\n", db, current1);
+      chprintf(chp,"current2[%d]                (CURRENT): %15d \r\n", db, current2);
+      chprintf(chp,"current3[%d]                (CURRENT): %15d \r\n", db, current3);
+
     }   
 
     else{
       chprintf(chp, "This not good parameters!\r\n");
-      chprintf(chp, "(Luxcontrol 1-x) lc n\r\n");
+      chprintf(chp, "(ChargeConrollerModule 1-x) ccl n\r\n");
       return;
     }
 

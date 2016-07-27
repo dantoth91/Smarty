@@ -9,9 +9,9 @@
 extern struct moduluxItems mlitems;
 extern struct bmsItems bmsitems;
 extern struct bms_cellItem cellitems;
-extern struct luxcontrolItem lcitems;
 extern struct IOTCItem IOTCitems;
 extern struct TirePressureStructure TirePressures;
+extern struct CCLItem CCLItems;
 
 
 void can_commInit(void);
@@ -19,7 +19,7 @@ void can_commInit(void);
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canall(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]);
-void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_candata_ccl(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_candata_ml(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_candata_bms(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_candata_cell(BaseSequentialStream *chp, int argc, char *argv[]);

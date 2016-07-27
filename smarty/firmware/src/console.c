@@ -92,7 +92,7 @@ static const ShellCommand commands[] = {
   {"canvalues", cmd_can_commvalues},
   {"canall", cmd_canall},
   {"canmppttest", cmd_canmppttest},
-  {"candata_lc", cmd_candata_lc},
+  {"candata_ccl", cmd_candata_ccl},
   {"candata_ml", cmd_candata_ml},
   {"candata_bms", cmd_candata_bms},
   {"candata_cell", cmd_candata_cell},

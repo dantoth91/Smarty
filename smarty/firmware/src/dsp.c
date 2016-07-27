@@ -126,7 +126,7 @@ void LoadImages(){
 
   gfx_ShowGifXY(SECTOR_TIREPRESSURE, X(TIREPRESSURE), Y(TIREPRESSURE), 1);//tire pressure
 
-  gfx_ShowGifXY(SECTOR_LIGHT, X(LIGHT), Y(LIGHT), 0);//lampa
+  gfx_ShowGifXY(SECTOR_LIGHT, X(LIGHT), Y(LIGHT), 1);//lampa
 
   gfx_ShowGifXY(SECTOR_HIBA, X(HIBA), Y(HIBA), 0);//hiba
 
@@ -203,7 +203,7 @@ void PictogramDataBinding(void){
 
   //LÁMPA
   if (!getLightFlashing(5))
-    new_val = 0;
+    new_val = 2;
   else
     new_val = 1;
   NewValues[DSP_LIGHT] = new_val;
