@@ -108,6 +108,8 @@ int main(void) {
   halInit();
   chSysInit();
 
+  palClearPad(GPIOG, GPIOG_PO4);
+
   /* 
    * 5V Enable 
    */

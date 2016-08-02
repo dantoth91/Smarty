@@ -68,6 +68,7 @@ void lightCalc(void){
   {
     pwmDisableChannel(&PWMD4, 1);
     pwmDisableChannel(&PWMD4, 2);
+    palClearPad(GPIOG, GPIOG_PO4);
 
     right_active = FALSE;
     left_active = FALSE;
@@ -77,6 +78,7 @@ void lightCalc(void){
     if(lightchanels.right && flashing)
     {
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      palSetPad(GPIOG, GPIOG_PO4);
       flashing = FALSE;
       right_active = TRUE;
     }
@@ -84,6 +86,7 @@ void lightCalc(void){
     if(lightchanels.left && flashing)
     {
       pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      palSetPad(GPIOG, GPIOG_PO4);
       flashing = FALSE;
       left_active = TRUE;
     }
