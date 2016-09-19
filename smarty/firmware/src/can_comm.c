@@ -536,6 +536,7 @@ static msg_t can_tx(void * p) {
 
           txmsg.data16[0] = measGetValue(MEAS_CHP_B);
           txmsg.data16[1] = measGetValue(MEAS_CHP_J);
+          txmsg.data16[2] = measGetValue(MEAS_STEERING);
 
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));

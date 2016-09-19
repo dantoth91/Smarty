@@ -7,6 +7,9 @@
 #include "eeprom.h"
 #include "calc.h"
 
+#include "can_items.h"
+#include "can_comm.h"
+
 #include "chprintf.h"
 
 #define ADC_GRP1_BUF_DEPTH      16
@@ -35,8 +38,10 @@
  *
  * 2833
  * 94 adc - 4 A
+ * -191
+ * 2927
  */
-#define NULL_AMPER_ADC          2927
+#define NULL_AMPER_ADC          2880
 #define CURRENT_PER_ADC         23.5
 //#define CURRENT_PER_ADC         43.36734
 #define MOTOR_CURRENT_LENGTH    100
@@ -290,14 +295,26 @@ void measCalc(void){
               motor_curr += Motor_current_avg[i];
             }
             avg = motor_curr / MOTOR_CURRENT_LENGTH;
-*/
+
             /*
              * Motor Current Calculate
              */
+
             double temp = 0;
             avg -= NULL_AMPER_ADC;
             temp = (double)avg / CURRENT_PER_ADC;
             avg =  (int)(temp * 100);
+
+            /*
+             * Motor current calculate with SUN CURRENT and PACK CURRENT
+             */
+
+/*
+            int temp = bmsitems.pack_current - (mlitems.sun_current < 0 ? 0 : (mlitems.sun_current / 10));
+            avg = bmsitems.pack_inst_volt * temp;
+            avg /= 100;*/
+
+
 
             //avg = avg < 0 ? 0 : avg;
             break;
