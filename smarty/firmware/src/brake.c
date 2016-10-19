@@ -21,6 +21,10 @@ void brakeCalc(void){
   //pwmEnableChannel(&PWMD5, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD5, 10000 - brake)); //10000 = 0% - 0 = 100%
 }
 
+/*
+ * Shell command
+ */
+
 void cmd_brakevalues(BaseSequentialStream *chp, int argc, char *argv[]){
   
   (void)argc;

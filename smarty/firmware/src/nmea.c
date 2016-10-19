@@ -1,3 +1,8 @@
+/*
+    Smarty - Copyright (C) 2015
+    GAMF MegaLux Team              
+*/
+
 #include "nmea.h"
 
 #include "chprintf.h"

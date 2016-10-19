@@ -645,6 +645,10 @@ void dspInit(){
   chThdCreateStatic(waDSPThread, sizeof(waDSPThread), NORMALPRIO + 7, DSPThread, NULL);
 }
 
+/*
+ * Shell commands
+ */
+
 void cmd_dspvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "\x1B\x63");
   chprintf(chp, "\x1B[2J");

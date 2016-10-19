@@ -165,6 +165,10 @@ bool_t sdcardIsMounted(void){
   return sdcard_fs_ready;
 }
 
+/*
+ * Shell commands
+ */
+
 void cmd_tree(BaseSequentialStream *chp, int argc, char *argv[]) {
   FRESULT err;
   uint32_t clusters;

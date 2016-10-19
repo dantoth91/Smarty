@@ -202,7 +202,7 @@ void logCalc(void){
       logitems[i+1].value = cellitems.cell_resistant[db];
       logitems[i+2].value = cellitems.open_voltage[db];
     }
-
+    /* CCL */
     for (i = CCL_1_CURRENT1, db = 0; db < 6; i+=6, db++)
     {
       logitems[i].value   = CCLItems.current_adc1[db];
@@ -212,7 +212,7 @@ void logCalc(void){
       logitems[i+4].value = CCLItems.temp2[db];
       logitems[i+5].value = CCLItems.temp3[db];
     }
-
+    /* TPS */
     for (i = TP_1_ID, db = 0; db < 6; i+=5, db++)
     {
       logitems[i].value   = TirePressures.id[db];
@@ -354,6 +354,9 @@ static msg_t logThread(void *arg) {
           logPeriod += 1;
         }
 
+        /*
+         * Fast logging mod
+         */
         else if (logPeriod == 0 && fastLog == TRUE)
         {
           err = f_printf (&logFileObject, "%s", logitems[NUM].name);
@@ -477,6 +480,7 @@ static msg_t logThread(void *arg) {
           }
           logPeriod += 1;
         }
+        /* =========================== */
 
         err = f_sync(&logFileObject);
         if (err != FR_OK){
@@ -559,6 +563,10 @@ void fastLogMod(void){
   logFastStart();
   chSysUnlock();
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_testlog(BaseSequentialStream *chp, int argc, char *argv[]) {
   enum logStates state;

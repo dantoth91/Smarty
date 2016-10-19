@@ -34,8 +34,9 @@
 
 #define CURRENT_MIN_SPEED       20
 #define CURRENT_MAX_THROTTLE    7000
+/* -------------------------- */
 
-
+/* PID Controller values */
 static int16_t K_P = 200;
 static int16_t K_I = 4;
 static int16_t K_D = 500;
@@ -47,18 +48,23 @@ static int32_t MAX_P = 1000000;
 static int32_t MAX_I = 1000000;
 static int32_t MAX_D = 1000000;
 
-static int32_t brake_pwm;
-static bool_t regen_on;
-static bool_t CurrentLimitIsOn = false;
-
-static int32_t save_pwm;
-static int32_t pwm;
 static double p_tag;
 static double i_tag;
 static double d_tag;
 static int32_t result;
 static double eelozo;
 static double e_tag;
+/* -------------------------- */
+
+/* Regenerative brake values */
+static int32_t brake_pwm;
+static bool_t regen_on;
+static bool_t CurrentLimitIsOn = false;
+/* -------------------------- */
+
+/* Cruise control values */
+static int32_t save_pwm;
+static int32_t pwm;
 static uint16_t cruise_on;
 static bool_t cruise_indicator;
 static uint32_t cruise_indicator_index;
@@ -73,14 +79,13 @@ static bool_t eeprom_write;
 
 static bool_t button_long_accel;
 static bool_t button_long_decelerat;
+/* -------------------------- */
 
-/*
- * Current Limit Variables
- */
+/* Current Limit Variables */
 static int32_t accel_limit;
 static uint16_t substract;
 static bool current_limit_status = 1;
-
+/* -------------------------- */
 
 static PWMConfig cruise_pwmcfg = {
   10000000,	/* 10MHz PWM clock frequency */
@@ -125,6 +130,7 @@ void cruiseInit(void){
 
   accel_limit = 0;
 
+  /* Set cruise control values */
   if(eepromRead(CRUISE_CONTROLL, &set) != 0){
     set = speedKMPH_TO_RPM(START_CRUISE_KMPH);
   }
@@ -168,12 +174,14 @@ void cruiseCalc(void){
     eeprom_write = TRUE;
   }
 /* =========================== */
+
 /* Cruise control minimum limiter */
   if (cruise_on && (speedGetSpeed() < 10))
   {
     cruise_on = FALSE;
   }
 /* ============================== */
+
 /* Cruise control activated */
   if (cruise_on)
   {
@@ -217,7 +225,7 @@ void cruiseCalc(void){
     }
 
 
-    /* ============== */
+    /* =========================== */
 
     pwm = pwm > 10000 ? 10000 : pwm;
     pwm = pwm < 1000 ? 1000 : pwm;
@@ -233,16 +241,17 @@ void cruiseCalc(void){
         cruise_on = FALSE;
       }
     }
-    /* ============== */
+    /* =========================== */
 
     /* Brake pedal push - Cruise controll off */
     if(measGetValue_2(MEAS2_REGEN_BRAKE) > 500)
     {
       cruise_on = FALSE;
     }
-    /* ============== */
+    /* =========================== */
   }
 /* =========================== */
+
 /* Throttle pedal */
   else
   {
@@ -279,7 +288,7 @@ void cruiseCalc(void){
 
 
 
-    /* ============== */
+    /* =========================== */
     pwm = pwm > 10000 ? 10000 : pwm;
     pwm = pwm < 1000 ? 1000 : pwm;
 
@@ -287,7 +296,8 @@ void cruiseCalc(void){
   }
   chSysLock();
   save_pwm = pwm;
-/* ============== */
+/* =========================== */
+
 /* Regenerative brake */
   brake_pwm = measGetValue_2(MEAS2_REGEN_BRAKE);
   chSysUnlock();
@@ -418,6 +428,10 @@ int32_t cruisePID (int16_t Input, int16_t Set, int32_t MaxResult, int32_t MinRes
 
 	return result;
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_cruisevalues(BaseSequentialStream *chp, int argc, char *argv[]){
   (void)argc;

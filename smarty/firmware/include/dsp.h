@@ -21,6 +21,7 @@
 #define BLACK                     (0x0000)
 #define WHITE                     (0xFFFF)
 
+//Display SDCard sectors
 #define SECTOR_MERTERTEK          0x484B
 #define SECTOR_DIST_NUMBER        0x0022
 #define SECTOR_DISTANCE_PONT      0x001C

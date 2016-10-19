@@ -13,6 +13,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+/* Dispaly commands */
 #define GFX_CLS                   (0xFFCD)
 #define GFX_BGCOLOUR              (0xFFA4)
 #define GFX_CONTRAST              (0xFF9C)

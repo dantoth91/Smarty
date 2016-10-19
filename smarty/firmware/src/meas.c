@@ -76,17 +76,24 @@ static adcsample_t samples_2[MEAS2_NUM_CH * ADC_GRP1_BUF_DEPTH];
 
 static void adcerrorcallback(ADCDriver *adcp, adcerror_t err);
 
+/* Throttle pedal values */
 static uint16_t max_throttle;
 static uint16_t min_throttle;
 static uint16_t throttle;
+/* -------------------------- */
 
+/* Brake pedal values */
 static uint16_t max_regen_brake;
 static uint16_t min_regen_brake;
 static uint16_t regen_brake;
+/* -------------------------- */
 
+/* Steering angle values */
 static uint16_t max_str_angle;
 static uint16_t min_str_angle;
 static uint16_t str_angle;
+/* -------------------------- */
+
 
 static bool_t set_min_throttle;
 static bool_t set_max_throttle;
@@ -135,7 +142,7 @@ static const ADCConversionGroup adcgrpcfg = {
 };
 
 /*
- * ADC conversion group.
+ * ADC conversion group2.
  * Mode:        Linear buffer, 8 samples of 3 channel, SW triggered.
  * Channels:    IN5, IN4, IN6.
  * SMPR1 -     CH 10...17,           |  SMPR2 - CH 0...9  |
@@ -223,16 +230,28 @@ void measCalc(void){
         avg /= ADC_GRP1_BUF_DEPTH;
         switch(ch){
           case MEAS_UBAT:
+            /*
+             * Power supply meas
+             */
             avg *=  5545;
             avg /= 12412;
             break;
           case MEAS_TEMP1:
+            /*
+             * NTC1 meas
+             */
             avg = measInterpolateNTC(avg);
             break;
           case MEAS_TEMP2:
+            /*
+             * NTC2 meas
+             */
             avg = measInterpolateNTC(avg);
             break;
           case MEAS_STEERING:
+            /*
+             * Steering angle meas
+             */
             if(set_max_str_angle){
               max_str_angle = avg;
               if(eepromWrite(MAX_STR_ANGLE, max_str_angle) != 0){
@@ -262,8 +281,14 @@ void measCalc(void){
             avg = avg > 500 ? 1 : 0;
             break;
           case MEAS_CHP_B:
+            /*
+             * Suspension left
+             */
             break;
           case MEAS_CHP_J:
+            /*
+             * Suspension right
+             */
             break;
           default:
             break;
@@ -320,6 +345,9 @@ void measCalc(void){
             break;
 
           case MEAS2_THROTTLE:
+            /*
+             * Throttle pedal position
+             */
             if(set_max_throttle){
               max_throttle = avg;
               if(eepromWrite(MAX_THROTTLE, max_throttle) != 0){
@@ -347,6 +375,9 @@ void measCalc(void){
             break;
 
           case  MEAS2_REGEN_BRAKE:
+            /*
+             * Brake pedal position
+             */
             if(set_max_regen){ 
               max_regen_brake = avg;
               if(eepromWrite(MAX_REGEN_BRAKE, max_regen_brake) != 0){
@@ -467,6 +498,10 @@ static void adcerrorcallback(ADCDriver *adcp, adcerror_t err) {
   (void)adcp;
   (void)err;
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_measvalues(BaseSequentialStream *chp, int argc, char *argv[]){
   enum measChannels ch;

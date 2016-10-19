@@ -1,5 +1,5 @@
 /*
-    Smarty - Copyright (C) 2014
+    Smarty - Copyright (C) 2015
     GAMF MegaLux Team              
 */
 
@@ -21,6 +21,11 @@
  * #define CAN_MAX_EID         0x1FFFFFF
  */
 
+/*
+ * Input message
+ */
+
+/* Battery Management System messages */
 #define CAN_BMS_MIN         0x00
 #define CAN_BMS_MAX         0x0F
 #define CAN_BMS_MESSAGES_1  0x01
@@ -28,7 +33,9 @@
 #define CAN_BMS_MESSAGES_3  0x03
 #define CAN_BMS_MESSAGES_4  0x04
 #define CAN_BMS_MESSAGES_5  0x05
+/* -------------------------- */
 
+/* Smarty messages */
 #define CAN_SM_MIN          0x10
 #define CAN_SM_MAX          0x1F
 #define CAN_SM_EID          0x10
@@ -38,20 +45,28 @@
 #define CAN_SM_MESSAGES_4   0x04
 #define CAN_SM_MESSAGES_5   0x05
 #define CAN_SM_MESSAGES_6   0x06
+/* -------------------------- */
 
+/* Modulux messages */
 #define CAN_ML_MIN              0x20
 #define CAN_ML_MAX              0x2F
 #define CAN_ML_ONEVIRE_MESSAGE  0x01
 #define CAN_ML_CURRENT_MESSAGE  0x02
+/* -------------------------- */
 
+/* Telemetry messages */
 #define CAN_RPY_MIN         0x30
 #define CAN_RPY_MAX         0x3F
+/* -------------------------- */
 
+/* Charge Control Module messages */
 #define CAN_CCL_MIN          0x41
 #define CAN_CCL_MAX          0x46
 #define CAN_CCL_MESSAGES_1   0x01
 #define CAN_CCL_MESSAGES_2   0x02
+/* -------------------------- */
 
+/* Analog-to-CAN messages */
 #define CAN_IOTC_MIN          0x60
 #define CAN_IOTC_MAX          0x6F
 #define CAN_IOTC_MESSAGES_1   0x01
@@ -59,14 +74,21 @@
 #define CAN_IOTC_MESSAGES_3   0x03
 #define CAN_IOTC_MESSAGES_4   0x04
 #define CAN_IOTC_MESSAGES_5   0x05
+/* -------------------------- */
 
+/* Tire Pressure System messages */
 #define CAN_TIREP_MIN          0xF000
 #define CAN_TIREP_MAX          0xFFF4
 #define CAN_TIREP_MESSAGES_1   0x33
+/* -------------------------- */
 
-
+/* Maximum CAN-Bus adress */
 #define CAN_MAX_ADR         0x1FFFFFF
+/* -------------------------- */
 
+/*
+ * Devices on the CAN-Bus
+ */
 enum canState
 {
   CAN_BMS,
@@ -80,6 +102,9 @@ enum canState
   CAN_NUM_CH
 }canstate;
 
+/*
+ * Light state
+ */
 enum canLight
 {
   CAN_LIGHT_RIGHT,
@@ -92,6 +117,9 @@ enum canLight
   CAN_LIGHT_MESS
 }canlight;
 
+/*
+ * Output message
+ */
 enum canMessages
 {
   CAN_MESSAGES_1,
@@ -166,6 +194,7 @@ static msg_t can_rx(void *p) {
       messages = (uint8_t)rxmsg.EID;
       can_newdata = TRUE;
 
+      /* Device search */
       if(rx_id >= CAN_BMS_MIN && rx_id <= CAN_BMS_MAX){
         canstate = CAN_BMS;
         rxmsg.EID = 0;
@@ -198,7 +227,11 @@ static msg_t can_rx(void *p) {
         canstate = CAN_WAIT;
         rxmsg.EID = 0;
       }
+      /* =========================== */
 
+      /* 
+       * Messages cutting
+       */
       switch(canstate){
 
         case CAN_BMS:
@@ -384,6 +417,7 @@ static msg_t can_rx(void *p) {
         default:
           break;
       }
+
       chSysUnlock();
     }
   }
@@ -593,6 +627,10 @@ void can_commInit(void){
     IOTCitems.id[i] = i;
   }*/
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
   

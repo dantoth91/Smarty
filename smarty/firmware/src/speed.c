@@ -11,7 +11,7 @@
 #define SPEED_ICU_CLOCK (1000000L)
 
 #define SEN_POINTS          48
-#define WHEEL               1733     /* Kerék kerület mm-ben */
+#define WHEEL               1733     /* Wheel circumference in mm */
 #define MSTOS               60000000
 #define MAX_RPM_STEP        150
 #define SPEED_ZERO_PERIOD   50
@@ -52,7 +52,9 @@ static double old_rotation;
 static double speed;
 static double rpmasis;
 
-
+/*
+ * ICU Callback
+ */
 static void speedWheelPeriodCb(ICUDriver *icup) {
   int i;
   
@@ -94,6 +96,9 @@ static void speedWheelPeriodCb(ICUDriver *icup) {
   speed = speedRPM_TO_KMPH(rotation);
 }
 
+/*
+ * ICU Callback
+ */
 static void speedWheelPeriodNumber(ICUDriver *icup) {
     (void)icup;
     speed_period_num ++;
@@ -269,6 +274,10 @@ void TotalMeterZero()
 {
   return total_meter = 0;
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_speedvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
 

@@ -17,6 +17,7 @@
 #define CRUISE_FAST_STEP	10
 #define PRESS_PERIOD		50
 
+/* Cruise control set buttons */
 static bool_t cruise_ok;
 static bool_t cruise_plusz;
 static uint16_t cruise_long_plusz;
@@ -24,7 +25,9 @@ static bool_t cruise_minusz;
 static uint16_t cruise_long_minusz;
 static bool_t button_accel;
 static bool_t button_decelerat;
+/* -------------------------- */
 
+/* Indicator lamp buttons */
 static bool_t index_right;
 static bool_t index_right_active;
 static bool_t index_left;
@@ -32,13 +35,16 @@ static bool_t index_left_active;
 
 static bool_t warning;
 static bool_t warning_active;
+/* -------------------------- */
 
+/* Other buttons */
 static bool_t lamp_ok;
 static bool_t rear_camera_en;
 static bool_t rear_camera_ok;
 static bool_t long_lamp;
 static uint8_t lamp_long_lamp;
 static uint8_t lamp_long_show;
+/* -------------------------- */
 
 static uint16_t bus;
 static bool_t bus_bit[8];
@@ -293,6 +299,10 @@ void buttonCalc(void){
 		lamp_long_show = 0;
 	}
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_buttonvalues(BaseSequentialStream *chp, int argc, char *argv[]){
   

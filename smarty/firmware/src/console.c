@@ -1,5 +1,5 @@
 /*
-    Smarty - Copyright (C) 2014
+    Smarty - Copyright (C) 2015
     GAMF MegaLux Team              
 */
 
@@ -51,6 +51,7 @@ int _kill(int pid, int sig) {
 
 static time_t unix_time;
 
+/* Serial config */
 static SerialConfig ser_cfg = {
   230400,
   0,
@@ -69,6 +70,7 @@ void cmd_clear(BaseSequentialStream *chp, int argc, char *argv[]);
 
 Thread *consoleThread;
 
+/* Shell commands */
 static const ShellCommand commands[] = {
   {"mem", cmd_mem},
   {"threads", cmd_threads},

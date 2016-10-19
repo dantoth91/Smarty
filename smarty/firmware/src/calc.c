@@ -1,5 +1,5 @@
 /*
-    Smarty - Copyright (C) 2014
+    Smarty - Copyright (C) 2015
     GAMF MegaLux Team              
 */
 
@@ -75,12 +75,19 @@ void calcCalc(void){
 
             break;
           case CALC_SUN_POWER:
+            /*
+             * Calculating Sun Power
+             */
+
             calc = bmsitems.pack_inst_volt * mlitems.sun_current;
             calc /= 10000;
 
             break;
 
           case CALC_AVG_SPEED:
+           /*
+            * Calculating average speed
+            */
 
             if((speedGetSpeed() > 10) && (avg_speed_enable == FALSE)){
               avg_speed_enable = TRUE;
@@ -137,6 +144,10 @@ uint32_t calcAvgSpeed(void){
   chSysUnlock();
   return tmp;
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_calcvalues(BaseSequentialStream *chp, int argc, char *argv[]){
   enum calcChannels ch;

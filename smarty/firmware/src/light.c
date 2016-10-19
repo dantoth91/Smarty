@@ -1,5 +1,5 @@
 /*
-    Smarty - Copyright (C) 2014
+    Smarty - Copyright (C) 2015
     GAMF MegaLux Team              
 */
 
@@ -10,6 +10,7 @@
 #include "chprintf.h"
 #include "can_comm.h"
 
+/* Index flashing period */
 #define LIGHTS_PERIOD   16
 
 static struct lightChanels 
@@ -75,6 +76,7 @@ void lightCalc(void){
   }
   
   else{
+    /* Right index */
     if(lightchanels.right && flashing)
     {
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
@@ -83,6 +85,7 @@ void lightCalc(void){
       right_active = TRUE;
     }
 
+    /* Left index */
     if(lightchanels.left && flashing)
     {
       pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
@@ -91,6 +94,7 @@ void lightCalc(void){
       left_active = TRUE;
     }
 
+    /* Warning lamp */
     if(lightchanels.warning && flashing)
     {
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
@@ -101,12 +105,14 @@ void lightCalc(void){
     }
   }
 
+  /* Light */
   if (lightchanels.lights_disabled)
   {
     pwmDisableChannel(&PWMD4, 1);
     pwmDisableChannel(&PWMD4, 2);
   }
 
+  /* Show effect */
   if (lightchanels.demo)
   {
     if (demo_period == 0)
@@ -271,6 +277,10 @@ bool_t getLightFlashing (uint8_t chanel) {
   else
     return 0;
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
 
