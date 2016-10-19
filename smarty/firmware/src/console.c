@@ -1,5 +1,5 @@
 /*
-    Smarty - Copyright (C) 2014
+    Smarty - Copyright (C) 2015
     GAMF MegaLux Team              
 */
 
@@ -28,6 +28,8 @@
 #include "button.h"
 #include "brake.h"
 #include "safety.h"
+#include "calc.h"
+#include "nmea.h"
 
 /* libc stub */
 int _getpid(void) {return 1;}
@@ -49,8 +51,9 @@ int _kill(int pid, int sig) {
 
 static time_t unix_time;
 
+/* Serial config */
 static SerialConfig ser_cfg = {
-  115200,
+  230400,
   0,
   0,
   0,
@@ -67,6 +70,7 @@ void cmd_clear(BaseSequentialStream *chp, int argc, char *argv[]);
 
 Thread *consoleThread;
 
+/* Shell commands */
 static const ShellCommand commands[] = {
   {"mem", cmd_mem},
   {"threads", cmd_threads},
@@ -81,12 +85,16 @@ static const ShellCommand commands[] = {
   {"cat", cmd_cat},
   {"sdiotest", cmd_sdiotest},
   {"testlog", cmd_testlog},
+  {"test_fast_log", cmd_testFastLog},
+  {"fastlog", cmd_fast_log},
+  {"logvalues", cmd_logvalues},
+  {"logstop", cmd_logstop},
   {"eepromtest", cmd_eepromTest},
   {"eepromall", cmd_eepromAllData},
   {"canvalues", cmd_can_commvalues},
   {"canall", cmd_canall},
   {"canmppttest", cmd_canmppttest},
-  {"candata_lc", cmd_candata_lc},
+  {"candata_ccl", cmd_candata_ccl},
   {"candata_ml", cmd_candata_ml},
   {"candata_bms", cmd_candata_bms},
   {"candata_cell", cmd_candata_cell},
@@ -98,18 +106,26 @@ static const ShellCommand commands[] = {
   {"measvalues", cmd_measvalues},
   {"throttle", cmd_getThrottle},
   {"brake", cmd_getRegenBrake},
+  {"steering", cmd_getSteeringAngle},
   {"brakevalues", cmd_brakevalues},
   {"cruisevalues", cmd_cruisevalues},
   {"setcruisevalues", cmd_setcruisevalues},
   {"cruise", cmd_cruise},
   {"regen_brake", cmd_regen_brake},
-  {"dbshow", cmdfrappans_dspmessages},
   {"lcsleep", cmd_lcSleep},
   {"dspvalues", cmd_dspvalues},
-  {"dspbites", cmd_dspbites},
   {"buttonvalues", cmd_buttonvalues},
   {"mainvalues", cmd_mainValues},
   {"safetyvalues", cmd_safetyvalues},
+  {"fan_speed", cmd_fan_speed},
+  {"calcvalues", cmd_calcvalues},
+  {"set_current_limit", cmd_current_limit_switch},
+  {"distancevalues", cmd_distancevalues},
+  {"set_total_kmeter", cmd_set_total_kmeter},
+  {"reset_kmeter", cmd_reset_kmeter},
+  {"reset_meter", cmd_reset_meter},
+  {"gpsvalues", cmd_nmeatest},
+  {"candata_tire", cmd_candata_tire},
   {NULL, NULL}
 };
 

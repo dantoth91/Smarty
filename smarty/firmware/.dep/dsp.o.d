@@ -1,10 +1,14 @@
 ../../build/obj/dsp.o: src/dsp.c include/uart_comm.h include/meas.h \
  ../../../ChibiOS/os/kernel/include/ch.h os/chconf.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdint.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdint.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdbool.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\stdint.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\_default_types.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\features.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_intsup.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_stdint.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdbool.h \
  ../../../ChibiOS/os/kernel/include/chlists.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/chcore.h \
  ../../../ChibiOS/os/ports/GCC/ARMCMx/STM32F4xx/cmparams.h \
@@ -78,19 +82,29 @@
  ../../../ChibiOS/os/hal/include/mmc_spi.h \
  ../../../ChibiOS/os/hal/include/serial_usb.h include/gfx.h include/dsp.h \
  include/cruise.h include/light.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/reent.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/_ansi.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/newlib.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/config.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/ieeefp.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/features.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/_types.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/_types.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/_default_types.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/lock.h \
- ../../../ChibiOS/os/various/chprintf.h \
- c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\math.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\reent.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\_ansi.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\newlib.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\config.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\ieeefp.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_types.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\_types.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\lock.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\_ansi.h \
+ include/can_items.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\stdio.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\cdefs.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdarg.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\types.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\types.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\stdio.h \
+ include/can_comm.h include/calc.h include/nmea.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\time.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\time.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\timespec.h \
+ c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_timespec.h \
+ ../../../ChibiOS/os/various/chprintf.h
 
 include/uart_comm.h:
 
@@ -102,13 +116,21 @@ os/chconf.h:
 
 ../../../ChibiOS/os/ports/GCC/ARMCMx/chtypes.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stddef.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdint.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/stdint.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\stdint.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdbool.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\_default_types.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\features.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_intsup.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_stdint.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdbool.h:
 
 ../../../ChibiOS/os/kernel/include/chlists.h:
 
@@ -268,28 +290,52 @@ include/cruise.h:
 
 include/light.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include-fixed/math.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\math.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/reent.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\reent.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/_ansi.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\_ansi.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/newlib.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\newlib.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/config.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\config.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/ieeefp.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\ieeefp.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/features.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_types.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/_types.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\_types.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/_types.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\lock.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/machine/_default_types.h:
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\_ansi.h:
 
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/include/sys/lock.h:
+include/can_items.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\stdio.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\cdefs.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdarg.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\types.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\types.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\stdio.h:
+
+include/can_comm.h:
+
+include/calc.h:
+
+include/nmea.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\time.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\machine\time.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\timespec.h:
+
+c:\chibistudio\tools\gnu\ tools\ arm\ embedded\4.9\ 2015q3\arm-none-eabi\include\sys\_timespec.h:
 
 ../../../ChibiOS/os/various/chprintf.h:
-
-c:\program\ files\ (x86)\codesourcery\sourcery\ g++\ lite\bin\../lib/gcc/arm-none-eabi/4.5.2/include/stdarg.h:

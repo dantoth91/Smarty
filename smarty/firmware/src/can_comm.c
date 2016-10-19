@@ -1,5 +1,5 @@
 /*
-    Smarty - Copyright (C) 2014
+    Smarty - Copyright (C) 2015
     GAMF MegaLux Team              
 */
 
@@ -9,15 +9,23 @@
 #include "shell.h"
 #include "chprintf.h"
 
-#include "can_comm.h"
 #include "can_items.h"
+#include "can_comm.h"
 #include "speed.h"
 #include "meas.h"
+#include "calc.h"
+#include "log.h"
+
 /*
  * #define CAN_MIN_EID         0x10
  * #define CAN_MAX_EID         0x1FFFFFF
  */
 
+/*
+ * Input message
+ */
+
+/* Battery Management System messages */
 #define CAN_BMS_MIN         0x00
 #define CAN_BMS_MAX         0x0F
 #define CAN_BMS_MESSAGES_1  0x01
@@ -25,40 +33,78 @@
 #define CAN_BMS_MESSAGES_3  0x03
 #define CAN_BMS_MESSAGES_4  0x04
 #define CAN_BMS_MESSAGES_5  0x05
+/* -------------------------- */
 
+/* Smarty messages */
 #define CAN_SM_MIN          0x10
 #define CAN_SM_MAX          0x1F
 #define CAN_SM_EID          0x10
 #define CAN_SM_MESSAGES_1   0x01
 #define CAN_SM_MESSAGES_2   0x02
 #define CAN_SM_MESSAGES_3   0x03
+#define CAN_SM_MESSAGES_4   0x04
+#define CAN_SM_MESSAGES_5   0x05
+#define CAN_SM_MESSAGES_6   0x06
+/* -------------------------- */
 
+/* Modulux messages */
 #define CAN_ML_MIN              0x20
 #define CAN_ML_MAX              0x2F
 #define CAN_ML_ONEVIRE_MESSAGE  0x01
+#define CAN_ML_CURRENT_MESSAGE  0x02
+/* -------------------------- */
 
+/* Telemetry messages */
 #define CAN_RPY_MIN         0x30
 #define CAN_RPY_MAX         0x3F
+/* -------------------------- */
 
-#define CAN_LC_MIN          0x40
-#define CAN_LC_MAX          0x5F
-#define CAN_LC_MESSAGES_1   0x01
-#define CAN_LC_MESSAGES_2   0x02
-#define CAN_LC_MESSAGES_3   0x03
+/* Charge Control Module messages */
+#define CAN_CCL_MIN          0x41
+#define CAN_CCL_MAX          0x46
+#define CAN_CCL_MESSAGES_1   0x01
+#define CAN_CCL_MESSAGES_2   0x02
+/* -------------------------- */
 
+/* Analog-to-CAN messages */
+#define CAN_IOTC_MIN          0x60
+#define CAN_IOTC_MAX          0x6F
+#define CAN_IOTC_MESSAGES_1   0x01
+#define CAN_IOTC_MESSAGES_2   0x02
+#define CAN_IOTC_MESSAGES_3   0x03
+#define CAN_IOTC_MESSAGES_4   0x04
+#define CAN_IOTC_MESSAGES_5   0x05
+/* -------------------------- */
+
+/* Tire Pressure System messages */
+#define CAN_TIREP_MIN          0xF000
+#define CAN_TIREP_MAX          0xFFF4
+#define CAN_TIREP_MESSAGES_1   0x33
+/* -------------------------- */
+
+/* Maximum CAN-Bus adress */
 #define CAN_MAX_ADR         0x1FFFFFF
+/* -------------------------- */
 
+/*
+ * Devices on the CAN-Bus
+ */
 enum canState
 {
   CAN_BMS,
   CAN_SM,
   CAN_ML,
-  CAN_RPY,
-  CAN_LC,
+  CAN_DC,
+  CAN_CCL,
+  CAN_IOTC,
+  CAN_TIREP,
   CAN_WAIT,
   CAN_NUM_CH
 }canstate;
 
+/*
+ * Light state
+ */
 enum canLight
 {
   CAN_LIGHT_RIGHT,
@@ -71,11 +117,17 @@ enum canLight
   CAN_LIGHT_MESS
 }canlight;
 
+/*
+ * Output message
+ */
 enum canMessages
 {
   CAN_MESSAGES_1,
   CAN_MESSAGES_2,
   CAN_MESSAGES_3,
+  CAN_MESSAGES_4,
+  CAN_MESSAGES_5,
+  CAN_MESSAGES_6,
   CAN_MESSAGES_LAST,
   CAN_NUM_MESS
 }canmessages;
@@ -99,14 +151,14 @@ static CANRxFrame rxmsg;
 /*          F2XX           |      F4XX              */
 /*  fPCLK   30             |      42                */
 /*  tPCLK   0,033333333    |      0,023809524       */
-/*  BRP[X]  4              |      6                 */
-/*  tq      0,166666667    |      0,166666667       */
+/*  BRP[X]  9              |      13                */
+/*  tq      0,333333333    |      0,333333333       */
 /*--------------------------------------------------*/
 
 static const CANConfig cancfg = {
   CAN_MCR_ABOM,
   CAN_BTR_SJW(0) | CAN_BTR_TS2(1) |
-  CAN_BTR_TS1(8) | CAN_BTR_BRP(6)
+  CAN_BTR_TS1(8) | CAN_BTR_BRP(13)
 };
 
 static uint16_t rx_id;
@@ -119,6 +171,7 @@ static bool can_transmit;
 static uint32_t bms_asis;
 
 static int8_t sender;
+
 
 /*
  * Receiver thread.
@@ -141,6 +194,7 @@ static msg_t can_rx(void *p) {
       messages = (uint8_t)rxmsg.EID;
       can_newdata = TRUE;
 
+      /* Device search */
       if(rx_id >= CAN_BMS_MIN && rx_id <= CAN_BMS_MAX){
         canstate = CAN_BMS;
         rxmsg.EID = 0;
@@ -154,18 +208,30 @@ static msg_t can_rx(void *p) {
         rxmsg.EID = 0;
       }
       else if(rx_id >= CAN_RPY_MIN && rx_id <= CAN_RPY_MAX){
-        canstate = CAN_RPY;
+        canstate = CAN_DC;
         rxmsg.EID = 0;
       }
-      else if(rx_id >= CAN_LC_MIN && rx_id <= CAN_LC_MAX){
-        canstate = CAN_LC;
+      else if(rx_id >= CAN_CCL_MIN && rx_id <= CAN_CCL_MAX){
+        canstate = CAN_CCL;
+        rxmsg.EID = 0;
+      }
+      else if(rx_id >= CAN_IOTC_MIN && rx_id <= CAN_IOTC_MAX){
+        canstate = CAN_IOTC;
+        rxmsg.EID = 0;
+      }
+      else if(rx_id >= CAN_TIREP_MIN && rx_id <= CAN_TIREP_MAX){
+        canstate = CAN_TIREP;
         rxmsg.EID = 0;
       }
       else{
         canstate = CAN_WAIT;
         rxmsg.EID = 0;
       }
+      /* =========================== */
 
+      /* 
+       * Messages cutting
+       */
       switch(canstate){
 
         case CAN_BMS:
@@ -199,7 +265,6 @@ static msg_t can_rx(void *p) {
           else if(messages == CAN_BMS_MESSAGES_3){
             bmsitems.average_temp        = rxmsg.data8[0];
             bmsitems.internal_temp       = rxmsg.data8[1];
-            
             bmsitems.low_cell_volt       = rxmsg.data8[3];
             bmsitems.low_cell_volt      += rxmsg.data8[2] << 8;
             bmsitems.high_cell_volt      = rxmsg.data8[5];
@@ -209,8 +274,8 @@ static msg_t can_rx(void *p) {
           }
 
           else if(messages == CAN_BMS_MESSAGES_4){
-            bmsitems.pack_current        = rxmsg.data8[0];
-            bmsitems.pack_current       += rxmsg.data8[1] << 8;
+            bmsitems.pack_current        = rxmsg.data8[1];
+            bmsitems.pack_current       += rxmsg.data8[0] << 8;
             bmsitems.total_pack_cycle    = rxmsg.data8[2];
             bmsitems.pack_ccl            = rxmsg.data8[3];
             bmsitems.pack_dcl            = rxmsg.data8[4];
@@ -242,47 +307,107 @@ static msg_t can_rx(void *p) {
           sender = 3;
           if(messages == CAN_ML_ONEVIRE_MESSAGE){
             mlitems.id        = (rx_id - CAN_ML_MIN) + 1;
-            mlitems.onevire_1 = rxmsg.data16[0];
-            mlitems.onevire_2 = rxmsg.data16[1];
-            mlitems.onevire_3 = rxmsg.data16[2];
-            mlitems.onevire_4 = rxmsg.data16[3];
+            mlitems.MODULE1_TEMP = rxmsg.data16[0];
+            mlitems.MODULE8_TEMP = rxmsg.data16[1];
+            mlitems.MODULE6_TEMP = rxmsg.data16[2];
+            mlitems.MODULE12_TEMP = rxmsg.data16[3];
+          }
+          if(messages == CAN_ML_CURRENT_MESSAGE){
+            mlitems.id        = (rx_id - CAN_ML_MIN) + 2;
+            mlitems.sun_current = rxmsg.data16[0];
+            mlitems.MODULE2_TEMP = rxmsg.data16[2];
           }
           canstate = CAN_WAIT;
           break;
 
-        case CAN_RPY:
+        case CAN_DC:
           sender = 4;
           canstate = CAN_WAIT;
           break;
 
-        case CAN_LC:
+        case CAN_CCL:
           sender = 5;
-          if(messages == CAN_LC_MESSAGES_1){
-            for(i = 0; i < (sizeof(lcitems.id) / 4); i++){
-              if (rx_id == lcitems.id[i])
+          if(messages == CAN_CCL_MESSAGES_1){
+            uint8_t i = (rx_id & 0x07) - 1;
+            CCLItems.current_adc1[i] = rxmsg.data16[0];
+            CCLItems.current_adc2[i] = rxmsg.data16[1];
+            CCLItems.current_adc3[i] = rxmsg.data16[2];
+          }
+          else if(messages == CAN_CCL_MESSAGES_2){
+            uint8_t i = (rx_id & 0x07) - 1;
+            CCLItems.temp1[i] = rxmsg.data8[0];
+            CCLItems.temp2[i] = rxmsg.data8[1];
+            CCLItems.temp3[i] = rxmsg.data8[2];
+          }
+          canstate = CAN_WAIT;
+          break;
+
+        case CAN_IOTC:
+          sender = 6;
+          if(messages == CAN_IOTC_MESSAGES_1){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
               {
-                lcitems.temp[i]       = rxmsg.data8[0];
-                lcitems.curr_in[i]    = rxmsg.data8[1];
-                lcitems.curr_out[i]   = rxmsg.data8[2];
-                lcitems.efficiency[i] = rxmsg.data8[3];
-                lcitems.volt_in[i]    = rxmsg.data16[2];
-                lcitems.volt_out[i]   = rxmsg.data16[3];
+                IOTCitems.ain_1[i] = rxmsg.data16[0];
               }
+            }*/
+            IOTCitems.ain_1 = rxmsg.data16[0];
+          }
+
+          if(messages == CAN_IOTC_MESSAGES_2){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_2[i] = rxmsg.data16[0];
+              }
+            }*/
+            IOTCitems.ain_2 = rxmsg.data16[0];
+          }
+
+          if(messages == CAN_IOTC_MESSAGES_3){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_3[i] = rxmsg.data16[0];
+              }
+            }*/
+            IOTCitems.ain_3 = rxmsg.data16[0];
+          }
+
+          if(messages == CAN_IOTC_MESSAGES_4){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_4[i] = rxmsg.data16[0];
+              }
+            }*/
+            IOTCitems.ain_4 = rxmsg.data16[0];
+          }
+
+          if(messages == CAN_IOTC_MESSAGES_5){
+            /*for(i = 0; i < (sizeof(IOTCitems.id) / 4); i++){
+              if (rx_id == IOTCitems.id[i])
+              {
+                IOTCitems.ain_5[i] = rxmsg.data16[0];
+              }
+            }*/
+            IOTCitems.ain_5 = rxmsg.data16[0];
+          }
+          canstate = CAN_WAIT;
+          break;
+        case CAN_TIREP:
+          for(i = 0; i < NUM_OF_SENSORS; i++){
+            if(TirePressures.id[i] == rxmsg.data8[0])
+            {
+              TirePressures.pressure[i] = rxmsg.data8[1];
+              TirePressures.temperature[i] = rxmsg.data8[2];
+              TirePressures.temperature[i] |= (uint16_t)(rxmsg.data8[3] << 8);
+              TirePressures.Flags[i] = rxmsg.data8[4];
+              TirePressures.TirePressureThresholdDetection[i] = rxmsg.data8[7];
             }
           }
 
-          else if(messages == CAN_LC_MESSAGES_2){
-            for(i = 0; i < (sizeof(lcitems.id) / 4); i++){
-              if (rx_id == lcitems.id[i])
-              {
-                lcitems.status[i] = rxmsg.data16[0];
-                lcitems.pwm[i]    = rxmsg.data16[1];
-              }
-            }
-          }
 
-          else if(messages == CAN_LC_MESSAGES_3){            
-          }
           canstate = CAN_WAIT;
           break;
 
@@ -292,6 +417,7 @@ static msg_t can_rx(void *p) {
         default:
           break;
       }
+
       chSysUnlock();
     }
   }
@@ -314,14 +440,15 @@ static msg_t can_tx(void * p) {
     for(message_status = 0; message_status < CAN_NUM_MESS; message_status ++){
       switch(message_status){
         case CAN_MESSAGES_1:
-          /* Message 3 */
+          /* Message 1 */
           /* 
           * 16bit - Speed
           * 16bit - Cruise control pwm
           * 8bit  - Cruise control set
           * 8bit  - Cruise control status
+          * 8bit  - Engine OVT
           */
-
+          chSysLock();
           txmsg.EID = 0;
           txmsg.EID = CAN_SM_MESSAGES_1;
           txmsg.EID += CAN_SM_EID << 8;
@@ -330,51 +457,124 @@ static msg_t can_tx(void * p) {
           txmsg.data16[1] = cruiseGetPWM();
           txmsg.data8[4] = cruiseGet();
           txmsg.data8[5] = cruiseStatus();
+          txmsg.data8[6] = measGetValue(MEAS_IS_IN_DRIVE);
           
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
           break;
 
         case CAN_MESSAGES_2:
-          /* Message 3 */
+          /* Message 2 */
           /* 
           * 16bit - Throttle pedal
           * 16bit - Brake pedal
           * 16bit - Brake pressure 1
           * 16bit - Brake pressure 2
           */
-
+          chSysLock();
           txmsg.EID = 0;
           txmsg.EID = CAN_SM_MESSAGES_2;
           txmsg.EID += CAN_SM_EID << 8;
 
           txmsg.data16[0] = measGetValue_2(MEAS2_THROTTLE);
           txmsg.data16[1] = measGetValue_2(MEAS2_REGEN_BRAKE);
-          txmsg.data16[2] = measGetValue(MEAS_BRAKE_PRESSURE1);
-          txmsg.data16[3] = measGetValue(MEAS_BRAKE_PRESSURE2);
+          txmsg.data16[2] = measGetValue(MEAS_TEMP1);
+          txmsg.data16[3] = measGetValue(MEAS_TEMP2);
           
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
           break;
 
         case CAN_MESSAGES_3:
           /* Message 3 */
           /* 
-          * 8bit  - Engine OVT
           * 16bit - Engine current
           * 16bit - 12V (UBAT)
+          * 8bit - LOG state
+          * 8bit - NULL
+          * 16bit - Motor Current
           */
+          chSysLock();
           txmsg.EID = 0;
           txmsg.EID = CAN_SM_MESSAGES_3;
           txmsg.EID += CAN_SM_EID << 8;
 
-          txmsg.data8[0] = 0;
-          txmsg.data16[1] = measGetValue_2(MEAS2_CURR1);
-          txmsg.data16[2] = measGetValue(MEAS_UBAT);
-          txmsg.data16[2] = measGetValue(MEAS_UBAT);
-          
+          txmsg.data16[0] = (int16_t)calcGetValue(CALC_MOTOR_POWER);
+          txmsg.data16[1] = measGetValue(MEAS_UBAT);
+          if(logGetState() == LOG_RUNNING)
+          {
+            txmsg.data8[4] = 1;
+          }
+          else
+          {
+            txmsg.data8[4] = 0;
+          }
+
+          txmsg.data16[3] = measGetValue_2(MEAS2_CURR1);
+
           can_transmit = TRUE;
           canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
+          break;
+
+        case CAN_MESSAGES_4:
+          /* Message 4 */
+          /*
+          * 32bit - Total KMeter
+          * 32bit - Nullable Kmeter
+          */
+          chSysLock();
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_4;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data32[0] = GetTotalKmeterDistance();
+          txmsg.data32[1] = GetKmeterDistance();
+
+
+          can_transmit = TRUE;
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
+          break;
+
+        case CAN_MESSAGES_5:
+          /* Message 4 */
+          /*
+          * 16bit - Average speed
+          */
+          chSysLock();
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_5;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data16[0] = calcAvgSpeed();
+          txmsg.data16[1] = measGetValue(MEAS_STEERING);
+
+          can_transmit = TRUE;
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
+          break;
+
+        case CAN_MESSAGES_6:
+          /* Message 4 */
+          /*
+          * 16bit - CHP_J
+          * 16bit - CHP_B
+          */
+          chSysLock();
+          txmsg.EID = 0;
+          txmsg.EID = CAN_SM_MESSAGES_6;
+          txmsg.EID += CAN_SM_EID << 8;
+
+          txmsg.data16[0] = measGetValue(MEAS_CHP_B);
+          txmsg.data16[1] = measGetValue(MEAS_CHP_J);
+          txmsg.data16[2] = measGetValue(MEAS_STEERING);
+
+          can_transmit = TRUE;
+          canTransmit(&CAND1, CAN_ANY_MAILBOX ,&txmsg, MS2ST(100));
+          chSysUnlock();
           break;
 
         default:      
@@ -383,7 +583,7 @@ static msg_t can_tx(void * p) {
       }
       chThdSleepMilliseconds(5);
       }
-    chThdSleepMilliseconds(200);
+    chThdSleepMilliseconds(100);
   }
   return 0;
 }
@@ -410,11 +610,27 @@ void can_commInit(void){
     cellitems.id[i] = i;
   }
 
-  for (i = 0; i < (sizeof(lcitems.id) / 4); ++i)
+  for (i = 0; i < sizeof(CCLItems.id); ++i)
   {
-    lcitems.id[i] = i + 64;
+    CCLItems.id[i] = 0x41 + i;
   }
+
+  TirePressures.id[0] = 0x01;
+  TirePressures.id[1] = 0x02;
+  TirePressures.id[2] = 0x11;
+  TirePressures.id[3] = 0x12;
+  TirePressures.id[4] = 0x21;
+  TirePressures.id[5] = 0x22;
+
+  /*for (i = 0; i < (sizeof(IOTCitems.id) / 4); ++i)
+  {
+    IOTCitems.id[i] = i;
+  }*/
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
   
@@ -516,7 +732,15 @@ void cmd_canall(BaseSequentialStream *chp, int argc, char *argv[]) {
   }
 }
 
-void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]) {
+uint16_t CurrentCalculateFromAdc(uint16_t adc){
+  double temp;
+  temp = adc - NULL_AMPER_ADC;
+  temp /= AMP_PER_ADC;
+  temp = -temp;
+  return (int)(temp * 10);
+}
+
+void cmd_candata_ccl(BaseSequentialStream *chp, int argc, char *argv[]) {
   
   (void)argc;
   (void)argv;
@@ -548,27 +772,33 @@ void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]) {
         break;
       }
 
-      db = db > (sizeof(lcitems.id) / 4) ? (sizeof(lcitems.id) / 4) : db;
+      db = db > sizeof(CCLItems.id) ? sizeof(CCLItems.id) : db;
       db = db < 1 ? 1 : db;
+
+      uint16_t current1 = CurrentCalculateFromAdc(CCLItems.current_adc1[db]);
+      uint16_t current2 = CurrentCalculateFromAdc(CCLItems.current_adc2[db]);
+      uint16_t current3 = CurrentCalculateFromAdc(CCLItems.current_adc3[db]);
 
       chprintf(chp,"------------------------------------------------\r\n");
       chprintf(chp,"|                <-  (EXIT)  ->                |\r\n");
       chprintf(chp,"|               (a)  (ENTER) (d)               |\r\n");
-      chprintf(chp,"--------------- LuxControl %d/%d ---------------\r\n", db, sizeof(lcitems.id) / 4);
-      chprintf(chp,"lcitems.id[%d]         (ID)     : %15x \r\n", db, lcitems.id[db]);
-      chprintf(chp,"lcitems.temp[%d]       (NTC)    : %15d \r\n", db, lcitems.temp[db]);
-      chprintf(chp,"lcitems.curr_in[%d]    (IN_CUR) : %15d \r\n", db, lcitems.curr_in[db]);
-      chprintf(chp,"lcitems.curr_out[%d]   (OUT_CUR): %15d \r\n", db, lcitems.curr_out[db]);
-      chprintf(chp,"lcitems.efficiency[%d] (EFF)    : %15d \r\n", db, lcitems.efficiency[db]);
-      chprintf(chp,"lcitems.status[%d]     (STATUS) : %15d \r\n", db, lcitems.status[db]);
-      chprintf(chp,"lcitems.volt_in[%d]    (VIN)    : %15d \r\n", db, lcitems.volt_in[db]);
-      chprintf(chp,"lcitems.volt_out[%d]   (VOUT)   : %15d \r\n", db, lcitems.volt_out[db]);
-      chprintf(chp,"lcitems.pwm[%d]        (PWM)    : %15d \r\n", db, lcitems.pwm[db]);
+      chprintf(chp,"--------- ChargeConrollerModule %d/%d ---------\r\n", db, sizeof(CCLItems.id));
+      chprintf(chp,"CCLItems.id[%d]             (ID)     : %15x \r\n", db, CCLItems.id[db]);
+      chprintf(chp,"CCLItems.current_adc1[%d]   (ADC)    : %15d \r\n", db, CCLItems.current_adc1[db]);
+      chprintf(chp,"CCLItems.current_adc2[%d]   (ADC)    : %15d \r\n", db, CCLItems.current_adc2[db]);
+      chprintf(chp,"CCLItems.current_adc3[%d]   (ADC)    : %15d \r\n", db, CCLItems.current_adc3[db]);
+      chprintf(chp,"CCLItems.temp1[%d]          (NTC)    : %15d \r\n", db, CCLItems.temp1[db]);
+      chprintf(chp,"CCLItems.temp2[%d]          (NTC)    : %15d \r\n", db, CCLItems.temp2[db]);
+      chprintf(chp,"CCLItems.temp3[%d]          (NTC)    : %15d \r\n", db, CCLItems.temp3[db]);
+      chprintf(chp,"current1[%d]                (CURRENT): %15d \r\n", db, current1);
+      chprintf(chp,"current2[%d]                (CURRENT): %15d \r\n", db, current2);
+      chprintf(chp,"current3[%d]                (CURRENT): %15d \r\n", db, current3);
+
     }   
 
     else{
       chprintf(chp, "This not good parameters!\r\n");
-      chprintf(chp, "(Luxcontrol 1-x) lc n\r\n");
+      chprintf(chp, "(ChargeConrollerModule 1-x) ccl n\r\n");
       return;
     }
 
@@ -591,10 +821,12 @@ void cmd_candata_ml(BaseSequentialStream *chp, int argc, char *argv[]) {
     if (argc == 1){
       chprintf(chp,"---------- Modulux 1/1 ------------\r\n");
       chprintf(chp,"id        (ID)     : %15x \r\n", mlitems.id);
-      chprintf(chp,"onevire_1 (DS18B20): %15d \r\n", mlitems.onevire_1);
-      chprintf(chp,"onevire_2 (DS18B20): %15d \r\n", mlitems.onevire_2);
-      chprintf(chp,"onevire_3 (DS18B20): %15d \r\n", mlitems.onevire_3);
-      chprintf(chp,"onevire_4 (DS18B20): %15d \r\n", mlitems.onevire_4);
+      chprintf(chp,"Module 1 Temp: %15d \r\n", mlitems.MODULE1_TEMP);
+      chprintf(chp,"Module 8 Temp: %15d \r\n", mlitems.MODULE8_TEMP);
+      chprintf(chp,"Module 6 Temp: %15d \r\n", mlitems.MODULE6_TEMP);
+      chprintf(chp,"Module 12 Temp: %15d \r\n", mlitems.MODULE12_TEMP);
+      chprintf(chp,"Module 2 Temp: %15d \r\n", mlitems.MODULE2_TEMP);
+      chprintf(chp,"SUNMODULES CURRENT: %15d \r\n", mlitems.sun_current);
     } 
     else{
       chprintf(chp, "This not good parameters!\r\n");
@@ -714,6 +946,29 @@ void cmd_lcSleep(BaseSequentialStream *chp, int argc, char *argv[]){
   chprintf(chp,"Sleep 1. LC!\r\n");
 }
 
+void cmd_candata_tire(BaseSequentialStream *chp, int argc, char *argv[]) {
+  chprintf(chp, "\x1B\x63");
+  chprintf(chp, "\x1B[2J");
+  while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
+    chprintf(chp, "\x1B\x63");
+    chprintf(chp, "\x1B[2J");
+
+    chprintf(chp, "TIRE PRESSURE MONITOR SYSTEM\r\n");
+    int i;
+    for(i = 0; i < NUM_OF_SENSORS; i++){
+      chprintf(chp,"id            : 0x%02x \r\n", TirePressures.id[i]);
+      chprintf(chp,"Pressure      : 0x%02x \r\n", TirePressures.pressure[i]);
+      chprintf(chp,"Temperature   : 0x%04x \r\n", TirePressures.temperature[i]);
+      chprintf(chp,"Flags         : 0x%02x \r\n", TirePressures.Flags[i]);
+      chprintf(chp,"TPTD          : 0x%02x \r\n", TirePressures.TirePressureThresholdDetection[i]);
+      chprintf(chp,"\r\n");
+    }
+
+    chThdSleepMilliseconds(1000);
+  }
+
+}
+
 void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
 
   (void)argc;
@@ -745,7 +1000,7 @@ void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
 
       can_newdata = FALSE;      
     }
-    if(can_transmit){
+    /*if(can_transmit){
       chprintf(chp,"%-6s", "SM");
       chprintf(chp,"%3x %3x - %4x %4x %4x %4x %4x %4x %4x %4x\r\n", 
         txmsg.EID  >> 8,
@@ -761,7 +1016,7 @@ void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]) {
       );
 
       can_transmit = FALSE;      
-    }
+    }*/
     //chThdSleepMilliseconds(10);
   }
 }

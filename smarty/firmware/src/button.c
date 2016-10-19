@@ -17,6 +17,7 @@
 #define CRUISE_FAST_STEP	10
 #define PRESS_PERIOD		50
 
+/* Cruise control set buttons */
 static bool_t cruise_ok;
 static bool_t cruise_plusz;
 static uint16_t cruise_long_plusz;
@@ -24,12 +25,29 @@ static bool_t cruise_minusz;
 static uint16_t cruise_long_minusz;
 static bool_t button_accel;
 static bool_t button_decelerat;
+/* -------------------------- */
 
+/* Indicator lamp buttons */
 static bool_t index_right;
+static bool_t index_right_active;
 static bool_t index_left;
+static bool_t index_left_active;
 
+static bool_t warning;
+static bool_t warning_active;
+/* -------------------------- */
+
+/* Other buttons */
 static bool_t lamp_ok;
-static uint8_t seged;
+static bool_t rear_camera_en;
+static bool_t rear_camera_ok;
+static bool_t long_lamp;
+static uint8_t lamp_long_lamp;
+static uint8_t lamp_long_show;
+/* -------------------------- */
+
+static uint16_t bus;
+static bool_t bus_bit[8];
 
 void buttonInit(void){
 	cruise_ok = FALSE;
@@ -38,13 +56,40 @@ void buttonInit(void){
 	cruise_minusz = FALSE;
 	cruise_minusz = FALSE;
 	lamp_ok = FALSE;
+	long_lamp = FALSE;
+	rear_camera_en = FALSE;
+	rear_camera_ok = FALSE;
+	lamp_long_lamp = 0;
+	lamp_long_show = 0;
 	button_accel = FALSE;
+
+	/* Off PO3 */
+	palClearPad(GPIOG, GPIOG_PO3);
+
+	bus = 0;
 }
 
 void buttonCalc(void){
+	uint8_t i;
+
+	bus = dspGetValue();
+
+	if (bus > 0x6 && bus != 0x1F)
+    {
+      for (i = 0; i < 8; i++)
+      {
+        if ((bus >> i) & 0x01)
+        {
+          bus_bit[i] = 1;
+        }
+        else{
+          bus_bit[i] = 0;
+        }
+      }
+    }
 
 /* Cruise controll activated */
-	if((dspGetValue(8) == 0) && cruise_ok){
+	if((bus_bit[7] == 0) && cruise_ok){
 		if (cruiseStatus())
 		{
 			cruiseDisable();
@@ -56,17 +101,17 @@ void buttonCalc(void){
 			cruise_ok = FALSE;
 		}
 	}
-	else if(dspGetValue(8))
+	else if(bus_bit[7])
 	{
 		cruise_ok = TRUE;
 	}
 
 /* Cruise controll increase */
-	if((dspGetValue(4) == 0) && cruise_plusz){
+	if((bus_bit[3] == 0) && cruise_plusz){
 		cruiseIncrease(speedKMPH_TO_RPM(CRUISE_SPEED_STEP));
 		cruise_plusz = FALSE;
 	}
-	else if((dspGetValue(4) == 0) && cruise_plusz == FALSE){
+	else if((bus_bit[3] == 0) && cruise_plusz == FALSE){
 		cruise_long_plusz++;
 		/*if (cruise_long_plusz > PRESS_PERIOD)
 		{
@@ -82,7 +127,7 @@ void buttonCalc(void){
 			button_accel = TRUE;
 		}
 	}
-	else if(dspGetValue(4))
+	else if(bus_bit[3])
 	{
 		if (button_accel)
 		{
@@ -94,11 +139,11 @@ void buttonCalc(void){
 	}
 
 /* Cruise controll reduction */
-	if((dspGetValue(3) == 0) && cruise_minusz){
+	if((bus_bit[2] == 0) && cruise_minusz){
 	  cruiseReduction(speedKMPH_TO_RPM(CRUISE_SPEED_STEP));
 	  cruise_minusz = FALSE;
 	}
-	else if((dspGetValue(3) == 0) && cruise_minusz == FALSE){
+	else if((bus_bit[2] == 0) && cruise_minusz == FALSE){
 	  cruise_long_minusz++;
 	  /*if (cruise_long_minusz > PRESS_PERIOD)
 	  {
@@ -113,7 +158,7 @@ void buttonCalc(void){
 			button_decelerat = TRUE;
 		}
 	}
-	else if(dspGetValue(3))
+	else if(bus_bit[2])
 	{
 		if (button_decelerat)
 		{
@@ -124,41 +169,45 @@ void buttonCalc(void){
 		cruise_long_minusz = 0;
 	}
 
-/* Még nincs bekötve az index nyomógomb */
 /* Index right */
 	if((palReadPad(GPIOA, GPIOA_BUT5) == 0) && index_right){
-		seged = 1;
-		if (getLightFlashing(2))
+		if (index_right_active || index_left_active || warning_active)
 		{
-			seged = 2;
 			lightFlashing(0);
 			index_right = FALSE;
+			
+			index_right_active = FALSE;
+			index_left_active = FALSE;
+			warning_active = FALSE;
 		}
 		else
 		{
 			lightFlashing(1);
 			index_right = FALSE;
-			seged = 3;
+			index_right_active = TRUE;
 		}
 	}
 	else if(palReadPad(GPIOA, GPIOA_BUT5))
 	{
 		index_right = TRUE;
-		seged = 4;
 	}
 
-/* Még nincs bekötve az index nyomógomb */
 /* Index left */
 	if((palReadPad(GPIOA, GPIOA_BUT6) == 0) && index_left){
-		if (getLightFlashing(3))
+		if (index_left_active || index_right_active || warning_active)
 		{
 			lightFlashing(0);
 			index_left = FALSE;
+
+			index_left_active = FALSE;
+			index_right_active = FALSE;
+			warning_active = FALSE;
 		}
 		else
 		{
 			lightFlashing(2);
 			index_left = FALSE;
+			index_left_active = TRUE;
 		}
 	}
 	else if(palReadPad(GPIOA, GPIOA_BUT6))
@@ -166,24 +215,94 @@ void buttonCalc(void){
 		index_left = TRUE;
 	}
 
-/* Pos. Lamp */
-	if((dspGetValue(5) == 0) && lamp_ok){
-		if (getLightFlashing(5))
-		{
-			lightPosLampOff();
-			lamp_ok = FALSE;
-		}
-		else
-		{
-			lightPosLampOn();
-			lamp_ok = FALSE;
+/* Warning light */
+	if((palReadPad(GPIOA, GPIOA_BUT6) == 0) && warning){
+		if((palReadPad(GPIOA, GPIOA_BUT5) == 0) && warning){
+			if (warning_active)
+			{
+				lightFlashing(0);
+				warning = FALSE;
+				warning_active = FALSE;
+			}
+			else
+			{
+				lightFlashing(3);
+				warning = FALSE;
+				warning_active = TRUE;
+			}
 		}
 	}
-	else if(dspGetValue(5))
+	else if((palReadPad(GPIOA, GPIOA_BUT6)) && (palReadPad(GPIOA, GPIOA_BUT5)))
+	{
+		warning = TRUE;
+	}
+
+/* Pos. Lamp */
+	if(bus_bit[4] == 0)
+	{
+		lamp_long_lamp++;
+		lamp_long_show++;
+
+		if(rear_camera_en)
+		{
+			if (rear_camera_ok)
+			{
+				rear_camera_ok = FALSE;
+				/* Off */
+				palClearPad(GPIOG, GPIOG_PO3);
+			}
+			else
+			{
+				rear_camera_ok = TRUE;
+				/* On */
+				palSetPad(GPIOG, GPIOG_PO3);
+			}
+			rear_camera_en = FALSE;
+		}
+
+		if (lamp_long_lamp > 75)
+		{
+			if (lamp_ok)
+			{
+				if (getLightFlashing(5) || getLightFlashing(7))
+				{
+					lightPosLampOff();
+					lightLampDemoOff();
+					lamp_ok = FALSE;
+				}
+				else
+				{
+					lightPosLampOn();
+					lamp_ok = FALSE;
+				}
+			}
+			rear_camera_ok = FALSE;
+			/* Off */
+			palClearPad(GPIOG, GPIOG_PO3);
+			lamp_long_lamp = 0;
+		}
+			
+		if (lamp_long_show > 150)
+		{
+			long_lamp = FALSE;
+			lamp_long_show = 0;
+		    lightLampDemoOn();
+		    rear_camera_ok = FALSE;
+		    palSetPad(GPIOG, GPIOG_PO3);
+		}
+	}
+	else if(bus_bit[4])
 	{
 		lamp_ok = TRUE;
+		rear_camera_en = TRUE;
+		lamp_long_lamp = 0;
+		lamp_long_show = 0;
 	}
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_buttonvalues(BaseSequentialStream *chp, int argc, char *argv[]){
   
@@ -194,13 +313,22 @@ void cmd_buttonvalues(BaseSequentialStream *chp, int argc, char *argv[]){
   chprintf(chp, "\x1B[2J");
   while (chnGetTimeout((BaseChannel *)chp, TIME_IMMEDIATE) == Q_TIMEOUT) {
       chprintf(chp, "\x1B[%d;%dH", 0, 0);
+      chprintf(chp, "bus: %x\r\n", bus);
       chprintf(chp, "bus_status: ");
-      for(i = 1; i < 9; i++) {
-          chprintf(chp, "%d ", dspGetValue(i));
+      for(i = 0; i < 8; i++) {
+          chprintf(chp, "%d ", bus_bit[i]);
       }
       chprintf(chp, "\r\n");
       chprintf(chp, "right: %d left: %d \r\n", index_right, index_left);
-      chprintf(chp, "seged: %d \r\n", seged);
+      chprintf(chp, "\r\ncruise_ok: %d \r\n", cruise_ok);
+	  chprintf(chp, "cruise_plusz: %d \r\n", cruise_plusz);
+	  chprintf(chp, "cruise_minusz: %d \r\n", cruise_minusz);
+	  chprintf(chp, "button_accel: %d \r\n", button_accel);
+	  chprintf(chp, "button_decelerat: %d \r\n", button_decelerat);
+	  chprintf(chp, "index_right: %d \r\n", index_right);
+	  chprintf(chp, "index_left: %d \r\n", index_left);
+	  chprintf(chp, "warning: %d \r\n", warning);
+	  chprintf(chp, "lamp_ok: %d \r\n", lamp_ok);
       chThdSleepMilliseconds(100);
   }
 }

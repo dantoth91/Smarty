@@ -78,7 +78,7 @@ PROJECT = smarty
 
 # Imported source files and paths
 CHIBIOS = ../../../ChibiOS
-#CHIBIOS = ../../../ChibiOS_2.6.6
+#CHIBIOS = c:/ChibiStudio/chibios
 include os/board/board.mk
 #include $(CHIBIOS)/boards/ST_STM32F4_DISCOVERY/board.mk
 include $(CHIBIOS)/os/hal/platforms/STM32F4xx/platform.mk
@@ -120,7 +120,9 @@ CSRC = $(PORTSRC) \
        scr/uart_comm.c \
        src/button.c \
        src/brake.c \
-       src/safety.c
+       src/safety.c \
+       src/calc.c \
+       src/nmea.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

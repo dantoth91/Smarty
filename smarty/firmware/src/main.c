@@ -25,6 +25,8 @@
 #include "button.h"
 #include "brake.h"
 #include "safety.h"
+#include "calc.h"
+#include "nmea.h"
 
 
 /*===========================================================================*/
@@ -68,21 +70,23 @@ static WORKING_AREA(watask20ms, 512);
 static msg_t task20ms(void *arg) {
   systime_t time;
 
+  uint8_t seged;
+
   (void)arg;
   chRegSetThreadName("task20ms");
   time = chTimeNow();  
   while (TRUE) {
     time += MS2ST(20);
-
     //palClearPad(GPIOA, GPIOA_TXD4);
     logCalc();
     lightCalc();
-    //speedCalc();
+    speedCalc();
     measCalc();
     cruiseCalc();
     buttonCalc();
     //brakeCalc();
-    mainTime(time);
+    calcCalc();
+    //mainTime(time, seged);
     //palSetPad(GPIOA, GPIOA_TXD4);
     
     chThdSleepUntil(time);
@@ -103,6 +107,8 @@ int main(void) {
    */
   halInit();
   chSysInit();
+
+  palClearPad(GPIOG, GPIOG_PO4);
 
   /* 
    * 5V Enable 
@@ -162,7 +168,7 @@ int main(void) {
    * Initializes Display module.
    */
   chThdSleepMilliseconds(1000);
-    dspInit();
+  dspInit();
 
   /*
    * Display buttons initialization.
@@ -178,6 +184,16 @@ int main(void) {
    * Regenerative brake initialization.
    */
   safetyInit();
+
+  /*
+   * Calculate modul initialization.
+   */
+  calcInit();
+
+  /*
+   * Initializes GPS module.
+   */
+  nmeaInit();
 
   /*
    * Creates the 20ms Task.

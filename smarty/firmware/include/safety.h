@@ -12,5 +12,6 @@
 void safetyInit(void);
 
 void cmd_safetyvalues(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_fan_speed(BaseSequentialStream *chp, int argc, char *argv[]);
 
 #endif

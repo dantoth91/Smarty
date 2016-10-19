@@ -1,5 +1,5 @@
 /*
-    Smarty - Copyright (C) 2014
+    Smarty - Copyright (C) 2015
     GAMF MegaLux Team              
 */
 
@@ -10,7 +10,8 @@
 #include "chprintf.h"
 #include "can_comm.h"
 
-#define LIGHTS_PERIOD   30
+/* Index flashing period */
+#define LIGHTS_PERIOD   16
 
 static struct lightChanels 
 {
@@ -21,6 +22,7 @@ static struct lightChanels
   bool_t braking;
   bool_t front_pos_lamp;
   bool_t rear_pos_lamp;
+  bool_t demo;
 } lightchanels;
 
 static PWMConfig pwmcfg = {
@@ -41,9 +43,13 @@ static int period;
 static bool flashing;
 static bool_t right_active;
 static bool_t left_active;
+static uint16_t demo_period;
+static uint16_t demo_time;
 
 void lightInit(void){
   period = 0;
+  demo_period = 0;
+  demo_time = 10;
   flashing = FALSE;
   right_active = FALSE;
   left_active = FALSE;
@@ -63,26 +69,32 @@ void lightCalc(void){
   {
     pwmDisableChannel(&PWMD4, 1);
     pwmDisableChannel(&PWMD4, 2);
+    palClearPad(GPIOG, GPIOG_PO4);
 
     right_active = FALSE;
     left_active = FALSE;
   }
   
   else{
+    /* Right index */
     if(lightchanels.right && flashing)
     {
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      palSetPad(GPIOG, GPIOG_PO4);
       flashing = FALSE;
       right_active = TRUE;
     }
 
+    /* Left index */
     if(lightchanels.left && flashing)
     {
       pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      palSetPad(GPIOG, GPIOG_PO4);
       flashing = FALSE;
       left_active = TRUE;
     }
 
+    /* Warning lamp */
     if(lightchanels.warning && flashing)
     {
       pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
@@ -92,6 +104,120 @@ void lightCalc(void){
       left_active = TRUE;
     }
   }
+
+  /* Light */
+  if (lightchanels.lights_disabled)
+  {
+    pwmDisableChannel(&PWMD4, 1);
+    pwmDisableChannel(&PWMD4, 2);
+  }
+
+  /* Show effect */
+  if (lightchanels.demo)
+  {
+    if (demo_period == 0)
+    {
+      pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      lightchanels.front_pos_lamp = TRUE;
+    }
+    else if (demo_period == 1)
+    {
+      pwmDisableChannel(&PWMD4, 3);
+      lightchanels.front_pos_lamp = FALSE;
+    }
+    else if (demo_period == 4)
+    {
+      pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      lightchanels.front_pos_lamp = TRUE;
+    }
+    else if (demo_period == 5)
+    {
+      pwmDisableChannel(&PWMD4, 3);
+      lightchanels.front_pos_lamp = FALSE;
+    }
+    else if (demo_period == 8)
+    {
+      pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      lightchanels.front_pos_lamp = TRUE;
+    }
+    else if (demo_period == 9)
+    {
+      pwmDisableChannel(&PWMD4, 3);
+      lightchanels.front_pos_lamp = FALSE;
+    }
+
+
+
+    if (demo_period == 14)
+    {
+      pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      lightchanels.warning = TRUE;
+    }
+    else if (demo_period == 15)
+    {
+      pwmDisableChannel(&PWMD4, 1);
+      pwmDisableChannel(&PWMD4, 2);
+      lightchanels.warning = FALSE;
+    }
+    else if (demo_period == 18)
+    {
+      pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      lightchanels.warning = TRUE;
+    }
+    else if (demo_period == 19)
+    {
+      pwmDisableChannel(&PWMD4, 1);
+      pwmDisableChannel(&PWMD4, 2);
+      lightchanels.warning = FALSE;
+    }
+    else if (demo_period == 22)
+    {
+      pwmEnableChannel(&PWMD4, 1, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      pwmEnableChannel(&PWMD4, 2, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      lightchanels.warning = TRUE;
+    }
+    else if (demo_period == 23)
+    {
+      pwmDisableChannel(&PWMD4, 1);
+      pwmDisableChannel(&PWMD4, 2);
+      lightchanels.warning = FALSE;
+    }
+    demo_period++;
+    demo_period = demo_period > 48 ? 0 : demo_period;
+  }
+  if (!lightchanels.demo && !lightchanels.front_pos_lamp)
+  {
+    pwmDisableChannel(&PWMD4, 3);
+  }
+  if (!lightchanels.demo && !lightchanels.warning && !lightchanels.right && !lightchanels.left)
+  {
+    pwmDisableChannel(&PWMD4, 1);
+    pwmDisableChannel(&PWMD4, 2);
+  }
+
+  /*if (lightchanels.demo)
+  {
+    demo_period++;
+    if ((demo_period > demo_time) && (lightchanels.front_pos_lamp == FALSE))
+    {
+      pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
+      demo_time++;
+      lightchanels.front_pos_lamp = TRUE;
+    }
+    else if ((demo_period > demo_time) && lightchanels.front_pos_lamp)
+    {
+      pwmDisableChannel(&PWMD4, 3);
+      lightchanels.front_pos_lamp = FALSE;
+      demo_period = 0;
+      demo_time = 10
+    }
+  }
+  if (!lightchanels.demo && !lightchanels.front_pos_lamp)
+  {
+    pwmDisableChannel(&PWMD4, 3);
+  }*/
 }
 
 void lightFlashing (int chanel) {
@@ -121,8 +247,8 @@ void lightBrakeOff() {
 void lightPosLampOn() {
   lightchanels.front_pos_lamp = TRUE;
   lightchanels.rear_pos_lamp = TRUE;
-  pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 10000));
-  pwmEnableChannel(&PWMD4, 0, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 5000));
+  pwmEnableChannel(&PWMD4, 3, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 7000));
+  pwmEnableChannel(&PWMD4, 0, PWM_PERCENTAGE_TO_WIDTH(&PWMD4, 2500));
 }
 void lightPosLampOff() {
 
@@ -132,6 +258,14 @@ void lightPosLampOff() {
   pwmDisableChannel(&PWMD4, 0);
 }
 
+void lightLampDemoOn() {
+  lightchanels.demo = TRUE;
+}
+
+void lightLampDemoOff() {
+  lightchanels.demo = FALSE;
+}
+
 bool_t getLightFlashing (uint8_t chanel) {
   if (chanel == 1){ return lightchanels.lights_disabled; }
   else if (chanel == 2 && right_active){ return lightchanels.right; }
@@ -139,9 +273,14 @@ bool_t getLightFlashing (uint8_t chanel) {
   else if (chanel == 4 && right_active == 1 && left_active == 1){ return lightchanels.warning; }
   else if (chanel == 5){ return lightchanels.front_pos_lamp; }
   else if (chanel == 6){ return lightchanels.braking; }
+  else if (chanel == 7){ return lightchanels.demo; }
   else
     return 0;
 }
+
+/*
+ * Shell commands
+ */
 
 void cmd_lightvalues(BaseSequentialStream *chp, int argc, char *argv[]) {
 

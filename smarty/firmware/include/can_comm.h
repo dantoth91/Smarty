@@ -6,23 +6,24 @@
 #ifndef CAN_COMM_H_INCLUDED
 #define CAN_COMM_H_INCLUDED
 
-/*uint8_t canTransmitData(CANTxFrame txmsg);
-uint8_t canReceiveData(CANRxFrame *rxmsg);*/
-
 extern struct moduluxItems mlitems;
 extern struct bmsItems bmsitems;
 extern struct bms_cellItem cellitems;
-extern struct luxcontrolItem lcitems;
+extern struct IOTCItem IOTCitems;
+extern struct TirePressureStructure TirePressures;
+extern struct CCLItem CCLItems;
+
 
 void can_commInit(void);
 
 void cmd_can_commvalues(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canall(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canmppttest(BaseSequentialStream *chp, int argc, char *argv[]);
-void cmd_candata_lc(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_candata_ccl(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_candata_ml(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_candata_bms(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_candata_cell(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_candata_tire(BaseSequentialStream *chp, int argc, char *argv[]);
 
 void cmd_lcSleep(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_canmonitor(BaseSequentialStream *chp, int argc, char *argv[]);

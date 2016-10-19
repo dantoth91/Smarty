@@ -9,10 +9,12 @@
 static struct moduluxItems
 {
   uint32_t id;
-  uint16_t onevire_1;
-  uint16_t onevire_2;
-  uint16_t onevire_3;
-  uint16_t onevire_4;
+  uint16_t MODULE1_TEMP;
+  uint16_t MODULE8_TEMP;
+  uint16_t MODULE6_TEMP;
+  uint16_t MODULE12_TEMP;
+  uint16_t MODULE2_TEMP;
+  uint16_t sun_current;
 };
 
 /* BMS data */
@@ -53,16 +55,52 @@ static struct bms_cellItem
   uint16_t cell_resistant[34];
 };
 
-/* LuxControl data */
-static struct luxcontrolItem 
+
+#define NULL_AMPER_ADC   2040
+#define AMP_PER_ADC      43.3
+
+/* CCL Items  */
+static struct CCLItem{
+  uint8_t id[6];
+  uint16_t current_adc1[6];
+  uint16_t current_adc2[6];
+  uint16_t current_adc3[6];
+  uint8_t temp1[6];
+  uint8_t temp2[6];
+  uint8_t temp3[6];
+};
+
+/* IOTC data */
+/*static struct IOTCItem 
 {
   uint32_t id[32];
-  uint8_t temp[32];
-  uint8_t curr_in[32];
-  uint8_t curr_out[32];
-  uint8_t efficiency[32];
-  uint16_t status[32];
-  uint32_t volt_in[32];
-  uint16_t volt_out[32];
-  uint16_t pwm[32];
+  uint16_t ain_1[32];
+  uint16_t ain_2[32];
+  uint16_t ain_3[32];
+  uint16_t ain_4[32];
+  uint16_t ain_5[32];
+};*/
+static struct IOTCItem 
+{
+  uint32_t id;
+  uint16_t ain_1;
+  uint16_t ain_2;
+  uint16_t ain_3;
+  uint16_t ain_4;
+  uint16_t ain_5;
 };
+/* Tire Pressure Items */
+static struct TirePressureStructure{
+  uint8_t id[6];
+  uint8_t pressure[6];
+  uint16_t temperature[6];
+  uint8_t Flags[6];
+  uint8_t TirePressureThresholdDetection[6];
+};
+#define NUM_OF_SENSORS 6
+
+//extern struct moduluxItems mlitems;
+//extern struct bmsItems bmsitems;
+//extern struct bms_cellItem cellitems;
+//extern struct luxcontrolItem lcitems;
+//extern struct IOTClItem IOTCitems;
